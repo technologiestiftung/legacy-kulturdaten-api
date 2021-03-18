@@ -21,4 +21,5 @@ export default Env.rules({
   APP_NAME: Env.schema.string(),
   NODE_ENV: Env.schema.enum(['development', 'production', 'testing'] as const),
   DB_CONNECTION: Env.schema.string(),
+  SESSION_DRIVER: Env.schema.string()
 })

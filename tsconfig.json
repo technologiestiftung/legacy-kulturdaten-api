@@ -28,7 +28,9 @@
     "types": [
       "@adonisjs/core",
       "@adonisjs/repl",
-      "@adonisjs/lucid"
+      "@adonisjs/lucid",
+      "@adonisjs/auth",
+      "@adonisjs/session"
     ]
   }
 }
