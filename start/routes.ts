@@ -18,18 +18,24 @@
 |
 */
 
-import Route from '@ioc:Adonis/Core/Route'
+import Route from '@ioc:Adonis/Core/Route';
 
 Route.get('/', async () => {
   return 'OK';
 });
 
 Route.get('/health', 'HealthController.index');
-Route.group(() => {
-  Route.post('register', 'AuthController.register')
-  Route.post('login', 'AuthController.login')
-  Route.get('info', 'AuthController.info')
-}).prefix('auth')
 
 Route.group(() => {
-}).prefix('api')
+  Route.post('register', 'AuthController.register');
+  Route.post('login', 'AuthController.login');
+  Route.get('info', 'AuthController.info');
+}).prefix('auth');
+
+Route.group(() => {
+  Route.group(() => {
+    Route.resource('organisation', 'v1/Private/OrganisationController').apiOnly();
+  }).prefix('private');
+
+  Route.group(() => {}).prefix('public');
+}).prefix('v1');
