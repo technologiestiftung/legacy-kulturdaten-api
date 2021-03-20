@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
  import { schema, rules } from '@ioc:Adonis/Core/Validator'
  
- export default class AuthRegisterValidator {
+ export default class UserStoreValidator {
    constructor (private context: HttpContextContract) {
    }
  
