@@ -20,10 +20,11 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/health', async () => {
-  return 'OK'
+Route.get('/', async () => {
+  return 'OK';
 });
 
+Route.get('/health', 'HealthController.index');
 Route.group(() => {
   Route.post('register', 'AuthController.register')
   Route.post('login', 'AuthController.login')
