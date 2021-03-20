@@ -35,7 +35,9 @@ Route.group(() => {
 Route.group(() => {
   Route.group(() => {
     Route.resource('organisation', 'v1/Private/OrganisationController').apiOnly();
-  }).prefix('private');
+  })
+    .prefix('private')
+    .middleware('auth');
 
   Route.group(() => {}).prefix('public');
 }).prefix('v1');

@@ -13,9 +13,11 @@ export default class OrganisationController {
     });
   }
 
-  public async store({request, response}: HttpContextContract) {
+  public async store({request, response, auth}: HttpContextContract) {
     const data = await request.validate(OrganisationValidator);
     const organisation = await Organisation.create(data);
+
+    await organisation.related('members').save(auth.user);
 
     return response.ok({
       organisation,
@@ -26,6 +28,7 @@ export default class OrganisationController {
 
   public async show({request, response, params}: HttpContextContract) {
     const organisation = await Organisation.findOrFail(params.id);
+    await organisation.preload('members');
 
     return response.ok({
       organisation,

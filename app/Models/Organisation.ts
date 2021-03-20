@@ -1,5 +1,5 @@
 import {DateTime} from 'luxon';
-import {BaseModel, column, manyToMany, ManyToMany} from '@ioc:Adonis/Lucid/Orm';
+import {BaseModel, column, manyToMany, ManyToMany, computed} from '@ioc:Adonis/Lucid/Orm';
 import User from './User';
 
 export default class Organisation extends BaseModel {
@@ -29,4 +29,7 @@ export default class Organisation extends BaseModel {
 
   @column()
   public zipCode: string;
+
+  @manyToMany(() => User)
+  public members: ManyToMany<typeof User>;
 }
