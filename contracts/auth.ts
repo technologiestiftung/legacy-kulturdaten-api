@@ -5,7 +5,7 @@
  * file.
  */
 
-import User from 'App/Models/User'
+import User from 'App/Models/User';
 
 declare module '@ioc:Adonis/Addons/Auth' {
   /*
@@ -34,9 +34,9 @@ declare module '@ioc:Adonis/Addons/Auth' {
     |
     */
     user: {
-      implementation: LucidProviderContract<typeof User>,
-      config: LucidProviderConfig<typeof User>,
-    },
+      implementation: LucidProviderContract<typeof User>;
+      config: LucidProviderConfig<typeof User>;
+    };
   }
 
   /*
@@ -58,19 +58,6 @@ declare module '@ioc:Adonis/Addons/Auth' {
   interface GuardsList {
     /*
     |--------------------------------------------------------------------------
-    | Web Guard
-    |--------------------------------------------------------------------------
-    |
-    | The web guard uses sessions for maintaining user login state. It uses
-    | the `user` provider for fetching user details.
-    |
-    */
-    web: {
-      implementation: SessionGuardContract<'user', 'web'>,
-      config: SessionGuardConfig<'user'>,
-    },
-    /*
-    |--------------------------------------------------------------------------
     | OAT Guard
     |--------------------------------------------------------------------------
     |
@@ -79,8 +66,8 @@ declare module '@ioc:Adonis/Addons/Auth' {
     |
     */
     api: {
-      implementation: OATGuardContract<'user', 'api'>,
-      config: OATGuardConfig<'user'>,
-    },
+      implementation: OATGuardContract<'user', 'api'>;
+      config: OATGuardConfig<'user'>;
+    };
   }
 }
