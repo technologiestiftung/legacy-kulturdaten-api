@@ -5,12 +5,12 @@
  * file.
  */
 
-import Env from '@ioc:Adonis/Core/Env'
-import { OrmConfig } from '@ioc:Adonis/Lucid/Orm'
-import Application from '@ioc:Adonis/Core/Application'
-import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
+import Env from '@ioc:Adonis/Core/Env';
+import {OrmConfig} from '@ioc:Adonis/Lucid/Orm';
+import Application from '@ioc:Adonis/Core/Application';
+import {DatabaseConfig} from '@ioc:Adonis/Lucid/Database';
 
-const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
+const databaseConfig: DatabaseConfig & {orm: Partial<OrmConfig>} = {
   /*
   |--------------------------------------------------------------------------
   | Connection
@@ -24,17 +24,6 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
   connection: Env.get('DB_CONNECTION'),
 
   connections: {
-    /*
-    |--------------------------------------------------------------------------
-    | SQLite
-    |--------------------------------------------------------------------------
-    |
-    | Configuration for the SQLite database.  Make sure to install the driver
-    | from npm when using this connection
-    |
-    | npm i sqlite3
-    |
-    */
     sqlite: {
       client: 'sqlite',
       connection: {
@@ -42,9 +31,14 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
       },
       useNullAsDefault: true,
       healthCheck: false,
-			debug: false,
+      debug: false,
     },
 
+    pg: {
+      client: 'pg',
+      connection: Env.get('DATABASE_URL') as string,
+      healthCheck: true,
+    },
   },
 
   /*
@@ -59,8 +53,7 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
   | - Or define a custom function to compute the primary key for a given model.
   |
   */
-  orm: {
-  },
-}
+  orm: {},
+};
 
-export default databaseConfig
+export default databaseConfig;

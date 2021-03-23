@@ -64,6 +64,20 @@ dokku postgres:create pg-api-kulturdaten-berlin
 dokku postgres:link pg-api-kulturdaten-berlin api.kulturdaten.berlin
 ```
 
+Then you will need to configure the apps specific to the environment they should resemble:
+
+```
+dokku config:set --no-restart beta.api.kulturdaten.berlin PORT=5000 HOST=0.0.0.0 NODE_ENV=beta DB_CONNECTION=pg
+dokku config:set --no-restart api.kulturdaten.berlin PORT=5000 HOST=0.0.0.0 NODE_ENV=live DB_CONNECTION=pg
+```
+
+You'll also need to set secret keys using the `node ace generate:key` command together with:
+
+```
+dokku config:set --no-restart beta.api.kulturdaten.berlin APP_KEY=${key}
+dokku config:set --no-restart api.kulturdaten.berlin APP_KEY=${key}
+```
+
 To setup automated deploys via [GitHub actions](https://github.com/features/actions), issue a dedicated SSH key for GitHub to authenticate by running
 
 ```

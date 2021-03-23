@@ -1,0 +1,16 @@
+.git
+.gitignore
+.github
+.DS_Store
+.eslintignore
+.prettierignore
+.prettierrc.json
+.eslintrc.json
+.keys
+db.sqlite3
+db.sqlite3-journal
+README.md
+.env.example
+node_modules
+tmp
+build
