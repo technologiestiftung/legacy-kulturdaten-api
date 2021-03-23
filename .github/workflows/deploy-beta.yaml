@@ -41,5 +41,5 @@ jobs:
       - name: Deploying
         uses: dokku/github-action@master
         with:
-          git_remote_url: 'ssh://dokku@kulturdaten-berlin.anyvent.cloud:22/beta.kulturdaten.berlin'
+          git_remote_url: 'ssh://dokku@kulturdaten-berlin.anyvent.cloud:22/beta.api.kulturdaten.berlin'
           ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
