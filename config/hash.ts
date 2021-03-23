@@ -5,8 +5,8 @@
  * file.
  */
 
-import Env from '@ioc:Adonis/Core/Env'
-import { HashConfig } from '@ioc:Adonis/Core/Hash'
+import Env from '@ioc:Adonis/Core/Env';
+import {HashConfig} from '@ioc:Adonis/Core/Hash';
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +70,6 @@ const hashConfig: HashConfig = {
       rounds: 10,
     },
   },
-}
+};
 
-export default hashConfig
+export default hashConfig;

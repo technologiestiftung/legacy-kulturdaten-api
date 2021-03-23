@@ -5,7 +5,7 @@
  * file.
  */
 
-import { BodyParserConfig } from '@ioc:Adonis/Core/BodyParser'
+import {BodyParserConfig} from '@ioc:Adonis/Core/BodyParser';
 
 const bodyParserConfig: BodyParserConfig = {
   /*
@@ -175,6 +175,6 @@ const bodyParserConfig: BodyParserConfig = {
     */
     types: ['multipart/form-data'],
   },
-}
+};
 
-export default bodyParserConfig
+export default bodyParserConfig;
