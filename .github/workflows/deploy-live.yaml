@@ -1,0 +1,45 @@
+---
+name: 'Deploy: Live'
+
+on:
+  push:
+    branches:
+      - live
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repository
+        uses: actions/checkout@v2
+
+      - name: Setting up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15
+
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Installing Node.js packages
+        run: npm install
+
+      - name: Running tests
+        run: |
+          npm run lint
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Deploying
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@kulturdaten-berlin.anyvent.cloud:22/api.kulturdaten.berlin'
+          ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
