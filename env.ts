@@ -21,5 +21,5 @@ export default Env.rules({
   APP_NAME: Env.schema.string(),
   NODE_ENV: Env.schema.enum(['development', 'live', 'beta'] as const),
   DB_CONNECTION: Env.schema.string(),
-  DATABASE_URL: Env.schema.string(),
+  DATABASE_URL: Env.schema.string.optional(),
 });
