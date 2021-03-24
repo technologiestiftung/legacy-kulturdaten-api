@@ -19,9 +19,21 @@ Before you can start developing you need to install all needed dependencies:
 npm install
 ```
 
+Before starting the development server, make sure to configure your environment. You can use the following as a starting point. Simply copy this into a `.env` file in the project root:
+
+```
+PORT=3333
+HOST=0.0.0.0
+NODE_ENV=development
+APP_KEY=CU2cKM6eSbndUQUI74veu3KG4V1gpT7S
+DB_CONNECTION=sqlite
+```
+
+You can use `node ace generate:key` to create a personal `APP_KEY` which is used to hash cookies.
+
 ## Develop
 
-To start the development server, including file watching and recompilation of TypeScript run:
+Afterwards start the development server, including file watching and recompilation of TypeScript with:
 
 ```
 npm run develop
