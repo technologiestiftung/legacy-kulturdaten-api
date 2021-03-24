@@ -1,4 +1,4 @@
-import {listDirectoryFiles} from '@adonisjs/core/build/standalone';
+import { listDirectoryFiles } from '@adonisjs/core/build/standalone';
 import Application from '@ioc:Adonis/Core/Application';
 
 /*

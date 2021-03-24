@@ -1,25 +1,25 @@
-import {DateTime} from 'luxon';
+import { DateTime } from 'luxon';
 import Hash from '@ioc:Adonis/Core/Hash';
-import {column, beforeSave, BaseModel, manyToMany, ManyToMany} from '@ioc:Adonis/Lucid/Orm';
+import { column, beforeSave, BaseModel, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm';
 import Organisation from './Organisation';
 
 export default class User extends BaseModel {
-  @column({isPrimary: true})
+  @column({ isPrimary: true })
   public id: number;
 
   @column()
   public email: string;
 
-  @column({serializeAs: null})
+  @column({ serializeAs: null })
   public password: string;
 
   @column()
   public rememberMeToken?: string;
 
-  @column.dateTime({autoCreate: true})
+  @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 
-  @column.dateTime({autoCreate: true, autoUpdate: true})
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
 
   @beforeSave()

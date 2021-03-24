@@ -1,10 +1,10 @@
-import {HttpContextContract} from '@ioc:Adonis/Core/HttpContext';
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import OrganisationValidator from 'App/Validators/v1/Private/OrganisationValidator';
 import Organisation from 'App/Models/Organisation';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OrganisationController {
-  public async index({request, response}: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     const organisations = await Organisation.all();
 
     return response.ok({
@@ -13,7 +13,7 @@ export default class OrganisationController {
     });
   }
 
-  public async store({request, response, auth}: HttpContextContract) {
+  public async store({ request, response, auth }: HttpContextContract) {
     const data = await request.validate(OrganisationValidator);
     const organisation = await Organisation.create(data);
 
@@ -26,7 +26,7 @@ export default class OrganisationController {
     });
   }
 
-  public async show({request, response, params}: HttpContextContract) {
+  public async show({ request, response, params }: HttpContextContract) {
     const organisation = await Organisation.findOrFail(params.id);
     await organisation.preload('members');
 
@@ -36,7 +36,7 @@ export default class OrganisationController {
     });
   }
 
-  public async update({request, response, params}: HttpContextContract) {
+  public async update({ request, response, params }: HttpContextContract) {
     const data = await request.validate(OrganisationValidator);
 
     const organisation = await Organisation.findOrFail(params.id);
@@ -50,7 +50,7 @@ export default class OrganisationController {
     });
   }
 
-  public async destroy({request, response, params}: HttpContextContract) {
+  public async destroy({ request, response, params }: HttpContextContract) {
     const organisation = await Organisation.findOrFail(params.id);
     await organisation.delete();
 
