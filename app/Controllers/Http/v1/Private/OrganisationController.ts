@@ -28,7 +28,7 @@ export default class OrganisationController {
 
   public async show({ request, response, params }: HttpContextContract) {
     const organisation = await Organisation.findOrFail(params.id);
-    await organisation.preload('members');
+    await organisation.load('members');
 
     return response.ok({
       organisation,
