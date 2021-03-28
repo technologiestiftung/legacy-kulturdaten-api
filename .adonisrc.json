@@ -15,5 +15,13 @@
   },
   "preloads": ["./start/routes", "./start/kernel"],
   "providers": ["./providers/AppProvider", "@adonisjs/core", "@adonisjs/lucid", "@adonisjs/auth"],
-  "aceProviders": ["@adonisjs/repl"]
+  "aceProviders": ["@adonisjs/repl"],
+  "metaFiles": [
+    ".env",
+    ".adonisrc.json",
+    {
+      "pattern": "public/**",
+      "reloadServer": false
+    }
+  ]
 }
