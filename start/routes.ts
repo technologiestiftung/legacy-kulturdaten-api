@@ -24,13 +24,16 @@ Route.get('/', async () => {
   return 'OK';
 });
 
-Route.get('/health', 'HealthController.index');
+Route.get('/health', 'HealthController.index').as('health');
 
 Route.group(() => {
-  Route.post('register', 'AuthController.register');
-  Route.post('login', 'AuthController.login');
-  Route.get('info', 'AuthController.info');
-}).prefix('auth');
+  Route.post('register', 'AuthController.register').as('register');
+  Route.post('verify', 'AuthController.verify').as('verify');
+  Route.post('login', 'AuthController.login').as('login');
+  Route.get('info', 'AuthController.info').as('info');
+})
+  .prefix('auth')
+  .as('auth');
 
 Route.group(() => {
   Route.group(() => {
