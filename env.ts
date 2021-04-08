@@ -19,11 +19,13 @@ export default Env.rules({
   PORT: Env.schema.number(),
   APP_KEY: Env.schema.string(),
   APP_NAME: Env.schema.string(),
+  APP_URL: Env.schema.string({ format: 'host' }),
   NODE_ENV: Env.schema.enum(['development', 'live', 'beta'] as const),
 
   DB_CONNECTION: Env.schema.string(),
   DATABASE_URL: Env.schema.string.optional(),
 
+  FROM_EMAIL: Env.schema.string({ format: 'email' }),
   SMTP_HOST: Env.schema.string({ format: 'host' }),
   SMTP_PORT: Env.schema.number(),
   SMTP_USERNAME: Env.schema.string(),
