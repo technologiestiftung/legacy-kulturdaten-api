@@ -3,6 +3,11 @@ import Hash from '@ioc:Adonis/Core/Hash';
 import { column, beforeSave, BaseModel, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm';
 import Organisation from './Organisation';
 
+export enum UserStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
+
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number;
@@ -12,6 +17,9 @@ export default class User extends BaseModel {
 
   @column({ serializeAs: null })
   public password: string;
+
+  @column()
+  public status: string;
 
   @column()
   public rememberMeToken?: string;
