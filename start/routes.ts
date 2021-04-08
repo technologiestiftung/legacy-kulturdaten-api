@@ -31,6 +31,7 @@ Route.group(() => {
   Route.get('verify/:email', 'AuthController.verify').as('verify');
   Route.post('login', 'AuthController.login').as('login');
   Route.get('info', 'AuthController.info').as('info');
+  Route.get('validate', 'AuthController.validate').as('validate');
 })
   .prefix('auth')
   .as('auth');

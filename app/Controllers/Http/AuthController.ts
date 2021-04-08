@@ -15,6 +15,13 @@ export default class UsersController {
     return auth.user;
   }
 
+  public async validate({ auth, response }: HttpContextContract) {
+    return response.ok({
+      valid: !!auth.user,
+      status: 200,
+    });
+  }
+
   public async register({ request, response }: HttpContextContract) {
     const data = await request.validate(AuthRegisterValidator);
     const user = await User.create(data);
