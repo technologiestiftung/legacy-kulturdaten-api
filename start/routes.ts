@@ -28,7 +28,7 @@ Route.get('/health', 'HealthController.index').as('health');
 
 Route.group(() => {
   Route.post('register', 'AuthController.register').as('register');
-  Route.post('verify', 'AuthController.verify').as('verify');
+  Route.get('verify/:email', 'AuthController.verify').as('verify');
   Route.post('login', 'AuthController.login').as('login');
   Route.get('info', 'AuthController.info').as('info');
 })

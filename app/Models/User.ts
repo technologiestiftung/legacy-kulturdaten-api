@@ -39,4 +39,8 @@ export default class User extends BaseModel {
 
   @manyToMany(() => Organisation)
   public organisations: ManyToMany<typeof Organisation>;
+
+  public isActive() {
+    return this.status == UserStatus.ACTIVE;
+  }
 }
