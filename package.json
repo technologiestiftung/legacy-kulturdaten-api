@@ -31,7 +31,7 @@
     "@adonisjs/lucid": "10.0.0",
     "@adonisjs/mail": "5.2.3",
     "@adonisjs/repl": "1.1.6",
-    "@adonisjs/view": "3.1.0",
+    "@adonisjs/view": "5.0.2",
     "luxon": "1.26.0",
     "pg": "8.5.1",
     "phc-argon2": "1.1.0",
