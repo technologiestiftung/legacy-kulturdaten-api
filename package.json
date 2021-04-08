@@ -26,7 +26,7 @@
     "youch-terminal": "1.1.0"
   },
   "dependencies": {
-    "@adonisjs/auth": "5.1.1",
+    "@adonisjs/auth": "7.0.0",
     "@adonisjs/core": "5.0.4-preview-rc-2.1",
     "@adonisjs/lucid": "10.0.0",
     "@adonisjs/mail": "5.2.3",
