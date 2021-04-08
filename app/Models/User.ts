@@ -41,6 +41,6 @@ export default class User extends BaseModel {
   public organisations: ManyToMany<typeof Organisation>;
 
   public isActive() {
-    return this.status == UserStatus.ACTIVE;
+    return this.status === UserStatus.ACTIVE;
   }
 }
