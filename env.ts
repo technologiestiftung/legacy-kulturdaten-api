@@ -20,7 +20,7 @@ export default Env.rules({
   APP_KEY: Env.schema.string(),
   APP_NAME: Env.schema.string(),
   APP_URL: Env.schema.string({ format: 'url' }),
-  NODE_ENV: Env.schema.enum(['development', 'live', 'beta'] as const),
+  NODE_ENV: Env.schema.enum(['development', 'live', 'beta', 'testing'] as const),
 
   CACHE_VIEWS: Env.schema.boolean(),
 

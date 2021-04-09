@@ -1,0 +1,8 @@
+{
+  "include": [
+    "app/Controllers/**/*.ts",
+    "app/Listeners/**/*.ts",
+    "app/Models/**/*.ts",
+    "app/Validators/**/*.ts"
+  ]
+}
