@@ -11,6 +11,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      PORT: 3333
+      HOST: 0.0.0.0
+      NODE_ENV: testing
+      APP_KEY: secret
+      APP_URL: http://localhost:3333
+      DB_CONNECTION: sqlite
+      CACHE_VIEWS: false
     steps:
       - name: Cloning repository
         uses: actions/checkout@v2
