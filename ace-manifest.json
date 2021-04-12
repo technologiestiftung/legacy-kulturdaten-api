@@ -14,7 +14,12 @@
     "description": "List application routes",
     "args": [],
     "flags": [
-      { "name": "json", "propertyName": "json", "type": "boolean", "description": "Output as JSON" }
+      {
+        "name": "json",
+        "propertyName": "json",
+        "type": "boolean",
+        "description": "Output as JSON"
+      }
     ]
   },
   "generate:key": {

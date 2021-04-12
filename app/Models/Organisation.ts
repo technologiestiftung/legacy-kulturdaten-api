@@ -1,5 +1,10 @@
 import { DateTime } from 'luxon';
-import { BaseModel, column, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  column,
+  manyToMany,
+  ManyToMany,
+} from '@ioc:Adonis/Lucid/Orm';
 import User from './User';
 
 export default class Organisation extends BaseModel {
