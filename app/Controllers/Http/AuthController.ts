@@ -3,8 +3,13 @@ import User from 'App/Models/User';
 import { UserStatus } from 'App/Models/User';
 import AuthRegisterValidator from 'App/Validators/AuthRegisterValidator';
 import AuthLoginValidator from 'App/Validators/AuthLoginValidator';
-import UnauthorizedException from 'App/Exceptions/UnauthorizedException';
 import Event from '@ioc:Adonis/Core/Event';
+import {
+  InvalidCredentialsException,
+  UnauthorizedException,
+  UnverifiedUserException,
+} from 'App/Exceptions/Auth';
+import authConfig from 'Config/auth';
 
 export default class UsersController {
   public async info({ auth, response }: HttpContextContract) {
@@ -65,12 +70,31 @@ export default class UsersController {
 
   public async login({ request, response, auth }: HttpContextContract) {
     const data = await request.validate(AuthLoginValidator);
+
+    const user: User = await User.findBy('email', data.email);
+    if (!user) {
+      throw new InvalidCredentialsException();
+    }
+
+    if (!user.isActive()) {
+      throw new UnverifiedUserException();
+    }
+
     const token = await auth.use('api').attempt(data.email, data.password);
 
     return response.ok({
       token: token.toJSON(),
       status: 200,
       message: 'Logged in successfully',
+    });
+  }
+
+  public async logout({ request, response, auth }: HttpContextContract) {
+    await auth.logout();
+
+    return response.ok({
+      status: 200,
+      message: 'Logged out successfully',
     });
   }
 }

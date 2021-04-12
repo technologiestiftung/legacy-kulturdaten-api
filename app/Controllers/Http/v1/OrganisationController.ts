@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import OrganisationValidator from 'App/Validators/v1/Private/OrganisationValidator';
 import Organisation from 'App/Models/Organisation';
-import UnauthorizedException from 'App/Exceptions/UnauthorizedException';
+import { UnauthorizedException } from 'App/Exceptions/Auth';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OrganisationController {
@@ -43,7 +43,12 @@ export default class OrganisationController {
     });
   }
 
-  public async update({ request, response, params, auth }: HttpContextContract) {
+  public async update({
+    request,
+    response,
+    params,
+    auth,
+  }: HttpContextContract) {
     if (!auth.user) {
       throw new UnauthorizedException();
     }
@@ -61,7 +66,12 @@ export default class OrganisationController {
     });
   }
 
-  public async destroy({ request, response, params, auth }: HttpContextContract) {
+  public async destroy({
+    request,
+    response,
+    params,
+    auth,
+  }: HttpContextContract) {
     if (!auth.user) {
       throw new UnauthorizedException();
     }
