@@ -7,12 +7,15 @@ import UnauthorizedException from 'App/Exceptions/UnauthorizedException';
 import Event from '@ioc:Adonis/Core/Event';
 
 export default class UsersController {
-  public async info({ auth }: HttpContextContract) {
+  public async info({ auth, response }: HttpContextContract) {
     if (!auth.user) {
       throw new UnauthorizedException();
     }
 
-    return auth.user;
+    return response.ok({
+      user: auth.user,
+      status: 200,
+    });
   }
 
   public async validate({ auth, response }: HttpContextContract) {
