@@ -4,6 +4,8 @@ coverage
 .vscode
 .DS_STORE
 .env
-tmp
+tmp/**/*
 .keys
 .nyc_output
+
+!tmp/.gitkeep
