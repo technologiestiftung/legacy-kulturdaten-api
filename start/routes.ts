@@ -38,6 +38,14 @@ Route.group(() => {
   .as('auth');
 
 Route.group(() => {
+  Route.get('', 'InvitationController.index').as('index');
+  Route.post('', 'InvitationController.store').as('store');
+  Route.delete('', 'InvitationController.destroy').as('destroy');
+})
+  .prefix('invitation')
+  .as('invitation');
+
+Route.group(() => {
   Route.group(() => {
     Route.resource('organisation', 'v1/OrganisationController').apiOnly();
   });

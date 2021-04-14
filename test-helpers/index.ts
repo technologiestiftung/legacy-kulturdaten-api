@@ -1,3 +1,5 @@
+import User from 'App/Models/User';
+import { UserStatus } from 'App/Models/User';
 import supertest from 'supertest';
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`;
@@ -10,11 +12,31 @@ export function get(path) {
   return supertest(BASE_URL).get(path).set('Accept', 'application/json');
 }
 
-export async function auth() {
-  const response = await post('/auth/login/').send({
-    email: 'user@kulturdaten.berlin',
-    password: 'secret',
-  });
+let token = null;
+export async function auth(fresh) {
+  if (!token) {
+    const testUser = new User();
+    testUser.email = 'test@kulturdaten.berlin';
+    testUser.password = 'secret';
+    testUser.status = UserStatus.ACTIVE;
+    await testUser.save();
 
-  return response.body.token.token;
+    const { body } = await post('/auth/login/').send({
+      email: 'test@kulturdaten.berlin',
+      password: 'secret',
+    });
+
+    token = body.token.token;
+  }
+
+  if (fresh) {
+    const { body } = await post('/auth/login/').send({
+      email: 'test@kulturdaten.berlin',
+      password: 'secret',
+    });
+
+    return body.token.token;
+  }
+
+  return token;
 }
