@@ -7,6 +7,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - '**/*.ts'
+      - '**/*.yaml'
 
 jobs:
   test:
@@ -15,7 +16,7 @@ jobs:
       PORT: 3333
       HOST: 0.0.0.0
       NODE_ENV: testing
-      APP_KEY: secret
+      APP_KEY: dOu9BlkA6mEqVbn6c_aRBONwtYjMfKzQ
       APP_URL: http://localhost:3333
       DB_CONNECTION: sqlite
       CACHE_VIEWS: false
