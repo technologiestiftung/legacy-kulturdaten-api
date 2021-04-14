@@ -42,4 +42,5 @@ jobs:
         uses: dokku/github-action@master
         with:
           git_remote_url: 'ssh://dokku@kulturdaten-berlin.anyvent.cloud:22/api.kulturdaten.berlin'
+          git_push_flags: --force
           ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
