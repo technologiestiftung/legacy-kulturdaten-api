@@ -19,6 +19,11 @@ jobs:
       APP_URL: http://localhost:3333
       DB_CONNECTION: sqlite
       CACHE_VIEWS: false
+      FROM_EMAIL: ${{ secrets.ENV_FROM_EMAIL }}
+      SMTP_HOST: ${{ secrets.ENV_SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.ENV_SMTP_PORT }}
+      SMTP_USERNAME: ${{ secrets.ENV_SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.ENV_SMTP_PASSWORD }}
     steps:
       - name: Cloning repository
         uses: actions/checkout@v2
