@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
   UnverifiedUserException,
 } from 'App/Exceptions/Auth';
-import authConfig from 'Config/auth';
+import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 
 export default class UsersController {
   public async info({ auth, response }: HttpContextContract) {
@@ -45,10 +45,7 @@ export default class UsersController {
 
   public async verify({ params, request, response }: HttpContextContract) {
     if (!request.hasValidSignature()) {
-      return response.badRequest({
-        status: 400,
-        message: 'Invalid signature',
-      });
+      throw new InvalidRouteSignature();
     }
 
     const user: User = await User.findByOrFail('email', params.email);
@@ -71,7 +68,7 @@ export default class UsersController {
   public async login({ request, response, auth }: HttpContextContract) {
     const data = await request.validate(AuthLoginValidator);
 
-    const user: User = await User.findBy('email', data.email);
+    const user = await User.findBy('email', data.email);
     if (!user) {
       throw new InvalidCredentialsException();
     }
@@ -89,7 +86,7 @@ export default class UsersController {
     });
   }
 
-  public async logout({ request, response, auth }: HttpContextContract) {
+  public async logout({ response, auth }: HttpContextContract) {
     await auth.logout();
 
     return response.ok({
