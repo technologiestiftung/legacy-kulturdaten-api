@@ -97,7 +97,7 @@ test.group('Authenticated users', (group) => {
       .set('Authorization', `Bearer ${await auth()}`)
       .expect(200);
 
-    assert.equal(response.body.user.email, 'user@kulturdaten.berlin');
+    assert.isString(response.body.user.email);
   });
 
   test('can validate their token', async (assert) => {
@@ -110,7 +110,7 @@ test.group('Authenticated users', (group) => {
 
   test('can log out', async (assert) => {
     await post('/auth/logout/')
-      .set('Authorization', `Bearer ${await auth()}`)
+      .set('Authorization', `Bearer ${await auth(true)}`)
       .expect(200);
   });
 });
