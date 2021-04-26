@@ -34,7 +34,7 @@ export default class UsersController {
     const data = await request.validate(AuthRegisterValidator);
     const user = await User.create(data);
 
-    // Event.emit('new:user', user);
+    Event.emit('new:user', user);
     return new ApiDocument(
       response,
       {
@@ -45,14 +45,14 @@ export default class UsersController {
   }
 
   public async verify({ params, request, response }: HttpContextContract) {
-    // if (!request.hasValidSignature()) {
-    //   throw new InvalidRouteSignature();
-    // }
+    if (!request.hasValidSignature()) {
+      throw new InvalidRouteSignature();
+    }
 
     const user: User = await User.findByOrFail('email', params.email);
-    // if (user.isActive()) {
-    //   throw new UserAlreadyVerifiedException();
-    // }
+    if (user.isActive()) {
+      throw new UserAlreadyVerifiedException();
+    }
 
     user.status = UserStatus.ACTIVE;
     await user.save();
