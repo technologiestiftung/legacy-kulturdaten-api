@@ -5,7 +5,7 @@ export class InvalidCredentialsException extends Exception {
     super(
       'The credentials provided can not be used to login',
       401,
-      'E_UNAUTHORIZED'
+      'E_INVALID_CREDENTIALS'
     );
   }
 }
@@ -25,7 +25,17 @@ export class UnverifiedUserException extends Exception {
     super(
       "The user's email address needs to be verified before they can login",
       428,
-      'E_UNAUTHORIZED'
+      'E_UNVERIFIED_USER'
+    );
+  }
+}
+
+export class UserAlreadyVerifiedException extends Exception {
+  constructor() {
+    super(
+      "This user's email address has already been verified",
+      409,
+      'E_USER_ALREADY_VERIFIED'
     );
   }
 }

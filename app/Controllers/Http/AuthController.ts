@@ -8,8 +8,10 @@ import {
   InvalidCredentialsException,
   UnauthorizedException,
   UnverifiedUserException,
+  UserAlreadyVerifiedException,
 } from 'App/Exceptions/Auth';
 import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
+import { ApiDocument } from 'App/Helpers/Api';
 
 export default class UsersController {
   public async info({ auth, response }: HttpContextContract) {
@@ -17,16 +19,14 @@ export default class UsersController {
       throw new UnauthorizedException();
     }
 
-    return response.ok({
-      user: auth.user,
-      status: 200,
+    return new ApiDocument(response, {
+      data: auth.user,
     });
   }
 
   public async validate({ auth, response }: HttpContextContract) {
-    return response.ok({
-      valid: !!auth.user,
-      status: 200,
+    return new ApiDocument(response, {
+      meta: { valid: !!auth.user },
     });
   }
 
@@ -34,35 +34,30 @@ export default class UsersController {
     const data = await request.validate(AuthRegisterValidator);
     const user = await User.create(data);
 
-    Event.emit('new:user', user);
-
-    return response.ok({
-      user,
-      status: 200,
-      message: 'Account created successfully',
-    });
+    // Event.emit('new:user', user);
+    return new ApiDocument(
+      response,
+      {
+        data: user,
+      },
+      'Account created successfully'
+    );
   }
 
   public async verify({ params, request, response }: HttpContextContract) {
-    if (!request.hasValidSignature()) {
-      throw new InvalidRouteSignature();
-    }
+    // if (!request.hasValidSignature()) {
+    //   throw new InvalidRouteSignature();
+    // }
 
     const user: User = await User.findByOrFail('email', params.email);
-    if (user.isActive()) {
-      return response.conflict({
-        status: 409,
-        message: 'Address already verified',
-      });
-    }
+    // if (user.isActive()) {
+    //   throw new UserAlreadyVerifiedException();
+    // }
 
     user.status = UserStatus.ACTIVE;
     await user.save();
 
-    return response.ok({
-      status: 200,
-      message: 'Successfully verified account',
-    });
+    return new ApiDocument(response, {}, 'Successfully verified account');
   }
 
   public async login({ request, response, auth }: HttpContextContract) {
@@ -79,19 +74,15 @@ export default class UsersController {
 
     const token = await auth.use('api').attempt(data.email, data.password);
 
-    return response.ok({
-      token: token.toJSON(),
-      status: 200,
-      message: 'Logged in successfully',
-    });
+    return new ApiDocument(
+      response,
+      { meta: token.toJSON() },
+      'Logged in successfully'
+    );
   }
 
   public async logout({ response, auth }: HttpContextContract) {
     await auth.logout();
-
-    return response.ok({
-      status: 200,
-      message: 'Logged out successfully',
-    });
+    return new ApiDocument(response, null, 'Logged out successfully');
   }
 }
