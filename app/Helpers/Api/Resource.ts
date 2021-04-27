@@ -1,7 +1,7 @@
 import { LucidRow } from '@ioc:Adonis/Lucid/Model';
 
 export class ApiResource {
-  static create(data: LucidRow | Array<LucidRow>) {
+  public static create(data: LucidRow | Array<LucidRow>) {
     if (Array.isArray(data)) {
       return data.map((model) => {
         return new ApiResource(model);
@@ -19,7 +19,7 @@ export class ApiResource {
     this.attributes = model.serializeAttributes();
   }
 
-  toJSON() {
+  public toJSON() {
     return {
       type: this.type,
       id: this.id,
