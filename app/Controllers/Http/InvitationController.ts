@@ -13,7 +13,7 @@ export default class InvitationController {
     }
 
     const invitations = await Invitation.all();
-    return new ApiDocument(response, invitations);
+    return new ApiDocument(response, { data: invitations });
   }
 
   public async store({ request, response, auth }: HttpContextContract) {
@@ -43,6 +43,6 @@ export default class InvitationController {
     const invitation = await Invitation.findOrFail(params.id);
     await invitation.delete();
 
-    return new ApiDocument(response, invitation, {}, 'Deleted invitation.');
+    return new ApiDocument(response, {}, 'Deleted invitation.');
   }
 }

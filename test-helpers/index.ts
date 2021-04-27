@@ -12,6 +12,10 @@ export function get(path) {
   return supertest(BASE_URL).get(path).set('Accept', 'application/json');
 }
 
+export function destroy(path) {
+  return supertest(BASE_URL).delete(path).set('Accept', 'application/json');
+}
+
 let token = null;
 export async function auth(fresh) {
   if (!token) {
