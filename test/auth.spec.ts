@@ -33,9 +33,12 @@ test.group('Registering as a new user', () => {
       .expect(200);
 
     const message = await inbox;
-    const user = await User.findByOrFail('email', response.body.user.email);
+    const user = await User.findByOrFail(
+      'email',
+      response.body.data.attributes.email
+    );
 
-    assert.equal(response.body.user.email, user.email);
+    assert.equal(response.body.data.attributes.email, user.email);
     assert.equal(message.to[0].address, 'user@kulturdaten.berlin');
 
     Mail.restore();
@@ -44,13 +47,12 @@ test.group('Registering as a new user', () => {
 
 test.group('Unuthenticated users', (group) => {
   test('can not fetch user info', async (assert) => {
-    const response = await post('/auth/info/').expect(401);
+    await post('/auth/info/').expect(401);
   });
 
   test('can validate a token', async (assert) => {
     const response = await post('/auth/validate/').expect(200);
-
-    assert.isFalse(response.body.valid);
+    assert.isFalse(response.body.meta.valid);
   });
 });
 
@@ -87,7 +89,7 @@ test.group('Logging in', () => {
       })
       .expect(200);
 
-    assert.isString(response.body.token.token);
+    assert.isString(response.body.meta.token);
   });
 });
 
@@ -97,7 +99,7 @@ test.group('Authenticated users', (group) => {
       .set('Authorization', `Bearer ${await auth()}`)
       .expect(200);
 
-    assert.isString(response.body.user.email);
+    assert.isString(response.body.data.attributes.email);
   });
 
   test('can validate their token', async (assert) => {
@@ -105,7 +107,7 @@ test.group('Authenticated users', (group) => {
       .set('Authorization', `Bearer ${await auth()}`)
       .expect(200);
 
-    assert.isTrue(response.body.valid);
+    assert.isTrue(response.body.meta.valid);
   });
 
   test('can log out', async (assert) => {

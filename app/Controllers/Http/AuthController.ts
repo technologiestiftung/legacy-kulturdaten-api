@@ -83,6 +83,6 @@ export default class UsersController {
 
   public async logout({ response, auth }: HttpContextContract) {
     await auth.logout();
-    return new ApiDocument(response, null, 'Logged out successfully');
+    return new ApiDocument(response, {}, 'Logged out successfully');
   }
 }

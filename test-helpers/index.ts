@@ -26,7 +26,7 @@ export async function auth(fresh) {
       password: 'secret',
     });
 
-    token = body.token.token;
+    token = body.meta.token;
   }
 
   if (fresh) {
@@ -35,7 +35,7 @@ export async function auth(fresh) {
       password: 'secret',
     });
 
-    return body.token.token;
+    return body.meta.token;
   }
 
   return token;
