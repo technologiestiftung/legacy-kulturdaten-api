@@ -40,7 +40,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('', 'InvitationController.index').as('index');
   Route.post('', 'InvitationController.store').as('store');
-  Route.delete('', 'InvitationController.destroy').as('destroy');
+  Route.delete('/:id', 'InvitationController.destroy').as('destroy');
 })
   .prefix('invitation')
   .as('invitation');
