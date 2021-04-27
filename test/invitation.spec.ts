@@ -25,7 +25,10 @@ test.group('Creating an invitation', () => {
       .send({ email: 'invitee@kulturdaten.berlin' })
       .expect(200);
 
-    assert.equal(response.body.invitation.email, 'invitee@kulturdaten.berlin');
+    assert.equal(
+      response.body.data.attributes.email,
+      'invitee@kulturdaten.berlin'
+    );
   });
 });
 

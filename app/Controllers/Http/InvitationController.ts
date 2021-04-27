@@ -4,6 +4,7 @@ import InvitationValidator from 'App/Validators/InvitationValidator';
 import Invitation from 'App/Models/Invitation';
 import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 import Event from '@ioc:Adonis/Core/Event';
+import { ApiDocument } from 'App/Helpers/Api';
 
 export default class InvitationController {
   public async index({ response, auth }: HttpContextContract) {
@@ -12,11 +13,7 @@ export default class InvitationController {
     }
 
     const invitations = await Invitation.all();
-
-    return response.ok({
-      invitations,
-      status: 200,
-    });
+    return new ApiDocument(response, invitations);
   }
 
   public async store({ request, response, auth }: HttpContextContract) {
@@ -31,11 +28,11 @@ export default class InvitationController {
 
     Event.emit('new:invitation', invitation);
 
-    return response.ok({
-      invitation,
-      status: 200,
-      message: 'Successfully issued invitation',
-    });
+    return new ApiDocument(
+      response,
+      { data: invitation },
+      'Successfully issued invitation.'
+    );
   }
 
   public async destroy({ response, params, auth }: HttpContextContract) {
@@ -46,9 +43,6 @@ export default class InvitationController {
     const invitation = await Invitation.findOrFail(params.id);
     await invitation.delete();
 
-    return response.ok({
-      status: 200,
-      message: 'Invitation deleted successfully',
-    });
+    return new ApiDocument(response, invitation, {}, 'Deleted invitation.');
   }
 }
