@@ -1,6 +1,7 @@
 import { BaseCommand, flags } from '@adonisjs/ace';
 import { BaseModel } from '@ioc:Adonis/Lucid/Orm';
 import { readFile, writeFile, readdir } from 'fs/promises';
+import Encryption from '@ioc:Adonis/Core/Encryption';
 
 export default class LoadFixtures extends BaseCommand {
   public static commandName = 'fixtures:load';
@@ -53,6 +54,16 @@ export default class LoadFixtures extends BaseCommand {
   }
 
   private async importData(Model, fixture) {
+    if (fixture.encrypted) {
+      fixture.data = JSON.parse(Encryption.decrypt(fixture.data));
+      if (!Array.isArray(fixture.data)) {
+        this.logger.warning(
+          `Could not decrypt ${fixture.baseName} - signed with different APP_KEY?`
+        );
+        return;
+      }
+    }
+
     const counts = {
       success: 0,
       error: 0,
@@ -85,6 +96,7 @@ export default class LoadFixtures extends BaseCommand {
 
     for (const path of this.fixturePaths) {
       const fixture = await this.loadFixture(path);
+
       if (!fixture) {
         continue;
       }
