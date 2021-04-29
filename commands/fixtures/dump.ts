@@ -1,6 +1,5 @@
 import { BaseCommand, flags } from '@adonisjs/ace';
 import { BaseModel } from '@ioc:Adonis/Lucid/Orm';
-import Encryption from '@ioc:Adonis/Core/Encryption';
 import { DateTime } from 'luxon';
 
 export default class DumpFixtures extends BaseCommand {
@@ -13,11 +12,6 @@ export default class DumpFixtures extends BaseCommand {
     description: 'Name of the model to be dumped',
   })
   public modelPath: boolean;
-
-  @flags.boolean({
-    description: 'Encrypt the dumped data',
-  })
-  public encrypt: boolean;
 
   @flags.boolean({
     name: 'pretty',
@@ -80,13 +74,8 @@ export default class DumpFixtures extends BaseCommand {
 
   private buildFixture() {
     let data = this.data;
-    if (this.encrypt) {
-      data = Encryption.encrypt(JSON.stringify(data));
-    }
-
     return JSON.stringify(
       {
-        encrypted: this.encrypt as boolean,
         generator: {
           appName: this.application.appName,
           adonisVersion: this.application.adonisVersion,

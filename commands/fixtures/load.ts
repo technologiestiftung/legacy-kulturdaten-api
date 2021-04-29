@@ -1,11 +1,15 @@
 import { BaseCommand, flags } from '@adonisjs/ace';
 import { BaseModel } from '@ioc:Adonis/Lucid/Orm';
 import { readFile, writeFile, readdir } from 'fs/promises';
-import Encryption from '@ioc:Adonis/Core/Encryption';
 
 export default class LoadFixtures extends BaseCommand {
   public static commandName = 'fixtures:load';
   public static description = 'Loads all fixtures into the database';
+
+  @flags.boolean({
+    name: 'verbose',
+  })
+  public verbose: boolean;
 
   public static settings = {
     loadApp: true,
@@ -48,44 +52,31 @@ export default class LoadFixtures extends BaseCommand {
     }
   }
 
-  private async loadData(fixture) {
-    if (!fixture.encrypted) {
-      return fixture.data;
-    }
-
-    let data = fixture.data;
-    try {
-      data = Encryption.decrypt(data);
-      return JSON.parse(data);
-    } catch (e) {
-      this.logger.error(
-        `Could not decrypt ${fixture.baseName}. Signed with different APP_KEY?`
-      );
-    }
-  }
-
-  private async importData(fixture, Model, data) {
+  private async importData(Model, fixture) {
     const counts = {
       success: 0,
       error: 0,
-      total: data.length,
+      total: fixture.data.length,
     };
 
-    for (const attributes of data) {
+    for (const attributes of fixture.data) {
       try {
-        const instance = new Model();
+        const instance: typeof BaseModel = new Model();
         instance.fill(attributes);
         await instance.save();
 
         counts.success++;
       } catch (e) {
+        if (this.verbose) {
+          this.logger.error(e);
+        }
         counts.error++;
       }
     }
 
     this.logger.info(
       `Imported fixture ${fixture.baseName}` +
-        `: (${counts.success} / ${counts.total} entries, ${counts.error} failed`
+        `: ${counts.success} / ${counts.total} entries, ${counts.error} failed`
     );
   }
 
@@ -103,12 +94,7 @@ export default class LoadFixtures extends BaseCommand {
         continue;
       }
 
-      const data = await this.loadData(fixture);
-      if (!data || !data.length) {
-        continue;
-      }
-
-      await this.importData(fixture, Model, data);
+      await this.importData(Model, fixture);
     }
   }
 }
