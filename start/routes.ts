@@ -47,6 +47,6 @@ Route.group(() => {
 
 Route.group(() => {
   Route.group(() => {
-    Route.resource('organisation', 'v1/OrganisationController').apiOnly();
+    Route.resource('organizer', 'v1/OrganizerController').apiOnly();
   });
 }).prefix('v1');

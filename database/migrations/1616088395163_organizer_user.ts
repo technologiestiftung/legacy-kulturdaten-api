@@ -1,14 +1,12 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class OrganisationUser extends BaseSchema {
-  protected tableName = 'organisation_user';
+export default class OrganizerUser extends BaseSchema {
+  protected tableName = 'organizer_user';
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id');
-
       table.integer('user_id');
-      table.integer('organisation_id');
+      table.integer('organizer_id');
     });
   }
 

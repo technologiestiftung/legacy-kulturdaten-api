@@ -7,7 +7,7 @@ import {
   manyToMany,
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm';
-import Organisation from './Organisation';
+import Organizer from './Organizer';
 
 export enum UserStatus {
   ACTIVE = 'active',
@@ -43,8 +43,8 @@ export default class User extends BaseModel {
     }
   }
 
-  @manyToMany(() => Organisation)
-  public organisations: ManyToMany<typeof Organisation>;
+  @manyToMany(() => Organizer)
+  public organizers: ManyToMany<typeof Organizer>;
 
   public isActive() {
     return this.status === UserStatus.ACTIVE;

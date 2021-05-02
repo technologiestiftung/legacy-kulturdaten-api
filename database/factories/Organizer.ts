@@ -1,7 +1,7 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
-import Organisation from 'App/Models/Organisation';
+import Organizer from 'App/Models/Organizer';
 
-export const OrganisationFactory = Factory.define(Organisation, ({ faker }) => {
+export const OrganizerFactory = Factory.define(Organizer, ({ faker }) => {
   faker.locale = 'de';
 
   return {
