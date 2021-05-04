@@ -9,7 +9,6 @@ export default class Organizers extends BaseSchema {
       table.timestamps(true);
 
       table.string('name').notNullable();
-      table.string('description');
 
       table.string('street_1');
       table.string('street_2');

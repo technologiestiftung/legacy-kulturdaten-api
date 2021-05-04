@@ -6,7 +6,6 @@ export const OrganizerFactory = Factory.define(Organizer, ({ faker }) => {
 
   return {
     name: faker.company.companyName(),
-    description: faker.commerce.productDescription(),
     street1: faker.address.streetAddress(),
     city: faker.address.city(),
     zipCode: faker.address.zipCode(),

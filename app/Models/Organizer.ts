@@ -20,9 +20,6 @@ export default class Organizer extends BaseModel {
   @column()
   public name: string;
 
-  @column()
-  public description: string;
-
   @column({ columnName: 'street_1' })
   public street1: string;
 

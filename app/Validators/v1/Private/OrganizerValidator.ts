@@ -6,7 +6,6 @@ export default class OrganizerValidator {
 
   public schema = schema.create({
     name: schema.string({ trim: true }),
-    description: schema.string.optional({ escape: true }),
 
     street1: schema.string({ trim: true }),
     street2: schema.string.optional({ trim: true }),
