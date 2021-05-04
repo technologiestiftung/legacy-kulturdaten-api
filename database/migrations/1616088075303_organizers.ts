@@ -6,6 +6,7 @@ export default class Organizers extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
+      table.uuid('uid');
       table.timestamps(true);
 
       table.string('name').notNullable();
