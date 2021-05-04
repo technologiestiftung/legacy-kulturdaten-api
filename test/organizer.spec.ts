@@ -26,15 +26,12 @@ test.group('Creating an organizer', () => {
       })
       .expect(200);
 
-    assert.ownInclude(
-      response.body.data.attributes,
-      {
-        name: 'Technologiestiftung Berlin',
-        street_1: 'Grunewaldstraße 61-62',
-        city: 'Berlin',
-        zip_code: '10825',
-      }
-    );
+    assert.ownInclude(response.body.data.attributes, {
+      name: 'Technologiestiftung Berlin',
+      street_1: 'Grunewaldstraße 61-62',
+      city: 'Berlin',
+      zip_code: '10825',
+    });
   });
 });
 
@@ -43,7 +40,6 @@ test.group('Listing organizers', () => {
     await get('/v1/organizer/')
       .set('Authorization', `Bearer ${await auth()}`)
       .expect(200);
-  });
   });
 
   test('works for authenticated users', async (assert) => {
