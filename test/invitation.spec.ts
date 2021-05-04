@@ -42,7 +42,7 @@ test.group('Creating an invitation', () => {
 });
 
 test.group('Listing invitations', () => {
-  test('fails for authenticated users', async (assert) => {
+  test('fails for unauthenticated users', async (assert) => {
     await get('/invitation/').expect(401);
   });
 
@@ -54,7 +54,7 @@ test.group('Listing invitations', () => {
 });
 
 test.group('Destroying invitations', () => {
-  test('fails for authenticated users', async (assert) => {
+  test('fails for unauthenticated users', async (assert) => {
     await destroy('/invitation/1').expect(401);
   });
 
