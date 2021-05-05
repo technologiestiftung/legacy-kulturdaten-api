@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import OrganizerValidator from 'App/Validators/v1/Private/OrganizerValidator';
+import OrganizerValidator from 'App/Validators/v1/OrganizerValidator';
 import Organizer from 'App/Models/Organizer';
 import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { ApiDocument } from 'App/Helpers/Api';
@@ -7,7 +7,8 @@ import { ApiDocument } from 'App/Helpers/Api';
 // TODO(matthiasrohmer): Add permissions
 export default class OrganizerController {
   public async index({ request, response }: HttpContextContract) {
-    const organizers = await Organizer.all();
+    const organizers = await Organizer.query().preload('address');
+    console.log(organizers);
 
     return new ApiDocument(response, { data: organizers });
   }
