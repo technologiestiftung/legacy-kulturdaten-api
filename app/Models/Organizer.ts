@@ -8,9 +8,9 @@ import {
   BelongsTo,
   beforeCreate,
 } from '@ioc:Adonis/Lucid/Orm';
-import User from './User';
+import User from 'App/Models/User';
 import { v4 as uuidv4 } from 'uuid';
-import Address from './Address';
+import Address from 'App/Models/Address';
 
 export default class Organizer extends BaseModel {
   @column({ isPrimary: true })
