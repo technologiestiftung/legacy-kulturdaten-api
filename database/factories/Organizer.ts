@@ -1,6 +1,6 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
 import Organizer from 'App/Models/Organizer';
-import AddressFactory from './Address';
+import { AddressFactory } from './Address';
 
 export const OrganizerFactory = Factory.define(Organizer, ({ faker }) => {
   faker.locale = 'de';
