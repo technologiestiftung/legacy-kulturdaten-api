@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Address from 'App/Models/Address';
 
 export default class Organizer extends BaseModel {
-  @column({ isPrimary: true })
+  @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
   @column()
@@ -22,7 +22,7 @@ export default class Organizer extends BaseModel {
   @column()
   public name: string;
 
-  @column()
+  @column({ serializeAs: null })
   public addressId: number;
 
   @column.dateTime({ autoCreate: true })

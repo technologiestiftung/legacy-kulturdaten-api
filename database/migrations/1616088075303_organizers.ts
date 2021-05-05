@@ -7,7 +7,7 @@ export default class Organizers extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
       table.uuid('uid');
-      table.integer('addressId');
+      table.integer('address_id');
       table.string('name').notNullable();
 
       table.timestamps(true);

@@ -14,6 +14,5 @@ export const AddressFactory = Factory.define(Address, ({ faker }) => {
     address.street2 = faker.address.streetAddress();
   }
 
-  console.log('address', address);
   return address;
 }).build();

@@ -10,7 +10,7 @@ export default class Addresses extends BaseSchema {
       table.string('street1');
       table.string('street2');
       table.string('city');
-      table.string('zipCode');
+      table.string('zip_code');
 
       table.timestamps(true);
     });
