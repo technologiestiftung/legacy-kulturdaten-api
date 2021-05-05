@@ -16,7 +16,7 @@ export class ApiResource {
     this.type = model.constructor.name.toLowerCase();
     this.id = model.primaryKey;
 
-    this.attributes = model.serializeAttributes();
+    this.attributes = model.serialize();
   }
 
   public toJSON() {
