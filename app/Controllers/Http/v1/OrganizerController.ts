@@ -8,7 +8,6 @@ import { ApiDocument } from 'App/Helpers/Api';
 export default class OrganizerController {
   public async index({ request, response }: HttpContextContract) {
     const organizers = await Organizer.query().preload('address');
-    console.log(organizers);
 
     return new ApiDocument(response, { data: organizers });
   }
@@ -31,10 +30,10 @@ export default class OrganizerController {
   }
 
   public async show({ request, response, params, auth }: HttpContextContract) {
-    const organizer = await Organizer.findOrFail(params.id);
-    if (auth.user) {
-      await organizer.load('members');
-    }
+    const organizer = await Organizer.query()
+      .preload('address')
+      .where('id', params.id)
+      .firstOrFail();
 
     return new ApiDocument(response, { data: organizer });
   }
