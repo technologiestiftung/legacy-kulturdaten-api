@@ -1,0 +1,29 @@
+{
+  "generator": {
+    "appName": "prototype-kulturb-adonis",
+    "adonisVersion": {
+      "major": 5,
+      "minor": 1,
+      "patch": 6,
+      "prerelease": [],
+      "version": "5.1.6"
+    },
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": [],
+      "version": "1.0.0"
+    }
+  },
+  "model": { "path": "Organizer" },
+  "data": [
+    {
+      "uid": "ch0000000000testqwertzui",
+      "name": "Technologiestiftung Berlin",
+      "createdAt": "2021-05-05T18:34:30.000+02:00",
+      "updatedAt": "2021-05-05T18:34:30.000+02:00",
+      "addressId": 1
+    }
+  ]
+}
