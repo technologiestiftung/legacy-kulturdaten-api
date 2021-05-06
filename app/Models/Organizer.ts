@@ -13,11 +13,10 @@ import { cuid } from '@ioc:Adonis/Core/Helpers';
 import Address from 'App/Models/Address';
 
 export default class Organizer extends BaseModel {
-  @column({ isPrimary: true, serializeAs: null })
-  public id: number;
+  public static selfAssignPrimaryKey = true;
 
-  @column()
-  public uid: string;
+  @column({ isPrimary: true, serializeAs: null })
+  public cid: string;
 
   @column()
   public name: string;
