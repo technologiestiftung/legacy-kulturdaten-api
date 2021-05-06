@@ -1,6 +1,6 @@
-import { ResponseContract } from '@ioc:Adonis/Core/Response';
 import { ApiResource } from './Resource';
 import { LucidRow } from '@ioc:Adonis/Lucid/Model';
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
 interface ApiDocumentBody {
   data?: LucidRow | Array<LucidRow>;
@@ -14,14 +14,14 @@ interface ApiDocumentBody {
  */
 export class ApiDocument {
   constructor(
-    response: ResponseContract,
+    ctx: HttpContextContract,
     body: ApiDocumentBody = {},
     message?: String
   ) {
-    const data = body.data ? ApiResource.create(body.data) : null;
+    const data = body.data ? ApiResource.create(ctx, body.data) : null;
     const meta = Object.assign({}, body.meta, { message: message });
 
-    response.ok({
+    ctx.response.ok({
       data,
       meta,
     });

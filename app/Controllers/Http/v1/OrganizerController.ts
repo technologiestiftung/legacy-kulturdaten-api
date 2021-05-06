@@ -6,13 +6,13 @@ import { ApiDocument } from 'App/Helpers/Api';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OrganizerController {
-  public async index({ request, response }: HttpContextContract) {
+  public async index(ctx: HttpContextContract) {
     const organizers = await Organizer.query().preload('address');
-
-    return new ApiDocument(response, { data: organizers });
+    return new ApiDocument(ctx, { data: organizers });
   }
 
-  public async store({ request, response, auth }: HttpContextContract) {
+  public async store(ctx: HttpContextContract) {
+    const { request, auth } = ctx;
     if (!auth.user) {
       throw new UnauthorizedException();
     }
@@ -23,57 +23,68 @@ export default class OrganizerController {
     await organizer.related('members').save(auth.user);
 
     return new ApiDocument(
-      response,
+      ctx,
       { data: organizer },
       'Organizer created successfully'
     );
   }
 
-  public async show({ request, response, params, auth }: HttpContextContract) {
+  public async show(ctx: HttpContextContract) {
+    const { response, params } = ctx;
     const organizer = await Organizer.query()
       .preload('address')
       .where('uid', params.id)
       .firstOrFail();
 
-    return new ApiDocument(response, { data: organizer });
+    return new ApiDocument(ctx, { data: organizer });
   }
 
-  public async update({
-    request,
-    response,
-    params,
-    auth,
-  }: HttpContextContract) {
+  public async update(ctx: HttpContextContract) {
+    const { auth, request } = ctx;
     if (!auth.user) {
       throw new UnauthorizedException();
     }
 
     const data = await request.validate(OrganizerValidator);
 
-    const organizer = await Organizer.findOrFail(params.id);
+    const organizer = await Organizer.query()
+      .preload('address')
+      .where('uid', params.id)
+      .firstOrFail();
+    const address = organizer.address;
+    
     organizer.merge(data);
-    await organizer.save();
+    address.merge(data.address);
+
+    await Promise.all([
+      organizer.save();
+      address.save();
+    ]);
 
     return new ApiDocument(
-      response,
+      ctx,
       { data: organizer },
       'Organizer updated successfully'
     );
   }
 
-  public async destroy({
-    request,
-    response,
-    params,
-    auth,
-  }: HttpContextContract) {
+  public async destroy(ctx: HttpContextContract) {
+    const { response, params } = ctx;
     if (!auth.user) {
       throw new UnauthorizedException();
     }
 
-    const organizer = await Organizer.findOrFail(params.id);
-    await organizer.delete();
+    const organizer = await Organizer.preload('address').where(
+      'uid',
+      params.id
+    );
+    const address = organizer.address;
 
-    return new ApiDocument(response, {}, 'Organizer deleted successfully');
+    await Promise.all([
+      organizer.delete(),
+      address.delete()
+    ]);
+
+    return new ApiDocument(ctx, {}, 'Organizer deleted successfully');
   }
 }
