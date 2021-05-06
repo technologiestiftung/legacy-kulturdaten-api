@@ -9,7 +9,7 @@ import {
   beforeCreate,
 } from '@ioc:Adonis/Lucid/Orm';
 import User from 'App/Models/User';
-import { v4 as uuidv4 } from 'uuid';
+import { cuid } from '@ioc:Adonis/Core/Helpers';
 import Address from 'App/Models/Address';
 
 export default class Organizer extends BaseModel {
@@ -39,6 +39,10 @@ export default class Organizer extends BaseModel {
 
   @beforeCreate()
   public static async setUniqueId(organizer: Organizer) {
-    organizer.uid = uuidv4();
+    if (organizer.uid) {
+      return;
+    }
+
+    organizer.uid = cuid();
   }
 }
