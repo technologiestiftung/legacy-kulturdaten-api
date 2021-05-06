@@ -59,6 +59,10 @@ export default class DumpFixtures extends BaseCommand {
   private async serializeInstances() {
     const instances = await this.model.all();
     const data = instances.map((instance) => {
+      if (!Array.isArray(this.attributes)) {
+        return instance.toJSON();
+      }
+
       const attributes = instance.toJSON();
       // Check if there are specific attributes that should be serialized
       // and add them to the serialized version
