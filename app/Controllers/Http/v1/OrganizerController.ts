@@ -32,7 +32,7 @@ export default class OrganizerController {
   public async show({ request, response, params, auth }: HttpContextContract) {
     const organizer = await Organizer.query()
       .preload('address')
-      .where('id', params.id)
+      .where('uid', params.id)
       .firstOrFail();
 
     return new ApiDocument(response, { data: organizer });
