@@ -33,12 +33,7 @@ export default class Organizer extends BaseModel {
   @belongsTo(() => Address)
   public address: BelongsTo<typeof Address>;
 
-  @manyToMany(() => User, {
-    relatedKey: 'id',
-    localKey: 'cid',
-    pivotForeignKey: 'user_id',
-    pivotRelatedForeignKey: 'organizer_cid',
-  })
+  @manyToMany(() => User)
   public members: ManyToMany<typeof User>;
 
   @beforeCreate()
