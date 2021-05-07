@@ -19,7 +19,7 @@
   "model": { "path": "Organizer" },
   "data": [
     {
-      "uid": "ch0000000000testqwertzui",
+      "cid": "ch0000000000testqwertzui",
       "name": "Technologiestiftung Berlin",
       "createdAt": "2021-05-05T18:34:30.000+02:00",
       "updatedAt": "2021-05-05T18:34:30.000+02:00",

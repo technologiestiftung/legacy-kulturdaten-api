@@ -17,7 +17,7 @@ export function destroy(path) {
 }
 
 let token = null;
-export async function auth(fresh) {
+export async function auth(fresh = false) {
   if (!token) {
     const testUser = new User();
     testUser.email = 'test@kulturdaten.berlin';

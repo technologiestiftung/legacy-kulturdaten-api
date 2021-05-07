@@ -43,7 +43,12 @@ export default class User extends BaseModel {
     }
   }
 
-  @manyToMany(() => Organizer)
+  @manyToMany(() => User, {
+    relatedKey: 'id',
+    localKey: 'cid',
+    pivotForeignKey: 'user_id',
+    pivotRelatedForeignKey: 'organizer_cid',
+  })
   public organizers: ManyToMany<typeof Organizer>;
 
   public isActive() {

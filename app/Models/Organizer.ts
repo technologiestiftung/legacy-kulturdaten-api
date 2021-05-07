@@ -33,15 +33,20 @@ export default class Organizer extends BaseModel {
   @belongsTo(() => Address)
   public address: BelongsTo<typeof Address>;
 
-  @manyToMany(() => User)
+  @manyToMany(() => User, {
+    relatedKey: 'id',
+    localKey: 'cid',
+    pivotForeignKey: 'user_id',
+    pivotRelatedForeignKey: 'organizer_cid',
+  })
   public members: ManyToMany<typeof User>;
 
   @beforeCreate()
-  public static async setUniqueId(organizer: Organizer) {
-    if (organizer.uid) {
+  public static async setPrimaryKey(organizer: Organizer) {
+    if (organizer.cid) {
       return;
     }
 
-    organizer.uid = cuid();
+    organizer.cid = cuid();
   }
 }

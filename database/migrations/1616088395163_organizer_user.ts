@@ -6,7 +6,7 @@ export default class OrganizerUser extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.integer('user_id');
-      table.integer('organizer_id');
+      table.string('organizer_cid');
     });
   }
 
