@@ -7,16 +7,18 @@ import Event from '@ioc:Adonis/Core/Event';
 import { ApiDocument } from 'App/Helpers/Api';
 
 export default class InvitationController {
-  public async index({ response, auth }: HttpContextContract) {
+  public async index(ctx: HttpContextContract) {
+    const { auth } = ctx;
     if (!auth.user) {
       throw new UnauthorizedException();
     }
 
     const invitations = await Invitation.all();
-    return new ApiDocument(response, { data: invitations });
+    return new ApiDocument(ctx, { data: invitations });
   }
 
-  public async store({ request, response, auth }: HttpContextContract) {
+  public async store(ctx: HttpContextContract) {
+    const { request, auth } = ctx;
     if (!auth.user) {
       throw new UnauthorizedException();
     }
@@ -29,13 +31,14 @@ export default class InvitationController {
     Event.emit('new:invitation', invitation);
 
     return new ApiDocument(
-      response,
+      ctx,
       { data: invitation },
       'Successfully issued invitation.'
     );
   }
 
-  public async destroy({ response, params, auth }: HttpContextContract) {
+  public async destroy(ctx: HttpContextContract) {
+    const { auth, params } = ctx;
     if (!auth.user) {
       throw new UnauthorizedException();
     }
@@ -43,6 +46,6 @@ export default class InvitationController {
     const invitation = await Invitation.findOrFail(params.id);
     await invitation.delete();
 
-    return new ApiDocument(response, {}, 'Deleted invitation.');
+    return new ApiDocument(ctx, {}, 'Deleted invitation.');
   }
 }

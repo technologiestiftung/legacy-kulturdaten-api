@@ -14,29 +14,32 @@ import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 import { ApiDocument } from 'App/Helpers/Api';
 
 export default class UsersController {
-  public async info({ auth, response }: HttpContextContract) {
+  public async info(ctx: HttpContextContract) {
+    const { auth, response } = ctx;
     if (!auth.user) {
       throw new UnauthorizedException();
     }
 
-    return new ApiDocument(response, {
+    return new ApiDocument(ctx, {
       data: auth.user,
     });
   }
 
-  public async validate({ auth, response }: HttpContextContract) {
-    return new ApiDocument(response, {
+  public async validate(ctx: HttpContextContract) {
+    const { auth } = ctx;
+    return new ApiDocument(ctx, {
       meta: { valid: !!auth.user },
     });
   }
 
-  public async register({ request, response }: HttpContextContract) {
+  public async register(ctx: HttpContextContract) {
+    const { request, response } = ctx;
     const data = await request.validate(AuthRegisterValidator);
     const user = await User.create(data);
 
     Event.emit('new:user', user);
     return new ApiDocument(
-      response,
+      ctx,
       {
         data: user,
       },
@@ -44,7 +47,8 @@ export default class UsersController {
     );
   }
 
-  public async verify({ params, request, response }: HttpContextContract) {
+  public async verify(ctx: HttpContextContract) {
+    const { params, request, response } = ctx;
     if (!request.hasValidSignature()) {
       throw new InvalidRouteSignature();
     }
@@ -57,10 +61,11 @@ export default class UsersController {
     user.status = UserStatus.ACTIVE;
     await user.save();
 
-    return new ApiDocument(response, {}, 'Successfully verified account');
+    return new ApiDocument(ctx, {}, 'Successfully verified account');
   }
 
-  public async login({ request, response, auth }: HttpContextContract) {
+  public async login(ctx: HttpContextContract) {
+    const { request, auth } = ctx;
     const data = await request.validate(AuthLoginValidator);
 
     const user = await User.findBy('email', data.email);
@@ -75,14 +80,15 @@ export default class UsersController {
     const token = await auth.use('api').attempt(data.email, data.password);
 
     return new ApiDocument(
-      response,
+      ctx,
       { meta: token.toJSON() },
       'Logged in successfully'
     );
   }
 
-  public async logout({ response, auth }: HttpContextContract) {
+  public async logout(ctx: HttpContextContract) {
+    const { auth } = ctx;
     await auth.logout();
-    return new ApiDocument(response, {}, 'Logged out successfully');
+    return new ApiDocument(ctx, {}, 'Logged out successfully');
   }
 }
