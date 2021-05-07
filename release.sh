@@ -5,6 +5,6 @@ fi
 node ace migration:run
 
 if [ $NODE_ENV == "beta" ]; then
-  node ace db:seed
   node ace fixtures:load
+  node ace db:seed
 fi
