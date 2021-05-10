@@ -12,7 +12,9 @@ export default class UserStoreValidator {
       rules.unique({ table: 'users', column: 'email' }),
     ]),
 
-    password: schema.string({ trim: true }, [rules.confirmed()]),
+    password: schema.string({ trim: true }, [
+      rules.confirmed('passwordConfirmation'),
+    ]),
   });
 
   public cacheKey = this.context.routeKey;
