@@ -4,7 +4,8 @@
     "./commands",
     "@adonisjs/core/build/commands",
     "@adonisjs/repl/build/commands",
-    "@adonisjs/lucid/build/commands"
+    "@adonisjs/lucid/build/commands",
+    "@adonisjs/bouncer/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -17,7 +18,8 @@
     "./start/routes",
     "./start/kernel",
     "./start/events",
-    "./start/boot"
+    "./start/boot",
+    "./start/bouncer"
   ],
   "providers": [
     "./providers/AppProvider",
@@ -25,9 +27,12 @@
     "@adonisjs/lucid",
     "@adonisjs/auth",
     "@adonisjs/mail",
-    "@adonisjs/view"
+    "@adonisjs/view",
+    "@adonisjs/bouncer"
   ],
-  "aceProviders": ["@adonisjs/repl"],
+  "aceProviders": [
+    "@adonisjs/repl"
+  ],
   "metaFiles": [
     ".env",
     ".adonisrc.json",

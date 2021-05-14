@@ -28,7 +28,7 @@ test.group('Registering as a new user', () => {
       .send({
         email: 'user@kulturdaten.berlin',
         password: 'secret',
-        password_confirmation: 'secret',
+        passwordConfirmation: 'secret',
       })
       .expect(200);
 
