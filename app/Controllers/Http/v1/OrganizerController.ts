@@ -52,15 +52,21 @@ export default class OrganizerController {
     const data = await request.validate(OrganizerValidator);
 
     const organizer = await Organizer.query()
-      .preload('address')
       .where('cid', params.id)
+      .preload('address')
+      .preload('type')
       .firstOrFail();
     const address = organizer.address;
 
     organizer.merge(data);
+    organizer.merge({ organizerTypeId: data.type });
+
+    await organizer.related('subjects').sync(data.subjects);
+
     address.merge(data.address);
 
     await Promise.all([organizer.save(), address.save()]);
+    await Promise.all([organizer.load('type'), organizer.load('subjects')]);
 
     return new ApiDocument(
       ctx,

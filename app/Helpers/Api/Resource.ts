@@ -17,12 +17,16 @@ export class ApiResource {
     } catch (e) {}
   }
 
+  private model: LucidRow;
+
   constructor(ctx: HttpContextContract, model: LucidRow) {
     this.model = model;
     this.type = model.constructor.name.toLowerCase();
     this.id = model.$primaryKeyValue;
+
     try {
-      this.attributes = model.serialize();
+      this.attributes = this.model.serializeAttributes();
+      this.relations = this.serializeRelationships();
     } catch (e) {
       ctx.logger.error(
         `Could not serialize ${this.type} instance with id ${
@@ -32,11 +36,31 @@ export class ApiResource {
     }
   }
 
+  private serializeRelationships() {
+    const relations: { [relation: string]: Array<ApiResource> } = {};
+
+    for (const [relationName, entries] of Object.entries(
+      this.model.$preloaded
+    )) {
+      relations[relationName] = !Array.isArray(entries)
+        ? ApiResource.create(this.ctx, entries)
+        : entries.map((entry) => ApiResource.create(this.ctx, entry));
+    }
+
+    return relations;
+  }
+
   public toJSON() {
-    return {
+    const json = {
       type: this.type,
       id: this.id,
       attributes: this.attributes,
     };
+
+    if (this.relations && Object.values(this.relations).length) {
+      json.relations = this.relations;
+    }
+
+    return json;
   }
 }
