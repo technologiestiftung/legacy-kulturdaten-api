@@ -1,0 +1,36 @@
+{
+  "generator": {
+    "appName": "prototype-kulturb-adonis",
+    "adonisVersion": {
+      "major": 5,
+      "minor": 1,
+      "patch": 6,
+      "prerelease": [],
+      "version": "5.1.6"
+    },
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": [],
+      "version": "1.0.0"
+    }
+  },
+  "model": { "path": "OrganizerSubject" },
+  "data": [
+    { "name": "Sprechtheater", "organizerTypeId": 2 },
+    { "name": "Tanztheater", "organizerTypeId": 2 },
+    { "name": "Musiktheater", "organizerTypeId": 2 },
+    { "name": "Figurentheater", "organizerTypeId": 2 },
+    { "name": "Komplexes Museum", "organizerTypeId": 1 },
+    { "name": "Sammelmusuem", "organizerTypeId": 1 },
+    { "name": "Kulturgeschichtliches Musuem", "organizerTypeId": 1 },
+    { "name": "Historisch und archäologisches Musuem", "organizerTypeId": 1 },
+    { "name": "Naturwissenschaftliches Museum", "organizerTypeId": 1 },
+    { "name": "Naturkundliches Museum", "organizerTypeId": 1 },
+    { "name": "Schloss- und Burgmuseum", "organizerTypeId": 1 },
+    { "name": "Designmuseum", "organizerTypeId": 1 },
+    { "name": "Kunstmuseum", "organizerTypeId": 1 },
+    { "name": "Volks- und Heimatkundemuseum", "organizerTypeId": 1 }
+  ]
+}
