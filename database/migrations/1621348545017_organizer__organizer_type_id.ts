@@ -13,6 +13,8 @@ export default class Organizer extends BaseSchema {
   }
 
   public async down() {
-    this.schema.table(this.tableName, (table) => {});
+    this.schema.table(this.tableName, (table) => {
+      table.dropColumn('organizer_type_id');
+    });
   }
 }
