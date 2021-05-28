@@ -4,8 +4,8 @@ import {
   column,
   manyToMany,
   ManyToMany,
-  hasOne,
-  HasOne,
+  hasMany,
+  HasMany,
   belongsTo,
   BelongsTo,
   beforeCreate,
@@ -15,15 +15,33 @@ import { cuid } from '@ioc:Adonis/Core/Helpers';
 import Address from 'App/Models/Address';
 import OrganizerType from 'App/Models/OrganizerType';
 import OrganizerSubject from 'App/Models/OrganizerSubject';
+import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
 
-export default class Organizer extends BaseModel {
-  public static selfAssignPrimaryKey = true;
-
+export class OrganizerTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
-  public cid: string;
+  public id: number;
+
+  @column()
+  public language: string;
 
   @column()
   public name: string;
+
+  @column({ serializeAs: null })
+  public organizerId: number;
+}
+
+export default class Organizer extends BaseModel {
+  public static resourceClass = OrganizerResource;
+
+  @column({ isPrimary: true, serializeAs: null })
+  public id: string;
+
+  @column()
+  public public_id: string;
+
+  @column()
+  public isDraft: boolean;
 
   @column({ serializeAs: null })
   public addressId: number;
@@ -39,12 +57,15 @@ export default class Organizer extends BaseModel {
 
   @manyToMany(() => OrganizerSubject, {
     relatedKey: 'id',
-    localKey: 'cid',
-    pivotForeignKey: 'organizer_cid',
+    localKey: 'public_id',
+    pivotForeignKey: 'organizer_public_id',
     pivotRelatedForeignKey: 'organizer_subject_id',
     pivotTable: 'organizer_organizer_subjects',
   })
   public subjects: ManyToMany<typeof OrganizerSubject>;
+
+  @hasMany(() => OrganizerTranslation)
+  public translations: HasMany<typeof OrganizerTranslation>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
@@ -52,20 +73,20 @@ export default class Organizer extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
 
-  @manyToMany(() => User, {
-    relatedKey: 'id',
-    localKey: 'cid',
-    pivotForeignKey: 'organizer_cid',
-    pivotRelatedForeignKey: 'user_id',
-  })
-  public members: ManyToMany<typeof User>;
+  // @manyToMany(() => User, {
+  //   relatedKey: 'id',
+  //   localKey: 'public_id',
+  //   pivotForeignKey: 'organizer_public_id',
+  //   pivotRelatedForeignKey: 'user_id',
+  // })
+  // public members: ManyToMany<typeof User>;
 
   @beforeCreate()
-  public static async setPrimaryKey(organizer: Organizer) {
-    if (organizer.cid) {
+  public static async setPublicId(organizer: Organizer) {
+    if (organizer.public_id) {
       return;
     }
 
-    organizer.cid = cuid();
+    organizer.public_id = cuid();
   }
 }

@@ -1,10 +1,37 @@
 import { DateTime } from 'luxon';
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  column,
+  belongsTo,
+  BelongsTo,
+  hasMany,
+  HasMany,
+} from '@ioc:Adonis/Lucid/Orm';
 import OrganizerType from 'App/Models/OrganizerType';
+
+export class OrganizerSubjectTranslation extends BaseModel {
+  @column({ isPrimary: true, serializeAs: null })
+  public id: number;
+
+  @column()
+  public language: string;
+
+  @column()
+  public name: string;
+
+  @column()
+  public description: string;
+
+  @column({ serializeAs: null })
+  public organizerSubjectId: number;
+}
 
 export default class OrganizerSubject extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
+
+  @column()
+  public publicId: string;
 
   @column()
   public name: string;
@@ -12,8 +39,11 @@ export default class OrganizerSubject extends BaseModel {
   @column({ serializeAs: null })
   public organizerTypeId: number;
 
-  @belongsTo(() => OrganizerType, { foreignKey: 'organizerTypeId' })
+  @belongsTo(() => OrganizerType, { foreignKey: 'organizerTypePublicId' })
   public type: BelongsTo<typeof OrganizerType>;
+
+  @hasMany(() => OrganizerSubjectTranslation)
+  public translations: HasMany<typeof OrganizerSubjectTranslation>;
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;

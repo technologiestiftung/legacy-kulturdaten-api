@@ -19,11 +19,19 @@
   "model": { "path": "Organizer" },
   "data": [
     {
-      "cid": "ch0000000000testqwertzui",
-      "name": "Technologiestiftung Berlin",
+      "publicId": "ch0000000001technologiestiftung",
+      "addressId": 1,
+      "isDraft": false,
       "createdAt": "2021-05-05T18:34:30.000+02:00",
-      "updatedAt": "2021-05-05T18:34:30.000+02:00",
-      "addressId": 1
+      "updatedAt": "2021-05-05T18:34:30.000+02:00"
+    },
+    {
+      "publicId": "ch0000000002staatlichemuseen",
+      "addressId": 2,
+      "organizerTypeId": 2,
+      "isDraft": false,
+      "createdAt": "2021-05-26T13:43:00.000+02:00",
+      "updatedAt": "2021-05-26T13:43:00.000+02:00"
     }
   ]
 }

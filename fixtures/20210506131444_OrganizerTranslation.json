@@ -16,17 +16,22 @@
       "version": "1.0.0"
     }
   },
-  "model": { "path": "Address" },
+  "model": { "path": "Organizer.OrganizerTranslation" },
   "data": [
     {
-      "street1": "Grunewaldstraße 61-62",
-      "city": "Berlin",
-      "zipCode": "10825"
+      "organizerId": "1",
+      "language": "de",
+      "name": "Technologiestiftung Berlin"
     },
     {
-      "street1": "Invalidenstraße 50-51",
-      "city": "Berlin",
-      "zipCode": "10557"
+      "organizerId": "1",
+      "language": "en",
+      "name": "Technology Foundation Berlin"
+    },
+    {
+      "organizerId": "2",
+      "language": "de",
+      "name": "Staatliche Museen zu Berlin"
     }
   ]
 }

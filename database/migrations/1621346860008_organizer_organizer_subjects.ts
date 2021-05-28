@@ -9,9 +9,9 @@ export default class OrganizerOrganizerSubjects extends BaseSchema {
       table.timestamps(true);
 
       table
-        .string('organizer_cid')
+        .string('organizer_public_id')
         .unsigned()
-        .references('organizers.cid')
+        .references('organizers.public_id')
         .onDelete('CASCADE');
       table
         .integer('organizer_subject_id')

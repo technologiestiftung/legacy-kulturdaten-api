@@ -1,10 +1,16 @@
-import { ApiResource } from './Resource';
-import { LucidRow } from '@ioc:Adonis/Lucid/Model';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import BaseResource, {
+  ResourceObject,
+} from 'App/Helpers/Api/Resources/BaseResource';
+import { BaseModel } from '@ioc:Adonis/Lucid/Orm';
 
-interface ApiDocumentBody {
-  data?: LucidRow | Array<LucidRow>;
-  meta?: Object;
+type ApiResource = BaseResource | Array<BaseResource> | typeof BaseModel;
+
+type ApiDocumentData = ResourceObject | Array<ResourceObject>;
+
+interface ApiDocumentMeta {
+  message?: string;
+  language?: string;
 }
 
 /**
@@ -13,17 +19,65 @@ interface ApiDocumentBody {
  * exception handlers
  */
 export class ApiDocument {
+  public ctx: HttpContextContract;
+
+  public language: string;
+
+  public data: ApiDocumentData;
+
+  public meta: ApiDocumentMeta;
+
+  /**
+   *
+   * @param ctx
+   * @param resource
+   * @param message
+   * @param hold
+   */
   constructor(
     ctx: HttpContextContract,
-    body: ApiDocumentBody = {},
-    message?: String
+    resource: ApiResource,
+    meta: ApiDocumentMeta = {},
+    hold: boolean = false
   ) {
-    const data = body.data ? ApiResource.create(ctx, body.data) : null;
-    const meta = Object.assign({}, body.meta, { message: message });
+    this.ctx = ctx;
+    this.language = ctx.language as string;
 
-    ctx.response.ok({
-      data,
-      meta,
+    this.data = this.$transformResource(resource);
+
+    this.meta = meta;
+    this.meta.language = this.language;
+
+    if (!hold) {
+      this.send();
+    }
+  }
+
+  private $transformResource(resource: ApiResource): ApiDocumentData {
+    if (Array.isArray(resource)) {
+      return resource.map(this.$getResourceObject);
+    }
+
+    return this.$getResourceObject(resource);
+  }
+
+  private $getResourceObject(
+    instance: BaseResource | typeof BaseModel
+  ): ResourceObject {
+    if (instance instanceof BaseModel) {
+      const resource = new BaseResource(instance, this.language);
+      resource.boot();
+      return resource.toObject();
+    }
+
+    const resource: BaseResource = instance as BaseResource;
+    return resource.toObject();
+  }
+
+  public send() {
+    this.ctx.response.ok({
+      data: this.data,
+      meta: this.meta,
     });
   }
 }
