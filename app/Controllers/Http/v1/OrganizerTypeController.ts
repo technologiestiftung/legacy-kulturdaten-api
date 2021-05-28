@@ -3,12 +3,15 @@ import OrganizerTypeValidator from 'App/Validators/v1/OrganizerTypeValidator';
 import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { ApiDocument } from 'App/Helpers/Api';
 import OrganizerType from 'App/Models/OrganizerType';
+import OrganizerTypeManager from 'App/Helpers/Managers/OrganizerTypeManager';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OrganizerTypeController {
   public async index(ctx: HttpContextContract) {
-    const organizerType = await OrganizerType.query().preload('subjects');
-    return new ApiDocument(ctx, { data: organizerType });
+    const manager: OrganizerTypeManager = new OrganizerTypeManager(ctx);
+    await manager.all();
+
+    return new ApiDocument(ctx, manager.toResources());
   }
 
   public async store(ctx: HttpContextContract) {
