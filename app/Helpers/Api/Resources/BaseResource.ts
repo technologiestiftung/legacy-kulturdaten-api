@@ -111,7 +111,10 @@ export default class BaseResource {
     // Attributes to be serialized might not be explicitly defined.
     // In this case simply pipe out all of them
     if (!this.attributes.length) {
-      resource.attributes = this.$attributes;
+      resource.attributes = {
+        ...this.$attributes,
+        ...this.$translations,
+      };
     }
 
     for (const attribute of this.attributes) {
