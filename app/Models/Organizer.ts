@@ -38,7 +38,7 @@ export default class Organizer extends BaseModel {
   public id: string;
 
   @column()
-  public public_id: string;
+  public publicId: string;
 
   @column()
   public isDraft: boolean;
@@ -57,7 +57,7 @@ export default class Organizer extends BaseModel {
 
   @manyToMany(() => OrganizerSubject, {
     relatedKey: 'id',
-    localKey: 'public_id',
+    localKey: 'publicId',
     pivotForeignKey: 'organizer_public_id',
     pivotRelatedForeignKey: 'organizer_subject_id',
     pivotTable: 'organizer_organizer_subjects',
@@ -83,10 +83,10 @@ export default class Organizer extends BaseModel {
 
   @beforeCreate()
   public static async setPublicId(organizer: Organizer) {
-    if (organizer.public_id) {
+    if (organizer.publicId) {
       return;
     }
 
-    organizer.public_id = cuid();
+    organizer.publicId = cuid();
   }
 }
