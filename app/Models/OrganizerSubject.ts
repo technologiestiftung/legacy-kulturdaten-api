@@ -13,7 +13,7 @@ export class OrganizerSubjectTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column()
+  @column({ serializeAs: null })
   public language: string;
 
   @column()
@@ -33,13 +33,10 @@ export default class OrganizerSubject extends BaseModel {
   @column()
   public publicId: string;
 
-  @column()
-  public name: string;
-
   @column({ serializeAs: null })
   public organizerTypeId: number;
 
-  @belongsTo(() => OrganizerType, { foreignKey: 'organizerTypePublicId' })
+  @belongsTo(() => OrganizerType)
   public type: BelongsTo<typeof OrganizerType>;
 
   @hasMany(() => OrganizerSubjectTranslation)

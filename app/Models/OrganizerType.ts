@@ -6,7 +6,7 @@ export class OrganizerTypeTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column()
+  @column({ serializeAs: null })
   public language: string;
 
   @column()
