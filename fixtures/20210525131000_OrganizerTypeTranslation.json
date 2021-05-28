@@ -16,7 +16,7 @@
       "version": "1.0.0"
     }
   },
-  "model": { "path": "Organizer.OrganizerTypeTranslation" },
+  "model": { "path": "OrganizerType.OrganizerTypeTranslation" },
   "data": [
     {
       "organizerTypeId": "1",

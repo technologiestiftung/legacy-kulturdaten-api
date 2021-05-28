@@ -16,7 +16,7 @@
       "version": "1.0.0"
     }
   },
-  "model": { "path": "Organizer.OrganizerSubjectTranslation" },
+  "model": { "path": "OrganizerSubject.OrganizerSubjectTranslation" },
   "data": [
     {
       "language": "de",
