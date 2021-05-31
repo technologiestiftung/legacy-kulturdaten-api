@@ -31,13 +31,10 @@ export default class OrganizerTypeController {
   }
 
   public async show(ctx: HttpContextContract) {
-    const { params } = ctx;
-    const organizerType = await OrganizerType.query()
-      .where('id', params.id)
-      .preload('subjects')
-      .firstOrFail();
+    const manager: OrganizerTypeManager = new OrganizerTypeManager(ctx);
+    await manager.fromContext();
 
-    return new ApiDocument(ctx, { data: organizerType });
+    return new ApiDocument(ctx, manager.toResources());
   }
 
   public async update(ctx: HttpContextContract) {

@@ -13,6 +13,8 @@ export class BaseManager {
 
   public language: string;
 
+  public queryId = 'id';
+
   constructor(
     ctx: HttpContextContract,
     ModelClass: LucidModel,
@@ -39,7 +41,7 @@ export class BaseManager {
   }
 
   public async byId(id: string | number) {
-    const instance = await this.query().where('public_id', id).firstOrFail();
+    const instance = await this.query().where(this.queryId, id).firstOrFail();
 
     this.instances = [instance];
 

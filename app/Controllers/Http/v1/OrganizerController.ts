@@ -9,7 +9,9 @@ import OrganizerManager from 'App/Helpers/Managers/OrganizerManager';
 // TODO(matthiasrohmer): Add permissions
 export default class OrganizerController {
   public async index(ctx: HttpContextContract) {
-    const manager: OrganizerManager = await OrganizerManager.all(ctx);
+    const manager: OrganizerManager = new OrganizerManager(ctx);
+    await manager.all();
+
     return new ApiDocument(ctx, manager.toResources());
   }
 
@@ -34,7 +36,9 @@ export default class OrganizerController {
   // }
 
   public async show(ctx: HttpContextContract) {
-    const manager: OrganizerManager = await OrganizerManager.fromContext(ctx);
+    const manager: OrganizerManager = new OrganizerManager(ctx);
+    await manager.fromContext();
+
     return new ApiDocument(ctx, manager.toResources());
   }
 
