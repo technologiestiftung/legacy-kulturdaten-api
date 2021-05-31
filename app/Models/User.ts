@@ -7,7 +7,7 @@ import {
   manyToMany,
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm';
-import Organizer from './Organizer';
+import Organizer from 'App/Models/Organizer';
 
 export enum UserStatus {
   ACTIVE = 'active',
@@ -43,7 +43,7 @@ export default class User extends BaseModel {
     }
   }
 
-  @manyToMany(() => User, {
+  @manyToMany(() => Organizer, {
     relatedKey: 'id',
     localKey: 'public_id',
     pivotForeignKey: 'user_id',
