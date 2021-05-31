@@ -8,7 +8,10 @@ import Address from 'App/Models/Address';
 // TODO(matthiasrohmer): Add permissions
 export default class OrganizerController {
   public async index(ctx: HttpContextContract) {
-    const organizers = await Organizer.query().preload('address');
+    const organizers = await Organizer.query()
+      .preload('address')
+      .preload('type')
+      .preload('subjects');
     return new ApiDocument(ctx, { data: organizers });
   }
 
@@ -37,6 +40,8 @@ export default class OrganizerController {
     const organizer = await Organizer.query()
       .preload('members')
       .preload('address')
+      .preload('subjects')
+      .preload('type')
       .where('cid', params.id)
       .firstOrFail();
 
@@ -55,6 +60,7 @@ export default class OrganizerController {
       .where('cid', params.id)
       .preload('address')
       .preload('type')
+      .preload('subjects')
       .firstOrFail();
     const address = organizer.address;
 
