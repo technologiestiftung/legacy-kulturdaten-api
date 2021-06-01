@@ -7,7 +7,7 @@ export default class Organizers extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary();
-      table.string('public_id').notNullable();
+      table.string('public_id').notNullable().unique();
 
       table
         .enu('language', [Languages.DE, Languages.EN])
