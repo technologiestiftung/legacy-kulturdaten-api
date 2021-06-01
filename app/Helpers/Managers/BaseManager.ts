@@ -28,7 +28,12 @@ export class BaseManager {
   }
 
   public query() {
-    return this.ModelClass.query().preload('translations');
+    let query = this.ModelClass.query();
+    if (this.ModelClass.$hasRelation('translations')) {
+      query = query.preload('translations');
+    }
+
+    return query;
   }
 
   public async all() {

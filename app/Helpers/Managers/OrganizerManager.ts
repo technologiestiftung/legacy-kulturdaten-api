@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import OrganizerModel from 'App/Models/Organizer';
 import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
+import { withTranslations } from 'App/Helpers/Utilities';
 
 export default class OrganizerManager extends BaseManager {
   public ModelClass = OrganizerModel;
@@ -16,13 +17,8 @@ export default class OrganizerManager extends BaseManager {
   public query() {
     return super
       .query()
-      .preload('translations')
       .preload('address')
-      .preload('type', (query) => {
-        query.preload('translations');
-      })
-      .preload('subjects', (query) => {
-        query.preload('translations');
-      });
+      .preload('type', withTranslations)
+      .preload('subjects', withTranslations);
   }
 }
