@@ -15,7 +15,7 @@ export enum UserStatus {
 }
 
 export default class User extends BaseModel {
-  @column({ isPrimary: true })
+  @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
   @column()
