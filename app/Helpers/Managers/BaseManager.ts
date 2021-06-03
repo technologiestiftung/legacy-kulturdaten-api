@@ -73,19 +73,25 @@ export class BaseManager {
     return this.instances;
   }
 
+  private $toResource(instance): BaseResource {
+    const resource: BaseResource = new this.RessourceClass(
+      instance,
+      this.language
+    );
+    resource.boot();
+    return resource;
+  }
+
   public toResources(): Array<BaseResource> {
     if (!this.instances.length) {
       return [];
     }
 
-    return this.instances.map((instance) => {
-      const resource: BaseResource = new this.RessourceClass(
-        instance,
-        this.language
-      );
-      resource.boot();
-      return resource;
-    });
+    if (this.instances.length == 1) {
+      return this.$toResource(this.instances[0]);
+    }
+
+    return this.instances.map(this.$toResource);
   }
 }
 
