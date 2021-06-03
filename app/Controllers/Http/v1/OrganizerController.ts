@@ -25,37 +25,12 @@ export default class OrganizerController {
     return new ApiDocument(ctx, manager.toResources());
   }
 
-  // public async update(ctx: HttpContextContract) {
-  //   const { auth, request, params } = ctx;
-  //   if (!auth.user) {
-  //     throw new UnauthorizedException();
-  //   }
+  public async update(ctx: HttpContextContract) {
+    const manager: OrganizerManager = new OrganizerManager(ctx);
+    await manager.fromContext();
 
-  //   const data = await request.validate(OrganizerValidator);
-
-  //   const organizer = await Organizer.query()
-  //     .where('cid', params.id)
-  //     .preload('address')
-  //     .preload('type')
-  //     .firstOrFail();
-  //   const address = organizer.address;
-
-  //   organizer.merge(data);
-  //   organizer.merge({ organizerTypeId: data.type });
-
-  //   await organizer.related('subjects').sync(data.subjects);
-
-  //   address.merge(data.address);
-
-  //   await Promise.all([organizer.save(), address.save()]);
-  //   await Promise.all([organizer.load('type'), organizer.load('subjects')]);
-
-  //   return new ApiDocument(
-  //     ctx,
-  //     { data: organizer },
-  //     'Organizer updated successfully'
-  //   );
-  // }
+    return new ApiDocument(ctx, manager.toResources());
+  }
 
   // public async destroy(ctx: HttpContextContract) {
   //   const { params, auth } = ctx;

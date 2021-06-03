@@ -1,4 +1,5 @@
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm';
+import { DateTime } from 'luxon';
 
 export default class Address extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })

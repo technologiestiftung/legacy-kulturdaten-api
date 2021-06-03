@@ -8,5 +8,5 @@ export default class Organizer extends BaseResource {
 
   public attributes = ['name', 'description'];
 
-  public relations = ['type', 'subject', 'address'];
+  public relations = ['type', 'subjects', 'address'];
 }

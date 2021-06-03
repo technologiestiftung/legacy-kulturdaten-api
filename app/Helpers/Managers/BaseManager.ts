@@ -46,8 +46,8 @@ export class BaseManager {
     switch (method) {
       case 'POST':
         return this.create();
-        break;
-
+      case 'PATCH':
+        return this.update();
       default:
         return this.byId(this.ctx.params.id);
     }
@@ -61,8 +61,16 @@ export class BaseManager {
     return this.instances;
   }
 
+  get instance() {
+    return this.instances[0] as unknown;
+  }
+
   public async create() {
-    return new this.ModelClass();
+    return new this.ModelClass() as unknown;
+  }
+
+  public async update() {
+    return this.instances;
   }
 
   public toResources(): Array<BaseResource> {
