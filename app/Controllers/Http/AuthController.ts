@@ -12,6 +12,7 @@ import {
 } from 'App/Exceptions/Auth';
 import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 import { ApiDocument } from 'App/Helpers/Api';
+import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 
 export default class UsersController {
   public async info(ctx: HttpContextContract) {
@@ -20,15 +21,13 @@ export default class UsersController {
       throw new UnauthorizedException();
     }
 
-    return new ApiDocument(ctx, {
-      data: auth.user,
-    });
+    return new ApiDocument(ctx, auth.user);
   }
 
   public async validate(ctx: HttpContextContract) {
     const { auth } = ctx;
-    return new ApiDocument(ctx, {
-      meta: { valid: !!auth.user },
+    return new ApiDocument(ctx, undefined, {
+      valid: !!auth.user,
     });
   }
 
@@ -38,13 +37,9 @@ export default class UsersController {
     const user = await User.create(data);
 
     Event.emit('new:user', user);
-    return new ApiDocument(
-      ctx,
-      {
-        data: user,
-      },
-      'Account created successfully'
-    );
+    return new ApiDocument(ctx, user, {
+      message: 'Account created successfully',
+    });
   }
 
   public async verify(ctx: HttpContextContract) {
@@ -61,7 +56,9 @@ export default class UsersController {
     user.status = UserStatus.ACTIVE;
     await user.save();
 
-    return new ApiDocument(ctx, {}, 'Successfully verified account');
+    return new ApiDocument(ctx, undefined, {
+      message: 'Successfully verified account',
+    });
   }
 
   public async login(ctx: HttpContextContract) {
@@ -79,16 +76,17 @@ export default class UsersController {
 
     const token = await auth.use('api').attempt(data.email, data.password);
 
-    return new ApiDocument(
-      ctx,
-      { meta: token.toJSON() },
-      'Logged in successfully'
-    );
+    return new ApiDocument(ctx, undefined, {
+      token: token.toJSON(),
+      message: 'Logged in successfully',
+    });
   }
 
   public async logout(ctx: HttpContextContract) {
     const { auth } = ctx;
     await auth.logout();
-    return new ApiDocument(ctx, {}, 'Logged out successfully');
+    return new ApiDocument(ctx, undefined, {
+      message: 'Logged out successfully',
+    });
   }
 }
