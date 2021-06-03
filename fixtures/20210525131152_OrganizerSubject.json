@@ -18,19 +18,19 @@
   },
   "model": { "path": "OrganizerSubject" },
   "data": [
+    { "organizerTypeId": 1 },
+    { "organizerTypeId": 1 },
+    { "organizerTypeId": 1 },
+    { "organizerTypeId": 1 },
     { "organizerTypeId": 2 },
     { "organizerTypeId": 2 },
     { "organizerTypeId": 2 },
     { "organizerTypeId": 2 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 },
-    { "organizerTypeId": 1 }
+    { "organizerTypeId": 2 },
+    { "organizerTypeId": 2 },
+    { "organizerTypeId": 2 },
+    { "organizerTypeId": 2 },
+    { "organizerTypeId": 2 },
+    { "organizerTypeId": 2 }
   ]
 }
