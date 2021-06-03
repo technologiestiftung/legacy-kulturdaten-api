@@ -3,8 +3,9 @@ import BaseResource, {
   ResourceObject,
 } from 'App/Helpers/Api/Resources/BaseResource';
 import { BaseModel } from '@ioc:Adonis/Lucid/Orm';
+import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 
-type ApiResource = BaseResource | Array<BaseResource> | typeof BaseModel;
+type ApiResource = BaseResource | Array<BaseResource> | LucidModel;
 
 type ApiDocumentData = ResourceObject | Array<ResourceObject>;
 
@@ -36,14 +37,16 @@ export class ApiDocument {
    */
   constructor(
     ctx: HttpContextContract,
-    resource: ApiResource,
+    resource: ApiResource | undefined,
     meta: ApiDocumentMeta = {},
     hold: boolean = false
   ) {
     this.ctx = ctx;
     this.language = ctx.language as string;
 
-    this.data = this.$transformResource(resource);
+    if (resource) {
+      this.data = this.$transformResource(resource);
+    }
 
     this.meta = meta;
     this.meta.language = this.language;
