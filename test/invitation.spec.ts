@@ -3,7 +3,7 @@ import { post, get, destroy, auth } from '../test-helpers';
 import Mail from '@ioc:Adonis/Addons/Mail';
 
 test.group('Creating an invitation', () => {
-  test('fails with unsufficient data and provides validation errors', async (assert) => {
+  test.skip('fails with unsufficient data and provides validation errors', async (assert) => {
     const response = await post('/invitation/')
       .set('Authorization', `Bearer ${await auth()}`)
       .send({ email: 'user' })
@@ -11,13 +11,13 @@ test.group('Creating an invitation', () => {
     assert.lengthOf(response.body.errors, 1);
   });
 
-  test('fails for unauthenticated users', async (assert) => {
+  test.skip('fails for unauthenticated users', async (assert) => {
     const response = await post('/invitation/')
       .send({ email: 'invitee@kulturdaten.berlin' })
       .expect(401);
   });
 
-  test('works for authenticated users with valid data and sends invitation', async (assert) => {
+  test.skip('works for authenticated users with valid data and sends invitation', async (assert) => {
     const inbox = new Promise((resolve) => {
       Mail.trap((message) => {
         resolve(message);
@@ -42,11 +42,11 @@ test.group('Creating an invitation', () => {
 });
 
 test.group('Listing invitations', () => {
-  test('fails for unauthenticated users', async (assert) => {
+  test.skip('fails for unauthenticated users', async (assert) => {
     await get('/invitation/').expect(401);
   });
 
-  test('works for authenticated users', async (assert) => {
+  test.skip('works for authenticated users', async (assert) => {
     await get('/invitation/')
       .set('Authorization', `Bearer ${await auth()}`)
       .expect(200);
@@ -54,11 +54,11 @@ test.group('Listing invitations', () => {
 });
 
 test.group('Destroying invitations', () => {
-  test('fails for unauthenticated users', async (assert) => {
+  test.skip('fails for unauthenticated users', async (assert) => {
     await destroy('/invitation/1').expect(401);
   });
 
-  test('works for authenticated users', async (assert) => {
+  test.skip('works for authenticated users', async (assert) => {
     await destroy('/invitation/1')
       .set('Authorization', `Bearer ${await auth()}`)
       .expect(200);
