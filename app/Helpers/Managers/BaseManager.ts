@@ -7,7 +7,7 @@ export class BaseManager {
 
   public RessourceClass;
 
-  public instances: Array<LucidModel>;
+  public instances: Array<LucidModel> = [];
 
   public ctx: HttpContextContract;
 
@@ -41,8 +41,16 @@ export class BaseManager {
     return this.instances;
   }
 
-  public async fromContext() {
-    return await this.byId(this.ctx.params.id);
+  public fromContext() {
+    const method = this.ctx.request.method();
+    switch (method) {
+      case 'POST':
+        return this.create();
+        break;
+
+      default:
+        return this.byId(this.ctx.params.id);
+    }
   }
 
   public async byId(id: string | number) {
@@ -53,7 +61,15 @@ export class BaseManager {
     return this.instances;
   }
 
+  public async create() {
+    return new this.ModelClass();
+  }
+
   public toResources(): Array<BaseResource> {
+    if (!this.instances.length) {
+      return [];
+    }
+
     return this.instances.map((instance) => {
       const resource: BaseResource = new this.RessourceClass(
         instance,

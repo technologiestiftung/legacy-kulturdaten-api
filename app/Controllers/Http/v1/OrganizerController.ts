@@ -1,9 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import OrganizerValidator from 'App/Validators/v1/OrganizerValidator';
-import Organizer from 'App/Models/Organizer';
-import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { ApiDocument } from 'App/Helpers/Api';
-import Address from 'App/Models/Address';
 import OrganizerManager from 'App/Helpers/Managers/OrganizerManager';
 
 // TODO(matthiasrohmer): Add permissions
@@ -15,25 +11,12 @@ export default class OrganizerController {
     return new ApiDocument(ctx, manager.toResources());
   }
 
-  // public async store(ctx: HttpContextContract) {
-  //   const { request, auth } = ctx;
-  //   if (!auth.user) {
-  //     throw new UnauthorizedException();
-  //   }
+  public async store(ctx: HttpContextContract) {
+    const manager: OrganizerManager = new OrganizerManager(ctx);
+    await manager.fromContext();
 
-  //   const data = await request.validate(OrganizerValidator);
-  //   const organizer = await Organizer.create(data);
-  //   const address = await Address.create(data.address);
-
-  //   await organizer.related('address').associate(address);
-  //   await organizer.related('members').save(auth.user);
-
-  //   return new ApiDocument(
-  //     ctx,
-  //     { data: organizer },
-  //     'Organizer created successfully'
-  //   );
-  // }
+    return new ApiDocument(ctx, manager.toResources());
+  }
 
   public async show(ctx: HttpContextContract) {
     const manager: OrganizerManager = new OrganizerManager(ctx);

@@ -27,6 +27,9 @@ export class OrganizerTranslation extends BaseModel {
   @column()
   public name: string;
 
+  @column()
+  public description: string;
+
   @column({ serializeAs: null })
   public organizerId: number;
 }
