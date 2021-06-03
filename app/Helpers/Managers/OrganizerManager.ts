@@ -9,6 +9,7 @@ import {
 } from 'App/Validators/v1/OrganizerValidator';
 import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
+import { defaultLanguage } from 'Config/app';
 
 export default class OrganizerManager extends BaseManager {
   public ModelClass = OrganizerModel;
@@ -84,23 +85,30 @@ export default class OrganizerManager extends BaseManager {
       organizer.useTransaction(trx);
       await organizer.save();
 
-      const translatedFields = {
-        name: attributes?.name,
-        description: attributes?.description,
-        language: this.language,
-      };
-
       const translation = findTranslation(
         organizer.translations,
         this.language
       );
       if (translation) {
-        translation.merge(translatedFields);
+        translation.merge({
+          name: attributes?.name,
+          description: attributes?.description,
+        });
         translation.useTransaction(trx);
 
         await translation.save();
       } else {
-        await organizer.related('translations').create(translatedFields);
+        // As we are updating an entry there must be an existing, valid
+        // translation. But one might not want to translate a required field.
+        // Hence use this translation as a base.
+        const defaultTranslation = findTranslation(organizer.translations);
+
+        await organizer.related('translations').create({
+          name: attributes?.name || defaultTranslation.name,
+          description:
+            attributes?.description || defaultTranslation.description,
+          language: this.language,
+        });
       }
 
       // Check if any of adress, type or subject have been given
