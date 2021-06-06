@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import OrganizerModel from 'App/Models/Organizer';
+import OrganizerModel, { OrganizerStatus } from 'App/Models/Organizer';
 import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
 import { withTranslations, findTranslation } from 'App/Helpers/Utilities';
 import {
@@ -9,7 +9,6 @@ import {
 } from 'App/Validators/v1/OrganizerValidator';
 import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
-import { defaultLanguage } from 'Config/app';
 
 export default class OrganizerManager extends BaseManager {
   public ModelClass = OrganizerModel;
@@ -90,13 +89,14 @@ export default class OrganizerManager extends BaseManager {
         this.language
       );
       if (translation) {
-        translation.merge({
-          name: attributes?.name,
-          description: attributes?.description,
-        });
+        translation.name = attributes?.name || translation.name;
+        translation.description =
+          attributes?.description || translation.description;
         translation.useTransaction(trx);
 
-        await translation.save();
+        if (translation.$isDirty) {
+          await translation.save();
+        }
       } else {
         // As we are updating an entry there must be an existing, valid
         // translation. But one might not want to translate a required field.
