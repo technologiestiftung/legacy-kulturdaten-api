@@ -6,7 +6,7 @@ export default class Organizer extends BaseResource {
 
   public id = 'publicId';
 
-  public attributes = ['name', 'description'];
+  public attributes = ['name', 'description', 'status'];
 
   public relations = ['type', 'subjects', 'address'];
 }
