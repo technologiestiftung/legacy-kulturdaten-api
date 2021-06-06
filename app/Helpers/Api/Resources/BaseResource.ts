@@ -26,7 +26,7 @@ export default class BaseResource {
 
   private $relations: object = {};
 
-  constructor(instance, language) {
+  constructor(instance, language = defaultLanguage) {
     this.instance = instance;
     this.language = language;
   }
