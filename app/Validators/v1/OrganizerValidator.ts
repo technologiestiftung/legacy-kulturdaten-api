@@ -24,6 +24,7 @@ export class CreateOrganizerValidator {
         }),
       }),
       type: schema.number.optional([
+        rules.requiredIfExists('/relations.subjects'),
         rules.exists({
           table: 'organizer_types',
           column: 'id',
