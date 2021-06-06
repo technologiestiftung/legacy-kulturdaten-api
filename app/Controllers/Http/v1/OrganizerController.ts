@@ -22,14 +22,22 @@ export default class OrganizerController {
     const manager: OrganizerManager = new OrganizerManager(ctx);
     await manager.fromContext();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const instance: OrganizerModel = manager.instance;
+    const publishable = await instance.publishable();
+
+    return new ApiDocument(ctx, manager.toResources(), { publishable });
   }
 
   public async update(ctx: HttpContextContract) {
     const manager: OrganizerManager = new OrganizerManager(ctx);
     await manager.fromContext();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const instance: OrganizerModel = manager.instance;
+    const publishable = await instance.publishable();
+
+    return new ApiDocument(ctx, manager.toResources(), {
+      publishable,
+    });
   }
 
   // public async destroy(ctx: HttpContextContract) {

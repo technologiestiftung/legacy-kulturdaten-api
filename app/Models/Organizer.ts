@@ -9,13 +9,15 @@ import {
   belongsTo,
   BelongsTo,
   beforeCreate,
+  computed,
 } from '@ioc:Adonis/Lucid/Orm';
-import User from 'App/Models/User';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
 import Address from 'App/Models/Address';
 import OrganizerType from 'App/Models/OrganizerType';
 import OrganizerSubject from 'App/Models/OrganizerSubject';
 import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
+import { validator, schema } from '@ioc:Adonis/Core/Validator';
+import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator';
 
 export class OrganizerTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -51,6 +53,21 @@ export default class Organizer extends BaseModel {
   @column()
   public status: string;
 
+  public async publishable() {
+    const resource = new OrganizerResource(this);
+    resource.boot();
+
+    try {
+      await validator.validate({
+        schema: new PublishOrganizerValidator(this).schema,
+        data: resource.toObject(),
+      });
+    } catch (e) {
+      return e.messages;
+    }
+
+    return [];
+  }
 
   @column({ serializeAs: null })
   public addressId: number;

@@ -96,3 +96,45 @@ export class UpdateOrganizerValidator {
 
   public messages = {};
 }
+
+export class PublishOrganizerValidator {
+  constructor(private organizer: Organizer) {}
+
+  public refs = schema.refs({
+    organizerTypeId: this.organizer.organizerTypeId,
+  });
+
+  public schema = schema.create({
+    attributes: schema.object().members({
+      name: schema.string({ trim: true }),
+      description: schema.string({ trim: true }),
+    }),
+    relations: schema.object().members({
+      address: schema.object().members({
+        attributes: schema.object().members({
+          street1: schema.string({ trim: true }),
+          street2: schema.string.optional({ trim: true }),
+          zipCode: schema.string({ trim: true }),
+          city: schema.string({ trim: true }),
+        }),
+      }),
+      type: schema.number([
+        rules.exists({
+          table: 'organizer_types',
+          column: 'id',
+        }),
+      ]),
+      subjects: schema.array([rules.minLength(1)]).members(
+        schema.number([
+          rules.exists({
+            table: 'organizer_subjects',
+            column: 'id',
+            where: { organizer_type_id: this.refs.organizerTypeId },
+          }),
+        ])
+      ),
+    }),
+  });
+
+  public messages = {};
+}

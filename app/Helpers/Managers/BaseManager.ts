@@ -82,7 +82,7 @@ export class BaseManager {
     return resource;
   }
 
-  public toResources(): Array<BaseResource> {
+  public toResources(): Array<BaseResource> | BaseResource {
     if (!this.instances.length) {
       return [];
     }
