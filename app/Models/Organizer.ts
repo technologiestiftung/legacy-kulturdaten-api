@@ -34,6 +34,11 @@ export class OrganizerTranslation extends BaseModel {
   public organizerId: number;
 }
 
+export enum OrganizerStatus {
+  DRAFT = 'draft',
+  PUBLISHED = 'published',
+}
+
 export default class Organizer extends BaseModel {
   public static resourceClass = OrganizerResource;
 
@@ -44,7 +49,8 @@ export default class Organizer extends BaseModel {
   public publicId: string;
 
   @column()
-  public isDraft: boolean;
+  public status: string;
+
 
   @column({ serializeAs: null })
   public addressId: number;

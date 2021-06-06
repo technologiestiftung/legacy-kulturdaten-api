@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-import Organizer from 'App/Models/Organizer';
+import Organizer, { OrganizerStatus } from 'App/Models/Organizer';
 
 export class CreateOrganizerValidator {
   constructor(private context: HttpContextContract) {}
@@ -63,6 +63,7 @@ export class UpdateOrganizerValidator {
     attributes: schema.object.optional().members({
       name: schema.string.optional({ trim: true }),
       description: schema.string.optional({ trim: true }),
+      status: schema.enum.optional(Object.values(OrganizerStatus)),
     }),
     relations: schema.object.optional().members({
       address: schema.object().members({

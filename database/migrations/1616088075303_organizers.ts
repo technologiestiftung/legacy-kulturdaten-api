@@ -1,5 +1,6 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 import { Languages } from 'App/Helpers/Languages';
+import { OrganizerStatus } from 'App/Models/Organizer';
 
 export default class Organizers extends BaseSchema {
   protected tableName = 'organizers';
@@ -13,7 +14,9 @@ export default class Organizers extends BaseSchema {
         .enu('language', [Languages.DE, Languages.EN])
         .defaultTo(Languages.DE);
 
-      table.boolean('is_draft');
+      table
+        .enu('status', [OrganizerStatus.DRAFT, OrganizerStatus.PUBLISHED])
+        .defaultTo(OrganizerStatus.DRAFT);
 
       table.integer('address_id').unsigned().references('addresses.id');
       table
