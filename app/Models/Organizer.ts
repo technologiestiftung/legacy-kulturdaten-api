@@ -66,7 +66,7 @@ export default class Organizer extends BaseModel {
       return e.messages;
     }
 
-    return [];
+    return true;
   }
 
   @column({ serializeAs: null })

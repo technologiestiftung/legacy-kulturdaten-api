@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ApiDocument } from 'App/Helpers/Api';
+import Organizer, { OrganizerStatus } from 'App/Models/Organizer';
 import OrganizerManager from 'App/Helpers/Managers/OrganizerManager';
 
 // TODO(matthiasrohmer): Add permissions
@@ -22,8 +23,8 @@ export default class OrganizerController {
     const manager: OrganizerManager = new OrganizerManager(ctx);
     await manager.fromContext();
 
-    const instance: OrganizerModel = manager.instance;
-    const publishable = await instance.publishable();
+    const organizer: Organizer = manager.instance;
+    const publishable = await organizer.publishable();
 
     return new ApiDocument(ctx, manager.toResources(), { publishable });
   }
@@ -32,8 +33,17 @@ export default class OrganizerController {
     const manager: OrganizerManager = new OrganizerManager(ctx);
     await manager.fromContext();
 
-    const instance: OrganizerModel = manager.instance;
-    const publishable = await instance.publishable();
+    const organizer: Organizer = manager.instance;
+    const publishable = await organizer.publishable();
+
+    if (publishable !== true) {
+      organizer.status = OrganizerStatus.DRAFT;
+      if (organizer.$isDirty) {
+        await organizer.save();
+      }
+    }
+
+    console.log('publishable', publishable);
 
     return new ApiDocument(ctx, manager.toResources(), {
       publishable,

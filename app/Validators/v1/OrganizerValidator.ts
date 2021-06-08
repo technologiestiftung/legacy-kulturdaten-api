@@ -118,20 +118,13 @@ export class PublishOrganizerValidator {
           city: schema.string({ trim: true }),
         }),
       }),
-      type: schema.number([
-        rules.exists({
-          table: 'organizer_types',
-          column: 'id',
-        }),
-      ]),
+      type: schema.object().members({
+        id: schema.number(),
+      }),
       subjects: schema.array([rules.minLength(1)]).members(
-        schema.number([
-          rules.exists({
-            table: 'organizer_subjects',
-            column: 'id',
-            where: { organizer_type_id: this.refs.organizerTypeId },
-          }),
-        ])
+        schema.object().members({
+          id: schema.number(),
+        })
       ),
     }),
   });

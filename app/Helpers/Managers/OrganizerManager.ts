@@ -28,6 +28,17 @@ export default class OrganizerManager extends BaseManager {
       .preload('subjects', withTranslations);
   }
 
+  private async $createAddress(organizer, attributes, trx) {
+    const address = new Address();
+    address.fill(attributes);
+
+    address.useTransaction(trx);
+    await address.save();
+    await organizer.related('address').associate(address);
+
+    return address;
+  }
+
   public async create() {
     const { attributes, relations } = await this.ctx.request.validate(
       new CreateOrganizerValidator(this.ctx)
@@ -50,12 +61,7 @@ export default class OrganizerManager extends BaseManager {
 
       // Check if any of adress, type or subject have been given
       if (relations?.address) {
-        const address = new Address();
-        address.fill(relations.address.attributes);
-
-        address.useTransaction(trx);
-        await address.save();
-        await organizer.related('address').associate(address);
+        await this.$createAddress(organizer, relations.address.attributes, trx);
       }
 
       if (relations?.subjects) {
@@ -77,12 +83,13 @@ export default class OrganizerManager extends BaseManager {
     );
 
     await Database.transaction(async (trx) => {
-      organizer.merge({
-        organizerTypeId: relations?.type,
-      });
+      organizer.organizerTypeId = relations?.type || organizer.organizerTypeId;
+      organizer.status = attributes.status || organizer.status;
 
       organizer.useTransaction(trx);
-      await organizer.save();
+      if (organizer.$isDirty) {
+        await organizer.save();
+      }
 
       const translation = findTranslation(
         organizer.translations,
@@ -113,11 +120,18 @@ export default class OrganizerManager extends BaseManager {
 
       // Check if any of adress, type or subject have been given
       if (relations?.address) {
-        const address = organizer.address;
-        address.merge(relations.address.attributes);
-        address.useTransaction(trx);
+        if (organizer.address) {
+          organizer.address.merge(relations.address.attributes);
+          organizer.address.useTransaction(trx);
 
-        await address.save();
+          await organizer.address.save();
+        } else {
+          await this.$createAddress(
+            organizer,
+            relations.address.attributes,
+            trx
+          );
+        }
       }
 
       if (relations?.subjects) {

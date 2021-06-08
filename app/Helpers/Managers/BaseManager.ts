@@ -91,7 +91,7 @@ export class BaseManager {
       return this.$toResource(this.instances[0]);
     }
 
-    return this.instances.map(this.$toResource);
+    return this.instances.map(this.$toResource.bind(this));
   }
 }
 
