@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import OrganizerModel, { OrganizerStatus } from 'App/Models/Organizer';
+import OrganizerModel from 'App/Models/Organizer';
 import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
 import { withTranslations, findTranslation } from 'App/Helpers/Utilities';
 import {
@@ -14,7 +14,17 @@ export default class OrganizerManager extends BaseManager {
   public ModelClass = OrganizerModel;
   public OrganizerClass = OrganizerResource;
 
-  public queryId = 'public_id';
+  public settings = {
+    queryId: 'public_id',
+    orderableBy: [
+      {
+        name: 'name',
+        query: Database.raw(
+          `(SELECT name FROM organizer_translations WHERE organizer_translations.organizer_id = organizers.id AND organizer_translations.language = '${this.language}')`
+        ),
+      },
+    ],
+  };
 
   constructor(ctx: HttpContextContract) {
     super(ctx, OrganizerModel, OrganizerResource);
