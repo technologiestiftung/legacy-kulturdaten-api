@@ -73,7 +73,6 @@ export class ApiDocument {
     this.meta = meta;
 
     if (this.meta.paginator) {
-      console.log('about to transform');
       this.$transformPaginator(this.meta.paginator);
       delete this.meta.paginator;
     }

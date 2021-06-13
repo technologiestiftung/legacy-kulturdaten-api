@@ -45,8 +45,6 @@ export default class OrganizerController {
       }
     }
 
-    console.log('publishable', publishable);
-
     return new ApiDocument(ctx, manager.toResources(), {
       publishable,
     });
