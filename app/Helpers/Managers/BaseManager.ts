@@ -1,13 +1,18 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import BaseResource from 'App/Helpers/Api/Resources/BaseResource';
+import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
+
+const DEFAULT_PAGE_LIMIT = 10;
 
 export class BaseManager {
-  public ModelClass;
+  public ModelClass: LucidModel;
 
   public RessourceClass;
 
-  public instances: Array<LucidModel> = [];
+  public instances: Array<LucidRow> = [];
+
+  public paginator: ModelPaginatorContract<LucidRow>;
 
   public ctx: HttpContextContract;
 
@@ -37,8 +42,15 @@ export class BaseManager {
   }
 
   public async all() {
-    this.instances = await this.query();
-    return this.instances;
+    const page = this.ctx.request.input('page', 1);
+    const result = await this.query().paginate(page, DEFAULT_PAGE_LIMIT);
+
+    this.paginator = result;
+    this.paginator.baseUrl(this.ctx.request.completeUrl());
+
+    this.instances = result.rows;
+
+    return result;
   }
 
   public fromContext() {
@@ -62,11 +74,11 @@ export class BaseManager {
   }
 
   get instance() {
-    return this.instances[0] as unknown;
+    return this.instances[0] as LucidRow;
   }
 
   public async create() {
-    return new this.ModelClass() as unknown;
+    return new this.ModelClass() as LucidRow;
   }
 
   public async update() {

@@ -9,7 +9,9 @@ export default class OrganizerController {
     const manager: OrganizerManager = new OrganizerManager(ctx);
     await manager.all();
 
-    return new ApiDocument(ctx, manager.toResources());
+    return new ApiDocument(ctx, manager.toResources(), {
+      paginator: manager.paginator,
+    });
   }
 
   public async store(ctx: HttpContextContract) {
