@@ -13,7 +13,7 @@ export default class OrganizerSeeder extends BaseSeeder {
         .with('translations', 1, (translation) => {
           return translation.apply('de');
         })
-        .createMany(10),
+        .createMany(25),
 
       // Create some organizers that are translated to both
       // German and English
@@ -24,7 +24,7 @@ export default class OrganizerSeeder extends BaseSeeder {
         .with('translations', 1, (translation) => {
           return translation.apply('en');
         })
-        .createMany(10),
+        .createMany(25),
     ]);
 
     const organizerTypes = await OrganizerType.query().preload('subjects');
