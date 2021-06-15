@@ -3,7 +3,7 @@ import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import BaseResource from 'App/Helpers/Api/Resources/BaseResource';
 import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
 import { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm';
-import Database, { QueryClientContract } from '@ioc:Adonis/Lucid/Database';
+import { QueryClientContract } from '@ioc:Adonis/Lucid/Database';
 
 const DEFAULT_PAGE_LIMIT = 10;
 
@@ -123,8 +123,9 @@ export class BaseManager {
 
   public async all() {
     const page = this.ctx.request.input('page', 1) || 1;
+    const size = this.ctx.request.input('size', 1000) || 1000;
 
-    const result = await this.query().paginate(page, DEFAULT_PAGE_LIMIT);
+    const result = await this.query().paginate(page, size);
 
     this.paginator = result;
     this.paginator.baseUrl(this.ctx.request.completeUrl());
