@@ -1,5 +1,3 @@
-import { defaultLanguage } from 'Config/app';
-
 export interface ResourceObject {
   id: number | string;
   type: string;
@@ -14,79 +12,37 @@ export default class BaseResource {
 
   public type: string;
 
-  public language: string;
-
-  public attributes: string[] = [];
-
   private $attributes: object = {};
-
-  private $translations: object = {};
-
-  public relations: string[] = [];
 
   private $relations: object = {};
 
-  constructor(instance, language = defaultLanguage) {
+  constructor(instance) {
     this.instance = instance;
-    this.language = language;
   }
 
   boot() {
     this.id = this.instance[this.id];
     this.type = this.type || this.instance.constructor.name.toLowerCase();
+
     this.$attributes = this.instance.serializeAttributes();
-
-    this.$translations = this.$translate();
     this.$relations = this.$resolveRelations();
-  }
-
-  /**
-   * Checks if this is a translated model, by looking for a
-   * translations property and if it is one, merges
-   */
-  private $translate() {
-    const translations: Array<any> = this.instance.translations;
-    if (!translations) {
-      return {};
-    }
-
-    const translationByLanguage = {};
-    for (const translation of translations) {
-      translationByLanguage[translation.language] = translation;
-    }
-
-    const translation =
-      translationByLanguage[this.language] ||
-      translationByLanguage[defaultLanguage] ||
-      translationByLanguage[0];
-
-    if (translation) {
-      return translation.serializeAttributes();
-    }
-
-    return {};
   }
 
   private $resolveRelations() {
     const relations = {};
-    const preloadedRelations = this.instance.$preloaded;
-    for (const relationName of this.relations) {
-      const relation = preloadedRelations[relationName];
-      if (!relation) {
-        continue;
-      }
-
+    for (const preload of Object.keys(this.instance.$preloaded)) {
+      const relation = this.instance[preload];
       if (Array.isArray(relation)) {
-        relations[relationName] = [];
+        relations[preload] = [];
         for (const instance of relation) {
           const resource = this.$bootRelatedResource(instance);
-          relations[relationName].push(resource);
+          relations[preload].push(resource);
         }
 
         continue;
       }
 
-      relations[relationName] = this.$bootRelatedResource(relation);
+      relations[preload] = this.$bootRelatedResource(relation);
     }
 
     return relations;
@@ -108,23 +64,7 @@ export default class BaseResource {
       attributes: {},
     };
 
-    // Attributes to be serialized might not be explicitly defined.
-    // In this case simply pipe out all of them
-    if (!this.attributes.length) {
-      resource.attributes = {
-        ...this.$attributes,
-        ...this.$translations,
-      };
-    }
-
-    for (const attribute of this.attributes) {
-      const value =
-        this.$translations[attribute] || this.$attributes[attribute];
-      if (value) {
-        resource.attributes[attribute] = value;
-      }
-    }
-
+    resource.attributes = this.$attributes;
     if (Object.keys(this.$relations).length) {
       resource.relations = {};
       for (const [name, related] of Object.entries(this.$relations)) {
