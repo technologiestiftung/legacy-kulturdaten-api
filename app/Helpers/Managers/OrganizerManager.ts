@@ -24,18 +24,23 @@ export default class OrganizerManager extends BaseManager {
         ),
       },
     ],
+    includables: [
+      {
+        name: 'address',
+      },
+      {
+        name: 'type',
+        query: withTranslations,
+      },
+      {
+        name: 'subjects',
+        query: withTranslations,
+      },
+    ],
   };
 
   constructor(ctx: HttpContextContract) {
     super(ctx, OrganizerModel, OrganizerResource);
-  }
-
-  public query() {
-    return super
-      .query()
-      .preload('address')
-      .preload('type', withTranslations)
-      .preload('subjects', withTranslations);
   }
 
   private async $createAddress(organizer, attributes, trx) {

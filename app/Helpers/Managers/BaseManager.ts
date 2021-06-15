@@ -13,9 +13,15 @@ interface OrderableInstruction {
   attribute?: string;
 }
 
+interface Includable {
+  name: string;
+  query: (query: any) => unknown;
+}
+
 interface ManagerSettings {
   queryId: string;
   orderableBy?: OrderableInstruction[];
+  includables?: Includable[];
 }
 
 export class BaseManager {
@@ -60,6 +66,31 @@ export class BaseManager {
       query = this.$sortQuery(query);
     }
 
+    if (this.ctx.request.input('include')) {
+      query = this.$addIncludesToQuery(query);
+    }
+
+    return query;
+  }
+
+  private $addIncludesToQuery(query) {
+    const includes = this.ctx.request.input('include', '').split(',');
+    for (const include of includes) {
+      const includable = this.settings.includables?.find((includable) => {
+        return includable.name == include;
+      });
+
+      if (!includable) {
+        continue;
+      }
+
+      if (includable.query) {
+        query = query.preload(includable.name, includable.query);
+      } else {
+        query = query.preload(includable.name);
+      }
+    }
+
     return query;
   }
 
@@ -81,9 +112,9 @@ export class BaseManager {
       }
 
       if (orderableInstruction.query) {
-        query = query.orderBy(orderableInstruction.query, direction);
+        query.orderBy(orderableInstruction.query, direction);
       } else if (orderableInstruction.attribute) {
-        query = query.orderBy(orderableInstruction.attribute, direction);
+        query.orderBy(orderableInstruction.attribute, direction);
       }
     }
 
