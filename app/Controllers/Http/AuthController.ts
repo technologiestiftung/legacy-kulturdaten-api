@@ -11,7 +11,7 @@ import {
   UserAlreadyVerifiedException,
 } from 'App/Exceptions/Auth';
 import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
-import { ApiDocument } from 'App/Helpers/Api';
+import { ApiDocument } from 'App/Helpers/Api/Document';
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 
 export default class UsersController {
