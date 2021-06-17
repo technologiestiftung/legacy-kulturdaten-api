@@ -114,7 +114,7 @@ export class ApiDocument {
     instance: BaseResource | typeof BaseModel
   ): ResourceObject {
     if (instance instanceof BaseModel) {
-      const resource = new BaseResource(instance, this.language);
+      const resource = new BaseResource(instance);
       resource.boot();
       return resource.toObject();
     }

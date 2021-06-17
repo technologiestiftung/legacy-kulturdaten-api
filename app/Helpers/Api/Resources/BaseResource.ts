@@ -8,8 +8,6 @@ export interface ResourceObject {
 export default class BaseResource {
   public instance: any;
 
-  public id: string = 'id';
-
   public type: string;
 
   private $attributes: object = {};
@@ -21,7 +19,7 @@ export default class BaseResource {
   }
 
   boot() {
-    this.id = this.instance[this.id];
+    this.id = this.instance.publicId || this.instance.id;
     this.type = this.type || this.instance.constructor.name.toLowerCase();
 
     this.$attributes = this.instance.serializeAttributes();

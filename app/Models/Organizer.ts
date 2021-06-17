@@ -42,12 +42,10 @@ export enum OrganizerStatus {
 }
 
 export default class Organizer extends BaseModel {
-  public static resourceClass = OrganizerResource;
-
   @column({ isPrimary: true, serializeAs: null })
   public id: string;
 
-  @column()
+  @column({ serializeAs: null })
   public publicId: string;
 
   @column()

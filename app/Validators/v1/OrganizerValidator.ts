@@ -13,6 +13,7 @@ export class CreateOrganizerValidator {
     attributes: schema.object().members({
       name: schema.string({ trim: true }),
       description: schema.string.optional({ trim: true }),
+      status: schema.enum.optional(Object.values(OrganizerStatus)),
     }),
     relations: schema.object.optional().members({
       address: schema.object().members({
@@ -61,8 +62,6 @@ export class UpdateOrganizerValidator {
 
   public schema = schema.create({
     attributes: schema.object.optional().members({
-      name: schema.string.optional({ trim: true }),
-      description: schema.string.optional({ trim: true }),
       status: schema.enum.optional(Object.values(OrganizerStatus)),
     }),
     relations: schema.object.optional().members({

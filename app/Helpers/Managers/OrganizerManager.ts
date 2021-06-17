@@ -1,18 +1,20 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import OrganizerModel from 'App/Models/Organizer';
-import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
-import { withTranslations, findTranslation } from 'App/Helpers/Utilities';
+import { withTranslations } from 'App/Helpers/Utilities';
 import {
   CreateOrganizerValidator,
   UpdateOrganizerValidator,
 } from 'App/Validators/v1/OrganizerValidator';
+import {
+  CreateOrganizerTranslationValidator,
+  UpdateOrganizerTranslationValidator,
+} from 'App/Validators/v1/OrganizerTranslationValidator';
 import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
 
 export default class OrganizerManager extends BaseManager {
   public ModelClass = OrganizerModel;
-  public OrganizerClass = OrganizerResource;
 
   public settings = {
     queryId: 'public_id',
@@ -20,7 +22,7 @@ export default class OrganizerManager extends BaseManager {
       {
         name: 'name',
         query: Database.raw(
-          `(SELECT name FROM organizer_translations WHERE organizer_translations.organizer_id = organizers.id AND organizer_translations.language = '${this.language}')`
+          `(SELECT name FROM organizer_translations WHERE organizer_translations.organizer_id = organizers.id)`
         ),
       },
     ],
@@ -39,8 +41,15 @@ export default class OrganizerManager extends BaseManager {
     ],
   };
 
+  public validators = {
+    translations: {
+      create: CreateOrganizerTranslationValidator,
+      update: UpdateOrganizerTranslationValidator,
+    },
+  };
+
   constructor(ctx: HttpContextContract) {
-    super(ctx, OrganizerModel, OrganizerResource);
+    super(ctx, OrganizerModel);
   }
 
   private async $createAddress(organizer, attributes, trx) {
@@ -99,38 +108,11 @@ export default class OrganizerManager extends BaseManager {
 
     await Database.transaction(async (trx) => {
       organizer.organizerTypeId = relations?.type || organizer.organizerTypeId;
-      organizer.status = attributes.status || organizer.status;
+      organizer.status = attributes?.status || organizer.status;
 
       organizer.useTransaction(trx);
       if (organizer.$isDirty) {
         await organizer.save();
-      }
-
-      const translation = findTranslation(
-        organizer.translations,
-        this.language
-      );
-      if (translation) {
-        translation.name = attributes?.name || translation.name;
-        translation.description =
-          attributes?.description || translation.description;
-        translation.useTransaction(trx);
-
-        if (translation.$isDirty) {
-          await translation.save();
-        }
-      } else {
-        // As we are updating an entry there must be an existing, valid
-        // translation. But one might not want to translate a required field.
-        // Hence use this translation as a base.
-        const defaultTranslation = findTranslation(organizer.translations);
-
-        await organizer.related('translations').create({
-          name: attributes?.name || defaultTranslation.name,
-          description:
-            attributes?.description || defaultTranslation.description,
-          language: this.language,
-        });
       }
 
       // Check if any of adress, type or subject have been given

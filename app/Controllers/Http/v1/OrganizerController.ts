@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { ApiDocument } from 'App/Helpers/Api';
+import { ApiDocument } from 'App/Helpers/Api/Document';
 import Organizer, { OrganizerStatus } from 'App/Models/Organizer';
 import OrganizerManager from 'App/Helpers/Managers/OrganizerManager';
 

@@ -2,20 +2,25 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import BaseResource from 'App/Helpers/Api/Resources/BaseResource';
 import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
-import { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm';
-import { QueryClientContract } from '@ioc:Adonis/Lucid/Database';
-
-const DEFAULT_PAGE_LIMIT = 10;
+import { RawBuilderContract } from '@ioc:Adonis/Lucid/DatabaseQueryBuilder';
+import { findTranslation } from '../Utilities';
 
 interface OrderableInstruction {
   name: string;
-  query?: QueryClientContract;
   attribute?: string;
+  query?: RawBuilderContract;
 }
 
 interface Includable {
   name: string;
-  query: (query: any) => unknown;
+  query?: (query: any) => unknown;
+}
+
+interface Validators {
+  translations?: {
+    create?;
+    update?;
+  };
 }
 
 interface ManagerSettings {
@@ -24,8 +29,10 @@ interface ManagerSettings {
   includables?: Includable[];
 }
 
+type Model<T extends LucidModel> = T;
+
 export class BaseManager {
-  public ModelClass: LucidModel;
+  public ModelClass: Model<LucidModel>;
 
   public RessourceClass;
 
@@ -36,6 +43,8 @@ export class BaseManager {
   public ctx: HttpContextContract;
 
   public language: string;
+
+  public validators: Validators;
 
   public settings: ManagerSettings = {
     queryId: 'id',
@@ -54,10 +63,7 @@ export class BaseManager {
   }
 
   public query() {
-    let query = this.ModelClass.query() as ModelQueryBuilderContract<
-      LucidModel,
-      LucidRow
-    >;
+    let query = this.ModelClass.query();
     if (this.ModelClass.$hasRelation('translations')) {
       query = query.preload('translations');
     }
@@ -158,22 +164,70 @@ export class BaseManager {
   }
 
   get instance() {
-    return this.instances[0] as LucidRow;
+    return this.instances[0];
+  }
+
+  set instance(instance) {
+    this.instances = [instance];
   }
 
   public async create() {
-    return new this.ModelClass() as LucidRow;
+    return [new this.ModelClass()];
   }
 
   public async update() {
     return this.instances;
   }
 
-  private $toResource(instance): BaseResource {
-    const resource: BaseResource = new this.RessourceClass(
-      instance,
-      this.language
+  private async $createTranslation() {
+    if (!this.validators.translations?.create) {
+      throw 'Translation validator need to be configured to create translations';
+    }
+
+    const { attributes } = await this.ctx.request.validate(
+      new this.validators.translations.create(this.ctx)
     );
+
+    this.instance = await this.instance
+      .related('translations')
+      .create(attributes);
+
+    return this.instance;
+  }
+
+  private async $updateTranslation() {
+    if (!this.validators.translations?.create) {
+      throw 'Translation validator need to be configured to create translations';
+    }
+
+    const { attributes } = await this.ctx.request.validate(
+      new this.validators.translations.update(this.ctx)
+    );
+
+    const translation = this.instance.translations.find((translation) => {
+      return translation.id == this.ctx.request.params().id;
+    });
+
+    translation.merge(attributes);
+    await translation.save();
+
+    this.instance = translation;
+
+    return this.instance;
+  }
+
+  public async translate() {
+    const method = this.ctx.request.method();
+    switch (method) {
+      case 'POST':
+        return this.$createTranslation();
+      default:
+        return this.$updateTranslation();
+    }
+  }
+
+  private $toResource(instance): BaseResource {
+    const resource: BaseResource = new this.RessourceClass(instance);
     resource.boot();
     return resource;
   }
