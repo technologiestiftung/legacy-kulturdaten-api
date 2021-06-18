@@ -1,8 +1,8 @@
 import faker from 'faker';
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import { OrganizerFactory } from 'Database/factories/Organizer';
-import OrganizerType from 'App/Models/OrganizerType';
 import { OrganizerStatus } from 'App/Models/Organizer';
+import OrganizerType from 'App/Models/OrganizerType';
 import OrganizerSubject from 'App/Models/OrganizerSubject';
 
 export default class OrganizerSeeder extends BaseSeeder {

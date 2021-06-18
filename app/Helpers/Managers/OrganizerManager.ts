@@ -70,10 +70,6 @@ export default class OrganizerManager extends BaseManager {
 
     const organizer = new OrganizerModel();
     await Database.transaction(async (trx) => {
-      organizer.fill({
-        organizerTypeId: relations?.type,
-      });
-
       organizer.useTransaction(trx);
       await organizer.save();
 
@@ -91,6 +87,10 @@ export default class OrganizerManager extends BaseManager {
       if (relations?.subjects) {
         await organizer.related('subjects').sync(relations?.subjects);
       }
+
+      if (relations?.types) {
+        await organizer.related('types').sync(relations?.types);
+      }
     });
 
     return await this.byId(organizer.publicId);
@@ -107,7 +107,6 @@ export default class OrganizerManager extends BaseManager {
     );
 
     await Database.transaction(async (trx) => {
-      organizer.organizerTypeId = relations?.type || organizer.organizerTypeId;
       organizer.status = attributes?.status || organizer.status;
 
       organizer.useTransaction(trx);
@@ -133,6 +132,10 @@ export default class OrganizerManager extends BaseManager {
 
       if (relations?.subjects) {
         await organizer.related('subjects').sync(relations?.subjects);
+      }
+
+      if (relations?.types) {
+        await organizer.related('types').sync(relations?.types);
       }
     });
 
