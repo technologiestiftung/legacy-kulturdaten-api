@@ -9,7 +9,7 @@ export interface ResourceObject {
   };
 }
 
-export default class BaseResource {
+export default class Resource {
   public instance: any;
 
   public type: string;
@@ -55,9 +55,7 @@ export default class BaseResource {
   }
 
   public $bootRelatedResource(instance) {
-    const ResourceClass = instance.resourceClass || BaseResource;
-
-    const resource = new ResourceClass(instance);
+    const resource = new Resource(instance);
     resource.boot();
 
     return resource;

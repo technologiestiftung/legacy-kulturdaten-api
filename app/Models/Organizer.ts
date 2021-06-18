@@ -14,10 +14,10 @@ import { cuid } from '@ioc:Adonis/Core/Helpers';
 import Address from 'App/Models/Address';
 import OrganizerType from 'App/Models/OrganizerType';
 import OrganizerSubject from 'App/Models/OrganizerSubject';
-import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
 import { validator } from '@ioc:Adonis/Core/Validator';
 import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator';
 import { PublishOrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
+import Resource from 'App/Helpers/Api/Resource';
 
 export class OrganizerTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -52,7 +52,7 @@ export default class Organizer extends BaseModel {
   public status: string;
 
   public async publishable() {
-    const resource = new OrganizerResource(this).boot().toObject();
+    const resource = new Resource(this).boot().toObject();
 
     const errors = {};
     try {

@@ -1,13 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import BaseResource, {
-  ResourceObject,
-} from 'App/Helpers/Api/Resources/BaseResource';
+import Resource, { ResourceObject } from 'App/Helpers/Api/Resource';
 import { BaseModel } from '@ioc:Adonis/Lucid/Orm';
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database';
 import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
 
-type ApiResource = BaseResource | Array<BaseResource> | LucidModel;
+type ApiResource = Resource | Array<Resource> | LucidModel;
 
 type ApiDocumentData = ResourceObject | Array<ResourceObject>;
 
@@ -111,15 +109,15 @@ export class ApiDocument {
   }
 
   private $getResourceObject(
-    instance: BaseResource | typeof BaseModel
+    instance: Resource | typeof BaseModel
   ): ResourceObject {
     if (instance instanceof BaseModel) {
-      const resource = new BaseResource(instance);
+      const resource = new Resource(instance);
       resource.boot();
       return resource.toObject();
     }
 
-    const resource: BaseResource = instance as BaseResource;
+    const resource: Resource = instance as Resource;
     return resource.toObject();
   }
 

@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import OrganizerModel from 'App/Models/Organizer';
+import Organizer from 'App/Models/Organizer';
 import { withTranslations } from 'App/Helpers/Utilities';
 import {
   CreateOrganizerValidator,
@@ -11,7 +11,7 @@ import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
 
 export default class OrganizerManager extends BaseManager {
-  public ModelClass = OrganizerModel;
+  public ModelClass = Organizer;
 
   public settings = {
     queryId: 'public_id',
@@ -43,7 +43,7 @@ export default class OrganizerManager extends BaseManager {
   };
 
   constructor(ctx: HttpContextContract) {
-    super(ctx, OrganizerModel);
+    super(ctx, Organizer);
   }
 
   private async $createAddress(organizer, attributes, trx) {
@@ -62,7 +62,7 @@ export default class OrganizerManager extends BaseManager {
       new CreateOrganizerValidator(this.ctx)
     );
 
-    const organizer = new OrganizerModel();
+    const organizer = new Organizer();
     await Database.transaction(async (trx) => {
       organizer.useTransaction(trx);
       await organizer.save();
@@ -94,7 +94,7 @@ export default class OrganizerManager extends BaseManager {
     // Fetch the organizer even before input has been validated, as subject
     // validation relies on the set type
     await this.byId(this.ctx.params.id);
-    const organizer = this.instance as OrganizerModel;
+    const organizer = this.instance as Organizer;
 
     const { attributes, relations } = await this.ctx.request.validate(
       new UpdateOrganizerValidator(this.ctx, organizer)

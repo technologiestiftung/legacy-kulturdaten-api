@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
-import BaseResource from 'App/Helpers/Api/Resources/BaseResource';
+import Resource from 'App/Helpers/Api/Resource';
 import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
 import { RawBuilderContract } from '@ioc:Adonis/Lucid/DatabaseQueryBuilder';
 
@@ -53,7 +53,7 @@ export class BaseManager {
   constructor(
     ctx: HttpContextContract,
     ModelClass: LucidModel,
-    ResourceClass = BaseResource
+    ResourceClass = Resource
   ) {
     this.ModelClass = ModelClass;
     this.RessourceClass = ResourceClass;
@@ -87,9 +87,10 @@ export class BaseManager {
 
     // Allow wildcard to enable all includes available
     if (includesString === '*') {
-      includes = this.settings.includables?.map((includable) => {
-        return includable.name;
-      }) || {});
+      includes =
+        this.settings.includables?.map((includable) => {
+          return includable.name;
+        }) || [];
     } else {
       includes = includesString.split(',');
     }
@@ -222,13 +223,13 @@ export class BaseManager {
     return this.byId();
   }
 
-  private $toResource(instance): BaseResource {
-    const resource: BaseResource = new this.RessourceClass(instance);
+  private $toResource(instance): Resource {
+    const resource = new Resource(instance);
     resource.boot();
     return resource;
   }
 
-  public toResources(): Array<BaseResource> | BaseResource {
+  public toResources(): Array<Resource> | Resource {
     if (!this.instances.length) {
       return [];
     }
