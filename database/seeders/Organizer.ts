@@ -3,6 +3,7 @@ import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import { OrganizerFactory } from 'Database/factories/Organizer';
 import OrganizerType from 'App/Models/OrganizerType';
 import { OrganizerStatus } from 'App/Models/Organizer';
+import OrganizerSubject from 'App/Models/OrganizerSubject';
 
 export default class OrganizerSeeder extends BaseSeeder {
   public async run() {
@@ -27,17 +28,19 @@ export default class OrganizerSeeder extends BaseSeeder {
         .createMany(25),
     ]);
 
-    const organizerTypes = await OrganizerType.query().preload('subjects');
+    const organizerTypes = await OrganizerType.query();
+    const organizerSubjects = await OrganizerSubject.query();
     for (const organizer of organizers.flat()) {
-      const organizerType = faker.random.arrayElement(organizerTypes);
-      const organizerSubjects = faker.random
-        .arrayElements(organizerType.subjects)
-        .map((subject) => {
+      await organizer.related('types').sync(
+        faker.random.arrayElements(organizerTypes).map((type) => {
+          return type.id;
+        })
+      );
+      await organizer.related('subjects').sync(
+        faker.random.arrayElements(organizerSubjects).map((subject) => {
           return subject.id;
-        });
-
-      await organizer.related('type').associate(organizerType);
-      await organizer.related('subjects').sync(organizerSubjects);
+        })
+      );
 
       // Randomly mark some organizers as published
       if (faker.datatype.boolean()) {

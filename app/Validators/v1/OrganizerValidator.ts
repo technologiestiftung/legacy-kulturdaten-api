@@ -24,19 +24,19 @@ export class CreateOrganizerValidator {
           city: schema.string({ trim: true }),
         }),
       }),
-      type: schema.number.optional([
-        rules.requiredIfExists('/relations.subjects'),
-        rules.exists({
-          table: 'organizer_types',
-          column: 'id',
-        }),
-      ]),
+      types: schema.array.optional([rules.minLength(1)]).members(
+        schema.number([
+          rules.exists({
+            table: 'organizer_types',
+            column: 'id',
+          }),
+        ])
+      ),
       subjects: schema.array.optional([rules.minLength(1)]).members(
         schema.number([
           rules.exists({
             table: 'organizer_subjects',
             column: 'id',
-            where: { organizer_type_id: this.refs.organizerTypeId },
           }),
         ])
       ),
@@ -54,12 +54,6 @@ export class UpdateOrganizerValidator {
     private organizer: Organizer
   ) {}
 
-  public refs = schema.refs({
-    organizerTypeId:
-      this.context.request.input('relations')?.type?.id ||
-      this.organizer.organizerTypeId,
-  });
-
   public schema = schema.create({
     attributes: schema.object.optional().members({
       status: schema.enum.optional(Object.values(OrganizerStatus)),
@@ -73,18 +67,19 @@ export class UpdateOrganizerValidator {
           city: schema.string.optional({ trim: true }),
         }),
       }),
-      type: schema.number.optional([
-        rules.exists({
-          table: 'organizer_types',
-          column: 'id',
-        }),
-      ]),
+      types: schema.array.optional([rules.minLength(1)]).members(
+        schema.number([
+          rules.exists({
+            table: 'organizer_types',
+            column: 'id',
+          }),
+        ])
+      ),
       subjects: schema.array.optional([rules.minLength(1)]).members(
         schema.number([
           rules.exists({
             table: 'organizer_subjects',
             column: 'id',
-            where: { organizer_type_id: this.refs.organizerTypeId },
           }),
         ])
       ),
@@ -117,9 +112,11 @@ export class PublishOrganizerValidator {
           city: schema.string({ trim: true }),
         }),
       }),
-      type: schema.object().members({
-        id: schema.number(),
-      }),
+      types: schema.array([rules.minLength(1)]).members(
+        schema.object().members({
+          id: schema.number(),
+        })
+      ),
       subjects: schema.array([rules.minLength(1)]).members(
         schema.object().members({
           id: schema.number(),

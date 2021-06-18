@@ -31,7 +31,7 @@ export default class OrganizerManager extends BaseManager {
         name: 'address',
       },
       {
-        name: 'type',
+        name: 'types',
         query: withTranslations,
       },
       {

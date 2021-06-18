@@ -9,14 +9,13 @@ import {
   belongsTo,
   BelongsTo,
   beforeCreate,
-  computed,
 } from '@ioc:Adonis/Lucid/Orm';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
 import Address from 'App/Models/Address';
 import OrganizerType from 'App/Models/OrganizerType';
 import OrganizerSubject from 'App/Models/OrganizerSubject';
 import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
-import { validator, schema } from '@ioc:Adonis/Core/Validator';
+import { validator } from '@ioc:Adonis/Core/Validator';
 import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator';
 
 export class OrganizerTranslation extends BaseModel {
@@ -76,8 +75,14 @@ export default class Organizer extends BaseModel {
   @column({ serializeAs: null })
   public organizerTypeId: number;
 
-  @belongsTo(() => OrganizerType)
-  public type: BelongsTo<typeof OrganizerType>;
+  @manyToMany(() => OrganizerType, {
+    relatedKey: 'id',
+    localKey: 'publicId',
+    pivotForeignKey: 'organizer_public_id',
+    pivotRelatedForeignKey: 'organizer_type_id',
+    pivotTable: 'organizer_organizer_types',
+  })
+  public types: ManyToMany<typeof OrganizerType>;
 
   @manyToMany(() => OrganizerSubject, {
     relatedKey: 'id',
