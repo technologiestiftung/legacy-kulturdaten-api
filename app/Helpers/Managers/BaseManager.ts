@@ -3,7 +3,6 @@ import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import BaseResource from 'App/Helpers/Api/Resources/BaseResource';
 import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
 import { RawBuilderContract } from '@ioc:Adonis/Lucid/DatabaseQueryBuilder';
-import { findTranslation } from '../Utilities';
 
 interface OrderableInstruction {
   name: string;
@@ -37,6 +36,10 @@ export class BaseManager {
 
   public paginator: ModelPaginatorContract<LucidRow>;
 
+  public sort: string = '';
+
+  public include: string = '';
+
   public ctx: HttpContextContract;
 
   public language: string;
@@ -59,25 +62,38 @@ export class BaseManager {
     this.language = ctx.language as string;
   }
 
-  public query() {
+  public query(sortString: string = '', includesString: string = '') {
     let query = this.ModelClass.query();
     if (this.ModelClass.$hasRelation('translations')) {
       query = query.preload('translations');
     }
 
-    if (this.ctx.request.input('sort')) {
-      query = this.$sortQuery(query);
+    const sort = this.sort || sortString || this.ctx.request.input('sort');
+    if (sort) {
+      query = this.$sortQuery(query, sort);
     }
 
-    if (this.ctx.request.input('include')) {
-      query = this.$addIncludesToQuery(query);
+    const includes =
+      this.include || includesString || this.ctx.request.input('include');
+    if (includes) {
+      query = this.$addIncludesToQuery(query, includes);
     }
 
     return query;
   }
 
-  private $addIncludesToQuery(query) {
-    const includes = this.ctx.request.input('include', '').split(',');
+  private $addIncludesToQuery(query, includesString) {
+    let includes;
+
+    // Allow wildcard to enable all includes available
+    if (includesString === '*') {
+      includes = this.settings.includables?.map((includable) => {
+        return includable.name;
+      }) || {});
+    } else {
+      includes = includesString.split(',');
+    }
+
     for (const include of includes) {
       const includable = this.settings.includables?.find((includable) => {
         return includable.name == include;
@@ -97,8 +113,8 @@ export class BaseManager {
     return query;
   }
 
-  private $sortQuery(query) {
-    const instructions = this.ctx.request.input('sort', '').split(',');
+  private $sortQuery(query, sortString) {
+    const instructions = sortString.split(',');
     for (const instruction of instructions) {
       const direction = instruction.startsWith('-') ? 'desc' : 'asc';
       const key =
@@ -124,11 +140,14 @@ export class BaseManager {
     return query;
   }
 
-  public async all() {
+  public async all(
+    sort: string | undefined = undefined,
+    includes: string | undefined = undefined
+  ) {
     const page = this.ctx.request.input('page', 1) || 1;
     const size = this.ctx.request.input('size', 1000) || 1000;
 
-    const result = await this.query().paginate(page, size);
+    const result = await this.query(sort, includes).paginate(page, size);
 
     this.paginator = result;
     this.paginator.baseUrl(this.ctx.request.completeUrl());
@@ -150,8 +169,12 @@ export class BaseManager {
     }
   }
 
-  public async byId(id: string | number | undefined) {
-    const instance = await this.query()
+  public async byId(
+    id: string | number | undefined = undefined,
+    sort: string | undefined = undefined,
+    includes: string | undefined = undefined
+  ) {
+    const instance = await this.query(sort, includes)
       .where(this.settings.queryId, id || this.ctx.params.id)
       .firstOrFail();
 
