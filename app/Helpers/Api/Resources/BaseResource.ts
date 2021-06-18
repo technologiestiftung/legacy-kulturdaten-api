@@ -1,14 +1,20 @@
 export interface ResourceObject {
   id: number | string;
   type: string;
-  attributes: object;
-  relations?: object;
+  attributes: {
+    [key: string]: any;
+  };
+  relations?: {
+    [key: string]: any;
+  };
 }
 
 export default class BaseResource {
   public instance: any;
 
   public type: string;
+
+  public id: string | number;
 
   private $attributes: object = {};
 
@@ -51,7 +57,7 @@ export default class BaseResource {
   public $bootRelatedResource(instance) {
     const ResourceClass = instance.resourceClass || BaseResource;
 
-    const resource = new ResourceClass(instance, this.language);
+    const resource = new ResourceClass(instance);
     resource.boot();
 
     return resource;
