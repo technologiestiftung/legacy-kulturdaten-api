@@ -6,10 +6,7 @@ import {
   CreateOrganizerValidator,
   UpdateOrganizerValidator,
 } from 'App/Validators/v1/OrganizerValidator';
-import {
-  CreateOrganizerTranslationValidator,
-  UpdateOrganizerTranslationValidator,
-} from 'App/Validators/v1/OrganizerTranslationValidator';
+import { OrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
 
@@ -42,10 +39,7 @@ export default class OrganizerManager extends BaseManager {
   };
 
   public validators = {
-    translations: {
-      create: CreateOrganizerTranslationValidator,
-      update: UpdateOrganizerTranslationValidator,
-    },
+    translate: OrganizerTranslationValidator,
   };
 
   constructor(ctx: HttpContextContract) {

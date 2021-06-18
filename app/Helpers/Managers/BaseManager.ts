@@ -17,10 +17,7 @@ interface Includable {
 }
 
 interface Validators {
-  translations?: {
-    create?;
-    update?;
-  };
+  translate?;
 }
 
 interface ManagerSettings {
@@ -149,13 +146,13 @@ export class BaseManager {
       case 'PATCH':
         return this.update();
       default:
-        return this.byId(this.ctx.params.id);
+        return this.byId();
     }
   }
 
-  public async byId(id: string | number) {
+  public async byId(id: string | number | undefined) {
     const instance = await this.query()
-      .where(this.settings.queryId, id)
+      .where(this.settings.queryId, id || this.ctx.params.id)
       .firstOrFail();
 
     this.instances = [instance];
@@ -179,51 +176,27 @@ export class BaseManager {
     return this.instances;
   }
 
-  private async $createTranslation() {
-    if (!this.validators.translations?.create) {
-      throw 'Translation validator need to be configured to create translations';
+  public async translate() {
+    if (!this.validators.translate) {
+      throw 'Translation validator need to be configured to create/update translations';
     }
 
     const { attributes } = await this.ctx.request.validate(
-      new this.validators.translations.create(this.ctx)
-    );
-
-    this.instance = await this.instance
-      .related('translations')
-      .create(attributes);
-
-    return this.instance;
-  }
-
-  private async $updateTranslation() {
-    if (!this.validators.translations?.create) {
-      throw 'Translation validator need to be configured to create translations';
-    }
-
-    const { attributes } = await this.ctx.request.validate(
-      new this.validators.translations.update(this.ctx)
+      new this.validators.translate(this.ctx)
     );
 
     const translation = this.instance.translations.find((translation) => {
-      return translation.id == this.ctx.request.params().id;
+      return translation.language == attributes.language;
     });
 
-    translation.merge(attributes);
-    await translation.save();
-
-    this.instance = translation;
-
-    return this.instance;
-  }
-
-  public async translate() {
-    const method = this.ctx.request.method();
-    switch (method) {
-      case 'POST':
-        return this.$createTranslation();
-      default:
-        return this.$updateTranslation();
+    if (!translation) {
+      await this.instance.related('translations').create(attributes);
+    } else {
+      translation.merge(attributes);
+      await translation.save();
     }
+
+    return this.byId();
   }
 
   private $toResource(instance): BaseResource {

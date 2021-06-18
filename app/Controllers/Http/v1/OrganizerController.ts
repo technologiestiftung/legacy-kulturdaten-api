@@ -50,6 +50,26 @@ export default class OrganizerController {
     });
   }
 
+  public async translate(ctx: HttpContextContract) {
+    const manager: OrganizerManager = new OrganizerManager(ctx);
+    await manager.byId();
+    await manager.translate();
+
+    const organizer: Organizer = manager.instance;
+    const publishable = await organizer.publishable();
+
+    if (publishable !== true) {
+      organizer.status = OrganizerStatus.DRAFT;
+      if (organizer.$isDirty) {
+        await organizer.save();
+      }
+    }
+
+    return new ApiDocument(ctx, manager.toResources(), {
+      publishable,
+    });
+  }
+
   // public async destroy(ctx: HttpContextContract) {
   //   const { params, auth } = ctx;
   //   if (!auth.user) {
