@@ -48,11 +48,10 @@ Route.group(() => {
 Route.group(() => {
   Route.group(() => {
     Route.resource('organizer', 'v1/OrganizerController').apiOnly();
-    Route.resource(
-      'organizer.translations',
-      'v1/OrganizerTranslationController'
-    ).only(['store', 'update']);
+    Route.post('organizer/:id/translate', 'v1/OrganizerController.translate');
+
     Route.resource('organizerType', 'v1/OrganizerTypeController').apiOnly();
+
     Route.resource(
       'organizerType.organizerSubject',
       'v1/OrganizerSubjectController'
