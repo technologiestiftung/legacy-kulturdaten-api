@@ -19,10 +19,6 @@ export default class Organizers extends BaseSchema {
         .defaultTo(OrganizerStatus.DRAFT);
 
       table.integer('address_id').unsigned().references('addresses.id');
-      table
-        .integer('organizer_type_id')
-        .unsigned()
-        .references('organizer_types.id');
 
       table.timestamps(true);
     });
