@@ -24,6 +24,8 @@ export default class BaseResource {
 
     this.$attributes = this.instance.serializeAttributes();
     this.$relations = this.$resolveRelations();
+
+    return this;
   }
 
   private $resolveRelations() {
