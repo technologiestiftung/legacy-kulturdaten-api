@@ -16,14 +16,16 @@ export default class OrganizerController {
 
   public async store(ctx: HttpContextContract) {
     const manager: OrganizerManager = new OrganizerManager(ctx);
-    await manager.fromContext();
+    await manager.create();
 
     return new ApiDocument(ctx, manager.toResources());
   }
 
   public async show(ctx: HttpContextContract) {
     const manager: OrganizerManager = new OrganizerManager(ctx);
-    await manager.fromContext();
+
+    manager.include = '*';
+    await manager.byId();
 
     const organizer: Organizer = manager.instance;
     const publishable = await organizer.publishable();
@@ -33,9 +35,10 @@ export default class OrganizerController {
 
   public async update(ctx: HttpContextContract) {
     const manager: OrganizerManager = new OrganizerManager(ctx);
-    await manager.fromContext();
+    await manager.update();
 
-    const organizer: Organizer = manager.instance;
+    manager.include = '*';
+    const organizer: Organizer = await manager.byId();
     const publishable = await organizer.publishable();
 
     if (publishable !== true) {
@@ -55,19 +58,7 @@ export default class OrganizerController {
     await manager.byId();
     await manager.translate();
 
-    const organizer: Organizer = manager.instance;
-    const publishable = await organizer.publishable();
-
-    if (publishable !== true) {
-      organizer.status = OrganizerStatus.DRAFT;
-      if (organizer.$isDirty) {
-        await organizer.save();
-      }
-    }
-
-    return new ApiDocument(ctx, manager.toResources(), {
-      publishable,
-    });
+    return new ApiDocument(ctx, manager.toResources());
   }
 
   // public async destroy(ctx: HttpContextContract) {
