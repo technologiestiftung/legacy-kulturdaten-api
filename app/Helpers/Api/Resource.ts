@@ -24,7 +24,7 @@ export default class Resource {
     this.instance = instance;
   }
 
-  boot() {
+  public boot() {
     this.id = this.instance.publicId || this.instance.id;
     this.type = this.type || this.instance.constructor.name.toLowerCase();
 

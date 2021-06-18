@@ -97,7 +97,7 @@ export class BaseManager {
 
     for (const include of includes) {
       const includable = this.settings.includables?.find((includable) => {
-        return includable.name == include;
+        return includable.name === include;
       });
 
       if (!includable) {
@@ -119,11 +119,11 @@ export class BaseManager {
     for (const instruction of instructions) {
       const direction = instruction.startsWith('-') ? 'desc' : 'asc';
       const key =
-        instruction[0] == '-' ? instruction.substring(1) : instruction;
+        instruction[0] === '-' ? instruction.substring(1) : instruction;
 
       const orderableInstruction = this.settings.orderableBy?.find(
         (orderableInstruction) => {
-          return orderableInstruction.name == key;
+          return orderableInstruction.name === key;
         }
       );
 
@@ -184,11 +184,11 @@ export class BaseManager {
     return this.instances;
   }
 
-  get instance() {
+  public get instance() {
     return this.instances[0];
   }
 
-  set instance(instance) {
+  public set instance(instance) {
     this.instances = [instance];
   }
 
@@ -210,7 +210,7 @@ export class BaseManager {
     );
 
     const translation = this.instance.translations.find((translation) => {
-      return translation.language == attributes.language;
+      return translation.language === attributes.language;
     });
 
     if (!translation) {
@@ -234,7 +234,7 @@ export class BaseManager {
       return [];
     }
 
-    if (this.instances.length == 1) {
+    if (this.instances.length === 1) {
       return this.$toResource(this.instances[0]);
     }
 
