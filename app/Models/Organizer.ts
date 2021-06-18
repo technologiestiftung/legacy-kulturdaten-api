@@ -17,6 +17,7 @@ import OrganizerSubject from 'App/Models/OrganizerSubject';
 import OrganizerResource from 'App/Helpers/Api/Resources/Organizer';
 import { validator } from '@ioc:Adonis/Core/Validator';
 import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator';
+import { PublishOrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
 
 export class OrganizerTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -51,19 +52,37 @@ export default class Organizer extends BaseModel {
   public status: string;
 
   public async publishable() {
-    const resource = new OrganizerResource(this);
-    resource.boot();
+    const resource = new OrganizerResource(this).boot().toObject();
 
+    const errors = {};
     try {
       await validator.validate({
         schema: new PublishOrganizerValidator(this).schema,
-        data: resource.toObject(),
+        data: resource,
       });
     } catch (e) {
-      return e.messages;
+      Object.assign(errors, e.messages);
     }
 
-    return true;
+    // Use an empty object to validate against, to force the error
+    // even if there are no translations at all
+    const translations = resource.relations?.translations || [{}];
+    for (const translation of translations) {
+      try {
+        await validator.validate({
+          schema: new PublishOrganizerTranslationValidator().schema,
+          data: translation,
+        });
+
+        // Stop validating if there is only one valid
+        // translation
+        break;
+      } catch (e) {
+        Object.assign(errors, e.messages);
+      }
+    }
+
+    return Object.keys(errors).length ? errors : true;
   }
 
   @column({ serializeAs: null })

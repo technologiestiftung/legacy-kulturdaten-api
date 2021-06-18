@@ -100,8 +100,7 @@ export class PublishOrganizerValidator {
 
   public schema = schema.create({
     attributes: schema.object().members({
-      name: schema.string({ trim: true }),
-      description: schema.string({ trim: true }),
+      status: schema.enum(Object.values(OrganizerStatus)),
     }),
     relations: schema.object().members({
       address: schema.object().members({
