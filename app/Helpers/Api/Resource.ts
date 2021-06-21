@@ -41,6 +41,10 @@ export default class Resource {
       if (Array.isArray(relation)) {
         relations[preload] = [];
         for (const instance of relation) {
+          if (!instance) {
+            continue;
+          }
+
           const resource = this.$bootRelatedResource(instance);
           relations[preload].push(resource);
         }
@@ -48,7 +52,9 @@ export default class Resource {
         continue;
       }
 
-      relations[preload] = this.$bootRelatedResource(relation);
+      if (relation) {
+        relations[preload] = this.$bootRelatedResource(relation);
+      }
     }
 
     return relations;
