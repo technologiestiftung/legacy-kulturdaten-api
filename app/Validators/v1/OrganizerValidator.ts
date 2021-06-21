@@ -16,7 +16,7 @@ export class CreateOrganizerValidator {
       status: schema.enum.optional(Object.values(OrganizerStatus)),
     }),
     relations: schema.object.optional().members({
-      address: schema.object().members({
+      address: schema.object.optional().members({
         attributes: schema.object().members({
           street1: schema.string({ trim: true }),
           street2: schema.string.optional({ trim: true }),
@@ -59,7 +59,7 @@ export class UpdateOrganizerValidator {
       status: schema.enum.optional(Object.values(OrganizerStatus)),
     }),
     relations: schema.object.optional().members({
-      address: schema.object().members({
+      address: schema.object.optional().members({
         attributes: schema.object().members({
           street1: schema.string.optional({ trim: true }),
           street2: schema.string.optional({ trim: true }),
