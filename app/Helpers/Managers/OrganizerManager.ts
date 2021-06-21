@@ -91,15 +91,11 @@ export default class OrganizerManager extends BaseManager {
   }
 
   public async update() {
-    // Fetch the organizer even before input has been validated, as subject
-    // validation relies on the set type
-    await this.byId(this.ctx.params.id);
-    const organizer = this.instance as Organizer;
-
     const { attributes, relations } = await this.ctx.request.validate(
-      new UpdateOrganizerValidator(this.ctx, organizer)
+      new UpdateOrganizerValidator(this.ctx)
     );
 
+    const organizer = await this.byId();
     await Database.transaction(async (trx) => {
       organizer.status = attributes?.status || organizer.status;
 

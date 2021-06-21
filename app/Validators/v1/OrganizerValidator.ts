@@ -49,10 +49,7 @@ export class CreateOrganizerValidator {
 }
 
 export class UpdateOrganizerValidator {
-  constructor(
-    private context: HttpContextContract,
-    private organizer: Organizer
-  ) {}
+  constructor(private context: HttpContextContract) {}
 
   public schema = schema.create({
     attributes: schema.object.optional().members({
