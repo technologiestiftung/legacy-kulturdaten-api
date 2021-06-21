@@ -181,7 +181,7 @@ export class BaseManager {
 
     this.instances = [instance];
 
-    return this.instances;
+    return this.instance;
   }
 
   public get instance() {
