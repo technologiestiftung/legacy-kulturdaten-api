@@ -35,6 +35,7 @@ export default class OrganizerManager extends BaseManager {
         name: 'subjects',
         query: withTranslations,
       },
+      { name: 'links' },
     ],
   };
 
@@ -48,6 +49,7 @@ export default class OrganizerManager extends BaseManager {
 
   private async $createAddress(organizer, attributes, trx) {
     const address = new Address();
+    await organizer.related();
     address.fill(attributes);
 
     address.useTransaction(trx);
@@ -55,6 +57,42 @@ export default class OrganizerManager extends BaseManager {
     await organizer.related('address').associate(address);
 
     return address;
+  }
+
+  private async $updateTypes(organizer: Organizer, types) {
+    if (types) {
+      await organizer.related('types').sync(types);
+    }
+  }
+
+  private async $updateSubjects(organizer: Organizer, subjects) {
+    if (subjects) {
+      await organizer.related('subjects').sync(subjects);
+    }
+  }
+
+  private async $updateLinks(organizer: Organizer, links) {
+    if (links) {
+      await organizer.load('links');
+
+      let index = 0;
+      while (organizer.links[index] || links[index]) {
+        const link = organizer.links[index];
+        const url = links[index];
+
+        if (link && url) {
+          const link = organizer.links[index];
+          link.url = links[index];
+          await link.save();
+        } else if (!link && url) {
+          await organizer.related('links').create({ url });
+        } else if (link && !url) {
+          await link.delete();
+        }
+
+        index++;
+      }
+    }
   }
 
   public async create() {
@@ -73,18 +111,12 @@ export default class OrganizerManager extends BaseManager {
         language: this.language,
       });
 
-      // Check if any of adress, type or subject have been given
       if (relations?.address) {
         await this.$createAddress(organizer, relations.address.attributes, trx);
       }
 
-      if (relations?.subjects) {
-        await organizer.related('subjects').sync(relations?.subjects);
-      }
-
-      if (relations?.types) {
-        await organizer.related('types').sync(relations?.types);
-      }
+      await this.$updateSubjects(organizer, relations?.subjects);
+      await this.$updateTypes(organizer, relations?.types);
     });
 
     return await this.byId(organizer.publicId);
@@ -104,12 +136,9 @@ export default class OrganizerManager extends BaseManager {
         await organizer.save();
       }
 
-      // Check if any of adress, type or subject have been given
       if (relations?.address) {
         if (organizer.address) {
           organizer.address.merge(relations.address.attributes);
-          organizer.address.useTransaction(trx);
-
           await organizer.address.save();
         } else {
           await this.$createAddress(
@@ -120,13 +149,9 @@ export default class OrganizerManager extends BaseManager {
         }
       }
 
-      if (relations?.subjects) {
-        await organizer.related('subjects').sync(relations?.subjects);
-      }
-
-      if (relations?.types) {
-        await organizer.related('types').sync(relations?.types);
-      }
+      await this.$updateSubjects(organizer, relations?.subjects);
+      await this.$updateTypes(organizer, relations?.types);
+      await this.$updateLinks(organizer, relations?.links);
     });
 
     return await this.byId(organizer.publicId);

@@ -18,6 +18,7 @@ import { validator } from '@ioc:Adonis/Core/Validator';
 import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator';
 import { PublishOrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Resource from 'App/Helpers/Api/Resource';
+import Link from './Link';
 
 export class OrganizerTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -114,6 +115,15 @@ export default class Organizer extends BaseModel {
 
   @hasMany(() => OrganizerTranslation)
   public translations: HasMany<typeof OrganizerTranslation>;
+
+  @manyToMany(() => Link, {
+    relatedKey: 'id',
+    localKey: 'publicId',
+    pivotForeignKey: 'organizer_public_id',
+    pivotRelatedForeignKey: 'link_id',
+    pivotTable: 'organizer_links',
+  })
+  public links: ManyToMany<typeof Link>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

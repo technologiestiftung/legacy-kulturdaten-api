@@ -40,6 +40,9 @@ export class CreateOrganizerValidator {
           }),
         ])
       ),
+      links: schema.array
+        .optional([rules.maxLength(3)])
+        .members(schema.string({}, [rules.url()])),
     }),
   });
 
@@ -80,6 +83,9 @@ export class UpdateOrganizerValidator {
           }),
         ])
       ),
+      links: schema.array
+        .optional([rules.maxLength(3)])
+        .members(schema.string({}, [rules.url()])),
     }),
   });
 
