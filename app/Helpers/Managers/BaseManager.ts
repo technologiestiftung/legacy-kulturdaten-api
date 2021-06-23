@@ -200,7 +200,7 @@ export class BaseManager {
     return this.instances;
   }
 
-  public async translate() {
+  public async $validateTranslation() {
     if (!this.validators.translate) {
       throw 'Translation validator need to be configured to create/update translations';
     }
@@ -209,6 +209,10 @@ export class BaseManager {
       new this.validators.translate(this.ctx)
     );
 
+    return attributes;
+  }
+
+  public async $saveTranslation(attributes) {
     const translation = this.instance.translations.find((translation) => {
       return translation.language === attributes.language;
     });
@@ -219,6 +223,11 @@ export class BaseManager {
       translation.merge(attributes);
       await translation.save();
     }
+  }
+
+  public async translate() {
+    const attributes = await this.$validateTranslation();
+    await this.$saveTranslation(attributes);
 
     return this.byId();
   }
