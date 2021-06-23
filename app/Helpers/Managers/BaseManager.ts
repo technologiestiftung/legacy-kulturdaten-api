@@ -74,7 +74,7 @@ export class BaseManager {
     }
 
     const includes =
-      this.include || includesString || this.ctx.request.input('include');
+      this.ctx.request.input('include') || this.include || includesString;
     if (includes) {
       query = this.$addIncludesToQuery(query, includes);
     }

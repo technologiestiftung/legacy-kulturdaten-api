@@ -92,6 +92,15 @@ export default class Organizer extends BaseModel {
   @belongsTo(() => Address)
   public address: BelongsTo<typeof Address>;
 
+  @column()
+  public email: string;
+
+  @column()
+  public phone: string;
+
+  @column()
+  public homepage: string;
+
   @manyToMany(() => OrganizerType, {
     relatedKey: 'id',
     localKey: 'publicId',

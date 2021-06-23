@@ -24,7 +24,7 @@ export default class OrganizerController {
   public async show(ctx: HttpContextContract) {
     const manager: OrganizerManager = new OrganizerManager(ctx);
 
-    manager.include = '*';
+    manager.include = 'address,types,subjects';
     await manager.byId();
 
     const organizer: Organizer = manager.instance;
@@ -37,7 +37,7 @@ export default class OrganizerController {
     const manager: OrganizerManager = new OrganizerManager(ctx);
     await manager.update();
 
-    manager.include = '*';
+    manager.include = 'address,types,subjects';
     const organizer: Organizer = await manager.byId();
     const publishable = await organizer.publishable();
 

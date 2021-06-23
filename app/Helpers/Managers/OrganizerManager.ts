@@ -103,6 +103,7 @@ export default class OrganizerManager extends BaseManager {
     const organizer = new Organizer();
     await Database.transaction(async (trx) => {
       organizer.useTransaction(trx);
+      organizer.fill(attributes, true);
       await organizer.save();
 
       await organizer.related('translations').create({
@@ -117,6 +118,7 @@ export default class OrganizerManager extends BaseManager {
 
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
+      await this.$updateLinks(organizer, relations?.links);
     });
 
     return await this.byId(organizer.publicId);
@@ -129,6 +131,9 @@ export default class OrganizerManager extends BaseManager {
 
     const organizer = (await this.byId()) as Organizer;
     await Database.transaction(async (trx) => {
+      organizer.homepage = attributes?.homepage || organizer.homepage;
+      organizer.phone = attributes?.phone || organizer.phone;
+      organizer.email = attributes?.email || organizer.email;
       organizer.status = attributes?.status || organizer.status;
 
       organizer.useTransaction(trx);
