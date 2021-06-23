@@ -92,9 +92,6 @@ export default class Organizer extends BaseModel {
   @belongsTo(() => Address)
   public address: BelongsTo<typeof Address>;
 
-  @column({ serializeAs: null })
-  public organizerTypeId: number;
-
   @manyToMany(() => OrganizerType, {
     relatedKey: 'id',
     localKey: 'publicId',
