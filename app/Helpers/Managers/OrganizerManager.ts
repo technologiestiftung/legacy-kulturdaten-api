@@ -95,7 +95,7 @@ export default class OrganizerManager extends BaseManager {
       new UpdateOrganizerValidator(this.ctx)
     );
 
-    const organizer = await this.byId();
+    const organizer = (await this.byId()) as Organizer;
     await Database.transaction(async (trx) => {
       organizer.status = attributes?.status || organizer.status;
 
