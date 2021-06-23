@@ -97,3 +97,14 @@ mkdir ./keys
 ssh-keygen -t rsa -C github@kulturdaten.berlin -f ./.keys/id_rsa
 cat ./.keys/id_rsa.pub | ssh root@kulturdaten-berlin.anyvent.cloud dokku ssh-keys:add github@kulturdaten.berlin
 ```
+
+# Troubleshooting
+
+## Reset database
+
+```
+dokku postgres:unlink pg-alpha-api-kulturdaten-berlin alpha.api.kulturdaten.berlin
+dokku postgres:destroy pg-alpha-api-kulturdaten-berlin
+dokku postgres:create pg-alpha-api-kulturdaten-berlin
+dokku postgres:link pg-alpha-api-kulturdaten-berlin alpha.api.kulturdaten.berlin
+```

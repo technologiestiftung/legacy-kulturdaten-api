@@ -16,8 +16,12 @@ export default class Bootstrap extends BaseCommand {
   public reset: boolean;
 
   @flags.boolean({
-    description:
-      'If enabled loads fixtures and seeds dummy data after migration',
+    description: 'If enabled loads fixtures data after migration',
+  })
+  public load: boolean;
+
+  @flags.boolean({
+    description: 'If enabled seeds dummy data after migration',
   })
   public fill: boolean;
 
@@ -48,11 +52,13 @@ export default class Bootstrap extends BaseCommand {
       stdio: 'inherit',
     });
 
-    if (this.fill) {
+    if (this.load) {
       await execa.node('ace', ['fixtures:load'], {
         stdio: 'inherit',
       });
+    }
 
+    if (this.fill) {
       await execa.node('ace', ['db:seed'], {
         stdio: 'inherit',
       });

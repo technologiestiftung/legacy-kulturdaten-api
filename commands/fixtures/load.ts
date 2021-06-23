@@ -41,9 +41,13 @@ export default class LoadFixtures extends BaseCommand {
 
   private async loadModel(fixture) {
     try {
-      return (
-        await this.application.container.use(`App/Models/${fixture.model.path}`)
-      ).default;
+      let [path, exportName] = fixture.model.path.split('.');
+      if (!exportName) {
+        exportName = 'default';
+      }
+
+      const module = await this.application.container.use(`App/Models/${path}`);
+      return module[exportName];
     } catch (e) {
       this.logger.error(
         `Could not load model ${fixture.model.path}. Does it exist in the application?`
@@ -100,13 +104,13 @@ export default class LoadFixtures extends BaseCommand {
 
     for (const path of this.fixturePaths) {
       const fixture = await this.loadFixture(path);
-
       if (!fixture) {
         continue;
       }
 
       const Model = await this.loadModel(fixture);
       if (!Model) {
+        this.logger.warning(`Could not find model for ${fixture.baseName}`);
         continue;
       }
 

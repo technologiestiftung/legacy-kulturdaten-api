@@ -89,7 +89,7 @@ test.group('Logging in', () => {
       })
       .expect(200);
 
-    assert.isString(response.body.meta.token);
+    assert.isString(response.body.meta.token.token);
   });
 });
 

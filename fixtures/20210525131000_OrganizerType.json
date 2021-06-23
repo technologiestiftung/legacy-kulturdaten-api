@@ -17,5 +17,12 @@
     }
   },
   "model": { "path": "OrganizerType" },
-  "data": [{ "name": "Museum" }, { "name": "Theater" }]
+  "data": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ]
 }

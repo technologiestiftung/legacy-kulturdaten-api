@@ -1,14 +1,17 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import OrganizerTypeValidator from 'App/Validators/v1/OrganizerTypeValidator';
 import { UnauthorizedException } from 'App/Exceptions/Auth';
-import { ApiDocument } from 'App/Helpers/Api';
+import { ApiDocument } from 'App/Helpers/Api/Document';
 import OrganizerType from 'App/Models/OrganizerType';
+import OrganizerTypeManager from 'App/Helpers/Managers/OrganizerTypeManager';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OrganizerTypeController {
   public async index(ctx: HttpContextContract) {
-    const organizerType = await OrganizerType.query().preload('subjects');
-    return new ApiDocument(ctx, { data: organizerType });
+    const manager: OrganizerTypeManager = new OrganizerTypeManager(ctx);
+    await manager.all();
+
+    return new ApiDocument(ctx, manager.toResources());
   }
 
   public async store(ctx: HttpContextContract) {
@@ -28,13 +31,10 @@ export default class OrganizerTypeController {
   }
 
   public async show(ctx: HttpContextContract) {
-    const { params } = ctx;
-    const organizerType = await OrganizerType.query()
-      .where('id', params.id)
-      .preload('subjects')
-      .firstOrFail();
+    const manager: OrganizerTypeManager = new OrganizerTypeManager(ctx);
+    await manager.fromContext();
 
-    return new ApiDocument(ctx, { data: organizerType });
+    return new ApiDocument(ctx, manager.toResources());
   }
 
   public async update(ctx: HttpContextContract) {

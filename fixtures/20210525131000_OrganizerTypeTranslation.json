@@ -1,0 +1,46 @@
+{
+  "generator": {
+    "appName": "prototype-kulturb-adonis",
+    "adonisVersion": {
+      "major": 5,
+      "minor": 1,
+      "patch": 6,
+      "prerelease": [],
+      "version": "5.1.6"
+    },
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": [],
+      "version": "1.0.0"
+    }
+  },
+  "model": { "path": "OrganizerType.OrganizerTypeTranslation" },
+  "data": [
+    {
+      "organizerTypeId": "1",
+      "language": "de",
+      "name": "Theater",
+      "description": "Bühnen-Schauspiel mit Publikum"
+    },
+    {
+      "organizerTypeId": "2",
+      "language": "de",
+      "name": "Museum",
+      "description": "Einrichtung, in der eine Sammlung von kulturell wertvollen Gegenständen, besichtigt werden kann"
+    },
+    {
+      "organizerTypeId": "1",
+      "language": "en",
+      "name": "Theater",
+      "description": "Acting on stage with an audience"
+    },
+    {
+      "organizerTypeId": "2",
+      "language": "en",
+      "name": "Museum",
+      "description": "Collecting and showcasing things of cultural interest"
+    }
+  ]
+}

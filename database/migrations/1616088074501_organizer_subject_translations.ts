@@ -1,18 +1,20 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
+import { Languages } from 'App/Helpers/Languages';
 
-export default class OrganizerOrganizerSubjects extends BaseSchema {
-  protected tableName = 'organizer_organizer_subjects';
+export default class OrganizerSubjectTranslations extends BaseSchema {
+  protected tableName = 'organizer_subject_translations';
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
-      table.timestamps(true);
 
       table
-        .string('organizer_public_id')
-        .unsigned()
-        .references('organizers.public_id')
-        .onDelete('CASCADE');
+        .enu('language', [Languages.DE, Languages.EN])
+        .defaultTo(Languages.DE);
+
+      table.string('name');
+      table.string('description');
+
       table
         .integer('organizer_subject_id')
         .unsigned()

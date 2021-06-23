@@ -1,10 +1,35 @@
-import { ApiResource } from './Resource';
-import { LucidRow } from '@ioc:Adonis/Lucid/Model';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import Resource, { ResourceObject } from 'App/Helpers/Api/Resource';
+import { BaseModel } from '@ioc:Adonis/Lucid/Orm';
+import { LucidModel } from '@ioc:Adonis/Lucid/Model';
+import { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database';
+import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
 
-interface ApiDocumentBody {
-  data?: LucidRow | Array<LucidRow>;
-  meta?: Object;
+type ApiResource = Resource | Array<Resource> | LucidModel;
+
+type ApiDocumentData = ResourceObject | Array<ResourceObject>;
+
+interface ApiDocumentMeta {
+  message?: string;
+  language?: string;
+  paginator?:
+    | ModelPaginatorContract<LucidRow>
+    | SimplePaginatorContract<LucidRow>;
+  pages?: {
+    total: number;
+    perPage: number;
+    currentPage: number;
+    lastPage: number;
+  };
+  [key: string]: any;
+}
+
+interface ApiDocumentLinks {
+  self: string;
+  first: string;
+  prev: string;
+  next: string;
+  last: string;
 }
 
 /**
@@ -13,17 +38,94 @@ interface ApiDocumentBody {
  * exception handlers
  */
 export class ApiDocument {
+  public ctx: HttpContextContract;
+
+  public language: string;
+
+  public data: ApiDocumentData;
+
+  public meta: ApiDocumentMeta;
+
+  public links: ApiDocumentLinks;
+
+  /**
+   *
+   * @param ctx
+   * @param resource
+   * @param message
+   * @param hold
+   */
   constructor(
     ctx: HttpContextContract,
-    body: ApiDocumentBody = {},
-    message?: String
+    resource: ApiResource | undefined,
+    meta: ApiDocumentMeta = {},
+    hold: boolean = false
   ) {
-    const data = body.data ? ApiResource.create(ctx, body.data) : null;
-    const meta = Object.assign({}, body.meta, { message: message });
+    this.ctx = ctx;
+    this.language = ctx.language as string;
 
-    ctx.response.ok({
-      data,
-      meta,
+    if (resource) {
+      this.data = this.$transformResource(resource);
+    }
+
+    this.meta = meta;
+
+    if (this.meta.paginator) {
+      this.$transformPaginator(this.meta.paginator);
+      delete this.meta.paginator;
+    }
+
+    this.meta.language = this.language;
+
+    if (!hold) {
+      this.send();
+    }
+  }
+
+  private $transformPaginator(paginator) {
+    const pagination = paginator.toJSON().meta;
+    this.links = {
+      self: this.ctx.request.completeUrl(true),
+      first: pagination.firstPageUrl,
+      prev: pagination.previousPageUrl,
+      next: pagination.nextPageUrl,
+      last: pagination.lastPageUrl,
+    };
+
+    this.meta.pages = {
+      total: pagination.total,
+      perPage: pagination.perPage,
+      currentPage: pagination.currentPage,
+      lastPage: pagination.lastPage,
+    };
+  }
+
+  private $transformResource(resource: ApiResource): ApiDocumentData {
+    if (Array.isArray(resource)) {
+      return resource.map(this.$getResourceObject);
+    }
+
+    return this.$getResourceObject(resource);
+  }
+
+  private $getResourceObject(
+    instance: Resource | typeof BaseModel
+  ): ResourceObject {
+    if (instance instanceof BaseModel) {
+      const resource = new Resource(instance);
+      resource.boot();
+      return resource.toObject();
+    }
+
+    const resource: Resource = instance as Resource;
+    return resource.toObject();
+  }
+
+  public send() {
+    this.ctx.response.ok({
+      data: this.data,
+      links: this.links,
+      meta: this.meta,
     });
   }
 }

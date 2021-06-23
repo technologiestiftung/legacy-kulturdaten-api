@@ -17,10 +17,16 @@
           "description": "Resets database if using SQLite"
         },
         {
+          "name": "load",
+          "propertyName": "load",
+          "type": "boolean",
+          "description": "If enabled loads fixtures data after migration"
+        },
+        {
           "name": "fill",
           "propertyName": "fill",
           "type": "boolean",
-          "description": "If enabled loads fixtures and seeds dummy data after migration"
+          "description": "If enabled seeds dummy data after migration"
         }
       ]
     },

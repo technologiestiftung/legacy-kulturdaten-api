@@ -30,7 +30,7 @@ export async function auth(fresh = false) {
       password: 'secret',
     });
 
-    token = body.meta.token;
+    token = body.meta.token.token;
   }
 
   if (fresh) {

@@ -11,6 +11,7 @@ import { ServerConfig } from '@ioc:Adonis/Core/Server';
 import { LoggerConfig } from '@ioc:Adonis/Core/Logger';
 import { ProfilerConfig } from '@ioc:Adonis/Core/Profiler';
 import { ValidatorConfig } from '@ioc:Adonis/Core/Validator';
+import { Languages } from 'App/Helpers/Languages';
 
 /*
 |--------------------------------------------------------------------------
@@ -232,3 +233,11 @@ export const profiler: ProfilerConfig = {
 |
 */
 export const validator: ValidatorConfig = {};
+
+export const allowedLanguages = [Languages.DE, Languages.EN];
+
+export const allowedCountries = ['DE'];
+
+export const defaultLanguage = Languages.DE;
+
+export const defaultCountry = 'DE';
