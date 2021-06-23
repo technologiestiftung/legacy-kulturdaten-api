@@ -131,4 +131,21 @@ export default class OrganizerManager extends BaseManager {
 
     return await this.byId(organizer.publicId);
   }
+
+  public async translate() {
+    const attributes = await this.$validateTranslation();
+
+    // Creating an organizer translation without a name is forbidden,
+    // but initially creating one without a name is impossible. Hence fallback
+    // to the initial name
+    if (!attributes.name) {
+      attributes.name = this.instance.translations.find((translation) => {
+        return translation.name;
+      }).name;
+    }
+
+    await this.$saveTranslation(attributes);
+
+    return this.byId();
+  }
 }
