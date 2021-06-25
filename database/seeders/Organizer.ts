@@ -26,7 +26,9 @@ export default class OrganizerSeeder extends BaseSeeder {
     });
 
     const organizer = await factory.create();
-    await organizer.related('types').attach([type.id]);
+    if (type) {
+      await organizer.related('types').attach([type.id]);
+    }
 
     return organizer;
   }
