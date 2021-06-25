@@ -1,5 +1,12 @@
 import { DateTime } from 'luxon';
-import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  column,
+  hasMany,
+  HasMany,
+  belongsTo,
+  BelongsTo,
+} from '@ioc:Adonis/Lucid/Orm';
 import OrganizerSubject from 'App/Models/OrganizerSubject';
 
 export class OrganizerTypeTranslation extends BaseModel {
@@ -20,6 +27,14 @@ export class OrganizerTypeTranslation extends BaseModel {
 }
 
 export default class OrganizerType extends BaseModel {
+  static async findByTranslation(name) {
+    return (
+      await OrganizerType.query().whereHas('translations', (translations) => {
+        translations.where('name', name);
+      })
+    )[0];
+  }
+
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
