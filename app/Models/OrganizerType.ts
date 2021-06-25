@@ -27,7 +27,7 @@ export class OrganizerTypeTranslation extends BaseModel {
 }
 
 export default class OrganizerType extends BaseModel {
-  static async findByTranslation(name) {
+  public static async findByTranslation(name) {
     return (
       await OrganizerType.query().whereHas('translations', (translations) => {
         translations.where('name', name);
