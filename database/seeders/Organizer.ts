@@ -3,45 +3,52 @@ import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import { OrganizerFactory } from 'Database/factories/Organizer';
 import { OrganizerStatus } from 'App/Models/Organizer';
 import OrganizerType from 'App/Models/OrganizerType';
-import OrganizerSubject from 'App/Models/OrganizerSubject';
+
+import museumsData from '../../fixtures/Organizer/museums';
+import theatersData from '../../fixtures/Organizer/theaters';
 
 export default class OrganizerSeeder extends BaseSeeder {
+  private async $create(resource, type) {
+    const factory = OrganizerFactory.merge(resource.attributes);
+
+    for (const translation of resource.relations.translations) {
+      factory.with('translations', 1, (translationFactory) => {
+        translationFactory.merge(translation);
+      });
+    }
+
+    if (faker.datatype.boolean()) {
+      factory.with('links', faker.datatype.number(3));
+    }
+
+    factory.with('address', 1, (address) => {
+      address.merge(resource.relations.address);
+    });
+
+    const organizer = await factory.create();
+    await organizer.related('types').attach([type.id]);
+
+    return organizer;
+  }
+
   public async run() {
-    const organizers = await Promise.all([
-      // Create some organizers that are only available in a single
-      // language
-      OrganizerFactory.with('address')
-        .with('translations', 1, (translation) => {
-          return translation.apply('de');
-        })
-        .createMany(25),
+    const organizerTypeMuseum = await OrganizerType.findByTranslation('Museum');
+    const museums = await Promise.all(
+      museumsData.map((resource) => {
+        return this.$create(resource, organizerTypeMuseum);
+      })
+    );
 
-      // Create some organizers that are translated to both
-      // German and English
-      OrganizerFactory.with('address')
-        .with('translations', 1, (translation) => {
-          return translation.apply('de');
-        })
-        .with('translations', 1, (translation) => {
-          return translation.apply('en');
-        })
-        .createMany(25),
-    ]);
+    const organizerTypeTheater = await OrganizerType.findByTranslation(
+      'Theater'
+    );
+    const theaters = await Promise.all(
+      theatersData.map((resource) => {
+        return this.$create(resource, organizerTypeTheater);
+      })
+    );
 
-    const organizerTypes = await OrganizerType.query();
-    const organizerSubjects = await OrganizerSubject.query();
-    for (const organizer of organizers.flat()) {
-      await organizer.related('types').sync(
-        faker.random.arrayElements(organizerTypes).map((type) => {
-          return type.id;
-        })
-      );
-      await organizer.related('subjects').sync(
-        faker.random.arrayElements(organizerSubjects).map((subject) => {
-          return subject.id;
-        })
-      );
-
+    for (const organizer of [museums, theaters].flat()) {
       // Randomly mark some organizers as published
       if (faker.datatype.boolean()) {
         organizer.status = OrganizerStatus.PUBLISHED;
