@@ -4,8 +4,8 @@ import { OrganizerFactory } from 'Database/factories/Organizer';
 import { OrganizerStatus } from 'App/Models/Organizer';
 import OrganizerType from 'App/Models/OrganizerType';
 
-import museumsData from '../../fixtures/Organizer/museums';
-import theatersData from '../../fixtures/Organizer/theaters';
+import museumsData from '../../seeds/Organizer/museums';
+import theatersData from '../../seeds/Organizer/theaters';
 
 export default class OrganizerSeeder extends BaseSeeder {
   private async $create(resource, type) {
