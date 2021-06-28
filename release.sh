@@ -9,7 +9,7 @@ node ace migration:run
 
 if [ $NODE_ENV == "beta" ]; then
   echo "Loading fixtures ..."
-  node ace fixtures:load
+  node ace fixtures:load --verbose
   echo "Seeding database ..."
   node ace db:seed
 fi
