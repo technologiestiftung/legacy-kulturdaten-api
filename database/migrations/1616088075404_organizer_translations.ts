@@ -15,7 +15,7 @@ export default class OrganizerTranslations extends BaseSchema {
       table.integer('organizer_id').unsigned().references('organizers.id');
 
       table.string('name').notNullable();
-      table.string('description');
+      table.text('description');
     });
   }
 
