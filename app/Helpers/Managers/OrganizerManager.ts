@@ -19,7 +19,7 @@ export default class OrganizerManager extends BaseManager {
       {
         name: 'name',
         query: Database.raw(
-          `(SELECT name FROM organizer_translations WHERE organizer_translations.organizer_id = organizers.id)`
+          `(SELECT name FROM organizer_translations WHERE organizer_translations.organizer_id = organizers.id AND organizer_translations.language = '${this.language}')`
         ),
       },
     ],
