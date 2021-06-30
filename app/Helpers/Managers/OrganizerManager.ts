@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import Organizer from 'App/Models/Organizer';
+import Organizer, { OrganizerStatus } from 'App/Models/Organizer';
 import { withTranslations } from 'App/Helpers/Utilities';
 import {
   CreateOrganizerValidator,
@@ -22,6 +22,14 @@ export default class OrganizerManager extends BaseManager {
           `(SELECT name FROM organizer_translations WHERE organizer_translations.organizer_id = organizers.id AND organizer_translations.language = '${this.language}')`
         ),
       },
+      {
+        name: 'createdAt',
+        attribute: 'created_at',
+      },
+      {
+        name: 'updatedAt',
+        attribute: 'updated_at',
+      },
     ],
     includables: [
       {
@@ -36,6 +44,20 @@ export default class OrganizerManager extends BaseManager {
         query: withTranslations,
       },
       { name: 'links' },
+    ],
+    filters: [
+      {
+        name: 'status',
+        query: (query, name, value) => {
+          if (
+            ![OrganizerStatus.DRAFT, OrganizerStatus.PUBLISHED].includes(value)
+          ) {
+            return query;
+          }
+
+          return query.where('status', 'LIKE', value);
+        },
+      },
     ],
   };
 

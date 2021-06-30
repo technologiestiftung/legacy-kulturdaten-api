@@ -15,6 +15,11 @@ interface Includable {
   query?: (query: any) => unknown;
 }
 
+interface Filter {
+  name: string;
+  query: (query: any, name: string, value: string) => unknown;
+}
+
 interface Validators {
   translate?;
 }
@@ -23,6 +28,7 @@ interface ManagerSettings {
   queryId: string;
   orderableBy?: OrderableInstruction[];
   includables?: Includable[];
+  filters?: Filter[];
 }
 
 type Model<T extends LucidModel> = T;
@@ -39,6 +45,8 @@ export class BaseManager {
   public sort: string = '';
 
   public include: string = '';
+
+  public filter: string = '';
 
   public ctx: HttpContextContract;
 
@@ -62,21 +70,51 @@ export class BaseManager {
     this.language = ctx.language as string;
   }
 
-  public query(sortString: string = '', includesString: string = '') {
+  public query(options: { sort?: string; includes?: string; filter?: string }) {
     let query = this.ModelClass.query();
     if (this.ModelClass.$hasRelation('translations')) {
       query = query.preload('translations');
     }
 
-    const sort = this.sort || sortString || this.ctx.request.input('sort');
+    const sort = this.sort || options.sort || this.ctx.request.input('sort');
     if (sort) {
       query = this.$sortQuery(query, sort);
     }
 
+    const filter =
+      this.filter || options.filter || this.ctx.request.input('filter');
+    if (filter) {
+      query = this.$filterQuery(query, filter);
+    }
+
     const includes =
-      this.ctx.request.input('include') || this.include || includesString;
+      this.ctx.request.input('include') || this.include || options.includes;
     if (includes) {
       query = this.$addIncludesToQuery(query, includes);
+    }
+
+    return query;
+  }
+
+  private $filterQuery(query, filterString) {
+    const filters = filterString.split(',');
+    if (!filters.length) {
+      console.log('No filters given, returning');
+      return query;
+    }
+
+    for (const filterString of filters) {
+      const [name, value] = filterString.split('=');
+      const filter = this.settings.filters?.find((filter) => {
+        return filter.name == name;
+      });
+
+      if (!filter) {
+        console.error('Unknown filter, continue');
+        continue;
+      }
+
+      filter.query(query, name, value);
     }
 
     return query;
@@ -148,7 +186,7 @@ export class BaseManager {
     const page = this.ctx.request.input('page', 1) || 1;
     const size = this.ctx.request.input('size', 1000) || 1000;
 
-    const result = await this.query(sort, includes).paginate(page, size);
+    const result = await this.query({ sort, includes }).paginate(page, size);
 
     this.paginator = result;
     this.paginator.baseUrl(this.ctx.request.completeUrl());
@@ -175,7 +213,7 @@ export class BaseManager {
     sort: string | undefined = undefined,
     includes: string | undefined = undefined
   ) {
-    const instance = await this.query(sort, includes)
+    const instance = await this.query({ sort, includes })
       .where(this.settings.queryId, id || this.ctx.params.id)
       .firstOrFail();
 
