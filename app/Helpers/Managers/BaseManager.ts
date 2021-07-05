@@ -106,7 +106,7 @@ export class BaseManager {
     for (const filterString of filters) {
       const [name, value] = filterString.split('=');
       const filter = this.settings.filters?.find((filter) => {
-        return filter.name == name;
+        return filter.name === name;
       });
 
       if (!filter) {
