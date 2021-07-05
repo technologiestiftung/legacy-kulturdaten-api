@@ -76,13 +76,13 @@ export class BaseManager {
       query = query.preload('translations');
     }
 
-    const sort = this.sort || options.sort || this.ctx.request.input('sort');
+    const sort = this.sort || options?.sort || this.ctx.request.input('sort');
     if (sort) {
       query = this.$sortQuery(query, sort);
     }
 
     const filter =
-      this.filter || options.filter || this.ctx.request.input('filter');
+      this.filter || options?.filter || this.ctx.request.input('filter');
     if (filter) {
       query = this.$filterQuery(query, filter);
     }
