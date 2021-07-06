@@ -58,6 +58,22 @@ export default class OrganizerManager extends BaseManager {
           return query.where('status', 'LIKE', value);
         },
       },
+      {
+        name: 'type',
+        query: (query, name, value) => {
+          return query.whereHas('types', (query) => {
+            query.where('organizer_type_id', '=', value);
+          });
+        },
+      },
+      {
+        name: 'subject',
+        query: (query, name, value) => {
+          return query.whereHas('subject', (query) => {
+            query.where('organizer_subject_id', '=', value);
+          });
+        },
+      },
     ],
   };
 
