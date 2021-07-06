@@ -13,7 +13,7 @@ export class OrganizerSubjectTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column({ serializeAs: null })
+  @column()
   public language: string;
 
   @column()
