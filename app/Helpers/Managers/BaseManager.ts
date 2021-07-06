@@ -281,7 +281,7 @@ export class BaseManager {
       return [];
     }
 
-    if (this.instances.length === 1) {
+    if (this.instances.length === 1 && this.ctx.params.id) {
       return this.$toResource(this.instances[0]);
     }
 
