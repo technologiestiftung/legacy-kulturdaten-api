@@ -285,7 +285,7 @@ export class BaseManager {
 
     if (
       this.instances.length === 1 &&
-      (this.ctx.params.id || this.method == 'POST')
+      (this.ctx.params.id || this.method === 'POST')
     ) {
       return this.$toResource(this.instances[0]);
     }
