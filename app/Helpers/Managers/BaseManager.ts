@@ -50,6 +50,8 @@ export class BaseManager {
 
   public ctx: HttpContextContract;
 
+  public method: string;
+
   public language: string;
 
   public validators: Validators;
@@ -68,6 +70,7 @@ export class BaseManager {
 
     this.ctx = ctx;
     this.language = ctx.language as string;
+    this.method = this.ctx.request.method();
   }
 
   public query(options: { sort?: string; includes?: string; filter?: string }) {
@@ -197,8 +200,7 @@ export class BaseManager {
   }
 
   public fromContext() {
-    const method = this.ctx.request.method();
-    switch (method) {
+    switch (this.method) {
       case 'POST':
         return this.create();
       case 'PATCH':
@@ -281,7 +283,10 @@ export class BaseManager {
       return [];
     }
 
-    if (this.instances.length === 1 && this.ctx.params.id) {
+    if (
+      this.instances.length === 1 &&
+      (this.ctx.params.id || this.method == 'POST')
+    ) {
       return this.$toResource(this.instances[0]);
     }
 
