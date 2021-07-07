@@ -9,12 +9,6 @@ export default class OrganizerSubjects extends BaseSchema {
       table.increments('id');
 
       table
-        .enu('language', [Languages.DE, Languages.EN])
-        .defaultTo(Languages.DE);
-
-      table.string('name');
-      table.string('description');
-      table
         .integer('organizer_type_id')
         .unsigned()
         .references('organizer_types.id')

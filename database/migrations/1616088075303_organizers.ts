@@ -1,5 +1,4 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
-import { Languages } from 'App/Helpers/Languages';
 import { OrganizerStatus } from 'App/Models/Organizer';
 
 export default class Organizers extends BaseSchema {
@@ -9,10 +8,6 @@ export default class Organizers extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary();
       table.string('public_id').notNullable().unique();
-
-      table
-        .enu('language', [Languages.DE, Languages.EN])
-        .defaultTo(Languages.DE);
 
       table
         .enu('status', [OrganizerStatus.DRAFT, OrganizerStatus.PUBLISHED])
