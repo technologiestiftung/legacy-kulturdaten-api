@@ -1,5 +1,4 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
-import { Languages } from 'App/Helpers/Languages';
 
 export default class OrganizerSubjects extends BaseSchema {
   protected tableName = 'organizer_subjects';
