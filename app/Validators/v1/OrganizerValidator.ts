@@ -12,10 +12,10 @@ export class CreateOrganizerValidator {
   public schema = schema.create({
     attributes: schema.object().members({
       name: schema.string({ trim: true }),
+      description: schema.string.optional({ trim: true }),
       email: schema.string.optional({ trim: true }, [rules.email()]),
       phone: schema.string.optional({ trim: true }, [rules.mobile()]),
       homepage: schema.string.optional({ trim: true }, [rules.url()]),
-      description: schema.string.optional({ trim: true }),
       status: schema.enum.optional(Object.values(OrganizerStatus)),
     }),
     relations: schema.object.optional().members({
