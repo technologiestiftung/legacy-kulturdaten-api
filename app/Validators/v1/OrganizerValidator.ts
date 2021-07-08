@@ -125,11 +125,6 @@ export class PublishOrganizerValidator {
           id: schema.number(),
         })
       ),
-      subjects: schema.array([rules.minLength(1)]).members(
-        schema.object().members({
-          id: schema.number(),
-        })
-      ),
     }),
   });
 
