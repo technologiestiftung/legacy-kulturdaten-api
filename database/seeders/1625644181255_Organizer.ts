@@ -8,7 +8,7 @@ import museumsData from '../../seeds/Organizer/museums';
 import theatersData from '../../seeds/Organizer/theaters';
 
 export default class OrganizerSeeder extends BaseSeeder {
-  private async $create(resource, type) {
+  private async $create(resource, type: OrganizerType) {
     const factory = OrganizerFactory.merge(resource.attributes);
 
     for (const translation of resource.relations.translations) {
@@ -28,6 +28,16 @@ export default class OrganizerSeeder extends BaseSeeder {
     const organizer = await factory.create();
     if (type) {
       await organizer.related('types').attach([type.id]);
+
+      await type.load('subjects');
+      console.log({ subjects: faker.random.arrayElements(type.subjects) });
+      await organizer.related('subjects').attach(
+        faker.random.arrayElements(type.subjects).map((subject) => {
+          return subject.id;
+        })
+      );
+
+      await organizer.save();
     }
 
     return organizer;
