@@ -1,12 +1,5 @@
 import { DateTime } from 'luxon';
-import {
-  BaseModel,
-  column,
-  hasMany,
-  HasMany,
-  belongsTo,
-  BelongsTo,
-} from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm';
 import OrganizerSubject from 'App/Models/OrganizerSubject';
 
 export class OrganizerTypeTranslation extends BaseModel {
@@ -18,9 +11,6 @@ export class OrganizerTypeTranslation extends BaseModel {
 
   @column()
   public name: string;
-
-  @column()
-  public description: string;
 
   @column({ serializeAs: null })
   public organizerTypeId: number;
