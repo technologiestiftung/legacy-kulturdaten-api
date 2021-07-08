@@ -73,7 +73,9 @@ export class BaseManager {
     this.method = this.ctx.request.method();
   }
 
-  public query(options: { sort?: string; includes?: string; filter?: string }) {
+  public query(
+    options: { sort?: string; includes?: string; filter?: string } = {}
+  ) {
     let query = this.ModelClass.query();
     if (this.ModelClass.$hasRelation('translations')) {
       query = query.preload('translations');
