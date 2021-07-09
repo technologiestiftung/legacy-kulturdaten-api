@@ -1,8 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import Resource from 'App/Helpers/Api/Resource';
-import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
+import {
+  LucidModel,
+  LucidRow,
+  ModelPaginatorContract,
+} from '@ioc:Adonis/Lucid/Model';
 import { RawBuilderContract } from '@ioc:Adonis/Lucid/DatabaseQueryBuilder';
+import { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm';
 
 interface OrderableInstruction {
   name: string;
@@ -31,14 +35,10 @@ interface ManagerSettings {
   filters?: Filter[];
 }
 
-type Model<T extends LucidModel> = T;
+export class BaseManager<ManagedModel extends LucidModel> {
+  public ManagedModel: ManagedModel;
 
-export class BaseManager {
-  public ModelClass: Model<LucidModel>;
-
-  public RessourceClass;
-
-  public instances: Array<LucidRow> = [];
+  public instances: Array<InstanceType<ManagedModel>> = [];
 
   public paginator: ModelPaginatorContract<LucidRow>;
 
@@ -60,13 +60,8 @@ export class BaseManager {
     queryId: 'id',
   };
 
-  constructor(
-    ctx: HttpContextContract,
-    ModelClass: LucidModel,
-    ResourceClass = Resource
-  ) {
-    this.ModelClass = ModelClass;
-    this.RessourceClass = ResourceClass;
+  constructor(ctx: HttpContextContract, ManagedModel: ManagedModel) {
+    this.ManagedModel = ManagedModel;
 
     this.ctx = ctx;
     this.language = ctx.language as string;
@@ -75,9 +70,9 @@ export class BaseManager {
 
   public query(
     options: { sort?: string; includes?: string; filter?: string } = {}
-  ) {
-    let query = this.ModelClass.query();
-    if (this.ModelClass.$hasRelation('translations')) {
+  ): ModelQueryBuilderContract<ManagedModel> {
+    let query = this.ManagedModel.query() as any;
+    if (this.ManagedModel.$hasRelation('translations')) {
       query = query.preload('translations');
     }
 
@@ -196,7 +191,7 @@ export class BaseManager {
     this.paginator = result;
     this.paginator.baseUrl(this.ctx.request.completeUrl());
 
-    this.instances = result.rows;
+    this.instances = result.all() as InstanceType<ManagedModel>[];
 
     return result;
   }
@@ -230,16 +225,16 @@ export class BaseManager {
     return this.instances[0];
   }
 
-  public set instance(instance) {
+  public set instance(instance: InstanceType<ManagedModel>) {
     this.instances = [instance];
   }
 
   public async create() {
-    return [new this.ModelClass()];
+    return new this.ManagedModel();
   }
 
   public async update() {
-    return this.instances;
+    return this.instance;
   }
 
   public async $validateTranslation() {
@@ -255,12 +250,13 @@ export class BaseManager {
   }
 
   public async $saveTranslation(attributes) {
-    const translation = this.instance.translations.find((translation) => {
+    const instance = this.instance as any;
+    const translation = instance.translations.find((translation) => {
       return translation.language === attributes.language;
     });
 
     if (!translation) {
-      await this.instance.related('translations').create(attributes);
+      await instance.related('translations').create(attributes);
     } else {
       translation.merge(attributes);
       await translation.save();
@@ -272,6 +268,30 @@ export class BaseManager {
     await this.$saveTranslation(attributes);
 
     return this.byId();
+  }
+
+  public async $updateLinks(instance, links) {
+    if (links) {
+      await instance.load('links');
+
+      let index = 0;
+      while (instance.links[index] || links[index]) {
+        const link = instance.links[index];
+        const url = links[index];
+
+        if (link && url) {
+          const link = instance.links[index];
+          link.url = links[index];
+          await link.save();
+        } else if (!link && url) {
+          await instance.related('links').create({ url });
+        } else if (link && !url) {
+          await link.delete();
+        }
+
+        index++;
+      }
+    }
   }
 
   private $toResource(instance): Resource {

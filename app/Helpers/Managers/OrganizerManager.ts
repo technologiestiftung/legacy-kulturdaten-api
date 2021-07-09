@@ -1,4 +1,3 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import Organizer, { OrganizerStatus } from 'App/Models/Organizer';
 import { withTranslations } from 'App/Helpers/Utilities';
@@ -10,8 +9,8 @@ import { OrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTransl
 import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
 
-export default class OrganizerManager extends BaseManager {
-  public ModelClass = Organizer;
+export default class OrganizerManager extends BaseManager<typeof Organizer> {
+  public ManagedModel = Organizer;
 
   public settings = {
     queryId: 'public_id',
@@ -81,7 +80,7 @@ export default class OrganizerManager extends BaseManager {
     translate: OrganizerTranslationValidator,
   };
 
-  constructor(ctx: HttpContextContract) {
+  constructor(ctx) {
     super(ctx, Organizer);
   }
 
@@ -106,30 +105,6 @@ export default class OrganizerManager extends BaseManager {
   private async $updateSubjects(organizer: Organizer, subjects) {
     if (subjects) {
       await organizer.related('subjects').sync(subjects);
-    }
-  }
-
-  private async $updateLinks(organizer: Organizer, links) {
-    if (links) {
-      await organizer.load('links');
-
-      let index = 0;
-      while (organizer.links[index] || links[index]) {
-        const link = organizer.links[index];
-        const url = links[index];
-
-        if (link && url) {
-          const link = organizer.links[index];
-          link.url = links[index];
-          await link.save();
-        } else if (!link && url) {
-          await organizer.related('links').create({ url });
-        } else if (link && !url) {
-          await link.delete();
-        }
-
-        index++;
-      }
     }
   }
 
@@ -159,7 +134,7 @@ export default class OrganizerManager extends BaseManager {
       await this.$updateLinks(organizer, relations?.links);
     });
 
-    return await this.byId(organizer.publicId);
+    return await await this.byId(organizer.publicId);
   }
 
   public async update() {
@@ -167,7 +142,7 @@ export default class OrganizerManager extends BaseManager {
       new UpdateOrganizerValidator(this.ctx)
     );
 
-    const organizer = (await this.byId()) as Organizer;
+    const organizer = await this.byId();
     await Database.transaction(async (trx) => {
       organizer.homepage = attributes?.homepage || organizer.homepage;
       organizer.phone = attributes?.phone || organizer.phone;
@@ -207,9 +182,9 @@ export default class OrganizerManager extends BaseManager {
     // but initially creating one without a name is impossible. Hence fallback
     // to the initial name
     if (!attributes.name) {
-      attributes.name = this.instance.translations.find((translation) => {
+      attributes.name = this.instance?.translations?.find((translation) => {
         return translation.name;
-      }).name;
+      })?.name;
     }
 
     await this.$saveTranslation(attributes);

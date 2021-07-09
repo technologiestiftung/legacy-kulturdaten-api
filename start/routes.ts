@@ -56,5 +56,8 @@ Route.group(() => {
       'organizerType.organizerSubject',
       'v1/OrganizerSubjectController'
     ).apiOnly();
+
+    Route.resource('location', 'v1/LocationController').apiOnly();
+    Route.post('location/:id/translate', 'v1/LocationController.translate');
   });
 }).prefix('v1');
