@@ -35,7 +35,7 @@ export class CreateOrganizerValidator {
           }),
         ])
       ),
-      subjects: schema.array.optional([rules.minLength(1)]).members(
+      subjects: schema.array.optional().members(
         schema.number([
           rules.exists({
             table: 'organizer_subjects',
@@ -81,7 +81,7 @@ export class UpdateOrganizerValidator {
           }),
         ])
       ),
-      subjects: schema.array.optional([rules.minLength(1)]).members(
+      subjects: schema.array.optional().members(
         schema.number([
           rules.exists({
             table: 'organizer_subjects',
