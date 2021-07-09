@@ -30,11 +30,12 @@ export default class OrganizerSeeder extends BaseSeeder {
       await organizer.related('types').attach([type.id]);
 
       await type.load('subjects');
-      console.log({ subjects: faker.random.arrayElements(type.subjects) });
       await organizer.related('subjects').attach(
-        faker.random.arrayElements(type.subjects).map((subject) => {
-          return subject.id;
-        })
+        faker.random
+          .arrayElements(type.subjects, faker.datatype.number(3))
+          .map((subject) => {
+            return subject.id;
+          })
       );
 
       await organizer.save();
@@ -52,7 +53,7 @@ export default class OrganizerSeeder extends BaseSeeder {
     );
 
     const organizerTypeTheater = await OrganizerType.findByTranslation(
-      'Theater'
+      'Theatre, dance & performance'
     );
     const theaters = await Promise.all(
       theatersData.map((resource) => {
