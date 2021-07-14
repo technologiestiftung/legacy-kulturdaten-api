@@ -12,6 +12,9 @@ export default class Organizers extends BaseSchema {
       table
         .enu('status', [OrganizerStatus.DRAFT, OrganizerStatus.PUBLISHED])
         .defaultTo(OrganizerStatus.DRAFT);
+      table.string('homepage');
+      table.string('email');
+      table.string('phone');
 
       table.integer('address_id').unsigned().references('addresses.id');
 
