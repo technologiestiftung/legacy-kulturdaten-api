@@ -59,5 +59,8 @@ Route.group(() => {
 
     Route.resource('location', 'v1/LocationController').apiOnly();
     Route.post('location/:id/translate', 'v1/LocationController.translate');
+
+    Route.resource('offer', 'v1/OfferController').apiOnly();
+    Route.post('offer/:id/translate', 'v1/OfferController.translate');
   });
 }).prefix('v1');
