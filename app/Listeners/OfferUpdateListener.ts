@@ -4,7 +4,6 @@ import { DateTime } from 'luxon';
 
 export default class OfferUpdateListener {
   public async createRecurringDates(offer: Offer) {
-    console.log('Offer update!');
     // Clean already existing non-manual dates for this offer
     await offer.load('dates', (query) => {
       return query.where('is_manual', 0);
@@ -25,11 +24,11 @@ export default class OfferUpdateListener {
     }
 
     const dates = offer.rrule.after(DateTime.now().toJSDate());
-    // const dates = offer.rrule.all();
-    console.log({
-      today: DateTime.now().toJSDate(),
-      rrule: offer.rrule,
-      dates,
-    });
+    // // const dates = offer.rrule.all();
+    // console.log({
+    //   today: DateTime.now().toJSDate(),
+    //   rrule: offer.rrule,
+    //   dates,
+    // });
   }
 }
