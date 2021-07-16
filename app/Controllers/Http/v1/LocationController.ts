@@ -24,7 +24,7 @@ export default class LocationController {
   public async show(ctx: HttpContextContract) {
     const manager: LocationManager = new LocationManager(ctx);
 
-    manager.include = 'address,types,subjects';
+    manager.include = 'address';
     await manager.byId();
 
     const location: Location = manager.instance;
@@ -37,7 +37,7 @@ export default class LocationController {
     const manager: LocationManager = new LocationManager(ctx);
     await manager.update();
 
-    manager.include = 'address,types,subjects';
+    manager.include = 'address';
     const location: Location = await manager.byId();
     const publishable = await location.publishable();
 
