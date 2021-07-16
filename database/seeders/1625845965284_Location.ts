@@ -23,7 +23,7 @@ export default class LocationSeeder extends BaseSeeder {
       });
 
       const location = await factory.create();
-      console.log('Created', { location });
+      await location.related('organizer').associate(organizer);
     }
   }
 }

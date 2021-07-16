@@ -14,6 +14,7 @@ export default class Locations extends BaseSchema {
         .defaultTo(LocationStatus.DRAFT);
 
       table.integer('address_id').unsigned().references('addresses.id');
+      table.integer('organizer_id').unsigned().references('organizers.id');
 
       table.timestamps(true);
     });
