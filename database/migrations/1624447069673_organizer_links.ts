@@ -1,6 +1,6 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class OrganizerOrganizerSubjects extends BaseSchema {
+export default class OrganizerLinks extends BaseSchema {
   protected tableName = 'organizer_links';
 
   public async up() {
