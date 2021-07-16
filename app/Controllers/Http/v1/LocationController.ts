@@ -60,21 +60,4 @@ export default class LocationController {
 
     return new ApiDocument(ctx, manager.toResources());
   }
-
-  // public async destroy(ctx: HttpContextContract) {
-  //   const { params, auth } = ctx;
-  //   if (!auth.user) {
-  //     throw new UnauthorizedException();
-  //   }
-
-  //   const location = await Location.query()
-  //     .preload('address')
-  //     .where('cid', params.id)
-  //     .firstOrFail();
-  //   const address = location.address;
-
-  //   await Promise.all([location.delete(), address.delete()]);
-
-  //   return new ApiDocument(ctx, {}, 'Location deleted successfully');
-  // }
 }
