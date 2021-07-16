@@ -126,4 +126,10 @@ export default class Organizer extends BaseModel {
 
     organizer.publicId = cuid();
   }
+
+  public static findByType(organizerType: organizerType) {
+    return Organizer.query().whereHas('types', (query) => {
+      query.where('organizer_type_id', '=', organizerType.id);
+    });
+  }
 }
