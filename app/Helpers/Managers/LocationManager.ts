@@ -8,17 +8,25 @@ import {
 import { LocationTranslationValidator } from 'App/Validators/v1/LocationTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Address from 'App/Models/Address';
+import { withTranslations } from 'App/Helpers/Utilities';
 
 export default class LocationManager extends BaseManager<typeof Location> {
   public ManagedModel = Location;
 
   public settings = {
     queryId: 'public_id',
+    includables: [
+      {
+        name: 'organizer',
+        query: withTranslations,
+      },
+      { name: 'links' },
+    ],
     orderableBy: [
       {
         name: 'name',
         query: Database.raw(
-          `(SELECT name FROM organizer_translations WHERE organizer_translations.organizer_id = organizers.id AND organizer_translations.language = '${this.language}')`
+          `(SELECT name FROM location_translations WHERE location_translations.location_id = locations.id AND location_translations.language = '${this.language}')`
         ),
       },
       {
@@ -116,7 +124,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
   public async translate() {
     const attributes = await this.$validateTranslation();
 
-    // Creating an organizer translation without a name is forbidden,
+    // Creating an location translation without a name is forbidden,
     // but initially creating one without a name is impossible. Hence fallback
     // to the initial name
     if (!attributes.name) {
