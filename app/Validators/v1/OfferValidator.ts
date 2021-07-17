@@ -10,7 +10,7 @@ export class CreateOfferValidator {
       name: schema.string({ trim: true }),
       description: schema.string.optional({ trim: true }),
       status: schema.enum.optional(Object.values(OfferStatus)),
-      recurrenceRule: schema.string({ trim: true }),
+      recurrenceRule: schema.string.optional({ trim: true }),
     }),
     relations: schema.object.optional().members({
       address: schema.object.optional().members({
