@@ -14,7 +14,7 @@ export default class Offers extends BaseSchema {
         .defaultTo(OfferStatus.DRAFT);
       table.string('recurrence_rule');
 
-      table.integer('organizer_id').unsigned().references('organizer.id');
+      table.integer('organizer_id').unsigned().references('organizers.id');
       table.integer('location_id').unsigned().references('locations.id');
 
       table.timestamps(true);
