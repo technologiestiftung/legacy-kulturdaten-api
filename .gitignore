@@ -5,7 +5,11 @@ coverage
 .DS_STORE
 .env
 tmp/**/*
+!tmp/.gitkeep
 .keys
 .nyc_output
 
-!tmp/.gitkeep
+public/media/images/original/**/*
+!public/media/images/original/.gitkeep
+public/media/images/renditions/**/*
+!public/media/images/renditions/.gitkeep
