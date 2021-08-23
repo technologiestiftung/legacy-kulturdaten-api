@@ -6,6 +6,7 @@ import Organizer, {
 import { AddressFactory } from './Address';
 import { OrganizerTypeFactory } from './OrganizerType';
 import { LinkFactory } from './Link';
+import { MediaFactory } from './Media';
 import { DateTime } from 'luxon';
 
 export const OrganizerFactory = Factory.define(Organizer, ({ faker }) => {
@@ -40,7 +41,8 @@ export const OrganizerFactory = Factory.define(Organizer, ({ faker }) => {
     }).build()
   )
   .relation('address', () => AddressFactory)
-  .relation('links', () => LinkFactory)
   .relation('types', () => OrganizerTypeFactory)
+  .relation('links', () => LinkFactory)
+  .relation('media', () => MediaFactory)
 
   .build();
