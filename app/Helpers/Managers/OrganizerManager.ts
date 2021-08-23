@@ -43,6 +43,13 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
         query: withTranslations,
       },
       { name: 'links' },
+      {
+        name: 'media',
+        query: (query) => {
+          withTranslations(query);
+          query.preload('renditions');
+        },
+      },
     ],
     filters: [
       {
