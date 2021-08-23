@@ -1,6 +1,5 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
-import Media, { MediaTranslation } from 'App/Models/Media';
-import Rendition from 'App/Models/Rendition';
+import Media, { MediaTranslation, MEDIA_BASE_PATH } from 'App/Models/Media';
 import { DateTime } from 'luxon';
 import Application from '@ioc:Adonis/Core/Application';
 import { readdir } from 'fs/promises';
@@ -10,7 +9,7 @@ import { cuid } from '@ioc:Adonis/Core/Helpers';
 
 const DEMO_IMAGES_PATH_SRC = Application.resourcesPath('images/demo');
 const DEMO_IMAGES = readdir(DEMO_IMAGES_PATH_SRC);
-const DEMO_IMAGES_PATH_DEST = Application.publicPath('media/images/original');
+const DEMO_IMAGES_PATH_DEST = Application.publicPath(MEDIA_BASE_PATH);
 
 const images: any[] = [];
 
