@@ -44,7 +44,7 @@ export default class Media extends BaseModel {
   public height: number;
 
   @column()
-  public filesize: number;
+  public filesize: number | null;
 
   @column()
   public format: string;

@@ -10,6 +10,8 @@ export default class Renditions extends BaseSchema {
       table.string('url');
       table.integer('width');
       table.integer('height');
+      table.bigInteger('filesize');
+      table.string('format');
 
       table.integer('media_id').unsigned().references('media.id');
 

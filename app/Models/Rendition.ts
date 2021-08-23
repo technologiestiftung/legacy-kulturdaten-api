@@ -25,6 +25,9 @@ export default class Rendition extends BaseModel {
   @column()
   public format: string;
 
+  @column()
+  public filesize: number | null;
+
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;
 
