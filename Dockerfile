@@ -18,6 +18,8 @@ RUN node ace build --production --client npm --ignore-ts-errors &&  \
   mv release.sh /build/release.sh && \
   mv Procfile /build/Procfile
 
+RUN ls /build
+
 WORKDIR /build
 RUN rm -rf /app
 
