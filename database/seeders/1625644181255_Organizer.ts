@@ -17,13 +17,19 @@ export default class OrganizerSeeder extends BaseSeeder {
       });
     }
 
+    factory.with('address', 1, (address) => {
+      address.merge(resource.relations.address);
+    });
+
     if (faker.datatype.boolean()) {
       factory.with('links', faker.datatype.number(3));
     }
 
-    factory.with('address', 1, (address) => {
-      address.merge(resource.relations.address);
-    });
+    if (faker.datatype.boolean()) {
+      factory.with('media', faker.datatype.number(3), (mediaFactory) => {
+        mediaFactory.with('translations', 1);
+      });
+    }
 
     const organizer = await factory.create();
     if (type) {
