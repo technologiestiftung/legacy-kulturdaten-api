@@ -7,6 +7,7 @@
 .prettierrc.json
 .eslintrc.json
 .keys
+.nyc_output
 db.sqlite3
 db.sqlite3-journal
 README.md
