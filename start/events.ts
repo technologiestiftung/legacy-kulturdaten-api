@@ -9,4 +9,6 @@ Event.on('new:invitation', 'NewInvitation.sendInvitationMail');
 
 Event.on('offer:update', 'OfferUpdateListener.createRecurringDates');
 
+Event.on('media:create', 'MediaCreateListener.call');
+
 Event.on('db:query', Database.prettyPrint);
