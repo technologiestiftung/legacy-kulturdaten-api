@@ -90,6 +90,15 @@ dokku config:set --no-restart beta.api.kulturdaten.berlin APP_KEY=${key}
 dokku config:set --no-restart api.kulturdaten.berlin APP_KEY=${key}
 ```
 
+To be able to persist uploaded images you need to mount a directory outside of the container:
+
+```
+mkdir -p /var/lib/dokku/data/storage/beta.api.kulturdaten.berlin/media
+chown -R dokku:dokku /var/lib/dokku/data/storage/beta.api.kulturdaten.berlin/media
+chmod -R a+w /var/lib/dokku/data/storage/beta.api.kulturdaten.berlin/media
+dokku storage:mount beta.api.kulturdaten.berlin /var/lib/dokku/data/storage/beta.api.kulturdaten.berlin/media:/build/public/media
+```
+
 To setup automated deploys via [GitHub actions](https://github.com/features/actions), issue a dedicated SSH key for GitHub to authenticate by running
 
 ```
