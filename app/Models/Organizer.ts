@@ -17,6 +17,7 @@ import OrganizerSubject from 'App/Models/OrganizerSubject';
 import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator';
 import { PublishOrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Link from 'App/Models/Link';
+import Media from 'App/Models/Media';
 import { publishable } from 'App/Helpers/Utilities';
 
 export class OrganizerTranslation extends BaseModel {
@@ -104,6 +105,15 @@ export default class Organizer extends BaseModel {
   })
   public links: ManyToMany<typeof Link>;
 
+  @manyToMany(() => Media, {
+    relatedKey: 'id',
+    localKey: 'publicId',
+    pivotForeignKey: 'organizer_public_id',
+    pivotRelatedForeignKey: 'media_id',
+    pivotTable: 'organizer_media',
+  })
+  public media: ManyToMany<typeof Media>;
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 
@@ -127,7 +137,7 @@ export default class Organizer extends BaseModel {
     organizer.publicId = cuid();
   }
 
-  public static findByType(organizerType: organizerType) {
+  public static findByType(organizerType: OrganizerType) {
     return Organizer.query().whereHas('types', (query) => {
       query.where('organizer_type_id', '=', organizerType.id);
     });

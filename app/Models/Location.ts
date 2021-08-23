@@ -15,6 +15,7 @@ import { PublishLocationValidator } from 'App/Validators/v1/LocationValidator';
 import { PublishLocationTranslationValidator } from 'App/Validators/v1/LocationTranslationValidator';
 import Address from 'App/Models/Address';
 import Link from 'App/Models/Link';
+import Media from 'App/Models/Media';
 import Organizer from 'App/Models/Organizer';
 import { publishable } from 'App/Helpers/Utilities';
 
@@ -73,6 +74,15 @@ export default class Location extends BaseModel {
     pivotTable: 'location_links',
   })
   public links: ManyToMany<typeof Link>;
+
+  @manyToMany(() => Media, {
+    relatedKey: 'id',
+    localKey: 'publicId',
+    pivotForeignKey: 'location_public_id',
+    pivotRelatedForeignKey: 'media_id',
+    pivotTable: 'location_media',
+  })
+  public media: ManyToMany<typeof Media>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

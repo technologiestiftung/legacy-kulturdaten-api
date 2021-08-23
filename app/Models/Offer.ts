@@ -17,6 +17,7 @@ import { PublishOfferTranslationValidator } from 'App/Validators/v1/OfferTransla
 import Organizer from 'App/Models/Organizer';
 import Location from 'App/Models/Location';
 import Link from 'App/Models/Link';
+import Media from 'App/Models/Media';
 import OfferDate from 'App/Models/OfferDate';
 import { publishable } from 'App/Helpers/Utilities';
 import { RRule } from 'rrule';
@@ -100,6 +101,15 @@ export default class Offer extends BaseModel {
   })
   public links: ManyToMany<typeof Link>;
 
+  @manyToMany(() => Media, {
+    relatedKey: 'id',
+    localKey: 'publicId',
+    pivotForeignKey: 'offer_public_id',
+    pivotRelatedForeignKey: 'media_id',
+    pivotTable: 'offer_media',
+  })
+  public media: ManyToMany<typeof Media>;
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 
@@ -124,7 +134,7 @@ export default class Offer extends BaseModel {
   }
 
   @afterSave()
-  public static async createRecurringDates(offer: Offer) {
+  public static async triggerOfferUpdate(offer: Offer) {
     if (offer.$dirty.recurrenceRule) {
       Event.emit('offer:update', offer);
     }
