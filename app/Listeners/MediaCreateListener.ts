@@ -34,6 +34,8 @@ export default class MediaCreateListener {
       return;
     }
 
+    image.media.filesize = metadata.size || null;
+
     try {
       await this.$normalizeSize(image);
     } catch (e) {
@@ -52,6 +54,13 @@ export default class MediaCreateListener {
       await this.$createRenditions(image);
     } catch (e) {
       Logger.error('Could not create renditions for image.');
+      Logger.error(e);
+    }
+
+    try {
+      await image.media.save();
+    } catch (e) {
+      Logger.error('Could not persist media object.');
       Logger.error(e);
     }
   }
@@ -90,14 +99,12 @@ export default class MediaCreateListener {
       );
       image.media.url = join(MEDIA_BASE_PATH, `${path.name}.${format}`);
     }
-
-    await image.media.save();
   }
 
   private async $createRenditions(image: Image) {
     const path = parse(image.media.path);
 
-    const renditions: Promise<any>[] = [];
+    const fsOperations: Promise<any>[] = [];
     for (const size of RENDITION_SIZES) {
       if (image.metadata.width! > size) {
         const url = join(
@@ -105,14 +112,22 @@ export default class MediaCreateListener {
           `${path.name}-${size}w${path.ext}`
         );
 
-        const renditionFile = image.file.clone();
-        renditionFile.resize(size);
-        renditions.push(renditionFile.toFile(Application.publicPath(url)));
+        const file = image.file.clone();
+        file.resize(size);
 
-        await image.media.related('renditions').create({ url });
+        fsOperations.push(file.toFile(Application.publicPath(url)));
+
+        const metadata = await file.metadata();
+        await image.media.related('renditions').create({
+          url,
+          width: metadata.width,
+          height: metadata.height,
+          filesize: metadata.size,
+          format: metadata.format,
+        });
       }
     }
 
-    await Promise.all(renditions);
+    await Promise.all(fsOperations);
   }
 }
