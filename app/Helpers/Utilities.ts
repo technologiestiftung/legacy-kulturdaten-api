@@ -1,5 +1,6 @@
 import Resource from 'App/Helpers/Api/Resource';
 import { validator } from '@ioc:Adonis/Core/Validator';
+import Env from '@ioc:Adonis/Core/Env';
 
 export function withTranslations(query) {
   return query.preload('translations');
@@ -53,4 +54,8 @@ export async function publishable(
   }
 
   return Object.keys(errors).length ? errors : true;
+}
+
+export function absoluteUrl(route: string) {
+  return new URL(route, Env.get('APP_URL') as string).toString();
 }

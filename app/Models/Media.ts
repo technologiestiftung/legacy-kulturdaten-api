@@ -9,6 +9,7 @@ import { DateTime } from 'luxon';
 import Application from '@ioc:Adonis/Core/Application';
 import Rendition from 'App/Models/Rendition';
 import Event from '@ioc:Adonis/Core/Event';
+import { absoluteUrl } from 'App/Helpers/Utilities';
 
 export const MEDIA_BASE_PATH = '/media/images/original';
 
@@ -30,7 +31,11 @@ export default class Media extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column()
+  @column({
+    serialize: (value) => {
+      return absoluteUrl(value);
+    },
+  })
   public url: string;
 
   public get path() {
