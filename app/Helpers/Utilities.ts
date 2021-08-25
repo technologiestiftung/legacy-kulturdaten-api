@@ -1,5 +1,5 @@
 import Resource from 'App/Helpers/Api/Resource';
-import { validator } from '@ioc:Adonis/Core/Validator';
+import { ValidationException, validator } from '@ioc:Adonis/Core/Validator';
 import Env from '@ioc:Adonis/Core/Env';
 
 export function withTranslations(query) {
@@ -30,7 +30,11 @@ export async function publishable(
       data: resource,
     });
   } catch (e) {
-    Object.assign(errors, e.messages);
+    if (e instanceof ValidationException) {
+      Object.assign(errors, e.messages);
+    } else {
+      throw e;
+    }
   }
 
   if (PublishableTranslationValidator) {
@@ -48,7 +52,11 @@ export async function publishable(
         // translation
         break;
       } catch (e) {
-        Object.assign(errors, e.messages);
+        if (e instanceof ValidationException) {
+          Object.assign(errors, e.messages);
+        } else {
+          throw e;
+        }
       }
     }
   }
