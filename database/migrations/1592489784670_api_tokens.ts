@@ -4,7 +4,11 @@ export default class ApiTokens extends BaseSchema {
   protected tableName = 'api_tokens';
 
   public async up() {
-    this.schema.createTableIfNotExists(this.tableName, (table) => {
+    if (await this.schema.hasTable(this.tableName)) {
+      return;
+    }
+
+    this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary();
       table
         .integer('user_id')
