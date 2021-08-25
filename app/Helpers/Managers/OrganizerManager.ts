@@ -93,7 +93,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
 
   private async $createAddress(organizer, attributes, trx) {
     const address = new Address();
-    await organizer.related();
     address.fill(attributes);
 
     address.useTransaction(trx);
