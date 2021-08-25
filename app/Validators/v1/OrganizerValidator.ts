@@ -103,10 +103,6 @@ export class UpdateOrganizerValidator {
 export class PublishOrganizerValidator {
   constructor(private organizer: Organizer) {}
 
-  public refs = schema.refs({
-    organizerTypeId: this.organizer.organizerTypeId,
-  });
-
   public schema = schema.create({
     attributes: schema.object().members({
       status: schema.enum(Object.values(OrganizerStatus)),
