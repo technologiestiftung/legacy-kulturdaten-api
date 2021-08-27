@@ -105,12 +105,14 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
   private async $updateTypes(organizer: Organizer, types) {
     if (types) {
       await organizer.related('types').sync(types);
+      await organizer.load('types', withTranslations);
     }
   }
 
   private async $updateSubjects(organizer: Organizer, subjects) {
     if (subjects) {
       await organizer.related('subjects').sync(subjects);
+      await organizer.load('subjects', withTranslations);
     }
   }
 
@@ -138,9 +140,11 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
       await this.$updateLinks(organizer, relations?.links);
+      await this.$storeMedia(organizer);
     });
 
-    return await await this.byId(organizer.publicId);
+    this.instance = organizer;
+    return this.instance;
   }
 
   public async update() {
@@ -176,9 +180,10 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
       await this.$updateLinks(organizer, relations?.links);
+      await this.$storeMedia(organizer);
     });
 
-    return await this.byId(organizer.publicId);
+    return this.instance;
   }
 
   public async translate() {
