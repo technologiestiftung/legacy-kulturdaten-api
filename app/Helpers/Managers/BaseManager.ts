@@ -7,6 +7,10 @@ import {
 } from '@ioc:Adonis/Lucid/Model';
 import { RawBuilderContract } from '@ioc:Adonis/Lucid/DatabaseQueryBuilder';
 import { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm';
+import Application from '@ioc:Adonis/Core/Application';
+import Media, { MEDIA_BASE_PATH } from 'App/Models/Media';
+import { cuid } from '@ioc:Adonis/Core/Helpers';
+import { join } from 'path';
 
 interface OrderableInstruction {
   name: string;
@@ -295,7 +299,28 @@ export class BaseManager<ManagedModel extends LucidModel> {
       await instance.load('links');
     }
   }
+
+  public async $storeMedia(instance) {
+    const files = this.ctx.request.files('media');
+    if (!files.length) {
+      return;
     }
+
+    await Promise.all(
+      files.map(async (file) => {
+        const fileName = `${cuid()}.${file.extname}`;
+        await file.move(Application.publicPath(MEDIA_BASE_PATH), {
+          name: fileName,
+        });
+
+        await instance.related('media').create({
+          url: join(MEDIA_BASE_PATH, fileName),
+          filesize: file.size,
+        });
+      })
+    );
+
+    await instance.load('media');
   }
 
   private $toResource(instance): Resource {
