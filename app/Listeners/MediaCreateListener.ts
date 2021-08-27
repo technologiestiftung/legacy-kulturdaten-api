@@ -34,7 +34,9 @@ export default class MediaCreateListener {
       return;
     }
 
-    image.media.filesize = metadata.size || null;
+    image.media.width = metadata.width;
+    image.media.height = metadata.height;
+    image.media.filesize = metadata.size || image.media.filesize || null;
 
     try {
       await this.$normalizeSize(image);
