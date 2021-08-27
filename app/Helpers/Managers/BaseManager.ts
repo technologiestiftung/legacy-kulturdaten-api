@@ -291,6 +291,10 @@ export class BaseManager<ManagedModel extends LucidModel> {
 
         index++;
       }
+
+      await instance.load('links');
+    }
+  }
     }
   }
 
