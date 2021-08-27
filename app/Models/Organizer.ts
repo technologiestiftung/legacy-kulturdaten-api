@@ -53,6 +53,12 @@ export default class Organizer extends BaseModel {
   public status: string;
 
   public async publishable() {
+    const organizer = await Organizer.find(this.id);
+
+    await organizer?.load('address');
+    await organizer?.load('types');
+    await organizer?.load('subjects');
+
     return publishable(
       this,
       PublishOrganizerValidator,

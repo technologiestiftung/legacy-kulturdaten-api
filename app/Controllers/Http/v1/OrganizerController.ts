@@ -37,14 +37,11 @@ export default class OrganizerController {
     const manager: OrganizerManager = new OrganizerManager(ctx);
     await manager.update();
 
-    manager.include = 'address,types,subjects';
-    const organizer: Organizer = await manager.byId();
-    const publishable = await organizer.publishable();
-
+    const publishable = await manager.instance.publishable();
     if (publishable !== true) {
-      organizer.status = OrganizerStatus.DRAFT;
-      if (organizer.$isDirty) {
-        await organizer.save();
+      manager.instance.status = OrganizerStatus.DRAFT;
+      if (manager.instance.$isDirty) {
+        await manager.instance.save();
       }
     }
 
