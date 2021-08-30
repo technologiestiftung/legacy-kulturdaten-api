@@ -80,7 +80,5 @@ export class PublishLocationValidator {
     }),
   });
 
-  public cacheKey = this.context.routeKey;
-
   public messages = {};
 }

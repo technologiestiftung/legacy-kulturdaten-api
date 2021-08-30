@@ -82,7 +82,5 @@ export class PublishOfferValidator {
     }),
   });
 
-  public cacheKey = this.context.routeKey;
-
   public messages = {};
 }
