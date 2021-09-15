@@ -103,7 +103,6 @@ export class BaseManager<ManagedModel extends LucidModel> {
   private $filterQuery(query, filterString) {
     const filters = filterString.split(',');
     if (!filters.length) {
-      console.log('No filters given, returning');
       return query;
     }
 
@@ -265,13 +264,15 @@ export class BaseManager<ManagedModel extends LucidModel> {
       translation.merge(attributes);
       await translation.save();
     }
+
+    await instance.load('translations');
   }
 
   public async translate() {
     const attributes = await this.$validateTranslation();
     await this.$saveTranslation(attributes);
 
-    return this.byId();
+    return this.instance;
   }
 
   public async $updateLinks(instance, links) {
@@ -304,6 +305,14 @@ export class BaseManager<ManagedModel extends LucidModel> {
     const files = this.ctx.request.files('media');
     if (!files.length) {
       return;
+    }
+
+    const errors = files.flatMap((file) => {
+      return file.errors;
+    });
+
+    if (errors.length) {
+      throw new Error('There were unhandled file errors.');
     }
 
     await Promise.all(
