@@ -4,6 +4,7 @@ import OfferDate, { OfferDateTranslation } from 'App/Models/OfferDate';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
 import { RRule, Frequency } from 'rrule';
+import { MediaFactory } from './Media';
 
 export const OfferFactory = Factory.define(Offer, ({ faker }) => {
   const createdAt = faker.date.recent(120).toISOString();
@@ -81,5 +82,6 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
       .build()
   )
   .relation('links', () => LinkFactory)
+  .relation('media', () => MediaFactory)
 
   .build();

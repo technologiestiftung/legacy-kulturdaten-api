@@ -40,6 +40,12 @@ export default class OfferSeeder extends BaseSeeder {
           });
         }
 
+        if (faker.datatype.boolean()) {
+          factory.with('media', faker.datatype.number(3), (mediaFactory) => {
+            mediaFactory.with('translations', 1);
+          });
+        }
+
         const offer = await factory.create();
         await offer.related('organizer').associate(theater);
       }
@@ -72,6 +78,12 @@ export default class OfferSeeder extends BaseSeeder {
                 name: `Vernissage: ${exhibition}`,
               });
             });
+          });
+        }
+
+        if (faker.datatype.boolean()) {
+          factory.with('media', faker.datatype.number(3), (mediaFactory) => {
+            mediaFactory.with('translations', 1);
           });
         }
 

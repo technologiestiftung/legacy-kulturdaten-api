@@ -6,6 +6,7 @@ import Location, {
 import { AddressFactory } from './Address';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
+import { MediaFactory } from './Media';
 
 export const LocationFactory = Factory.define(Location, ({ faker }) => {
   const createdAt = faker.date.recent(120).toISOString();
@@ -40,5 +41,6 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
   )
   .relation('address', () => AddressFactory)
   .relation('links', () => LinkFactory)
+  .relation('media', () => MediaFactory)
 
   .build();

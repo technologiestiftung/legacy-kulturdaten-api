@@ -9,6 +9,7 @@ export default class LocationSeeder extends BaseSeeder {
     const organizers = faker.random.arrayElements(
       await Organizer.query().preload('translations').preload('address')
     );
+
     for (const organizer of organizers) {
       const factory = LocationFactory.merge({});
 
@@ -21,6 +22,12 @@ export default class LocationSeeder extends BaseSeeder {
       factory.with('address', 1, (address) => {
         address.merge(organizer.address.serializeAttributes());
       });
+
+      if (faker.datatype.boolean()) {
+        factory.with('media', faker.datatype.number(3), (mediaFactory) => {
+          mediaFactory.with('translations', 1);
+        });
+      }
 
       const location = await factory.create();
       await location.related('organizer').associate(organizer);
