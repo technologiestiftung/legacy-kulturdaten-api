@@ -25,6 +25,10 @@ export class CreateOfferValidator {
         .optional([rules.maxLength(3)])
         .members(schema.string({}, [rules.url()])),
     }),
+    media: schema.file({
+      size: '10mb',
+      extnames: ['jpg', 'gif', 'png', 'webp'],
+    }),
   });
 
   public cacheKey = this.context.routeKey;
@@ -52,6 +56,10 @@ export class UpdateOfferValidator {
       links: schema.array
         .optional([rules.maxLength(3)])
         .members(schema.string({}, [rules.url()])),
+    }),
+    media: schema.file({
+      size: '10mb',
+      extnames: ['jpg', 'gif', 'png', 'webp'],
     }),
   });
 
