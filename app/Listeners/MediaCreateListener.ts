@@ -5,6 +5,7 @@ import { parse, join } from 'path';
 import { rename } from 'fs/promises';
 import Application from '@ioc:Adonis/Core/Application';
 import Logger from '@ioc:Adonis/Core/Logger';
+import { unlink } from 'fs/promises';
 
 interface Image {
   media: Media;
@@ -18,8 +19,15 @@ const RENDITION_SIZES = [1500, 1000, 500];
 
 export default class MediaCreateListener {
   public async call(media: Media) {
-    const file = sharp(media.path);
-    const metadata = await file.metadata();
+    let file, metadata;
+    try {
+      file = sharp(media.path);
+      metadata = await file.metadata();
+    } catch (e) {
+      Logger.error('The uploaded file could not be opened as an image.');
+      await this.$abort(media);
+      return;
+    }
 
     const image: Image = {
       media,
@@ -28,9 +36,8 @@ export default class MediaCreateListener {
     };
 
     if (!metadata.width || !metadata.height || !metadata.format) {
-      // TODO: This means the uploaded image is not an image
-      // and needs to be deleted
       Logger.warn('The processed file is not an image.');
+      await this.$abort(media);
       return;
     }
 
@@ -65,6 +72,11 @@ export default class MediaCreateListener {
       Logger.error('Could not persist media object.');
       Logger.error(e);
     }
+  }
+
+  private async $abort(media: Media) {
+    await unlink(media.path);
+    await media.delete();
   }
 
   /**
