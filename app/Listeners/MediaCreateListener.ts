@@ -19,7 +19,8 @@ const RENDITION_SIZES = [1500, 1000, 500];
 
 export default class MediaCreateListener {
   public async call(media: Media) {
-    let file, metadata;
+    let file;
+    let metadata;
     try {
       file = sharp(media.path);
       metadata = await file.metadata();
