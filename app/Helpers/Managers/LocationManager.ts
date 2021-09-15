@@ -108,6 +108,9 @@ export default class LocationManager extends BaseManager<typeof Location> {
     const location = await this.byId();
     await Database.transaction(async (trx) => {
       location.useTransaction(trx);
+
+      location.status = attributes?.status || location.status;
+
       if (location.$isDirty) {
         await location.save();
       }
