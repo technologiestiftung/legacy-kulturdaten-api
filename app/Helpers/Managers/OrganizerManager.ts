@@ -132,6 +132,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
         description: attributes.description,
         language: this.language,
       });
+      await organizer.load('translations');
 
       if (relations?.address) {
         await this.$createAddress(organizer, relations.address.attributes, trx);
@@ -199,7 +200,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     }
 
     await this.$saveTranslation(attributes);
-
-    return this.byId();
+    return this.instance;
   }
 }
