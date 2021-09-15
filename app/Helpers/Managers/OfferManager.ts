@@ -27,6 +27,13 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         query: withTranslations,
       },
       { name: 'links' },
+      {
+        name: 'media',
+        query: (query) => {
+          withTranslations(query);
+          query.preload('renditions');
+        },
+      },
     ],
     orderableBy: [
       {
@@ -73,11 +80,14 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         description: attributes.description,
         language: this.language,
       });
+      await offer.load('translations');
 
       await this.$updateLinks(offer, relations?.links);
+      await this.$storeMedia(offer);
     });
 
-    return await await this.byId(offer.publicId);
+    this.instance = offer;
+    return this.instance;
   }
 
   public async update() {
@@ -96,9 +106,10 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       }
 
       await this.$updateLinks(offer, relations?.links);
+      await this.$storeMedia(offer);
     });
 
-    return await this.byId(offer.publicId);
+    return this.instance;
   }
 
   public async translate() {

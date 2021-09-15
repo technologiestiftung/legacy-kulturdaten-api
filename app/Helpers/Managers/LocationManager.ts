@@ -21,6 +21,13 @@ export default class LocationManager extends BaseManager<typeof Location> {
         query: withTranslations,
       },
       { name: 'links' },
+      {
+        name: 'media',
+        query: (query) => {
+          withTranslations(query);
+          query.preload('renditions');
+        },
+      },
     ],
     orderableBy: [
       {
@@ -79,15 +86,18 @@ export default class LocationManager extends BaseManager<typeof Location> {
         description: attributes.description,
         language: this.language,
       });
+      await location.load('translations');
 
       if (relations?.address) {
         await this.$createAddress(location, relations.address.attributes, trx);
       }
 
       await this.$updateLinks(location, relations?.links);
+      await this.$storeMedia(location);
     });
 
-    return await await this.byId(location.publicId);
+    this.instance = location;
+    return this.instance;
   }
 
   public async update() {
@@ -116,9 +126,10 @@ export default class LocationManager extends BaseManager<typeof Location> {
       }
 
       await this.$updateLinks(location, relations?.links);
+      await this.$storeMedia(location);
     });
 
-    return await this.byId(location.publicId);
+    return this.instance;
   }
 
   public async translate() {
