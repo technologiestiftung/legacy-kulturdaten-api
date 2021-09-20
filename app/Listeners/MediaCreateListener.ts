@@ -2,10 +2,9 @@ import sharp, { Sharp } from 'sharp';
 import Rendition, { RENDITION_BASE_PATH } from 'App/Models/Rendition';
 import Media, { MEDIA_BASE_PATH } from 'App/Models/Media';
 import { parse, join } from 'path';
-import { rename } from 'fs/promises';
 import Application from '@ioc:Adonis/Core/Application';
 import Logger from '@ioc:Adonis/Core/Logger';
-import { unlink } from 'fs/promises';
+import { unlink, writeFile } from 'fs/promises';
 
 interface Image {
   media: Media;
@@ -54,13 +53,6 @@ export default class MediaCreateListener {
     }
 
     try {
-      await this.$verifyFormat(image);
-    } catch (e) {
-      Logger.error('Could not verify format of image.');
-      Logger.error(e);
-    }
-
-    try {
       await this.$createRenditions(image);
     } catch (e) {
       Logger.error('Could not create renditions for image.');
@@ -80,6 +72,11 @@ export default class MediaCreateListener {
     await media.delete();
   }
 
+  private async $save(image: sharp.Sharp, path: string) {
+    const buffer = await image.toBuffer();
+    await writeFile(path, buffer);
+  }
+
   /**
    * Makes sure the image is not wider or higher than allowed
    * @param image
@@ -93,26 +90,7 @@ export default class MediaCreateListener {
         fit: 'inside',
       });
 
-      await image.file.toFile(image.media.path);
-    }
-  }
-
-  /**
-   * Verifies that the image actual matches the file format it identifies as.
-   * If it doesn't, the extension is updated and the original file is moved
-   * @param image
-   */
-  private async $verifyFormat(image: Image) {
-    const format = image.metadata.format!;
-    image.media.format = format;
-
-    const path = parse(image.media.path);
-    if (path.ext !== format) {
-      await rename(
-        join(path.dir, path.base),
-        join(path.dir, `${path.name}.${format}`)
-      );
-      image.media.url = join(MEDIA_BASE_PATH, `${path.name}.${format}`);
+      await this.$save(image.file, image.media.path);
     }
   }
 
