@@ -1,7 +1,9 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
 import Location, {
-  LocationTranslation,
   LocationStatus,
+  LocationTranslation,
+  VirtualLocation,
+  PhysicalLocation,
 } from 'App/Models/Location';
 import { AddressFactory } from './Address';
 import { LinkFactory } from './Link';
@@ -39,7 +41,23 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
       };
     }).build()
   )
-  .relation('address', () => AddressFactory)
+
+  .relation('physical', () =>
+    Factory.define(PhysicalLocation, ({ faker }) => {
+      return {};
+    })
+      .relation('address', () => AddressFactory)
+      .build()
+  )
+
+  .relation('virtual', () =>
+    Factory.define(VirtualLocation, ({ faker }) => {
+      return {
+        url: faker.internet.url(),
+      };
+    }).build()
+  )
+
   .relation('links', () => LinkFactory)
   .relation('media', () => MediaFactory)
 

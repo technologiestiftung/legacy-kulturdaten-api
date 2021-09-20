@@ -13,7 +13,6 @@ export default class Locations extends BaseSchema {
         .enu('status', [LocationStatus.DRAFT, LocationStatus.PUBLISHED])
         .defaultTo(LocationStatus.DRAFT);
 
-      table.integer('address_id').unsigned().references('addresses.id');
       table.integer('organizer_id').unsigned().references('organizers.id');
 
       table.timestamps(true);

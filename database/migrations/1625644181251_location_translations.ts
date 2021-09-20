@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 import { Languages } from 'App/Helpers/Languages';
 
-export default class LocationTranslations extends BaseSchema {
+export default class LocationTranslation extends BaseSchema {
   protected tableName = 'location_translations';
 
   public async up() {

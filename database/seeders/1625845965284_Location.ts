@@ -1,5 +1,4 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
-import Location from 'App/Models/Location';
 import Organizer from 'App/Models/Organizer';
 import faker from 'faker';
 import { LocationFactory } from 'Database/factories/Location';
@@ -19,9 +18,17 @@ export default class LocationSeeder extends BaseSeeder {
         });
       }
 
-      factory.with('address', 1, (address) => {
-        address.merge(organizer.address.serializeAttributes());
-      });
+      // Decide if the location is going to be a virtual or
+      // physical one. A truthy value creates a physical one
+      if (faker.datatype.boolean()) {
+        factory.with('physical', 1, (physicalLocationFactory) => {
+          physicalLocationFactory.with('address', 1, (address) => {
+            address.merge(organizer.address.serializeAttributes());
+          });
+        });
+      } else {
+        factory.with('virtual', 1);
+      }
 
       if (faker.datatype.boolean()) {
         factory.with('media', faker.datatype.number(3), (mediaFactory) => {

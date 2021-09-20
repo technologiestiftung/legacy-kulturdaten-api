@@ -4,6 +4,8 @@ import {
   column,
   manyToMany,
   ManyToMany,
+  hasOne,
+  HasOne,
   hasMany,
   HasMany,
   belongsTo,
@@ -11,13 +13,41 @@ import {
   beforeCreate,
 } from '@ioc:Adonis/Lucid/Orm';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
-import { PublishLocationValidator } from 'App/Validators/v1/LocationValidator';
+import {
+  PublishPhysicalLocationValidator,
+  PublishVirtualLocationValidator,
+} from 'App/Validators/v1/LocationValidator';
 import { PublishLocationTranslationValidator } from 'App/Validators/v1/LocationTranslationValidator';
 import Address from 'App/Models/Address';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
 import Organizer from 'App/Models/Organizer';
 import { publishable } from 'App/Helpers/Utilities';
+
+export class PhysicalLocation extends BaseModel {
+  @column({ isPrimary: true, serializeAs: null })
+  public id: string;
+
+  @column({ serializeAs: null })
+  public addressId: number;
+
+  @belongsTo(() => Address)
+  public address: BelongsTo<typeof Address>;
+
+  @column({ serializeAs: null })
+  public locationId: number;
+}
+
+export class VirtualLocation extends BaseModel {
+  @column({ isPrimary: true, serializeAs: null })
+  public id: string;
+
+  @column()
+  public url: string;
+
+  @column({ serializeAs: null })
+  public locationId: number;
+}
 
 export class LocationTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -36,6 +66,11 @@ export class LocationTranslation extends BaseModel {
   public locationId: number;
 }
 
+export enum LocationTypes {
+  VIRTUAL = 'virtuallocation',
+  PHYSICAL = 'physicallocation',
+}
+
 export enum LocationStatus {
   DRAFT = 'draft',
   PUBLISHED = 'published',
@@ -52,12 +87,6 @@ export default class Location extends BaseModel {
   public status: string;
 
   @column({ serializeAs: null })
-  public addressId: number;
-
-  @belongsTo(() => Address)
-  public address: BelongsTo<typeof Address>;
-
-  @column({ serializeAs: null })
   public organizerId: number;
 
   @belongsTo(() => Organizer)
@@ -65,6 +94,12 @@ export default class Location extends BaseModel {
 
   @hasMany(() => LocationTranslation)
   public translations: HasMany<typeof LocationTranslation>;
+
+  @hasOne(() => VirtualLocation)
+  public virtual: HasOne<typeof VirtualLocation>;
+
+  @hasOne(() => PhysicalLocation)
+  public physical: HasOne<typeof PhysicalLocation>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',
@@ -90,12 +125,28 @@ export default class Location extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
 
+  public specific() {
+    return this.virtual || this.physical || undefined;
+  }
+
   public async publishable() {
-    return publishable(
-      this,
-      PublishLocationValidator,
-      PublishLocationTranslationValidator
-    );
+    if (this.virtual) {
+      return publishable(
+        this,
+        PublishVirtualLocationValidator,
+        PublishLocationTranslationValidator
+      );
+    }
+
+    if (this.physical) {
+      return publishable(
+        this,
+        PublishPhysicalLocationValidator,
+        PublishLocationTranslationValidator
+      );
+    }
+
+    return false;
   }
 
   @beforeCreate()
