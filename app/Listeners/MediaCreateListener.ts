@@ -30,7 +30,7 @@ export default class MediaCreateListener {
     }
 
     const image: Image = {
-      media,
+      media: await Media.findOrFail(media.id),
       file,
       metadata,
     };
@@ -41,6 +41,7 @@ export default class MediaCreateListener {
       return;
     }
 
+    image.media.format = metadata.format;
     image.media.width = metadata.width;
     image.media.height = metadata.height;
     image.media.filesize = metadata.size || image.media.filesize || null;
