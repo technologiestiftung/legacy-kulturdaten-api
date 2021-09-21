@@ -5,6 +5,7 @@ import { parse, join } from 'path';
 import Application from '@ioc:Adonis/Core/Application';
 import Logger from '@ioc:Adonis/Core/Logger';
 import { unlink, writeFile } from 'fs/promises';
+import Database from '@ioc:Adonis/Lucid/Database';
 
 interface Image {
   media: Media;
@@ -29,8 +30,12 @@ export default class MediaCreateListener {
       return;
     }
 
-    const image: Image = {
-      media: await Media.findOrFail(media.id),
+    // Due to the event running async it might be the transaction client is already
+    // completed and a new one needs to be acquired
+    media = await Media.findOrFail(media.id);
+
+    let image: Image | undefined = {
+      media,
       file,
       metadata,
     };
@@ -62,6 +67,7 @@ export default class MediaCreateListener {
 
     try {
       await image.media.save();
+      image = undefined;
     } catch (e) {
       Logger.error('Could not persist media object.');
       Logger.error(e);
@@ -74,8 +80,10 @@ export default class MediaCreateListener {
   }
 
   private async $save(image: sharp.Sharp, path: string) {
-    const buffer = await image.toBuffer();
-    await writeFile(path, buffer);
+    const buffer = await image.toBuffer({ resolveWithObject: true });
+    await writeFile(path, buffer.data);
+
+    return buffer.info;
   }
 
   /**
@@ -97,8 +105,8 @@ export default class MediaCreateListener {
 
   private async $createRenditions(image: Image) {
     const path = parse(image.media.path);
+    const renditions: any[] = [];
 
-    const fsOperations: Promise<any>[] = [];
     for (const size of RENDITION_SIZES) {
       if (image.metadata.width! > size) {
         const url = join(
@@ -107,21 +115,22 @@ export default class MediaCreateListener {
         );
 
         const file = image.file.clone();
-        file.resize(size);
+        file.resize({ width: size, height: size, fit: 'inside' });
 
-        fsOperations.push(file.toFile(Application.publicPath(url)));
+        const fileInfo = await this.$save(file, Application.publicPath(url));
 
-        const metadata = await file.metadata();
-        await image.media.related('renditions').create({
+        renditions.push({
           url,
-          width: metadata.width,
-          height: metadata.height,
-          filesize: metadata.size,
-          format: metadata.format,
+          width: fileInfo.width,
+          height: fileInfo.height,
+          filesize: fileInfo.size,
+          format: fileInfo.format,
         });
       }
     }
 
-    await Promise.all(fsOperations);
+    if (renditions.length) {
+      await image.media.related('renditions').createMany(renditions);
+    }
   }
 }
