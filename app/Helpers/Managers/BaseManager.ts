@@ -329,7 +329,9 @@ export class BaseManager<ManagedModel extends LucidModel> {
       })
     );
 
-    await instance.load('media');
+    await instance.load('media', (query) => {
+      return query.preload('renditions');
+    });
   }
 
   private $toResource(instance): Resource {

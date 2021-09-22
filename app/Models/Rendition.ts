@@ -5,6 +5,7 @@ import Application from '@ioc:Adonis/Core/Application';
 import { absoluteUrl } from 'App/Helpers/Utilities';
 
 export const RENDITION_BASE_PATH = '/media/images/renditions/';
+export const RENDITION_SIZES = [1500, 1000, 500];
 
 export default class Rendition extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
