@@ -30,11 +30,11 @@ export default class LocationSeeder extends BaseSeeder {
         factory.with('virtual', 1);
       }
 
-      if (faker.datatype.boolean()) {
-        factory.with('media', faker.datatype.number(1), (mediaFactory) => {
-          mediaFactory.with('translations', 1);
-        });
-      }
+      // if (faker.datatype.boolean()) {
+      //   factory.with('media', faker.datatype.number(1), (mediaFactory) => {
+      //     mediaFactory.with('translations', 1);
+      //   });
+      // }
 
       const location = await factory.create();
       await location.related('organizer').associate(organizer);

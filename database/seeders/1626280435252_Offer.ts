@@ -40,11 +40,11 @@ export default class OfferSeeder extends BaseSeeder {
           });
         }
 
-        if (faker.datatype.boolean()) {
-          factory.with('media', faker.datatype.number(1), (mediaFactory) => {
-            mediaFactory.with('translations', 1);
-          });
-        }
+        // if (faker.datatype.boolean()) {
+        //   factory.with('media', faker.datatype.number(1), (mediaFactory) => {
+        //     mediaFactory.with('translations', 1);
+        //   });
+        // }
 
         const offer = await factory.create();
         await offer.related('organizer').associate(theater);
