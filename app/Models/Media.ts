@@ -166,6 +166,7 @@ export default class Media extends BaseModel {
 
     return {
       url,
+      base: size,
       width: metadata.width,
       height: metadata.height,
       filesize: metadata.size,

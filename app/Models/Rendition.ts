@@ -23,6 +23,9 @@ export default class Rendition extends BaseModel {
   }
 
   @column()
+  public base: number;
+
+  @column()
   public width: number;
 
   @column()

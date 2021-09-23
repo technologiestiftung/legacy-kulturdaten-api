@@ -8,6 +8,7 @@ export default class Renditions extends BaseSchema {
       table.increments('id');
 
       table.string('url');
+      table.integer('base');
       table.integer('width');
       table.integer('height');
       table.bigInteger('filesize');
