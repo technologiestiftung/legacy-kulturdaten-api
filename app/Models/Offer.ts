@@ -22,6 +22,7 @@ import OfferDate from 'App/Models/OfferDate';
 import { publishable } from 'App/Helpers/Utilities';
 import { RRule } from 'rrule';
 import Event from '@ioc:Adonis/Core/Event';
+import Tag from 'App/Models/Tag';
 
 export class OfferTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -109,6 +110,12 @@ export default class Offer extends BaseModel {
     pivotTable: 'offer_media',
   })
   public media: ManyToMany<typeof Media>;
+
+  @manyToMany(() => Tag, {
+    relatedKey: 'id',
+    localKey: 'publicId',
+  })
+  public tags: ManyToMany<typeof Tag>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

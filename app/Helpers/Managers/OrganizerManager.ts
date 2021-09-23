@@ -42,6 +42,10 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
         name: 'subjects',
         query: withTranslations,
       },
+      {
+        name: 'tags',
+        query: withTranslations,
+      },
       { name: 'links' },
       {
         name: 'media',
@@ -140,6 +144,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
 
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
+      await this.$updateTags(organizer, relations?.tags);
       await this.$updateLinks(organizer, relations?.links);
       await this.$storeMedia(organizer);
     });
@@ -180,6 +185,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
 
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
+      await this.$updateTags(organizer, relations?.tags);
       await this.$updateLinks(organizer, relations?.links);
       await this.$storeMedia(organizer);
     });

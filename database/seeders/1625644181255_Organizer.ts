@@ -6,6 +6,7 @@ import OrganizerType from 'App/Models/OrganizerType';
 
 import museumsData from '../../seeds/Organizer/museums';
 import theatersData from '../../seeds/Organizer/theaters';
+import Tag from 'App/Models/Tag';
 
 export default class OrganizerSeeder extends BaseSeeder {
   private async $create(resource, type: OrganizerType) {
@@ -67,11 +68,20 @@ export default class OrganizerSeeder extends BaseSeeder {
       })
     );
 
+    const tags = await Tag.all();
     for (const organizer of [museums, theaters].flat()) {
       // Randomly mark some organizers as published
       if (faker.datatype.boolean()) {
         organizer.status = OrganizerStatus.PUBLISHED;
       }
+
+      await organizer.related('tags').attach(
+        faker.random
+          .arrayElements(tags, faker.datatype.number(3))
+          .map((tag) => {
+            return tag.id;
+          })
+      );
 
       await organizer.save();
     }

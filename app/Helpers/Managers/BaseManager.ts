@@ -11,6 +11,7 @@ import Application from '@ioc:Adonis/Core/Application';
 import Media, { MEDIA_BASE_PATH } from 'App/Models/Media';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
 import { join } from 'path';
+import { withTranslations } from '../Utilities';
 
 interface OrderableInstruction {
   name: string;
@@ -273,6 +274,13 @@ export class BaseManager<ManagedModel extends LucidModel> {
     await this.$saveTranslation(attributes);
 
     return this.instance;
+  }
+
+  public async $updateTags(instance, tags) {
+    if (tags) {
+      await instance.related('tags').sync(tags);
+      await instance.load('tags', withTranslations);
+    }
   }
 
   public async $updateLinks(instance, links) {

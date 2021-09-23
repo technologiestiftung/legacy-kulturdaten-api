@@ -22,6 +22,7 @@ import Address from 'App/Models/Address';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
 import Organizer from 'App/Models/Organizer';
+import Tag from 'App/Models/Tag';
 import { publishable } from 'App/Helpers/Utilities';
 
 export class PhysicalLocation extends BaseModel {
@@ -118,6 +119,12 @@ export default class Location extends BaseModel {
     pivotTable: 'location_media',
   })
   public media: ManyToMany<typeof Media>;
+
+  @manyToMany(() => Tag, {
+    relatedKey: 'id',
+    localKey: 'publicId',
+  })
+  public tags: ManyToMany<typeof Tag>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

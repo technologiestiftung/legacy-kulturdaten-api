@@ -47,6 +47,8 @@ Route.group(() => {
 
 Route.group(() => {
   Route.group(() => {
+    Route.resource('tag', 'v1/TagController').only(['index', 'show']);
+
     Route.resource('media', 'v1/MediaController').only(['show', 'update']);
     Route.post('media/:id/translate', 'v1/MediaController.translate');
 

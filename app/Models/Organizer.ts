@@ -18,6 +18,7 @@ import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator'
 import { PublishOrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
+import Tag from 'App/Models/Tag';
 import { publishable } from 'App/Helpers/Utilities';
 
 export class OrganizerTranslation extends BaseModel {
@@ -119,6 +120,12 @@ export default class Organizer extends BaseModel {
     pivotTable: 'organizer_media',
   })
   public media: ManyToMany<typeof Media>;
+
+  @manyToMany(() => Tag, {
+    relatedKey: 'id',
+    localKey: 'publicId',
+  })
+  public tags: ManyToMany<typeof Tag>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

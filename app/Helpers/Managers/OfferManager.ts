@@ -26,6 +26,10 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         name: 'location',
         query: withTranslations,
       },
+      {
+        name: 'tags',
+        query: withTranslations,
+      },
       { name: 'links' },
       {
         name: 'media',
@@ -83,6 +87,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       await offer.load('translations');
 
       await this.$updateLinks(offer, relations?.links);
+      await this.$updateTags(offer, relations?.tags);
       await this.$storeMedia(offer);
     });
 
@@ -106,6 +111,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       }
 
       await this.$updateLinks(offer, relations?.links);
+      await this.$updateTags(offer, relations?.tags);
       await this.$storeMedia(offer);
     });
 

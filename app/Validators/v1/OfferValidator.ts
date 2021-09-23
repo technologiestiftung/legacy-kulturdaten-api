@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { OfferStatus } from 'App/Models/Offer';
+import { tags, links } from 'App/Helpers/Validator';
 
 export class CreateOfferValidator {
   constructor(private context: HttpContextContract) {}
@@ -21,9 +22,8 @@ export class CreateOfferValidator {
           city: schema.string({ trim: true }),
         }),
       }),
-      links: schema.array
-        .optional([rules.maxLength(3)])
-        .members(schema.string({}, [rules.url()])),
+      links,
+      tags,
     }),
     media: schema.array.optional().members(
       schema.file.optional({
@@ -55,9 +55,8 @@ export class UpdateOfferValidator {
           city: schema.string.optional({ trim: true }),
         }),
       }),
-      links: schema.array
-        .optional([rules.maxLength(3)])
-        .members(schema.string({}, [rules.url()])),
+      links,
+      tags,
     }),
     media: schema.array.optional().members(
       schema.file.optional({
@@ -88,9 +87,8 @@ export class PublishOfferValidator {
           city: schema.string({ trim: true }),
         }),
       }),
-      links: schema.array
-        .optional([rules.maxLength(3)])
-        .members(schema.string({}, [rules.url()])),
+      links,
+      tags,
     }),
   });
 

@@ -22,6 +22,10 @@ export default class LocationManager extends BaseManager<typeof Location> {
         name: 'organizer',
         query: withTranslations,
       },
+      {
+        name: 'tags',
+        query: withTranslations,
+      },
       { name: 'links' },
       {
         name: 'media',
@@ -104,6 +108,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
     }
 
     await this.$updateLinks(location, relations?.links);
+    await this.$updateTags(location, relations?.tags);
     await this.$storeMedia(location);
 
     this.instance = location;
@@ -131,6 +136,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
       await location.load('virtual');
 
       await this.$updateLinks(location, relations?.links);
+      await this.$updateTags(location, relations?.tags);
       await this.$storeMedia(location);
     });
 
@@ -175,6 +181,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
     }
 
     await this.$updateLinks(location, relations?.links);
+    await this.$updateTags(location, relations?.tags);
     await this.$storeMedia(location);
 
     return this.instance;
@@ -201,6 +208,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
       }
 
       await this.$updateLinks(location, relations?.links);
+      await this.$updateTags(location, relations?.tags);
       await this.$storeMedia(location);
     });
 
