@@ -155,8 +155,6 @@ export class PublishPhysicalLocationValidator {
 }
 
 export class PublishVirtualLocationValidator {
-  constructor(private context: HttpContextContract) {}
-
   public schema = schema.create({
     type: schema.string({}, [rules.equalTo(LocationTypes.VIRTUAL)]),
     attributes: schema.object().members({
@@ -169,8 +167,6 @@ export class PublishVirtualLocationValidator {
         .members(schema.string({}, [rules.url()])),
     }),
   });
-
-  public cacheKey = this.context.routeKey;
 
   public messages = {};
 }
