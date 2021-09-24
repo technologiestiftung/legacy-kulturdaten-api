@@ -9,12 +9,12 @@ export default class OfferTags extends BaseSchema {
       table.timestamps(true);
 
       table
-        .integer('offer_id')
+        .string('offer_id')
         .unsigned()
         .references('offers.id')
         .onDelete('CASCADE');
       table
-        .integer('tag_id')
+        .string('tag_id')
         .unsigned()
         .references('tags.id')
         .onDelete('CASCADE');

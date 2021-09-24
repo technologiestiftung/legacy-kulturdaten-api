@@ -9,12 +9,12 @@ export default class OrganizerTags extends BaseSchema {
       table.timestamps(true);
 
       table
-        .integer('organizer_id')
+        .string('organizer_id')
         .unsigned()
         .references('organizers.id')
         .onDelete('CASCADE');
       table
-        .integer('tag_id')
+        .string('tag_id')
         .unsigned()
         .references('tags.id')
         .onDelete('CASCADE');
