@@ -47,6 +47,10 @@ export class CreateOrganizerValidator {
       links,
       tags,
     }),
+    logo: schema.file.optional({
+      size: '2mb',
+      extnames: ['jpg', 'gif', 'png', 'webp', 'svg'],
+    }),
     media: schema.array.optional().members(
       schema.file.optional({
         size: '10mb',
@@ -97,6 +101,10 @@ export class UpdateOrganizerValidator {
       ),
       links,
       tags,
+    }),
+    logo: schema.file.optional({
+      size: '2mb',
+      extnames: ['jpg', 'gif', 'png', 'webp', 'svg'],
     }),
     media: schema.array.optional().members(
       schema.file.optional({

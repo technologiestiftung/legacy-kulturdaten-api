@@ -73,6 +73,14 @@ export default class Organizer extends BaseModel {
   @belongsTo(() => Address)
   public address: BelongsTo<typeof Address>;
 
+  @column({ serializeAs: null })
+  public logoId: number;
+
+  @belongsTo(() => Media, {
+    foreignKey: 'logoId',
+  })
+  public logo: BelongsTo<typeof Media>;
+
   @column()
   public email: string;
 

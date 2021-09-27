@@ -8,6 +8,10 @@ import {
 import { OrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
+import Application from '@ioc:Adonis/Core/Application';
+import Media, { MEDIA_BASE_PATH } from 'App/Models/Media';
+import { cuid } from '@ioc:Adonis/Core/Helpers';
+import { join } from 'path';
 
 export default class OrganizerManager extends BaseManager<typeof Organizer> {
   public ManagedModel = Organizer;
@@ -49,6 +53,13 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       { name: 'links' },
       {
         name: 'media',
+        query: (query) => {
+          withTranslations(query);
+          query.preload('renditions');
+        },
+      },
+      {
+        name: 'logo',
         query: (query) => {
           withTranslations(query);
           query.preload('renditions');
@@ -120,6 +131,29 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     }
   }
 
+  private async $storeLogo(organizer: Organizer) {
+    const logo = this.ctx.request.file('logo');
+    if (!logo) {
+      return;
+    }
+
+    const fileName = `${cuid()}.${logo.extname}`;
+    await logo.move(Application.publicPath(MEDIA_BASE_PATH), {
+      name: fileName,
+    });
+
+    const media = await Media.create({
+      url: join(MEDIA_BASE_PATH, fileName),
+      filesize: logo.size,
+    });
+
+    await organizer.related('logo').associate(media);
+    await organizer.load('logo', (query) => {
+      return query.preload('renditions');
+    });
+    console.log('done');
+  }
+
   public async create() {
     const { attributes, relations } = await this.ctx.request.validate(
       new CreateOrganizerValidator(this.ctx)
@@ -148,6 +182,10 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       await this.$updateLinks(organizer, relations?.links);
       await this.$storeMedia(organizer);
     });
+
+    // Storing the logo needs to happen outside the transaction
+    // as it creates a belongsTo relationship
+    await this.$storeLogo(organizer);
 
     this.instance = organizer;
     return this.instance;
@@ -189,6 +227,8 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       await this.$updateLinks(organizer, relations?.links);
       await this.$storeMedia(organizer);
     });
+
+    await this.$storeLogo(organizer);
 
     return this.instance;
   }
