@@ -48,10 +48,10 @@ export default class Media extends BaseModel {
   public url: string;
 
   @column()
-  public width: number;
+  public width: number | null;
 
   @column()
-  public height: number;
+  public height: number | null;
 
   @column()
   public filesize: number | null;
@@ -133,11 +133,11 @@ export default class Media extends BaseModel {
       });
 
       metadata = await media.$updateFile(sharp);
-
-      media.width = metadata.width;
-      media.height = metadata.height;
-      media.filesize = metadata.size;
     }
+
+    media.width = metadata.width || null;
+    media.height = metadata.height || null;
+    media.filesize = metadata.size || null;
   }
 
   @beforeCreate()
