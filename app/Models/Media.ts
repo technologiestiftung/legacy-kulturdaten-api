@@ -84,6 +84,8 @@ export default class Media extends BaseModel {
     return Application.publicPath(this.url);
   }
 
+  public renditionSizes: Array<number>;
+
   private sharp: sharp.Sharp | undefined;
 
   public async getSharpInstance() {
@@ -195,7 +197,8 @@ export default class Media extends BaseModel {
     const path = parse(media.path);
     const renditions: any[] = [];
 
-    for (const size of RENDITION_SIZES) {
+    const sizes = media.renditionSizes || RENDITION_SIZES;
+    for (const size of sizes) {
       if (metadata.width! > size) {
         const url = join(
           RENDITION_BASE_PATH,
