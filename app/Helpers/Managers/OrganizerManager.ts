@@ -142,10 +142,14 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       name: fileName,
     });
 
-    const media = await Media.create({
+    const media = new Media();
+    media.renditionSizes = [48, 96, 144];
+
+    media.fill({
       url: join(MEDIA_BASE_PATH, fileName),
       filesize: logo.size,
     });
+    await media.save();
 
     await organizer.related('logo').associate(media);
     await organizer.load('logo', (query) => {
