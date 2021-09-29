@@ -129,10 +129,7 @@ export default class Organizer extends BaseModel {
   })
   public media: ManyToMany<typeof Media>;
 
-  @manyToMany(() => Tag, {
-    relatedKey: 'id',
-    localKey: 'publicId',
-  })
+  @manyToMany(() => Tag)
   public tags: ManyToMany<typeof Tag>;
 
   @column.dateTime({ autoCreate: true })

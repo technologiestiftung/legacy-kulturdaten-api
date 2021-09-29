@@ -9,9 +9,9 @@ export default class LocationTags extends BaseSchema {
       table.timestamps(true);
 
       table
-        .string('location_id')
+        .integer('location_id')
         .unsigned()
-        .references('locations.public_id')
+        .references('locations.id')
         .onDelete('CASCADE');
       table
         .string('tag_id')

@@ -9,9 +9,9 @@ export default class OfferTags extends BaseSchema {
       table.timestamps(true);
 
       table
-        .string('offer_id')
+        .integer('offer_id')
         .unsigned()
-        .references('offers.public_id')
+        .references('offers.id')
         .onDelete('CASCADE');
       table
         .string('tag_id')
