@@ -14,7 +14,7 @@ export default class OfferTags extends BaseSchema {
         .references('offers.id')
         .onDelete('CASCADE');
       table
-        .string('tag_id')
+        .integer('tag_id')
         .unsigned()
         .references('tags.id')
         .onDelete('CASCADE');

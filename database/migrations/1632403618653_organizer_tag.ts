@@ -14,7 +14,7 @@ export default class OrganizerTags extends BaseSchema {
         .references('organizers.id')
         .onDelete('CASCADE');
       table
-        .string('tag_id')
+        .integer('tag_id')
         .unsigned()
         .references('tags.id')
         .onDelete('CASCADE');
