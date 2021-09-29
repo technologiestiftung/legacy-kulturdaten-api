@@ -16,7 +16,6 @@ export default class Organizers extends BaseSchema {
       table.string('email');
       table.string('phone');
 
-      table.integer('logo_id').unsigned().references('media.id');
       table.integer('address_id').unsigned().references('addresses.id');
 
       table.timestamps(true);
