@@ -70,7 +70,7 @@ export function absoluteUrl(route: string) {
 
 export function updateField(attributes, instance, key) {
   const value = attributes[key];
-  if (value == undefined) {
+  if (value === undefined) {
     return;
   }
 
