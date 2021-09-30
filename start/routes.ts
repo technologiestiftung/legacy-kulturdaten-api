@@ -52,18 +52,23 @@ Route.group(() => {
     Route.resource('media', 'v1/MediaController').only(['show', 'update']);
     Route.post('media/:id/translate', 'v1/MediaController.translate');
 
-    Route.resource('organizer', 'v1/OrganizerController').apiOnly();
-    Route.post('organizer/:id/translate', 'v1/OrganizerController.translate');
     Route.resource('organizerType', 'v1/OrganizerTypeController').apiOnly();
     Route.resource(
       'organizerType.organizerSubject',
       'v1/OrganizerSubjectController'
     ).apiOnly();
+    Route.resource('organizer', 'v1/OrganizerController').apiOnly();
+    Route.post('organizer/:id/translate', 'v1/OrganizerController.translate');
 
     Route.resource('location', 'v1/LocationController').apiOnly();
     Route.post('location/:id/translate', 'v1/LocationController.translate');
 
     Route.resource('offer', 'v1/OfferController').apiOnly();
     Route.post('offer/:id/translate', 'v1/OfferController.translate');
+    Route.resource('offer.date', 'v1/OfferDateController').apiOnly();
+    Route.post(
+      'offer/:offer_id/date/:id/translate',
+      'v1/OfferDateController.translate'
+    );
   });
 }).prefix('v1');

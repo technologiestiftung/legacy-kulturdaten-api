@@ -9,6 +9,7 @@ export class OfferTranslationValidator {
     attributes: schema.object().members({
       name: schema.string.optional({ trim: true }),
       description: schema.string.optional({ trim: true }),
+      roomDescription: schema.string.optional({ trim: true }),
       language: schema.enum(allowedLanguages),
     }),
   });

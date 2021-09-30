@@ -1,4 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
+import { OfferDateStatus } from 'App/Models/OfferDate';
 
 export default class OfferDates extends BaseSchema {
   protected tableName = 'offer_dates';
@@ -7,8 +8,19 @@ export default class OfferDates extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
 
-      table.boolean('is_manual');
+      table
+        .enu('status', [
+          OfferDateStatus.SCHEDULED,
+          OfferDateStatus.CANCELED,
+          OfferDateStatus.PAST,
+        ])
+        .defaultTo(OfferDateStatus.SCHEDULED);
+
       table.dateTime('starts_at', { useTz: true });
+      table.dateTime('ends_at', { useTz: true });
+      table.boolean('has_fee');
+      table.boolean('needs_registration');
+      table.string('ticket_url');
 
       table.integer('offer_id').unsigned().references('offers.id');
     });

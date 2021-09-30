@@ -16,6 +16,7 @@ export default class OfferTranslations extends BaseSchema {
 
       table.string('name').notNullable();
       table.text('description');
+      table.text('room_description');
     });
   }
 

@@ -2,14 +2,12 @@ import { DateTime } from 'luxon';
 import {
   BaseModel,
   column,
-  manyToMany,
-  ManyToMany,
   hasMany,
   HasMany,
   belongsTo,
   BelongsTo,
-  beforeCreate,
 } from '@ioc:Adonis/Lucid/Orm';
+import Offer from 'App/Models/Offer';
 
 export class OfferDateTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -24,8 +22,17 @@ export class OfferDateTranslation extends BaseModel {
   @column()
   public description: string;
 
+  @column()
+  public roomDescription: string;
+
   @column({ serializeAs: null })
   public offerDateId: number;
+}
+
+export enum OfferDateStatus {
+  SCHEDULED = 'scheduled',
+  CANCELED = 'canceled',
+  PAST = 'past',
 }
 
 export default class OfferDate extends BaseModel {
@@ -35,12 +42,27 @@ export default class OfferDate extends BaseModel {
   @column.dateTime()
   public startsAt: DateTime;
 
+  @column.dateTime()
+  public endsAt: DateTime;
+
   @column()
-  public isManual: boolean;
+  public status: string;
+
+  @column()
+  public hasFee: boolean;
+
+  @column()
+  public needsRegistration: boolean;
+
+  @column()
+  public ticketUrl: string;
 
   @hasMany(() => OfferDateTranslation)
   public translations: HasMany<typeof OfferDateTranslation>;
 
   @column({ serializeAs: null })
   public offerId: number;
+
+  @belongsTo(() => Offer)
+  public offer: BelongsTo<typeof Offer>;
 }

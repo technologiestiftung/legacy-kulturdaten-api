@@ -31,7 +31,6 @@ export default class OfferSeeder extends BaseSeeder {
         // Some plays may celebrate a premiere
         if (faker.datatype.boolean()) {
           factory.with('dates', 1, (dateFactory) => {
-            dateFactory.merge({ isManual: true });
             dateFactory.with('translations', 1, (translationFactory) => {
               translationFactory.merge({
                 name: `Premiere: ${play}`,
@@ -72,7 +71,6 @@ export default class OfferSeeder extends BaseSeeder {
         // Some exhibitions may celebrate a vernissage
         if (faker.datatype.boolean()) {
           factory.with('dates', 1, (dateFactory) => {
-            dateFactory.merge({ isManual: true });
             dateFactory.with('translations', 1, (translationFactory) => {
               translationFactory.merge({
                 name: `Vernissage: ${exhibition}`,
@@ -81,11 +79,11 @@ export default class OfferSeeder extends BaseSeeder {
           });
         }
 
-        if (faker.datatype.boolean()) {
-          factory.with('media', faker.datatype.number(3), (mediaFactory) => {
-            mediaFactory.with('translations', 1);
-          });
-        }
+        // if (faker.datatype.boolean()) {
+        //   factory.with('media', faker.datatype.number(3), (mediaFactory) => {
+        //     mediaFactory.with('translations', 1);
+        //   });
+        // }
 
         const offer = await factory.create();
         await offer.related('organizer').associate(museum);

@@ -3,38 +3,19 @@ import Offer, { OfferTranslation, OfferStatus } from 'App/Models/Offer';
 import OfferDate, { OfferDateTranslation } from 'App/Models/OfferDate';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
-import { RRule, Frequency } from 'rrule';
 import { MediaFactory } from './Media';
 
 export const OfferFactory = Factory.define(Offer, ({ faker }) => {
   const createdAt = faker.date.recent(120).toISOString();
   const updatedAt = faker.date.between(createdAt, new Date()).toISOString();
 
-  const startsAt = faker.date.recent(120);
-  startsAt.setHours(20);
-  startsAt.setMinutes(15);
-
-  let recurrenceRule;
-  if (faker.datatype.boolean()) {
-    recurrenceRule = new RRule({
-      freq: Frequency.DAILY,
-      dtstart: startsAt,
-      byweekday: faker.random.arrayElements([
-        RRule.MO,
-        RRule.TU,
-        RRule.WE,
-        RRule.TH,
-        RRule.FR,
-        RRule.SA,
-        RRule.SU,
-      ]),
-    });
-  }
-
   return {
     createdAt: DateTime.fromISO(createdAt),
     updatedAt: DateTime.fromISO(updatedAt),
-    recurrenceRule: recurrenceRule || undefined,
+    needsRegistration: faker.datatype.boolean(),
+    hasFee: faker.datatype.boolean(),
+    isPermanent: faker.datatype.boolean(),
+    ticketUrl: faker.internet.url(),
     status: faker.random.arrayElement([
       OfferStatus.DRAFT,
       OfferStatus.PUBLISHED,
@@ -56,6 +37,9 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
         description: faker.datatype.boolean()
           ? faker.lorem.paragraph()
           : undefined,
+        roomDescription: faker.datatype.boolean()
+          ? faker.lorem.paragraph()
+          : undefined,
       };
     }).build()
   )
@@ -63,8 +47,21 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
     Factory.define(OfferDate, ({ faker }) => {
       faker.locale = 'de';
 
+      const startsAt = faker.date.soon(120);
+      startsAt.setHours(faker.random.arrayElement([10, 11, 15, 18, 20, 21]));
+      startsAt.setMinutes(faker.random.arrayElement([0, 15, 30, 45]));
+
+      const endsAt = DateTime.fromJSDate(startsAt)
+        .toUTC()
+        .setZone('local', { keepLocalTime: true })
+        .plus({ minutes: faker.random.arrayElement([30, 60, 120, 1440]) });
+
       return {
-        startsAt: DateTime.fromISO(faker.date.soon().toISOString()),
+        needsRegistration: faker.datatype.boolean(),
+        hasFee: faker.datatype.boolean(),
+        ticketUrl: faker.internet.url(),
+        startsAt: DateTime.fromISO(startsAt.toISOString()),
+        endsAt,
       };
     })
       .relation('translations', () =>
@@ -74,6 +71,9 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
           return {
             name: faker.company.companyName(),
             description: faker.datatype.boolean()
+              ? faker.lorem.paragraph()
+              : undefined,
+            roomDescription: faker.datatype.boolean()
               ? faker.lorem.paragraph()
               : undefined,
           };

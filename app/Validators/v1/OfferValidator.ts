@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { OfferStatus } from 'App/Models/Offer';
-import { tags, links } from 'App/Helpers/Validator';
+import { tags, links, media, link } from 'App/Helpers/Validator';
 
 export class CreateOfferValidator {
   constructor(private context: HttpContextContract) {}
@@ -10,27 +10,23 @@ export class CreateOfferValidator {
     attributes: schema.object().members({
       name: schema.string({ trim: true }),
       description: schema.string.optional({ trim: true }),
+      roomDescription: schema.string.optional({ trim: true }),
       status: schema.enum.optional(Object.values(OfferStatus)),
-      recurrenceRule: schema.string.optional({ trim: true }),
+      needsRegistration: schema.boolean.optional(),
+      hasFee: schema.boolean.optional(),
+      isPermanent: schema.boolean.optional(),
+      ticketUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
-      address: schema.object.optional().members({
-        attributes: schema.object().members({
-          street1: schema.string({ trim: true }),
-          street2: schema.string.optional({ trim: true }),
-          zipCode: schema.string({ trim: true }),
-          city: schema.string({ trim: true }),
-        }),
-      }),
       links,
       tags,
     }),
-    media: schema.array.optional().members(
-      schema.file.optional({
-        size: '10mb',
-        extnames: ['jpg', 'gif', 'png', 'webp'],
-      })
-    ),
+    meta: schema.object.optional().members({
+      startsAt: schema.date(),
+      endsAt: schema.date(),
+      recurrenceRule: schema.string({ trim: true }),
+    }),
+    media: media,
   });
 
   public cacheKey = this.context.routeKey;
@@ -44,26 +40,21 @@ export class UpdateOfferValidator {
   public schema = schema.create({
     attributes: schema.object.optional().members({
       status: schema.enum.optional(Object.values(OfferStatus)),
-      recurrenceRule: schema.string.optional({ trim: true }),
+      needsRegistration: schema.boolean.optional(),
+      hasFee: schema.boolean.optional(),
+      isPermanent: schema.boolean.optional(),
+      ticketUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
-      address: schema.object.optional().members({
-        attributes: schema.object().members({
-          street1: schema.string.optional({ trim: true }),
-          street2: schema.string.optional({ trim: true }),
-          zipCode: schema.string.optional({ trim: true }),
-          city: schema.string.optional({ trim: true }),
-        }),
-      }),
       links,
       tags,
     }),
-    media: schema.array.optional().members(
-      schema.file.optional({
-        size: '10mb',
-        extnames: ['jpg', 'gif', 'png', 'webp'],
-      })
-    ),
+    meta: schema.object.optional().members({
+      startsAt: schema.date(),
+      endsAt: schema.date(),
+      recurrenceRule: schema.string({ trim: true }),
+    }),
+    media: media,
   });
 
   public cacheKey = this.context.routeKey;
@@ -77,16 +68,12 @@ export class PublishOfferValidator {
   public schema = schema.create({
     attributes: schema.object().members({
       status: schema.enum(Object.values(OfferStatus)),
+      needsRegistration: schema.boolean(),
+      hasFee: schema.boolean(),
+      isPermanent: schema.boolean(),
+      ticketUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object().members({
-      address: schema.object().members({
-        attributes: schema.object().members({
-          street1: schema.string({ trim: true }),
-          street2: schema.string.optional({ trim: true }),
-          zipCode: schema.string({ trim: true }),
-          city: schema.string({ trim: true }),
-        }),
-      }),
       links,
       tags,
     }),

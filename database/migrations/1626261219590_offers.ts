@@ -12,7 +12,11 @@ export default class Offers extends BaseSchema {
       table
         .enu('status', [OfferStatus.DRAFT, OfferStatus.PUBLISHED])
         .defaultTo(OfferStatus.DRAFT);
-      table.string('recurrence_rule');
+
+      table.boolean('has_fee');
+      table.boolean('needs_registration');
+      table.boolean('is_permanent');
+      table.string('ticket_url');
 
       table.integer('organizer_id').unsigned().references('organizers.id');
       table.integer('location_id').unsigned().references('locations.id');

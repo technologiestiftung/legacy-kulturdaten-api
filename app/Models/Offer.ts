@@ -20,7 +20,6 @@ import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
 import OfferDate from 'App/Models/OfferDate';
 import { publishable } from 'App/Helpers/Utilities';
-import { RRule } from 'rrule';
 import Event from '@ioc:Adonis/Core/Event';
 import Tag from 'App/Models/Tag';
 
@@ -36,6 +35,9 @@ export class OfferTranslation extends BaseModel {
 
   @column()
   public description: string;
+
+  @column()
+  public roomDescription: string;
 
   @column({ serializeAs: null })
   public offerId: number;
@@ -56,24 +58,17 @@ export default class Offer extends BaseModel {
   @column()
   public status: string;
 
-  @column({
-    prepare: (value: RRule = new RRule()) => {
-      return value.toString();
-    },
-    consume: (value) => {
-      return value ? RRule.fromString(value) : null;
-    },
-    serialize: (value: RRule) => {
-      return value ? value.toString() : null;
-    },
-  })
-  public recurrenceRule: string;
+  @column()
+  public isPermanent: boolean;
 
-  public get rrule(): RRule | undefined {
-    return this.recurrenceRule
-      ? RRule.fromString(this.recurrenceRule)
-      : undefined;
-  }
+  @column()
+  public hasFee: boolean;
+
+  @column()
+  public needsRegistration: boolean;
+
+  @column()
+  public ticketUrl: string;
 
   @column({ serializeAs: null })
   public organizerId: number;
@@ -135,12 +130,5 @@ export default class Offer extends BaseModel {
     }
 
     offer.publicId = cuid();
-  }
-
-  @afterSave()
-  public static async triggerOfferUpdate(offer: Offer) {
-    if (offer.$dirty.recurrenceRule) {
-      Event.emit('offer:update', offer);
-    }
   }
 }
