@@ -67,3 +67,12 @@ export async function publishable(
 export function absoluteUrl(route: string) {
   return new URL(route, Env.get('APP_URL') as string).toString();
 }
+
+export function updateField(attributes, instance, key) {
+  const value = attributes[key];
+  if (value == undefined) {
+    return;
+  }
+
+  instance[key] = value;
+}
