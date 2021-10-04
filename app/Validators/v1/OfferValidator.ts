@@ -2,14 +2,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { OfferStatus } from 'App/Models/Offer';
 import { tags, links, media } from 'App/Helpers/Validator';
-import { allowedLanguages } from 'Config/app';
-
-export const translation = schema.object().members({
-  name: schema.string.optional({ trim: true }),
-  description: schema.string.optional({ trim: true }),
-  roomDescription: schema.string.optional({ trim: true }),
-  language: schema.enum(allowedLanguages),
-});
 
 export class CreateOfferValidator {
   constructor(private context: HttpContextContract) {}
