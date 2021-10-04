@@ -5,7 +5,7 @@ import {
   CreateOfferValidator,
   UpdateOfferValidator,
 } from 'App/Validators/v1/OfferValidator';
-import { OfferTranslationValidator } from 'App/Validators/v1/OfferTranslationValidator';
+import { translation } from 'App/Validators/v1/OfferTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import { withTranslations, updateField } from 'App/Helpers/Utilities';
 import { RRule } from 'rrule';
@@ -61,7 +61,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
   };
 
   public validators = {
-    translate: OfferTranslationValidator,
+    translation,
   };
 
   constructor(ctx: HttpContextContract) {
@@ -119,14 +119,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
 
       await offer.save();
 
-      await offer.related('translations').create({
-        name: attributes.name,
-        description: attributes.description,
-        roomDescription: attributes.roomDescription,
-        language: this.language,
-      });
-      await offer.load('translations');
-
+      await this.$translate(offer);
       await this.$updateDates(offer, meta);
       await this.$updateLinks(offer, relations?.links);
       await this.$updateTags(offer, relations?.tags);
@@ -156,6 +149,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         await offer.save();
       }
 
+      await this.$translate(offer);
       await this.$updateDates(offer, meta);
       await this.$updateLinks(offer, relations?.links);
       await this.$updateTags(offer, relations?.tags);
@@ -163,22 +157,5 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     });
 
     return this.instance;
-  }
-
-  public async translate() {
-    const attributes = await this.$validateTranslation();
-
-    // Creating an offer translation without a name is forbidden,
-    // but initially creating one without a name is impossible. Hence fallback
-    // to the initial name
-    if (!attributes.name) {
-      attributes.name = this.instance?.translations?.find((translation) => {
-        return translation.name;
-      })?.name;
-    }
-
-    await this.$saveTranslation(attributes);
-
-    return this.byId();
   }
 }

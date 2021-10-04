@@ -12,6 +12,9 @@ import Media, { MEDIA_BASE_PATH } from 'App/Models/Media';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
 import { join } from 'path';
 import { withTranslations } from '../Utilities';
+import { schema, SchemaObject } from '@ioc:Adonis/Core/Validator';
+import * as schemas from 'App/Helpers/Validator';
+import { rules } from '@ioc:Adonis/Core/Validator';
 
 interface OrderableInstruction {
   name: string;
@@ -30,7 +33,7 @@ interface Filter {
 }
 
 interface Validators {
-  translate?;
+  translation;
 }
 
 interface ManagerSettings {
@@ -242,36 +245,59 @@ export class BaseManager<ManagedModel extends LucidModel> {
   }
 
   public async $validateTranslation() {
-    if (!this.validators.translate) {
-      throw 'Translation validator need to be configured to create/update translations';
-    }
-
-    const { attributes } = await this.ctx.request.validate(
-      new this.validators.translate(this.ctx)
-    );
-
-    return attributes;
-  }
-
-  public async $saveTranslation(attributes) {
-    const instance = this.instance as any;
-    const translation = instance.translations.find((translation) => {
-      return translation.language === attributes.language;
+    const data = await this.ctx.request.validate({
+      schema: schema.create({
+        relations: schema.object.optional().members({
+          translations: schema.array
+            .optional([rules.minLength(1)])
+            .members(this.validators.translation),
+        }),
+      }),
     });
 
-    if (!translation) {
-      await instance.related('translations').create(attributes);
-    } else {
-      translation.merge(attributes);
-      await translation.save();
+    if (!data.relations?.translations?.length) {
+      return [];
+    }
+
+    return data.relations?.translations;
+  }
+
+  public async $translate(instance) {
+    const translations = await this.$validateTranslation();
+    if (!translations.length) {
+      return;
     }
 
     await instance.load('translations');
-  }
+    let newTranslations: any[] = [];
+    for (const translation of translations) {
+      const existingTranslation = instance.translations.find(
+        (existingTranslation) => {
+          return existingTranslation.language === translation.language;
+        }
+      );
 
-  public async translate() {
-    const attributes = await this.$validateTranslation();
-    await this.$saveTranslation(attributes);
+      if (!existingTranslation) {
+        newTranslations.push(translation);
+        continue;
+      }
+
+      // If a translation already exists, update it
+      existingTranslation.merge(translation);
+      await existingTranslation.save();
+    }
+
+    // Force that translations always have a name. That's crucial for sorting
+    // and can only be validated in the frontend
+    newTranslations = newTranslations.map((translation) => {
+      translation.name = translation.name || 'Untitled';
+      return translation;
+    });
+
+    if (newTranslations.length) {
+      await instance.related('translations').createMany(newTranslations);
+    }
+    await instance.load('translations');
 
     return this.instance;
   }

@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import Organizer, { OrganizerStatus } from 'App/Models/Organizer';
-import { tags, links } from 'App/Helpers/Validator';
+import { tags, links, address, media } from 'App/Helpers/Validator';
 
 export class CreateOrganizerValidator {
   constructor(private context: HttpContextContract) {}
@@ -12,22 +12,13 @@ export class CreateOrganizerValidator {
 
   public schema = schema.create({
     attributes: schema.object().members({
-      name: schema.string({ trim: true }),
-      description: schema.string.optional({ trim: true }),
       email: schema.string.optional({ trim: true }, [rules.email()]),
       phone: schema.string.optional({ trim: true }, [rules.mobile()]),
       homepage: schema.string.optional({ trim: true }, [rules.url()]),
       status: schema.enum.optional(Object.values(OrganizerStatus)),
     }),
     relations: schema.object.optional().members({
-      address: schema.object.optional().members({
-        attributes: schema.object().members({
-          street1: schema.string({ trim: true }),
-          street2: schema.string.optional({ trim: true }),
-          zipCode: schema.string({ trim: true }),
-          city: schema.string({ trim: true }),
-        }),
-      }),
+      address: address.create,
       types: schema.array.optional([rules.minLength(1)]).members(
         schema.number([
           rules.exists({
@@ -51,12 +42,7 @@ export class CreateOrganizerValidator {
       size: '2mb',
       extnames: ['jpg', 'gif', 'png', 'webp', 'svg'],
     }),
-    media: schema.array.optional().members(
-      schema.file.optional({
-        size: '10mb',
-        extnames: ['jpg', 'gif', 'png', 'webp'],
-      })
-    ),
+    media,
   });
 
   public cacheKey = this.context.routeKey;
@@ -75,14 +61,6 @@ export class UpdateOrganizerValidator {
       homepage: schema.string.optional({ trim: true }, [rules.url()]),
     }),
     relations: schema.object.optional().members({
-      address: schema.object.optional().members({
-        attributes: schema.object().members({
-          street1: schema.string.optional({ trim: true }),
-          street2: schema.string.optional({ trim: true }),
-          zipCode: schema.string.optional({ trim: true }),
-          city: schema.string.optional({ trim: true }),
-        }),
-      }),
       types: schema.array.optional([rules.minLength(1)]).members(
         schema.number([
           rules.exists({
@@ -99,6 +77,7 @@ export class UpdateOrganizerValidator {
           }),
         ])
       ),
+      address: address.update,
       links,
       tags,
     }),
@@ -106,12 +85,7 @@ export class UpdateOrganizerValidator {
       size: '2mb',
       extnames: ['jpg', 'gif', 'png', 'webp', 'svg'],
     }),
-    media: schema.array.optional().members(
-      schema.file.optional({
-        size: '10mb',
-        extnames: ['jpg', 'gif', 'png', 'webp'],
-      })
-    ),
+    media,
   });
 
   public cacheKey = this.context.routeKey;

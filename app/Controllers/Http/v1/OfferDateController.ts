@@ -34,12 +34,4 @@ export default class OfferDateController {
 
     return new ApiDocument(ctx, manager.toResources());
   }
-
-  public async translate(ctx: HttpContextContract) {
-    const manager: OfferDateManager = new OfferDateManager(ctx);
-    await manager.byId();
-    await manager.translate();
-
-    return new ApiDocument(ctx, manager.toResources());
-  }
 }

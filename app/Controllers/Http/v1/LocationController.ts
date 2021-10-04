@@ -52,12 +52,4 @@ export default class LocationController {
       publishable,
     });
   }
-
-  public async translate(ctx: HttpContextContract) {
-    const manager: LocationManager = new LocationManager(ctx);
-    await manager.byId();
-    await manager.translate();
-
-    return new ApiDocument(ctx, manager.toResources());
-  }
 }

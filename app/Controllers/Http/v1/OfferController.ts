@@ -50,12 +50,4 @@ export default class OfferController {
       publishable,
     });
   }
-
-  public async translate(ctx: HttpContextContract) {
-    const manager: OfferManager = new OfferManager(ctx);
-    await manager.byId();
-    await manager.translate();
-
-    return new ApiDocument(ctx, manager.toResources());
-  }
 }

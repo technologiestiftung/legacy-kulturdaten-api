@@ -5,7 +5,7 @@ import {
   CreateOrganizerValidator,
   UpdateOrganizerValidator,
 } from 'App/Validators/v1/OrganizerValidator';
-import { OrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
+import { translation } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Application from '@ioc:Adonis/Core/Application';
@@ -99,7 +99,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
   };
 
   public validators = {
-    translate: OrganizerTranslationValidator,
+    translation,
   };
 
   constructor(ctx) {
@@ -169,17 +169,11 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       organizer.fill(attributes, true);
       await organizer.save();
 
-      await organizer.related('translations').create({
-        name: attributes.name,
-        description: attributes.description,
-        language: this.language,
-      });
-      await organizer.load('translations');
-
       if (relations?.address) {
         await this.$createAddress(organizer, relations.address.attributes, trx);
       }
 
+      await this.$translate(organizer);
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
       await this.$updateTags(organizer, relations?.tags);
@@ -225,6 +219,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
         }
       }
 
+      await this.$translate(organizer);
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
       await this.$updateTags(organizer, relations?.tags);
@@ -234,22 +229,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
 
     await this.$storeLogo(organizer);
 
-    return this.instance;
-  }
-
-  public async translate() {
-    const attributes = await this.$validateTranslation();
-
-    // Creating an organizer translation without a name is forbidden,
-    // but initially creating one without a name is impossible. Hence fallback
-    // to the initial name
-    if (!attributes.name) {
-      attributes.name = this.instance?.translations?.find((translation) => {
-        return translation.name;
-      })?.name;
-    }
-
-    await this.$saveTranslation(attributes);
     return this.instance;
   }
 }

@@ -17,12 +17,4 @@ export default class MediaController {
 
     return new ApiDocument(ctx, manager.toResources());
   }
-
-  public async translate(ctx: HttpContextContract) {
-    const manager: MediaManager = new MediaManager(ctx);
-    await manager.byId();
-    await manager.translate();
-
-    return new ApiDocument(ctx, manager.toResources());
-  }
 }

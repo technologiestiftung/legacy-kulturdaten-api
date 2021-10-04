@@ -7,7 +7,7 @@ import {
   CreateVirtualLocationValidator,
   UpdateVirtualLocationValidator,
 } from 'App/Validators/v1/LocationValidator';
-import { LocationTranslationValidator } from 'App/Validators/v1/LocationTranslationValidator';
+import { translation } from 'App/Validators/v1/LocationTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Address from 'App/Models/Address';
 import { withTranslations } from 'App/Helpers/Utilities';
@@ -54,7 +54,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
   };
 
   public validators = {
-    translate: LocationTranslationValidator,
+    translation,
   };
 
   constructor(ctx: HttpContextContract) {
@@ -90,13 +90,6 @@ export default class LocationManager extends BaseManager<typeof Location> {
     const location = new Location();
     await location.save();
 
-    await location.related('translations').create({
-      name: attributes.name,
-      description: attributes.description,
-      language: this.language,
-    });
-    await location.load('translations');
-
     await location.related('physical').create({});
     await location.load('physical');
 
@@ -107,6 +100,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
       );
     }
 
+    await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
     await this.$storeMedia(location);
@@ -135,6 +129,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
       await location.related('virtual').create({ url: attributes.url });
       await location.load('virtual');
 
+      await this.$translate(location);
       await this.$updateLinks(location, relations?.links);
       await this.$updateTags(location, relations?.tags);
       await this.$storeMedia(location);
@@ -180,6 +175,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
       }
     }
 
+    await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
     await this.$storeMedia(location);
@@ -207,6 +203,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
         await location.virtual.save();
       }
 
+      await this.$translate(location);
       await this.$updateLinks(location, relations?.links);
       await this.$updateTags(location, relations?.tags);
       await this.$storeMedia(location);
@@ -224,22 +221,5 @@ export default class LocationManager extends BaseManager<typeof Location> {
     } else {
       return this.$updateVirtualLocation();
     }
-  }
-
-  public async translate() {
-    const attributes = await this.$validateTranslation();
-
-    // Creating an location translation without a name is forbidden,
-    // but initially creating one without a name is impossible. Hence fallback
-    // to the initial name
-    if (!attributes.name) {
-      attributes.name = this.instance?.translations?.find((translation) => {
-        return translation.name;
-      })?.name;
-    }
-
-    await this.$saveTranslation(attributes);
-
-    return this.byId();
   }
 }

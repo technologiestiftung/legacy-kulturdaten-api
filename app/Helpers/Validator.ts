@@ -19,3 +19,34 @@ export const media = schema.array.optional().members(
     extnames: ['jpg', 'gif', 'png', 'webp'],
   })
 );
+
+export const translations = schema.array
+  .optional([rules.minLength(1)])
+  .members(schema.object().anyMembers());
+
+export const address = {
+  create: schema.object.optional().members({
+    attributes: schema.object().members({
+      street1: schema.string({ trim: true }),
+      street2: schema.string.optional({ trim: true }),
+      zipCode: schema.string({ trim: true }),
+      city: schema.string({ trim: true }),
+    }),
+  }),
+  update: schema.object.optional().members({
+    attributes: schema.object().members({
+      street1: schema.string.optional({ trim: true }),
+      street2: schema.string.optional({ trim: true }),
+      zipCode: schema.string.optional({ trim: true }),
+      city: schema.string.optional({ trim: true }),
+    }),
+  }),
+  publish: schema.object().members({
+    attributes: schema.object().members({
+      street1: schema.string({ trim: true }),
+      street2: schema.string.optional({ trim: true }),
+      zipCode: schema.string({ trim: true }),
+      city: schema.string({ trim: true }),
+    }),
+  }),
+};

@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import Media from 'App/Models/Media';
-import { MediaTranslationValidator } from 'App/Validators/v1/MediaTranslationValidator';
+import { translation } from 'App/Validators/v1/MediaTranslationValidator';
 import { UpdateMediaValidator } from 'App/Validators/v1/MediaValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 
@@ -9,7 +9,7 @@ export default class MediaManager extends BaseManager<typeof Media> {
   public ModelClass = Media;
 
   public validators = {
-    translate: MediaTranslationValidator,
+    translation,
   };
 
   constructor(ctx: HttpContextContract) {
