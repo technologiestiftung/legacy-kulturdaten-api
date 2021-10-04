@@ -10,6 +10,10 @@ export default class Organizers extends BaseSchema {
   }
 
   public async down() {
+    this.schema.alterTable(this.tableName, (table) => {
+      table.dropForeign('logo_id');
+    });
+
     this.schema.dropTable(this.tableName);
   }
 }
