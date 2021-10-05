@@ -41,7 +41,21 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
     super(ctx, OfferDate);
   }
 
-  private async $findOffer() {
+  public query(
+    options: { sort?: string; includes?: string; filter?: string } = {}
+  ) {
+    const query = super
+      .query(options)
+      .where(
+        'offer_id',
+        Database.from('offers')
+          .select('id')
+          .where('public_id', this.ctx.params.offer_id)
+      );
+    return query;
+  }
+
+  private async $getOfferById() {
     return Offer.findByOrFail('public_id', this.ctx.params.offer_id);
   }
 
@@ -50,7 +64,7 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
       new CreateOfferDateValidator(this.ctx)
     );
 
-    const offer = await this.$findOffer();
+    const offer = await this.$getOfferById();
     let offerDate;
 
     await Database.transaction(async (trx) => {
