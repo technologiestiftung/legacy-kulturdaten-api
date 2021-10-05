@@ -1,7 +1,13 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { LocationStatus, LocationTypes } from 'App/Models/Location';
-import { tags, links, media, address } from 'App/Helpers/Validator';
+import {
+  tags,
+  links,
+  media,
+  address,
+  initialTranslation,
+} from 'App/Helpers/Validator';
 
 export class CreatePhysicalLocationValidator {
   constructor(private context: HttpContextContract) {}
@@ -15,6 +21,7 @@ export class CreatePhysicalLocationValidator {
       address: address.create,
       tags,
       links,
+      initialTranslation,
     }),
     media,
   });
@@ -38,6 +45,7 @@ export class CreateVirtualLocationValidator {
     relations: schema.object.optional().members({
       tags,
       links,
+      initialTranslation,
     }),
     media,
   });

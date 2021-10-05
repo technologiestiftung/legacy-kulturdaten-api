@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { OfferStatus } from 'App/Models/Offer';
-import { tags, links, media } from 'App/Helpers/Validator';
+import { tags, links, media, initialTranslation } from 'App/Helpers/Validator';
 
 export class CreateOfferValidator {
   constructor(private context: HttpContextContract) {}
@@ -17,6 +17,7 @@ export class CreateOfferValidator {
     relations: schema.object.optional().members({
       links,
       tags,
+      initialTranslation,
     }),
     meta: schema.object.optional().members({
       startsAt: schema.date(),

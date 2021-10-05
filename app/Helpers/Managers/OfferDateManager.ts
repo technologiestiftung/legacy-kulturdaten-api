@@ -42,7 +42,6 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
   }
 
   private async $findOffer() {
-    console.log(this.ctx.params.offer_id);
     return Offer.findByOrFail('public_id', this.ctx.params.offer_id);
   }
 

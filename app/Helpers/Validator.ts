@@ -1,4 +1,5 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
+import { allowedLanguages } from 'Config/app';
 
 export const link = schema.string({}, [rules.url()]);
 
@@ -20,9 +21,14 @@ export const media = schema.array.optional().members(
   })
 );
 
-export const translations = schema.array
+export const initialTranslation = schema.array
   .optional([rules.minLength(1)])
-  .members(schema.object().anyMembers());
+  .members(
+    schema.object().members({
+      name: schema.string(),
+      language: schema.enum(allowedLanguages),
+    })
+  );
 
 export const address = {
   create: schema.object.optional().members({
