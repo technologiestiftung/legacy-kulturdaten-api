@@ -8,8 +8,6 @@ export class CreateOfferDateValidator {
 
   public schema = schema.create({
     attributes: schema.object().members({
-      description: schema.string.optional({ trim: true }),
-      roomDescription: schema.string.optional({ trim: true }),
       startsAt: schema.date(),
       endsAt: schema.date(),
       status: schema.enum.optional(Object.values(OfferDateStatus)),
