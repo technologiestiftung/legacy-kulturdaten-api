@@ -119,13 +119,6 @@ export default class LocationManager extends BaseManager<typeof Location> {
       location.useTransaction(trx);
       await location.save();
 
-      await location.related('translations').create({
-        name: attributes.name,
-        description: attributes.description,
-        language: this.language,
-      });
-      await location.load('translations');
-
       await location.related('virtual').create({ url: attributes.url });
       await location.load('virtual');
 
