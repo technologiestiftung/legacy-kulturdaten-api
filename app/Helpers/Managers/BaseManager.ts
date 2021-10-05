@@ -236,8 +236,10 @@ export class BaseManager<ManagedModel extends LucidModel> {
     this.instances = [instance];
   }
 
-  public async create() {
-    return new this.ManagedModel();
+  public async create(): Promise<
+    InstanceType<ManagedModel> | InstanceType<ManagedModel>[]
+  > {
+    return new this.ManagedModel() as InstanceType<ManagedModel>;
   }
 
   public async update() {
@@ -286,13 +288,6 @@ export class BaseManager<ManagedModel extends LucidModel> {
       existingTranslation.merge(translation);
       await existingTranslation.save();
     }
-
-    // Force that translations always have a name. That's crucial for sorting
-    // and can only be validated in the frontend
-    newTranslations = newTranslations.map((translation) => {
-      translation.name = translation.name || 'Untitled';
-      return translation;
-    });
 
     if (newTranslations.length) {
       await instance.related('translations').createMany(newTranslations);

@@ -9,6 +9,8 @@ import {
 } from 'App/Validators/v1/OfferDateValidator';
 import Offer from 'App/Models/Offer';
 import Database from '@ioc:Adonis/Lucid/Database';
+import { RRule } from 'rrule';
+import { DateTime } from 'luxon';
 
 export default class OfferDateManager extends BaseManager<typeof OfferDate> {
   public ManagedModel = OfferDate;
@@ -59,14 +61,49 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
     return Offer.findByOrFail('public_id', this.ctx.params.offer_id);
   }
 
+  private async $createMany(offer: Offer, attributes, relations, meta) {
+    console.log({ attributes, relations, meta });
+
+    const rrule = RRule.fromString(meta.recurrenceRule);
+    const duration = attributes.endsAt.diff(attributes.startsAt);
+
+    const dates = rrule.all();
+    const offerDates = await offer.related('dates').createMany(
+      dates.map((ruleDate) => {
+        const startsAt = DateTime.fromJSDate(ruleDate)
+          .toUTC()
+          .setZone('local', { keepLocalTime: true });
+        const endsAt = startsAt.plus(duration);
+
+        return Object.assign({}, attributes, { startsAt, endsAt });
+      })
+    );
+
+    if (relations?.translations?.length) {
+      await Database.transaction(async (trx) => {
+        for (const offerDate of offerDates) {
+          offerDate.useTransaction(trx);
+          await this.$translate(offerDate);
+          await offerDate.load('translations');
+        }
+      });
+    }
+
+    this.instances = offerDates;
+    return this.instances;
+  }
+
   public async create() {
-    const { attributes } = await this.ctx.request.validate(
+    const { attributes, relations, meta } = await this.ctx.request.validate(
       new CreateOfferDateValidator(this.ctx)
     );
 
     const offer = await this.$getOfferById();
-    let offerDate;
+    if (meta?.recurrenceRule) {
+      return this.$createMany(offer, attributes, relations, meta);
+    }
 
+    let offerDate;
     await Database.transaction(async (trx) => {
       offer.useTransaction(trx);
       offerDate = await offer.related('dates').create({

@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { OfferDateStatus } from 'App/Models/OfferDate';
-import { initialTranslation } from 'App/Helpers/Validator';
+import { allowedLanguages } from 'Config/app';
 
 export class CreateOfferDateValidator {
   constructor(private context: HttpContextContract) {}
@@ -16,7 +16,23 @@ export class CreateOfferDateValidator {
       ticketUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
-      initialTranslation,
+      translations: schema.array.optional([rules.minLength(1)]).members(
+        schema.object().members({
+          name: schema.string.optional({ trim: true }, [
+            rules.requiredIfNotExistsAll(['description', 'roomDescription']),
+          ]),
+          description: schema.string.optional({ trim: true }, [
+            rules.requiredIfNotExistsAll(['name', 'roomDescription']),
+          ]),
+          roomDescription: schema.string.optional({ trim: true }, [
+            rules.requiredIfNotExistsAll(['description', 'name']),
+          ]),
+          language: schema.enum(allowedLanguages),
+        })
+      ),
+    }),
+    meta: schema.object.optional().members({
+      recurrenceRule: schema.string({ trim: true }),
     }),
   });
 
