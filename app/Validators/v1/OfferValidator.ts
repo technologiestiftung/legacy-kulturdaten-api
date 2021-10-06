@@ -7,7 +7,7 @@ export class CreateOfferValidator {
   constructor(private context: HttpContextContract) {}
 
   public schema = schema.create({
-    attributes: schema.object().members({
+    attributes: schema.object.optional().members({
       status: schema.enum.optional(Object.values(OfferStatus)),
       needsRegistration: schema.boolean.optional(),
       hasFee: schema.boolean.optional(),

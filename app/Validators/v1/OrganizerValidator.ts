@@ -17,7 +17,7 @@ export class CreateOrganizerValidator {
   });
 
   public schema = schema.create({
-    attributes: schema.object().members({
+    attributes: schema.object.optional().members({
       email: schema.string.optional({ trim: true }, [rules.email()]),
       phone: schema.string.optional({ trim: true }, [rules.mobile()]),
       homepage: schema.string.optional({ trim: true }, [rules.url()]),

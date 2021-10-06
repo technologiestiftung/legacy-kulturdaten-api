@@ -37,8 +37,6 @@ export class CreateVirtualLocationValidator {
   public schema = schema.create({
     type: schema.string({}, [rules.equalTo(LocationTypes.VIRTUAL)]),
     attributes: schema.object().members({
-      name: schema.string({ trim: true }),
-      description: schema.string.optional({ trim: true }),
       url: schema.string({}, [rules.url()]),
       status: schema.enum.optional(Object.values(LocationStatus)),
     }),

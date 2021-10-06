@@ -112,9 +112,9 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     await Database.transaction(async (trx) => {
       offer.useTransaction(trx);
 
-      offer.needsRegistration = attributes.needsRegistration || false;
-      offer.hasFee = attributes.hasFee || false;
-      offer.isPermanent = attributes.isPermanent || false;
+      offer.needsRegistration = attributes?.needsRegistration || false;
+      offer.hasFee = attributes?.hasFee || false;
+      offer.isPermanent = attributes?.isPermanent || false;
       offer.ticketUrl = attributes?.ticketUrl || '';
 
       await offer.save();
