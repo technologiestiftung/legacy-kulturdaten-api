@@ -32,6 +32,23 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
         name: 'updatedAt',
         attribute: 'updated_at',
       },
+      {
+        name: 'startsAt',
+        attribute: 'starts_at',
+      },
+    ],
+    filters: [
+      {
+        name: 'past',
+        query: (query, name, value) => {
+          const now = DateTime.now().toISO();
+          if (value === 'true') {
+            return query.where('ends_at', '<', now);
+          } else {
+            return query.where('ends_at', '>=', now);
+          }
+        },
+      },
     ],
   };
 
