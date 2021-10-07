@@ -36,13 +36,11 @@ export default class OfferController {
     const manager: OfferManager = new OfferManager(ctx);
     await manager.update();
 
-    const offer: Offer = await manager.byId();
-    const publishable = await offer.publishable();
-
+    const publishable = await manager.instance.publishable();
     if (publishable !== true) {
-      offer.status = OfferStatus.DRAFT;
-      if (offer.$isDirty) {
-        await offer.save();
+      manager.instance.status = OfferStatus.DRAFT;
+      if (manager.instance.$isDirty) {
+        await manager.instance.save();
       }
     }
 
