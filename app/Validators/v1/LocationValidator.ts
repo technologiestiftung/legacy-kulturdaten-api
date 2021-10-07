@@ -57,7 +57,6 @@ export class UpdatePhysicalLocationValidator {
   constructor(private context: HttpContextContract) {}
 
   public schema = schema.create({
-    type: schema.string({}, [rules.equalTo(LocationTypes.PHYSICAL)]),
     attributes: schema.object.optional().members({
       status: schema.enum.optional(Object.values(LocationStatus)),
     }),
@@ -78,7 +77,6 @@ export class UpdateVirtualLocationValidator {
   constructor(private context: HttpContextContract) {}
 
   public schema = schema.create({
-    type: schema.string({}, [rules.equalTo(LocationTypes.VIRTUAL)]),
     attributes: schema.object().members({
       url: schema.string.optional({}, [rules.url()]),
       status: schema.enum.optional(Object.values(LocationStatus)),

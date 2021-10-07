@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import Location, { LocationTypes } from 'App/Models/Location';
+import Location, { LocationTypes, PhysicalLocation } from 'App/Models/Location';
 import {
   CreatePhysicalLocationValidator,
   UpdatePhysicalLocationValidator,
@@ -144,11 +144,10 @@ export default class LocationManager extends BaseManager<typeof Location> {
   }
 
   private async $updatePhysicalLocation() {
+    const location = this.instance;
     const { attributes, relations } = await this.ctx.request.validate(
       new UpdatePhysicalLocationValidator(this.ctx)
     );
-
-    const location = await this.byId();
 
     location.status = attributes?.status || location.status;
 
@@ -177,11 +176,11 @@ export default class LocationManager extends BaseManager<typeof Location> {
   }
 
   private async $updateVirtualLocation() {
+    const location = this.instance;
     const { attributes, relations } = await this.ctx.request.validate(
       new UpdateVirtualLocationValidator(this.ctx)
     );
 
-    const location = await this.byId();
     await Database.transaction(async (trx) => {
       location.useTransaction(trx);
 
@@ -206,10 +205,8 @@ export default class LocationManager extends BaseManager<typeof Location> {
   }
 
   public async update() {
-    if (
-      this.ctx.request.input('type', LocationTypes.PHYSICAL) ===
-      LocationTypes.PHYSICAL
-    ) {
+    await this.byId();
+    if (this.instance.specific() instanceof PhysicalLocation) {
       return this.$updatePhysicalLocation();
     } else {
       return this.$updateVirtualLocation();
