@@ -79,7 +79,7 @@ export enum LocationStatus {
 
 export default class Location extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
-  public id: string;
+  public id: number;
 
   @column({ serializeAs: null })
   public publicId: string;

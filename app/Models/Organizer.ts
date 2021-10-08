@@ -45,7 +45,7 @@ export enum OrganizerStatus {
 
 export default class Organizer extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
-  public id: string;
+  public id: number;
 
   @column({ serializeAs: null })
   public publicId: string;

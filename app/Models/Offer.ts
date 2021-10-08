@@ -50,7 +50,7 @@ export enum OfferStatus {
 
 export default class Offer extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
-  public id: string;
+  public id: number;
 
   @column({ serializeAs: null })
   public publicId: string;
