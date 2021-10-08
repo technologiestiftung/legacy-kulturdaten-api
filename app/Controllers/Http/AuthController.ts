@@ -13,15 +13,35 @@ import {
 import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 import { ApiDocument } from 'App/Helpers/Api/Document';
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
+import Resource from 'App/Helpers/Api/Resource';
 
 export default class UsersController {
   public async info(ctx: HttpContextContract) {
     const { auth, response } = ctx;
-    if (!auth.user) {
+    const user = auth.user;
+    if (!user) {
       throw new UnauthorizedException();
     }
 
-    return new ApiDocument(ctx, auth.user);
+    await Promise.all([
+      user.load('organizers', (query) => {
+        query.preload('organizer', (query) => {
+          query.preload('translations');
+          query.preload('logo');
+        });
+      }),
+      user.load('locations', (query) => {
+        query.preload('location');
+      }),
+      user.load('offers', (query) => {
+        query.preload('offer');
+      }),
+    ]);
+
+    const resource = new Resource(user);
+    resource.boot();
+
+    return new ApiDocument(ctx, resource);
   }
 
   public async validate(ctx: HttpContextContract) {

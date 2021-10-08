@@ -2,12 +2,16 @@ import { DateTime } from 'luxon';
 import Hash from '@ioc:Adonis/Core/Hash';
 import {
   column,
+  computed,
   beforeSave,
   BaseModel,
+  hasMany,
+  HasMany,
   manyToMany,
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm';
 import Organizer from 'App/Models/Organizer';
+import { OrganizerRole, LocationRole, OfferRole } from 'App/Models/Roles';
 
 export enum UserStatus {
   ACTIVE = 'active',
@@ -30,6 +34,15 @@ export default class User extends BaseModel {
   @column()
   public rememberMeToken?: string;
 
+  @hasMany(() => OrganizerRole)
+  public organizers: HasMany<typeof OrganizerRole>;
+
+  @hasMany(() => LocationRole)
+  public locations: HasMany<typeof LocationRole>;
+
+  @hasMany(() => OfferRole)
+  public offers: HasMany<typeof OfferRole>;
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 
@@ -42,14 +55,6 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password);
     }
   }
-
-  @manyToMany(() => Organizer, {
-    relatedKey: 'id',
-    localKey: 'public_id',
-    pivotForeignKey: 'user_id',
-    pivotRelatedForeignKey: 'organizer_public_id',
-  })
-  public organizers: ManyToMany<typeof Organizer>;
 
   public isActive() {
     return this.status === UserStatus.ACTIVE;

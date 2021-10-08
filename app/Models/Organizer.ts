@@ -6,6 +6,8 @@ import {
   ManyToMany,
   hasMany,
   HasMany,
+  hasManyThrough,
+  HasManyThrough,
   belongsTo,
   BelongsTo,
   beforeCreate,
@@ -18,6 +20,8 @@ import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator'
 import { PublishOrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
+import User from 'App/Models/User';
+import { OrganizerRole } from 'App/Models/Roles';
 import Tag from 'App/Models/Tag';
 import { publishable } from 'App/Helpers/Utilities';
 
@@ -52,20 +56,6 @@ export default class Organizer extends BaseModel {
 
   @column()
   public status: string;
-
-  public async publishable() {
-    const organizer = await Organizer.find(this.id);
-
-    await organizer?.load('address');
-    await organizer?.load('types');
-    await organizer?.load('subjects');
-
-    return publishable(
-      this,
-      PublishOrganizerValidator,
-      PublishOrganizerTranslationValidator
-    );
-  }
 
   @column({ serializeAs: null })
   public addressId: number;
@@ -132,19 +122,14 @@ export default class Organizer extends BaseModel {
   @manyToMany(() => Tag)
   public tags: ManyToMany<typeof Tag>;
 
+  @hasManyThrough([() => User, () => OrganizerRole])
+  public users: HasManyThrough<typeof User>;
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
-
-  // @manyToMany(() => User, {
-  //   relatedKey: 'id',
-  //   localKey: 'public_id',
-  //   pivotForeignKey: 'organizer_public_id',
-  //   pivotRelatedForeignKey: 'user_id',
-  // })
-  // public members: ManyToMany<typeof User>;
 
   @beforeCreate()
   public static async setPublicId(organizer: Organizer) {
@@ -153,6 +138,20 @@ export default class Organizer extends BaseModel {
     }
 
     organizer.publicId = cuid();
+  }
+
+  public async publishable() {
+    const organizer = await Organizer.find(this.id);
+
+    await organizer?.load('address');
+    await organizer?.load('types');
+    await organizer?.load('subjects');
+
+    return publishable(
+      this,
+      PublishOrganizerValidator,
+      PublishOrganizerTranslationValidator
+    );
   }
 
   public static findByType(organizerType: OrganizerType) {
