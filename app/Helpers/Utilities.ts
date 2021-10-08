@@ -69,6 +69,10 @@ export function absoluteUrl(route: string) {
 }
 
 export function updateField(attributes, instance, key) {
+  if (!attributes) {
+    return;
+  }
+
   const value = attributes[key];
   if (value === undefined) {
     return;
