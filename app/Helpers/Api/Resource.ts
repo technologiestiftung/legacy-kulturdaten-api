@@ -18,9 +18,13 @@ export default class Resource {
 
   public id: string | number;
 
-  private $attributes: object = {};
+  public $attributes: {
+    [key: string]: any;
+  } = {};
 
-  private $relations: object = {};
+  public $relations: {
+    [key: string]: any;
+  } = {};
 
   constructor(instance) {
     this.instance = instance;
