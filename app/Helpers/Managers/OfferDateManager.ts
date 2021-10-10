@@ -7,7 +7,7 @@ import {
   CreateOfferDateValidator,
   UpdateOfferDateValidator,
 } from 'App/Validators/v1/OfferDateValidator';
-import Offer from 'App/Models/Offer';
+import Offer from 'App/Models/Offer/Offer';
 import Database from '@ioc:Adonis/Lucid/Database';
 import { RRule } from 'rrule';
 import { DateTime } from 'luxon';

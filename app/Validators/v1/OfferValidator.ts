@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-import { OfferStatus } from 'App/Models/Offer';
+import { OfferStatus } from 'App/Models/Offer/Offer';
 import { tags, links, media, initialTranslation } from 'App/Helpers/Validator';
 
 export class CreateOfferValidator {
@@ -18,6 +18,22 @@ export class CreateOfferValidator {
       links,
       tags,
       initialTranslation,
+      types: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'offer_types',
+            column: 'id',
+          }),
+        ])
+      ),
+      subjects: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'offer_subjects',
+            column: 'id',
+          }),
+        ])
+      ),
     }),
     meta: schema.object.optional().members({
       startsAt: schema.date(),
@@ -46,6 +62,22 @@ export class UpdateOfferValidator {
     relations: schema.object.optional().members({
       links,
       tags,
+      types: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'offer_types',
+            column: 'id',
+          }),
+        ])
+      ),
+      subjects: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'offer_subjects',
+            column: 'id',
+          }),
+        ])
+      ),
     }),
     meta: schema.object.optional().members({
       startsAt: schema.date(),

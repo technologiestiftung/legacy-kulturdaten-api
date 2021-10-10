@@ -1,5 +1,5 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
-import Offer from 'App/Models/Offer';
+import Offer from 'App/Models/Offer/Offer';
 import Organizer from 'App/Models/Organizer';
 import OrganizerType from 'App/Models/OrganizerType';
 import faker from 'faker';

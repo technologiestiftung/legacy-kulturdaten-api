@@ -57,7 +57,7 @@ export class ApiDocument {
    */
   constructor(
     ctx: HttpContextContract,
-    resource: ApiResource | undefined,
+    resource: ApiResource | undefined | { data: any },
     meta: ApiDocumentMeta = {},
     hold: boolean = false
   ) {

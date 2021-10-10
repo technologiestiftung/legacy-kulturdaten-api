@@ -7,7 +7,7 @@ import {
   belongsTo,
   BelongsTo,
 } from '@ioc:Adonis/Lucid/Orm';
-import Offer from 'App/Models/Offer';
+import Offer from 'App/Models/Offer/Offer';
 
 export class OfferDateTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })

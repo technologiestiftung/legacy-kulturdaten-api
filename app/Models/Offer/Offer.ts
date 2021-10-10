@@ -8,7 +8,6 @@ import {
   HasMany,
   belongsTo,
   BelongsTo,
-  afterSave,
   beforeCreate,
 } from '@ioc:Adonis/Lucid/Orm';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
@@ -19,8 +18,8 @@ import Location from 'App/Models/Location';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
 import OfferDate from 'App/Models/OfferDate';
+import { OfferType, OfferSubject } from 'App/Models/Offer';
 import { publishable } from 'App/Helpers/Utilities';
-import Event from '@ioc:Adonis/Core/Event';
 import Tag from 'App/Models/Tag';
 
 export class OfferTranslation extends BaseModel {
@@ -108,6 +107,12 @@ export default class Offer extends BaseModel {
 
   @manyToMany(() => Tag)
   public tags: ManyToMany<typeof Tag>;
+
+  @manyToMany(() => OfferType)
+  public types: ManyToMany<typeof OfferType>;
+
+  @manyToMany(() => OfferSubject)
+  public subjects: ManyToMany<typeof OfferSubject>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

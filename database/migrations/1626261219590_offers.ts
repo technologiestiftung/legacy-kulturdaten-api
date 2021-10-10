@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
-import { OfferStatus } from 'App/Models/Offer';
+import { OfferStatus } from 'App/Models/Offer/Offer';
 
 export default class Offers extends BaseSchema {
   protected tableName = 'offers';

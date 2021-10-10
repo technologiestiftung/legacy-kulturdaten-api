@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ApiDocument } from 'App/Helpers/Api/Document';
-import Offer, { OfferStatus } from 'App/Models/Offer';
+import Offer, { OfferStatus } from 'App/Models/Offer/Offer';
 import OfferManager from 'App/Helpers/Managers/OfferManager';
 
 // TODO(matthiasrohmer): Add permissions

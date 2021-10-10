@@ -1,5 +1,5 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
-import Offer, { OfferTranslation, OfferStatus } from 'App/Models/Offer';
+import Offer, { OfferTranslation, OfferStatus } from 'App/Models/Offer/Offer';
 import OfferDate, { OfferDateTranslation } from 'App/Models/OfferDate';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
