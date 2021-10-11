@@ -14,7 +14,7 @@ export class CreatePhysicalLocationValidator {
 
   public schema = schema.create({
     type: schema.string({}, [rules.equalTo(LocationTypes.PHYSICAL)]),
-    attributes: schema.object().members({
+    attributes: schema.object.optional().members({
       status: schema.enum.optional(Object.values(LocationStatus)),
     }),
     relations: schema.object.optional().members({
