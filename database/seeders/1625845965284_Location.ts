@@ -1,5 +1,5 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
-import Organizer from 'App/Models/Organizer';
+import Organizer from 'App/Models/Organizer/Organizer';
 import faker from 'faker';
 import { LocationFactory } from 'Database/factories/Location';
 

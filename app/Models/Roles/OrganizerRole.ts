@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
 import User from 'App/Models/User';
-import Organizer from 'App/Models/Organizer';
+import Organizer from 'App/Models/Organizer/Organizer';
 
 export default class OrganizerRole extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })

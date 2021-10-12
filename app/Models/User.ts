@@ -10,7 +10,7 @@ import {
   manyToMany,
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm';
-import Organizer from 'App/Models/Organizer';
+import Organizer from 'App/Models/Organizer/Organizer';
 import { OrganizerRole, LocationRole, OfferRole } from 'App/Models/Roles';
 
 export enum UserStatus {

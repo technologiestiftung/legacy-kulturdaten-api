@@ -13,7 +13,7 @@ import {
 import { cuid } from '@ioc:Adonis/Core/Helpers';
 import { PublishOfferValidator } from 'App/Validators/v1/OfferValidator';
 import { PublishOfferTranslationValidator } from 'App/Validators/v1/OfferTranslationValidator';
-import Organizer from 'App/Models/Organizer';
+import Organizer from 'App/Models/Organizer/Organizer';
 import Location from 'App/Models/Location';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';

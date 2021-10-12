@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
-import { OrganizerStatus } from 'App/Models/Organizer';
+import { OrganizerStatus } from 'App/Models/Organizer/Organizer';
 
 export default class Organizers extends BaseSchema {
   protected tableName = 'organizers';

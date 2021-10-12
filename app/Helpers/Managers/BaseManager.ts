@@ -15,6 +15,7 @@ import { withTranslations } from '../Utilities';
 import { schema, SchemaObject } from '@ioc:Adonis/Core/Validator';
 import * as schemas from 'App/Helpers/Validator';
 import { rules } from '@ioc:Adonis/Core/Validator';
+import { types } from '@ioc:Adonis/Core/Helpers';
 
 interface OrderableInstruction {
   name: string;
@@ -209,6 +210,8 @@ export class BaseManager<ManagedModel extends LucidModel> {
         return this.create();
       case 'PATCH':
         return this.update();
+      case 'PATCH':
+        return this.delete();
       default:
         return this.byId();
     }
@@ -382,6 +385,39 @@ export class BaseManager<ManagedModel extends LucidModel> {
     }
 
     return this.instances.map(this.$toResource.bind(this));
+  }
+
+  public async $deleteObject(
+    Model,
+    id: number | string | undefined,
+    column = 'id'
+  ) {
+    if (!id) {
+      return [];
+    }
+    return this.$deleteObjects(Model, [id], column);
+  }
+
+  public async $deleteObjects(
+    Model,
+    ids: number[] | string[] | undefined,
+    column = 'id'
+  ) {
+    if (!ids) {
+      return [];
+    }
+
+    let instances = await Model.query().whereIn(column, ids).select(column);
+    instances = instances.map((instance) => {
+      return this.$toResource(instance);
+    });
+
+    await Model.query().whereIn(column, ids).delete();
+    return instances;
+  }
+
+  public async delete(): Promise<Resource[]> {
+    return [];
   }
 }
 

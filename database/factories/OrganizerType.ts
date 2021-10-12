@@ -1,7 +1,7 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
 import OrganizerType, {
   OrganizerTypeTranslation,
-} from 'App/Models/OrganizerType';
+} from 'App/Models/Organizer/OrganizerType';
 
 export const OrganizerTypeFactory = Factory.define(
   OrganizerType,

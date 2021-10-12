@@ -1,7 +1,7 @@
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import User from 'App/Models/User';
-import Organizer from 'App/Models/Organizer';
+import Organizer from 'App/Models/Organizer/Organizer';
 import Location from 'App/Models/Location';
 import Offer from 'App/Models/Offer/Offer';
 import faker from 'faker';

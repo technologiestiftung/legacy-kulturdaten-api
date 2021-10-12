@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import OrganizerType from 'App/Models/OrganizerType';
+import OrganizerType from 'App/Models/Organizer/OrganizerType';
 import { withTranslations } from 'App/Helpers/Utilities';
 
 export default class OrganizerTypeManager extends BaseManager<

@@ -21,7 +21,7 @@ import { PublishLocationTranslationValidator } from 'App/Validators/v1/LocationT
 import Address from 'App/Models/Address';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
-import Organizer from 'App/Models/Organizer';
+import Organizer from 'App/Models/Organizer/Organizer';
 import Tag from 'App/Models/Tag';
 import { publishable } from 'App/Helpers/Utilities';
 
