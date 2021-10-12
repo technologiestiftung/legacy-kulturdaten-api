@@ -30,9 +30,6 @@ export default class OfferSubject extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column()
-  public publicId: string;
-
   @column({ serializeAs: null })
   public offerTypeId: number;
 
