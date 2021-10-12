@@ -21,7 +21,7 @@ export class CreatePhysicalLocationValidator {
       address: address.create,
       tags,
       links,
-      initialTranslation,
+      translations: initialTranslation,
     }),
     media,
   });
@@ -43,7 +43,7 @@ export class CreateVirtualLocationValidator {
     relations: schema.object.optional().members({
       tags,
       links,
-      initialTranslation,
+      translations: initialTranslation,
     }),
     media,
   });
