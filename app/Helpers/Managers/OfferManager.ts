@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import Offer from 'App/Models/Offer/Offer';
+import Offer, { OfferStatus } from 'App/Models/Offer/Offer';
 import {
   CreateOfferValidator,
   UpdateOfferValidator,
@@ -47,6 +47,18 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         query: (query) => {
           withTranslations(query);
           query.preload('renditions');
+        },
+      },
+    ],
+    filters: [
+      {
+        name: 'status',
+        query: (query, name, value) => {
+          if (![OfferStatus.DRAFT, OfferStatus.PUBLISHED].includes(value)) {
+            return query;
+          }
+
+          return query.where('status', 'LIKE', value);
         },
       },
     ],
