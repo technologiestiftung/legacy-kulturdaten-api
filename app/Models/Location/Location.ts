@@ -23,6 +23,7 @@ import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
 import Organizer from 'App/Models/Organizer/Organizer';
 import Tag from 'App/Models/Tag';
+import { OpeningHours } from 'App/Models/Location';
 import { publishable } from 'App/Helpers/Utilities';
 
 export class PhysicalLocation extends BaseModel {
@@ -34,6 +35,9 @@ export class PhysicalLocation extends BaseModel {
 
   @belongsTo(() => Address)
   public address: BelongsTo<typeof Address>;
+
+  @hasMany(() => OpeningHours)
+  public openingHours: HasMany<typeof OpeningHours>;
 
   @column({ serializeAs: null })
   public locationId: number;

@@ -23,8 +23,6 @@ export default class LocationController {
 
   public async show(ctx: HttpContextContract) {
     const manager: LocationManager = new LocationManager(ctx);
-
-    manager.include = 'address';
     await manager.byId();
 
     const location: Location = manager.instance;
@@ -37,10 +35,8 @@ export default class LocationController {
     const manager: LocationManager = new LocationManager(ctx);
     await manager.update();
 
-    manager.include = 'address';
-    const location: Location = await manager.byId();
+    const location = await manager.instance;
     const publishable = await location.publishable();
-
     if (publishable !== true) {
       location.status = LocationStatus.DRAFT;
       if (location.$isDirty) {

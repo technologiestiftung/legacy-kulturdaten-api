@@ -8,6 +8,7 @@ import {
   address,
   initialTranslation,
 } from 'App/Helpers/Validator';
+import { Weekdays } from 'App/Models/Location/OpeningHours';
 
 export class CreatePhysicalLocationValidator {
   constructor(private context: HttpContextContract) {}
@@ -18,6 +19,15 @@ export class CreatePhysicalLocationValidator {
       status: schema.enum.optional(Object.values(LocationStatus)),
     }),
     relations: schema.object.optional().members({
+      openingHours: schema.array.optional().members(
+        schema.object().members({
+          attributes: schema.object().members({
+            weekday: schema.enum(Object.values(Weekdays)),
+            from: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+            to: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+          }),
+        })
+      ),
       address: address.create,
       tags,
       links,
@@ -61,6 +71,15 @@ export class UpdatePhysicalLocationValidator {
       status: schema.enum.optional(Object.values(LocationStatus)),
     }),
     relations: schema.object.optional().members({
+      openingHours: schema.array.optional().members(
+        schema.object().members({
+          attributes: schema.object().members({
+            weekday: schema.enum(Object.values(Weekdays)),
+            from: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+            to: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+          }),
+        })
+      ),
       address: address.update,
       tags,
       links,

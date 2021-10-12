@@ -13,6 +13,7 @@ import {
 import { translation } from 'App/Validators/v1/LocationTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Address from 'App/Models/Address';
+import Media from 'App/Models/Media';
 import { withTranslations } from 'App/Helpers/Utilities';
 
 export default class LocationManager extends BaseManager<typeof Location> {
@@ -68,7 +69,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
     return super
       .query()
       .preload('physical', (query) => {
-        return query.preload('address');
+        return query.preload('address').preload('openingHours');
       })
       .preload('virtual');
   }
@@ -83,6 +84,22 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await physicalLocation.load('address');
 
     return address;
+  }
+
+  private async $updateOpeningHours(
+    physicalLocation: PhysicalLocation,
+    openingHours
+  ) {
+    if (!openingHours.length) {
+      return;
+    }
+
+    await physicalLocation.related('openingHours').createMany(
+      openingHours.map((openingHour) => {
+        return openingHour.attributes;
+      })
+    );
+    await physicalLocation.load('openingHours');
   }
 
   private async $createPhysicalLocation() {
@@ -106,6 +123,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
+    await this.$updateOpeningHours(location.physical, relations?.openingHours);
     await this.$storeMedia(location);
 
     this.instance = location;
@@ -173,6 +191,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
+    await this.$updateOpeningHours(location.physical, relations?.openingHours);
     await this.$storeMedia(location);
 
     return this.instance;
@@ -214,5 +233,17 @@ export default class LocationManager extends BaseManager<typeof Location> {
     } else {
       return this.$updateVirtualLocation();
     }
+  }
+
+  public async delete() {
+    const { attributes, relations } = await this.ctx.request.validate(
+      new DeleteLocationValidator(this.ctx)
+    );
+
+    return [
+      ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
+      ...(await this.$deleteObjects(Media, relations?.media)),
+      ...(await this.$deleteObject(Location, attributes?.id, 'public_id')),
+    ];
   }
 }
