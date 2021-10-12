@@ -150,7 +150,7 @@ export class DeleteOrganizerValidator {
 
   public schema = schema.create({
     attributes: schema.object.optional().members({
-      id: schema.string([
+      id: schema.string({}, [
         rules.exists({
           table: 'organizers',
           column: 'public_id',
