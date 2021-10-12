@@ -15,7 +15,6 @@ import { withTranslations } from '../Utilities';
 import { schema, SchemaObject } from '@ioc:Adonis/Core/Validator';
 import * as schemas from 'App/Helpers/Validator';
 import { rules } from '@ioc:Adonis/Core/Validator';
-import { types } from '@ioc:Adonis/Core/Helpers';
 
 interface OrderableInstruction {
   name: string;
