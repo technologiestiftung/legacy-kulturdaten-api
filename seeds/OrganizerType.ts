@@ -4,11 +4,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Konzerthäuser, Orchester, Chöre',
+          name: 'Konzerthäuser / Orchester / Chöre / Konzertveranstalter:in',
           language: 'de',
         },
         {
-          name: 'Conert houses, orchestras, choires',
+          name: 'concert hall / orchestra / choir / other concert venue',
           language: 'en',
         },
       ],
@@ -21,7 +21,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Concert stage',
+                name: 'concert stage',
                 language: 'en',
               },
             ],
@@ -35,7 +35,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Symphonic orchestra',
+                name: 'symphony orchestra',
                 language: 'en',
               },
             ],
@@ -49,7 +49,21 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Chamber orchestra',
+                name: 'chamber orchestra',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Orchester',
+                language: 'de',
+              },
+              {
+                name: 'orchestra',
                 language: 'en',
               },
             ],
@@ -63,7 +77,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Special ensemble',
+                name: 'special ensemble',
                 language: 'en',
               },
             ],
@@ -87,11 +101,39 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Konzertbühne',
+                name: 'Kammerchor',
                 language: 'de',
               },
               {
-                name: 'Concert stage',
+                name: 'chamber choir',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Club',
+                language: 'de',
+              },
+              {
+                name: 'club',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Musikveranstalter:in',
+                language: 'de',
+              },
+              {
+                name: 'music venue',
                 language: 'en',
               },
             ],
@@ -106,11 +148,12 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Theater, Tanz & Performance',
+          name:
+            'Spielstätte oder Organisation für Theater / Musiktheater / Performance',
           language: 'de',
         },
         {
-          name: 'Theatre, dance & performance',
+          name: 'theatre / performance venue or organization',
           language: 'en',
         },
       ],
@@ -119,11 +162,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Sprechtheater',
+                name: 'Sprechtheater / Schauspiel',
                 language: 'de',
               },
               {
-                name: 'Drama',
+                name: 'spoken theatre',
                 language: 'en',
               },
             ],
@@ -137,7 +180,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Musical',
+                name: 'musical theatre',
                 language: 'en',
               },
             ],
@@ -151,7 +194,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Dance',
+                name: 'dance',
                 language: 'en',
               },
             ],
@@ -165,7 +208,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Puppet theatre',
+                name: 'puppet theater',
                 language: 'en',
               },
             ],
@@ -179,7 +222,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Performance',
+                name: 'performance',
                 language: 'en',
               },
             ],
@@ -193,7 +236,81 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Cabaret',
+                name: 'cabaret',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Entertainment',
+                language: 'de',
+              },
+              {
+                name: 'entertainment',
+                language: 'en',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    attributes: {},
+    relations: {
+      translations: [
+        {
+          name: 'Spielstätte oder Organisation für Tanz / Performance',
+          language: 'de',
+        },
+        {
+          name: 'dance / performance venue, company or organization',
+          language: 'en',
+        },
+      ],
+      subjects: [
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Tanztheater',
+                language: 'de',
+              },
+              {
+                name: 'dance theatre',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Ballett',
+                language: 'de',
+              },
+              {
+                name: 'ballet',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Zeitgenössischer Tanz',
+                language: 'de',
+              },
+              {
+                name: 'contemporary dance',
                 language: 'en',
               },
             ],
@@ -212,7 +329,7 @@ const types = [
           language: 'de',
         },
         {
-          name: 'Museum',
+          name: 'museum',
           language: 'en',
         },
       ],
@@ -221,11 +338,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Bildende Kunst',
+                name: 'Kunstmuseum',
                 language: 'de',
               },
               {
-                name: 'Visual arts',
+                name: 'art museum',
                 language: 'en',
               },
             ],
@@ -235,11 +352,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Architektur, Kunsthandwerk & Design',
+                name: 'Museum für Film / Fotografie',
                 language: 'de',
               },
               {
-                name: 'Architecture, craft & design',
+                name: 'museum for film / photography',
                 language: 'en',
               },
             ],
@@ -249,11 +366,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Schlösser & Burgen',
+                name: 'Architektur, Kunsthandwerk und Design',
                 language: 'de',
               },
               {
-                name: 'Castles',
+                name: 'architecture, crafts and design',
                 language: 'en',
               },
             ],
@@ -263,11 +380,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Naturkunde',
+                name: 'Schloss- und Burgmuseum',
                 language: 'de',
               },
               {
-                name: 'Natural History',
+                name: 'palaces, castle museums',
                 language: 'en',
               },
             ],
@@ -277,11 +394,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Naturwissenschaft & Technik',
+                name: 'Museum für Naturkunde, Naturwissenschaft, Technik',
                 language: 'de',
               },
               {
-                name: 'Science & Technology',
+                name: 'nature, technology museums',
                 language: 'en',
               },
             ],
@@ -291,11 +408,39 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Geschichte & Archäologie',
+                name: 'Museum für Geschichte / Archäologie',
                 language: 'de',
               },
               {
-                name: 'History & Archaeology',
+                name: 'ancient cultures, archaeology museums',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Kulturgeschichtliches Spezialmuseum',
+                language: 'de',
+              },
+              {
+                name: 'cultural history museum',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Stadtteil- / Bezirksmuseum',
+                language: 'de',
+              },
+              {
+                name: 'district museum',
                 language: 'en',
               },
             ],
@@ -310,28 +455,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Gedenkstätte',
+          name: 'Galerie / Ausstellungsstätte / Initative für Bildende Kunst',
           language: 'de',
         },
         {
-          name: 'Memorial',
-          language: 'en',
-        },
-      ],
-      subjects: [],
-    },
-  },
-
-  {
-    attributes: {},
-    relations: {
-      translations: [
-        {
-          name: 'Bildungseinrichtung',
-          language: 'de',
-        },
-        {
-          name: 'Educational',
+          name: 'gallery / art organization or initiative',
           language: 'en',
         },
       ],
@@ -340,11 +468,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Musikschule',
+                name: 'Galerie',
                 language: 'de',
               },
               {
-                name: 'School for Music',
+                name: 'gallery',
                 language: 'en',
               },
             ],
@@ -354,11 +482,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Theaterschule',
+                name: 'Kunstverein',
                 language: 'de',
               },
               {
-                name: 'Theatre School',
+                name: 'art society',
                 language: 'en',
               },
             ],
@@ -368,11 +496,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Schauspielschule',
+                name: 'Ausstellungshaus',
                 language: 'de',
               },
               {
-                name: 'Acting School',
+                name: 'art centre / exhibition venue',
                 language: 'en',
               },
             ],
@@ -382,11 +510,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Tanzschule',
+                name: 'Kunst im öffentlichen Raum / Kunst am Bau',
                 language: 'de',
               },
               {
-                name: 'Dancing school',
+                name: 'art in public space / Art on building',
                 language: 'en',
               },
             ],
@@ -396,11 +524,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Kulturelle Bildung',
+                name: 'Privatsammlung',
                 language: 'de',
               },
               {
-                name: 'Cultural education',
+                name: 'private collection',
                 language: 'en',
               },
             ],
@@ -415,11 +543,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Bibliotheken & Archive',
+          name: 'Projektraum / Proberaum / Ateliers / Studios',
           language: 'de',
         },
         {
-          name: 'Libraries & Archives',
+          name: 'project spaces / ateliers /studios',
           language: 'en',
         },
       ],
@@ -428,16 +556,252 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Universitätsbibliothek',
+                name: 'Projektraum',
                 language: 'de',
               },
               {
-                name: 'University Library',
+                name: 'project and event space',
                 language: 'en',
               },
             ],
           },
         },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Werkstatt',
+                language: 'de',
+              },
+              {
+                name: 'workspace',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Studio',
+                language: 'de',
+              },
+              {
+                name: 'studio',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Atelier',
+                language: 'de',
+              },
+              {
+                name: 'atelier',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Ausstellungsraum',
+                language: 'de',
+              },
+              {
+                name: 'artist-run space',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Aktionsraum',
+                language: 'de',
+              },
+              {
+                name: 'activity venue',
+                language: 'en',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    attributes: {},
+    relations: {
+      translations: [
+        {
+          name: 'Gedenkstätte / Erinnerungsort',
+          language: 'de',
+        },
+        {
+          name: 'memorials / place of remembrance',
+          language: 'en',
+        },
+      ],
+      subjects: [
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Gedenkstätte',
+                language: 'de',
+              },
+              {
+                name: 'memorial',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Dokumentationszentrum',
+                language: 'de',
+              },
+              {
+                name: 'documentation centre',
+                language: 'en',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    attributes: {},
+    relations: {
+      translations: [
+        {
+          name: 'Bildungseinrichtung / Anbieter:in für kulturelle Bildung',
+          language: 'de',
+        },
+        {
+          name: 'arts education organization / community outreach',
+          language: 'en',
+        },
+      ],
+      subjects: [
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Musikschule / Musikhochschule',
+                language: 'de',
+              },
+              {
+                name: 'music school / music academy',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Theaterschule / Theaterhochschule / Schauspielschule',
+                language: 'de',
+              },
+              {
+                name: 'theatre academy / drama school',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Ballettschule',
+                language: 'de',
+              },
+              {
+                name: 'balett school',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Tanzschule / -akademie',
+                language: 'de',
+              },
+              {
+                name: 'dance studio / dance school / dance academy',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Organisation / Initiative für kulturelle Bildung',
+                language: 'de',
+              },
+              {
+                name: 'organization or initiative for cultural education',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Jugendkunstschule',
+                language: 'de',
+              },
+              {
+                name: 'youth art school',
+                language: 'en',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+
+  {
+    attributes: {},
+    relations: {
+      translations: [
+        {
+          name: 'Bibliothek / Archiv',
+          language: 'de',
+        },
+        {
+          name: 'library / archive',
+          language: 'en',
+        },
+      ],
+      subjects: [
         {
           relations: {
             translations: [
@@ -446,7 +810,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Universal Library',
+                name: 'universal library',
                 language: 'en',
               },
             ],
@@ -456,11 +820,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Fachbibliothek',
+                name: 'Universitäts- und Hochschulbibliothek',
                 language: 'de',
               },
               {
-                name: 'Fachbibliothek',
+                name: 'academic library',
                 language: 'en',
               },
             ],
@@ -470,11 +834,151 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Archiv',
+                name: 'Spezial- / Fachbibliothek',
                 language: 'de',
               },
               {
-                name: 'Archive',
+                name: 'special libraries',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Kinder- und Jugendbibliothek',
+                language: 'de',
+              },
+              {
+                name: "youth and childre's library",
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Blindenbibliothek',
+                language: 'de',
+              },
+              {
+                name: 'library for the blind',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Behördenbibliothek',
+                language: 'de',
+              },
+              {
+                name: 'government libraries',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Artothek',
+                language: 'de',
+              },
+              {
+                name: 'artothek',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Musikbibliothek',
+                language: 'de',
+              },
+              {
+                name: 'music library',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Staatliches Archiv',
+                language: 'de',
+              },
+              {
+                name: 'state archive / public records',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Kommunales Archiv',
+                language: 'de',
+              },
+              {
+                name: 'municipal archives',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Medienarchiv',
+                language: 'de',
+              },
+              {
+                name: 'media archive',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Universitäts- / Wissenschaftsarchiv',
+                language: 'de',
+              },
+              {
+                name: 'university archive / scientific archives',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Spezialarchiv',
+                language: 'de',
+              },
+              {
+                name: 'special archive',
                 language: 'en',
               },
             ],
@@ -489,11 +993,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Club',
+          name: 'Literaturhaus / Veranstaltungsort für Literatur',
           language: 'de',
         },
         {
-          name: 'Club',
+          name: 'organizations for literature / venues for literary events',
           language: 'en',
         },
       ],
@@ -506,45 +1010,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Literaturhaus',
+          name: 'Freie Künstler:in / Gruppe / Kollektiv ',
           language: 'de',
         },
         {
-          name: 'House of Literature',
-          language: 'en',
-        },
-      ],
-      subjects: [],
-    },
-  },
-
-  {
-    attributes: {},
-    relations: {
-      translations: [
-        {
-          name: 'Projektraum',
-          language: 'de',
-        },
-        {
-          name: 'Project Space',
-          language: 'en',
-        },
-      ],
-      subjects: [],
-    },
-  },
-
-  {
-    attributes: {},
-    relations: {
-      translations: [
-        {
-          name: 'Freie Künstler:in, Gruppe oder Kollektiv',
-          language: 'de',
-        },
-        {
-          name: 'Artists',
+          name: 'solo artist / artist group / collective',
           language: 'en',
         },
       ],
@@ -553,11 +1023,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Musik & Gesang',
+                name: 'Musik / Gesang',
                 language: 'de',
               },
               {
-                name: 'Music & Singing',
+                name: 'music / song',
                 language: 'en',
               },
             ],
@@ -571,7 +1041,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Dance',
+                name: 'dance',
                 language: 'en',
               },
             ],
@@ -581,11 +1051,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Theater & Schauspiel',
+                name: 'Theater / Musiktheater / Schauspiel',
                 language: 'de',
               },
               {
-                name: 'Theatre & Acting',
+                name: 'theatre / music theatre / Schauspiel',
                 language: 'en',
               },
             ],
@@ -599,7 +1069,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Performance',
+                name: 'performance',
                 language: 'en',
               },
             ],
@@ -613,7 +1083,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Arts and crafts',
+                name: 'decorative arts',
                 language: 'en',
               },
             ],
@@ -627,7 +1097,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Media Arts',
+                name: 'new media art',
                 language: 'en',
               },
             ],
@@ -637,11 +1107,25 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Literatur',
+                name: 'Öffentlicher Raum / Aktion',
                 language: 'de',
               },
               {
-                name: 'Literature',
+                name: 'art in public spaces',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Literatur / Diskurs / gesprochenes Wort',
+                language: 'de',
+              },
+              {
+                name: 'literature / discourse / spoken word',
                 language: 'en',
               },
             ],
@@ -655,7 +1139,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'Visual Arts',
+                name: 'visual arts',
                 language: 'en',
               },
             ],
@@ -665,11 +1149,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Fotografie & Film',
+                name: 'Lehre',
                 language: 'de',
               },
               {
-                name: 'Photography & Filming',
+                name: 'art education',
                 language: 'en',
               },
             ],
@@ -679,11 +1163,83 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Kulturelle Bildung',
+                name: 'Fotografie / Film',
                 language: 'de',
               },
               {
-                name: 'Cultural education',
+                name: 'photography / film',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name:
+                  'kulturelle Bildung / ästhetische Bildung / künstlerische Mediation',
+                language: 'de',
+              },
+              {
+                name:
+                  'cultural education / interpretation and outreach / art mediation',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Outreach / soziale Projekte',
+                language: 'de',
+              },
+              {
+                name: 'outreach / social projects',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Entertainment',
+                language: 'de',
+              },
+              {
+                name: 'entertainment',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Kleinkunst',
+                language: 'de',
+              },
+              {
+                name: 'cabaret',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Spartenübergreifend / interdisziplinär arbeitend',
+                language: 'de',
+              },
+              {
+                name: 'inter- / transdisciplinary work',
                 language: 'en',
               },
             ],
@@ -698,11 +1254,12 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Sonstige',
+          name:
+            'Mehrspartenhaus / Interdisziplinäre Einrichtung oder Veranstalter:in',
           language: 'de',
         },
         {
-          name: 'Other',
+          name: 'interdisciplinary organization / multidisciplinary venue',
           language: 'en',
         },
       ],
