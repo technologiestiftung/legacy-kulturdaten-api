@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ApiDocument } from 'App/Helpers/Api/Document';
-import Location, { LocationStatus } from 'App/Models/Location';
+import Location, { LocationStatus } from 'App/Models/Location/Location';
 import LocationManager from 'App/Helpers/Managers/LocationManager';
 
 // TODO(matthiasrohmer): Add permissions

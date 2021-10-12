@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-import { LocationStatus, LocationTypes } from 'App/Models/Location';
+import { LocationStatus, LocationTypes } from 'App/Models/Location/Location';
 import {
   tags,
   links,

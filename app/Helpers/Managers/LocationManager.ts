@@ -1,6 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import Location, { LocationTypes, PhysicalLocation } from 'App/Models/Location';
+import Location, {
+  LocationTypes,
+  PhysicalLocation,
+} from 'App/Models/Location/Location';
 import {
   CreatePhysicalLocationValidator,
   UpdatePhysicalLocationValidator,

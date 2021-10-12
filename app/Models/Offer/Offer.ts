@@ -14,7 +14,7 @@ import { cuid } from '@ioc:Adonis/Core/Helpers';
 import { PublishOfferValidator } from 'App/Validators/v1/OfferValidator';
 import { PublishOfferTranslationValidator } from 'App/Validators/v1/OfferTranslationValidator';
 import Organizer from 'App/Models/Organizer/Organizer';
-import Location from 'App/Models/Location';
+import Location from 'App/Models/Location/Location';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
 import OfferDate from 'App/Models/OfferDate';

@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
-import { LocationStatus } from 'App/Models/Location';
+import { LocationStatus } from 'App/Models/Location/Location';
 
 export default class Locations extends BaseSchema {
   protected tableName = 'locations';
