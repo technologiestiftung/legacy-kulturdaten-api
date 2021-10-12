@@ -54,7 +54,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       {
         name: 'name',
         query: Database.raw(
-          `(SELECT name FROM location_translations WHERE location_translations.location_id = locations.id AND location_translations.language = '${this.language}')`
+          `(SELECT name FROM offer_translations WHERE offer_translations.offer_id = offers.id AND offer_translations.language = '${this.language}')`
         ),
       },
       {
