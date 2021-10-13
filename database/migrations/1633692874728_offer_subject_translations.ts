@@ -13,7 +13,6 @@ export default class OfferSubjectTranslations extends BaseSchema {
         .defaultTo(Languages.DE);
 
       table.string('name');
-      table.string('description');
 
       table
         .integer('offer_subject_id')

@@ -34,6 +34,10 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         query: withTranslations,
       },
       {
+        name: 'mainType',
+        query: withTranslations,
+      },
+      {
         name: 'types',
         query: withTranslations,
       },
@@ -123,20 +127,6 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     await offer.load('dates', withTranslations);
   }
 
-  private async $updateTypes(offer: Offer, types) {
-    if (types) {
-      await offer.related('types').sync(types);
-      await offer.load('types', withTranslations);
-    }
-  }
-
-  private async $updateSubjects(offer: Offer, subjects) {
-    if (subjects) {
-      await offer.related('subjects').sync(subjects);
-      await offer.load('subjects', withTranslations);
-    }
-  }
-
   public async create() {
     const { attributes, relations, meta } = await this.ctx.request.validate(
       new CreateOfferValidator(this.ctx)
@@ -155,8 +145,11 @@ export default class OfferManager extends BaseManager<typeof Offer> {
 
       await this.$translate(offer);
       await this.$updateDates(offer, meta);
-      await this.$updateSubjects(offer, relations?.subjects);
-      await this.$updateTypes(offer, relations?.types);
+
+      await this.$updateManyToMany(offer, 'mainType', relations?.mainType);
+      await this.$updateManyToMany(offer, 'types', relations?.types);
+      await this.$updateManyToMany(offer, 'subjects', relations?.subjects);
+
       await this.$updateLinks(offer, relations?.links);
       await this.$updateTags(offer, relations?.tags);
       await this.$storeMedia(offer);
@@ -187,8 +180,11 @@ export default class OfferManager extends BaseManager<typeof Offer> {
 
       await this.$translate(offer);
       await this.$updateDates(offer, meta);
-      await this.$updateSubjects(offer, relations?.subjects);
-      await this.$updateTypes(offer, relations?.types);
+
+      await this.$updateManyToMany(offer, 'mainType', relations?.mainType);
+      await this.$updateManyToMany(offer, 'types', relations?.types);
+      await this.$updateManyToMany(offer, 'subjects', relations?.subjects);
+
       await this.$updateLinks(offer, relations?.links);
       await this.$updateTags(offer, relations?.tags);
       await this.$storeMedia(offer);

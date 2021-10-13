@@ -355,11 +355,17 @@ export class BaseManager<ManagedModel extends LucidModel> {
     );
   }
 
-  public async $updateTags(instance, tags) {
-    if (tags) {
-      await instance.related('tags').sync(tags);
-      await instance.load('tags', withTranslations);
+  public async $updateManyToMany(instance, relation, items) {
+    if (!items) {
+      return;
     }
+
+    await instance.related(relation).sync(items);
+    await instance.load(relation, withTranslations);
+  }
+
+  public async $updateTags(instance, tags) {
+    return this.$updateManyToMany(instance, 'tags', tags);
   }
 
   public async $updateLinks(instance, links) {

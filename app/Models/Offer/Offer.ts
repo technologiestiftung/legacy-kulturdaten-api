@@ -18,7 +18,7 @@ import Location from 'App/Models/Location/Location';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
 import OfferDate from 'App/Models/OfferDate';
-import { OfferType, OfferSubject } from 'App/Models/Offer';
+import { OfferMainType, OfferType, OfferSubject } from 'App/Models/Offer';
 import { publishable } from 'App/Helpers/Utilities';
 import Tag from 'App/Models/Tag';
 
@@ -107,6 +107,9 @@ export default class Offer extends BaseModel {
 
   @manyToMany(() => Tag)
   public tags: ManyToMany<typeof Tag>;
+
+  @manyToMany(() => OfferMainType)
+  public mainType: ManyToMany<typeof OfferMainType>;
 
   @manyToMany(() => OfferType)
   public types: ManyToMany<typeof OfferType>;

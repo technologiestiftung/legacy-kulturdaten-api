@@ -60,6 +60,7 @@ Route.group(() => {
 
     Route.resource('location', 'v1/LocationController').apiOnly();
 
+    Route.resource('offerMainType', 'v1/OfferMainTypeController').apiOnly();
     Route.resource('offerType', 'v1/OfferTypeController').apiOnly();
     Route.resource('offer', 'v1/OfferController').apiOnly();
     Route.resource('offer.date', 'v1/OfferDateController').apiOnly();
