@@ -208,7 +208,7 @@ export class BaseManager<ManagedModel extends LucidModel> {
         return this.create();
       case 'PATCH':
         return this.update();
-      case 'PATCH':
+      case 'DELETE':
         return this.delete();
       default:
         return this.byId();
@@ -303,7 +303,7 @@ export class BaseManager<ManagedModel extends LucidModel> {
   }
 
   public async $updateMany(instance, relation, items) {
-    if (!items || items.length == 0) {
+    if (!items || items.length === 0) {
       return;
     }
 
