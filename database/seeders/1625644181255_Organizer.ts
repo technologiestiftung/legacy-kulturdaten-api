@@ -26,6 +26,10 @@ export default class OrganizerSeeder extends BaseSeeder {
       factory.with('links', faker.datatype.number(3));
     }
 
+    factory.with('contacts', faker.datatype.number(3), (contacts) => {
+      contacts.with('translations', 1);
+    });
+
     // if (faker.datatype.boolean()) {
     //   factory.with('media', faker.datatype.number(1), (mediaFactory) => {
     //     mediaFactory.with('translations', 1);

@@ -1,8 +1,11 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
-import Organizer, {
+import {
+  Organizer,
   OrganizerTranslation,
   OrganizerStatus,
-} from 'App/Models/Organizer/Organizer';
+  OrganizerContact,
+  OrganizerContactTranslation,
+} from 'App/Models/Organizer';
 import { AddressFactory } from './Address';
 import { OrganizerTypeFactory } from './OrganizerType';
 import { LinkFactory } from './Link';
@@ -39,6 +42,23 @@ export const OrganizerFactory = Factory.define(Organizer, ({ faker }) => {
           : undefined,
       };
     }).build()
+  )
+  .relation('contacts', () =>
+    Factory.define(OrganizerContact, ({ faker }) => {
+      return {
+        email: faker.internet.email(),
+        phone: faker.phone.phoneNumber(),
+      };
+    })
+      .relation('translations', () =>
+        Factory.define(OrganizerContactTranslation, ({ faker }) => {
+          return {
+            name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+            language: 'de',
+          };
+        }).build()
+      )
+      .build()
   )
   .relation('address', () => AddressFactory)
   .relation('types', () => OrganizerTypeFactory)

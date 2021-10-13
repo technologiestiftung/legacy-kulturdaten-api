@@ -228,15 +228,15 @@ export default class LocationManager extends BaseManager<typeof Location> {
     }
   }
 
-  public async delete() {
-    const { attributes, relations } = await this.ctx.request.validate(
-      new DeleteLocationValidator(this.ctx)
-    );
+  // public async delete() {
+  //   const { attributes, relations } = await this.ctx.request.validate(
+  //     new DeleteLocationValidator(this.ctx)
+  //   );
 
-    return [
-      ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
-      ...(await this.$deleteObjects(Media, relations?.media)),
-      ...(await this.$deleteObject(Location, attributes?.id, 'public_id')),
-    ];
-  }
+  //   return [
+  //     ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
+  //     ...(await this.$deleteObjects(Media, relations?.media)),
+  //     ...(await this.$deleteObject(Location, attributes?.id, 'public_id')),
+  //   ];
+  // }
 }

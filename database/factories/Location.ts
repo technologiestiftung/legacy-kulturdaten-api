@@ -1,10 +1,12 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
-import Location, {
+import Location from 'App/Models/Location/Location';
+import {
   LocationStatus,
   LocationTranslation,
   VirtualLocation,
   PhysicalLocation,
-} from 'App/Models/Location/Location';
+  OpeningHours,
+} from 'App/Models/Location';
 import { AddressFactory } from './Address';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
@@ -47,6 +49,33 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
       return {};
     })
       .relation('address', () => AddressFactory)
+      .relation('openingHours', () =>
+        Factory.define(OpeningHours, ({ faker }) => {
+          const hours = [
+            ['09:00', '18:00'],
+            ['10:00', '16:00'],
+            ['07:00', '12:30'],
+            ['11:00', '14:00'],
+            ['06:00', '12:00'],
+            ['00:00', '23:59'],
+          ];
+
+          const [from, to] = faker.random.arrayElement(hours);
+          return {
+            weekday: faker.random.arrayElement([
+              'monday',
+              'tuesday',
+              'wednesday',
+              'thursday',
+              'friday',
+              'saturday',
+              'sunday',
+            ]),
+            from,
+            to,
+          };
+        }).build()
+      )
       .build()
   )
 

@@ -25,6 +25,11 @@ export default class LocationSeeder extends BaseSeeder {
           physicalLocationFactory.with('address', 1, (address) => {
             address.merge(organizer.address.serializeAttributes());
           });
+
+          physicalLocationFactory.with(
+            'openingHours',
+            faker.datatype.number(6)
+          );
         });
       } else {
         factory.with('virtual', 1);
