@@ -15,9 +15,9 @@ export default class OfferMainTypeTranslations extends BaseSchema {
       table.string('name');
 
       table
-        .integer('offer_type_id')
+        .integer('offer_main_type_id')
         .unsigned()
-        .references('offer_types.id')
+        .references('offer_main_types.id')
         .onDelete('CASCADE');
     });
   }
