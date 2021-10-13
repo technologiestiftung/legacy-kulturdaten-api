@@ -3,7 +3,7 @@ import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm';
 
 export class OfferMainTypeTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
-  public id: number;
+  public offerMainTypeId: number;
 
   @column()
   public language: string;

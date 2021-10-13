@@ -12,7 +12,9 @@ export default class OfferSeeder extends BaseSeeder {
   public async run() {
     const theaters = faker.random.arrayElements(
       await Organizer.findByType(
-        await OrganizerType.findByTranslation('Theatre, dance & performance')
+        await OrganizerType.findByTranslation(
+          'theatre / performance venue or organization'
+        )
       )
     );
 
@@ -52,7 +54,7 @@ export default class OfferSeeder extends BaseSeeder {
 
     const museums = faker.random.arrayElements(
       await Organizer.findByType(
-        await OrganizerType.findByTranslation('Museum')
+        await OrganizerType.findByTranslation('museum')
       )
     );
 

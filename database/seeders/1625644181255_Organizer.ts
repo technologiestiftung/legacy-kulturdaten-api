@@ -52,7 +52,7 @@ export default class OrganizerSeeder extends BaseSeeder {
   }
 
   public async run() {
-    const organizerTypeMuseum = await OrganizerType.findByTranslation('Museum');
+    const organizerTypeMuseum = await OrganizerType.findByTranslation('museum');
     const museums = await Promise.all(
       museumsData.map((resource) => {
         return this.$create(resource, organizerTypeMuseum);
@@ -60,7 +60,7 @@ export default class OrganizerSeeder extends BaseSeeder {
     );
 
     const organizerTypeTheater = await OrganizerType.findByTranslation(
-      'Theatre, dance & performance'
+      'theatre / performance venue or organization'
     );
     const theaters = await Promise.all(
       theatersData.map((resource) => {
