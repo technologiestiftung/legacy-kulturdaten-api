@@ -1,8 +1,8 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 import { Languages } from 'App/Helpers/Languages';
 
-export default class OfferTypeTranslations extends BaseSchema {
-  protected tableName = 'offer_type_translations';
+export default class OrganizerContactTranslations extends BaseSchema {
+  protected tableName = 'organizer_contact_translations';
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -15,10 +15,12 @@ export default class OfferTypeTranslations extends BaseSchema {
       table.string('name');
 
       table
-        .integer('offer_type_id')
+        .integer('organizer_contact_id')
         .unsigned()
-        .references('offer_types.id')
+        .references('organizer_contacts.id')
         .onDelete('CASCADE');
+
+      table.timestamps(true);
     });
   }
 

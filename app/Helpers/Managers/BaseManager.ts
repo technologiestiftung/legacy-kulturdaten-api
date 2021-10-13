@@ -117,7 +117,6 @@ export class BaseManager<ManagedModel extends LucidModel> {
       });
 
       if (!filter) {
-        console.error('Unknown filter, continue');
         continue;
       }
 
@@ -209,6 +208,8 @@ export class BaseManager<ManagedModel extends LucidModel> {
         return this.create();
       case 'PATCH':
         return this.update();
+      case 'DELETE':
+        return this.delete();
       default:
         return this.byId();
     }
@@ -264,9 +265,13 @@ export class BaseManager<ManagedModel extends LucidModel> {
     return data.relations?.translations;
   }
 
-  public async $translate(instance) {
-    const translations = await this.$validateTranslation();
-    if (!translations.length) {
+  public async $translate(
+    instance,
+    validatedTranslations: undefined | any[] = undefined
+  ) {
+    const translations =
+      validatedTranslations || (await this.$validateTranslation());
+    if (!translations?.length) {
       return;
     }
 
@@ -297,11 +302,70 @@ export class BaseManager<ManagedModel extends LucidModel> {
     return this.instance;
   }
 
-  public async $updateTags(instance, tags) {
-    if (tags) {
-      await instance.related('tags').sync(tags);
-      await instance.load('tags', withTranslations);
+  public async $updateMany(instance, relation, items) {
+    if (!items || items.length === 0) {
+      return;
     }
+
+    const RelatedModel = instance.related(relation).relation.relatedModel();
+
+    let hasTranslations = false;
+    const newItems: any[] = [];
+    for (const item of items) {
+      if (item.id) {
+        let relatedInstance = await RelatedModel.query().where('id', item.id);
+        if (!relatedInstance.length) {
+          continue;
+        }
+
+        relatedInstance = relatedInstance[0];
+        relatedInstance.merge(item.attributes);
+        if (relatedInstance.$isDirty) {
+          await relatedInstance.save();
+        }
+
+        if (item.relations?.translations) {
+          hasTranslations = true;
+          await relatedInstance.load('translations');
+          this.$translate(relatedInstance, item.relations?.translations);
+        }
+      } else {
+        const relatedInstance = new RelatedModel();
+        relatedInstance.fill(item.attributes);
+        await relatedInstance.save();
+
+        if (item.relations?.translations) {
+          hasTranslations = true;
+          await relatedInstance
+            .related('translations')
+            .createMany(item.relations.translations);
+        }
+
+        newItems.push(relatedInstance);
+      }
+    }
+
+    if (newItems.length) {
+      await instance.related(relation).saveMany(newItems);
+    }
+
+    await instance.load(
+      relation,
+      hasTranslations ? withTranslations : () => {}
+    );
+  }
+
+  public async $updateManyToMany(instance, relation, items) {
+    if (!items) {
+      return;
+    }
+
+    await instance.related(relation).sync(items);
+    await instance.load(relation, withTranslations);
+  }
+
+  public async $updateTags(instance, tags) {
+    return this.$updateManyToMany(instance, 'tags', tags);
   }
 
   public async $updateLinks(instance, links) {
@@ -382,6 +446,39 @@ export class BaseManager<ManagedModel extends LucidModel> {
     }
 
     return this.instances.map(this.$toResource.bind(this));
+  }
+
+  public async $deleteObject(
+    Model,
+    id: number | string | undefined,
+    column = 'id'
+  ) {
+    if (!id) {
+      return [];
+    }
+    return this.$deleteObjects(Model, [id], column);
+  }
+
+  public async $deleteObjects(
+    Model,
+    ids: number[] | string[] | undefined,
+    column = 'id'
+  ) {
+    if (!ids) {
+      return [];
+    }
+
+    let instances = await Model.query().whereIn(column, ids).select(column);
+    instances = instances.map((instance) => {
+      return this.$toResource(instance);
+    });
+
+    await Model.query().whereIn(column, ids).delete();
+    return instances;
+  }
+
+  public async delete(): Promise<Resource[]> {
+    return [];
   }
 }
 

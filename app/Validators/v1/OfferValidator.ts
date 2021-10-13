@@ -18,6 +18,14 @@ export class CreateOfferValidator {
       links,
       tags,
       initialTranslation,
+      mainType: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'offer_main_types',
+            column: 'id',
+          }),
+        ])
+      ),
       types: schema.array.optional().members(
         schema.number([
           rules.exists({
@@ -62,6 +70,14 @@ export class UpdateOfferValidator {
     relations: schema.object.optional().members({
       links,
       tags,
+      mainType: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'offer_main_types',
+            column: 'id',
+          }),
+        ])
+      ),
       types: schema.array.optional().members(
         schema.number([
           rules.exists({

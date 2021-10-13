@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import OrganizerTypeValidator from 'App/Validators/v1/OrganizerTypeValidator';
 import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { ApiDocument } from 'App/Helpers/Api/Document';
-import OrganizerType from 'App/Models/OrganizerType';
+import OrganizerType from 'App/Models/Organizer/OrganizerType';
 import OrganizerTypeManager from 'App/Helpers/Managers/OrganizerTypeManager';
 
 // TODO(matthiasrohmer): Add permissions

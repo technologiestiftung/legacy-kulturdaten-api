@@ -1,9 +1,11 @@
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import Organizer, { OrganizerStatus } from 'App/Models/Organizer';
+import Organizer, { OrganizerStatus } from 'App/Models/Organizer/Organizer';
+import OrganizerContact from 'App/Models/Organizer/OrganizerContact';
 import { withTranslations } from 'App/Helpers/Utilities';
 import {
   CreateOrganizerValidator,
   UpdateOrganizerValidator,
+  DeleteOrganizerValidator,
 } from 'App/Validators/v1/OrganizerValidator';
 import { translation } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Address from 'App/Models/Address';
@@ -37,6 +39,10 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     includables: [
       {
         name: 'address',
+      },
+      {
+        name: 'contacts',
+        query: withTranslations,
       },
       {
         name: 'types',
@@ -155,7 +161,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     await organizer.load('logo', (query) => {
       return query.preload('renditions');
     });
-    console.log('done');
   }
 
   public async create() {
@@ -166,7 +171,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     const organizer = new Organizer();
     await Database.transaction(async (trx) => {
       organizer.useTransaction(trx);
-      organizer.fill(attributes, true);
+      organizer.fill(attributes || {}, true);
       await organizer.save();
 
       if (relations?.address) {
@@ -184,6 +189,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     // Storing the logo needs to happen outside the transaction
     // as it creates a belongsTo relationship
     await this.$storeLogo(organizer);
+    await this.$updateMany(organizer, 'contacts', relations?.contacts);
 
     this.instance = organizer;
     return this.instance;
@@ -228,7 +234,21 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     });
 
     await this.$storeLogo(organizer);
+    await this.$updateMany(organizer, 'contacts', relations?.contacts);
 
     return this.instance;
+  }
+
+  public async delete() {
+    const { attributes, relations } = await this.ctx.request.validate(
+      new DeleteOrganizerValidator(this.ctx)
+    );
+
+    return [
+      ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
+      ...(await this.$deleteObjects(Media, relations?.media)),
+      ...(await this.$deleteObject(Media, relations?.logo)),
+      ...(await this.$deleteObject(Organizer, attributes?.id, 'public_id')),
+    ];
   }
 }

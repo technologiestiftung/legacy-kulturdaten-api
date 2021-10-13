@@ -14,8 +14,11 @@ import {
 } from '@ioc:Adonis/Lucid/Orm';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
 import Address from 'App/Models/Address';
-import OrganizerType from 'App/Models/OrganizerType';
-import OrganizerSubject from 'App/Models/OrganizerSubject';
+import {
+  OrganizerType,
+  OrganizerSubject,
+  OrganizerContact,
+} from 'App/Models/Organizer';
 import { PublishOrganizerValidator } from 'App/Validators/v1/OrganizerValidator';
 import { PublishOrganizerTranslationValidator } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Link from 'App/Models/Link';
@@ -80,6 +83,9 @@ export default class Organizer extends BaseModel {
   @column()
   public homepage: string;
 
+  @hasMany(() => OrganizerTranslation)
+  public translations: HasMany<typeof OrganizerTranslation>;
+
   @manyToMany(() => OrganizerType, {
     relatedKey: 'id',
     localKey: 'publicId',
@@ -98,8 +104,8 @@ export default class Organizer extends BaseModel {
   })
   public subjects: ManyToMany<typeof OrganizerSubject>;
 
-  @hasMany(() => OrganizerTranslation)
-  public translations: HasMany<typeof OrganizerTranslation>;
+  @hasMany(() => OrganizerContact)
+  public contacts: HasMany<typeof OrganizerContact>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',

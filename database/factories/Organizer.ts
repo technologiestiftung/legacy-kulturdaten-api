@@ -2,7 +2,7 @@ import Factory from '@ioc:Adonis/Lucid/Factory';
 import Organizer, {
   OrganizerTranslation,
   OrganizerStatus,
-} from 'App/Models/Organizer';
+} from 'App/Models/Organizer/Organizer';
 import { AddressFactory } from './Address';
 import { OrganizerTypeFactory } from './OrganizerType';
 import { LinkFactory } from './Link';

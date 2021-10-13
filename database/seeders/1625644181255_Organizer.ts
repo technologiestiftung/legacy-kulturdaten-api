@@ -1,8 +1,8 @@
 import faker from 'faker';
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import { OrganizerFactory } from 'Database/factories/Organizer';
-import { OrganizerStatus } from 'App/Models/Organizer';
-import OrganizerType from 'App/Models/OrganizerType';
+import { OrganizerStatus } from 'App/Models/Organizer/Organizer';
+import OrganizerType from 'App/Models/Organizer/OrganizerType';
 
 import museumsData from '../../seeds/Organizer/museums';
 import theatersData from '../../seeds/Organizer/theaters';

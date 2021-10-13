@@ -1,6 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import Location, { LocationTypes, PhysicalLocation } from 'App/Models/Location';
+import Location, {
+  LocationTypes,
+  PhysicalLocation,
+} from 'App/Models/Location/Location';
 import {
   CreatePhysicalLocationValidator,
   UpdatePhysicalLocationValidator,
@@ -10,7 +13,9 @@ import {
 import { translation } from 'App/Validators/v1/LocationTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Address from 'App/Models/Address';
+import Media from 'App/Models/Media';
 import { withTranslations } from 'App/Helpers/Utilities';
+import { OpeningHours } from 'App/Models/Location';
 
 export default class LocationManager extends BaseManager<typeof Location> {
   public ManagedModel = Location;
@@ -65,7 +70,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
     return super
       .query()
       .preload('physical', (query) => {
-        return query.preload('address');
+        return query.preload('address').preload('openingHours');
       })
       .preload('virtual');
   }
@@ -103,6 +108,11 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
+    await this.$updateMany(
+      location.physical,
+      'openingHours',
+      relations?.openingHours
+    );
     await this.$storeMedia(location);
 
     this.instance = location;
@@ -170,6 +180,11 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
+    await this.$updateMany(
+      location.physical,
+      'openingHours',
+      relations?.openingHours
+    );
     await this.$storeMedia(location);
 
     return this.instance;
@@ -211,5 +226,17 @@ export default class LocationManager extends BaseManager<typeof Location> {
     } else {
       return this.$updateVirtualLocation();
     }
+  }
+
+  public async delete() {
+    const { attributes, relations } = await this.ctx.request.validate(
+      new DeleteLocationValidator(this.ctx)
+    );
+
+    return [
+      ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
+      ...(await this.$deleteObjects(Media, relations?.media)),
+      ...(await this.$deleteObject(Location, attributes?.id, 'public_id')),
+    ];
   }
 }

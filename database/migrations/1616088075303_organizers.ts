@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
-import { OrganizerStatus } from 'App/Models/Organizer';
+import { OrganizerStatus } from 'App/Models/Organizer/Organizer';
 
 export default class Organizers extends BaseSchema {
   protected tableName = 'organizers';
@@ -17,6 +17,7 @@ export default class Organizers extends BaseSchema {
       table.string('phone');
 
       table.integer('address_id').unsigned().references('addresses.id');
+      table.integer('logo_id').unsigned().references('media.id');
 
       table.timestamps(true);
     });

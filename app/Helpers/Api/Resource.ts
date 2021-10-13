@@ -1,7 +1,7 @@
 export interface ResourceObject {
   id: number | string;
   type: string;
-  attributes: {
+  attributes?: {
     [key: string]: any;
   };
   relations?: {
@@ -41,12 +41,24 @@ export default class Resource {
       ? this.instance.specific()
       : undefined;
 
-    this.$attributes = this.instance.serializeAttributes();
+    this.$attributes = this.$serializeAttributes();
     this.$relations = this.$resolveRelations();
 
     this.$morphToSpecific();
 
     return this;
+  }
+
+  private $serializeAttributes() {
+    const attributes = this.instance.serializeAttributes();
+
+    // Sanity check if any attributes exist, otherwise set them
+    // back to undefiend
+    if (!Object.keys(attributes).length) {
+      return undefined;
+    }
+
+    return attributes;
   }
 
   private $resolveRelations() {
@@ -113,10 +125,12 @@ export default class Resource {
     const resource: ResourceObject = {
       id: this.id,
       type: this.type,
-      attributes: {},
     };
 
-    resource.attributes = this.$attributes;
+    if (this.$attributes) {
+      resource.attributes = this.$attributes;
+    }
+
     if (Object.keys(this.$relations).length) {
       resource.relations = {};
       for (const [name, related] of Object.entries(this.$relations)) {

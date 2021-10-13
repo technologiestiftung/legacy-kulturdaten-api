@@ -4,7 +4,7 @@ import Location, {
   LocationTranslation,
   VirtualLocation,
   PhysicalLocation,
-} from 'App/Models/Location';
+} from 'App/Models/Location/Location';
 import { AddressFactory } from './Address';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';

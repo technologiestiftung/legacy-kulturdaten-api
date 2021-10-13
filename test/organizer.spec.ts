@@ -1,4 +1,4 @@
-import Organizer from 'App/Models/Organizer';
+import Organizer from 'App/Models/Organizer/Organizer';
 import test from 'japa';
 import { post, get, destroy, auth } from '../test-helpers';
 

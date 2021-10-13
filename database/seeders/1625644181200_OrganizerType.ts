@@ -1,6 +1,6 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
-import OrganizerType from 'App/Models/OrganizerType';
-import OrganizerSubject from 'App/Models/OrganizerSubject';
+import OrganizerType from 'App/Models/Organizer/OrganizerType';
+import OrganizerSubject from 'App/Models/Organizer/OrganizerSubject';
 
 import organizerTypeData from '../../seeds/OrganizerType';
 

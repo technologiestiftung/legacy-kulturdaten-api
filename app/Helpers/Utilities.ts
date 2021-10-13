@@ -40,7 +40,11 @@ export async function publishable(
   if (PublishableTranslationValidator) {
     // Use an empty object to validate against, to force the error
     // even if there are no translations at all
-    const translations = resource.relations?.translations || [{}];
+    let translations = resource.relations?.translations;
+    if (!translations || translations.length === 0) {
+      translations = [{ attributes: {} }];
+    }
+
     for (const translation of translations) {
       try {
         await validator.validate({

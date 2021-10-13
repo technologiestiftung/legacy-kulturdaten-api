@@ -1,12 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ApiDocument } from 'App/Helpers/Api/Document';
-import Organizer, { OrganizerStatus } from 'App/Models/Organizer';
+import Organizer, { OrganizerStatus } from 'App/Models/Organizer/Organizer';
 import OrganizerManager from 'App/Helpers/Managers/OrganizerManager';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OrganizerController {
   public async index(ctx: HttpContextContract) {
-    const manager: OrganizerManager = new OrganizerManager(ctx);
+    const manager = new OrganizerManager(ctx);
     await manager.all();
 
     return new ApiDocument(ctx, manager.toResources(), {
@@ -15,14 +15,14 @@ export default class OrganizerController {
   }
 
   public async store(ctx: HttpContextContract) {
-    const manager: OrganizerManager = new OrganizerManager(ctx);
+    const manager = new OrganizerManager(ctx);
     await manager.create();
 
     return new ApiDocument(ctx, manager.toResources());
   }
 
   public async show(ctx: HttpContextContract) {
-    const manager: OrganizerManager = new OrganizerManager(ctx);
+    const manager = new OrganizerManager(ctx);
 
     manager.include = 'address,types,subjects';
     await manager.byId();
@@ -34,7 +34,7 @@ export default class OrganizerController {
   }
 
   public async update(ctx: HttpContextContract) {
-    const manager: OrganizerManager = new OrganizerManager(ctx);
+    const manager = new OrganizerManager(ctx);
     await manager.update();
 
     const publishable = await manager.instance.publishable();
@@ -50,20 +50,8 @@ export default class OrganizerController {
     });
   }
 
-  // public async destroy(ctx: HttpContextContract) {
-  //   const { params, auth } = ctx;
-  //   if (!auth.user) {
-  //     throw new UnauthorizedException();
-  //   }
-
-  //   const organizer = await Organizer.query()
-  //     .preload('address')
-  //     .where('cid', params.id)
-  //     .firstOrFail();
-  //   const address = organizer.address;
-
-  //   await Promise.all([organizer.delete(), address.delete()]);
-
-  //   return new ApiDocument(ctx, {}, 'Organizer deleted successfully');
-  // }
+  public async destroy(ctx: HttpContextContract) {
+    const manager = new OrganizerManager(ctx);
+    return new ApiDocument(ctx, await manager.delete());
+  }
 }

@@ -7,7 +7,7 @@ import {
   hasMany,
   HasMany,
 } from '@ioc:Adonis/Lucid/Orm';
-import OrganizerType from 'App/Models/OrganizerType';
+import OrganizerType from 'App/Models/Organizer/OrganizerType';
 
 export class OrganizerSubjectTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
