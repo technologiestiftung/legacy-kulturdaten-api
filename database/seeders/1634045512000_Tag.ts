@@ -8,6 +8,7 @@ export default class TagSeeder extends BaseSeeder {
     const tag = await Promise.all(
       tagData.map(async (resource) => {
         const tag = new Tag();
+        tag.fill(resource.attributes);
         await tag.save();
 
         await tag

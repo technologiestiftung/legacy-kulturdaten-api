@@ -19,6 +19,9 @@ export default class Tag extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
+  @column()
+  public gndId: string;
+
   @hasMany(() => TagTranslation)
   public translations: HasMany<typeof TagTranslation>;
 
