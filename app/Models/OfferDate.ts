@@ -57,6 +57,9 @@ export default class OfferDate extends BaseModel {
   @column()
   public ticketUrl: string;
 
+  @column()
+  public locationUrl: string;
+
   @hasMany(() => OfferDateTranslation)
   public translations: HasMany<typeof OfferDateTranslation>;
 
