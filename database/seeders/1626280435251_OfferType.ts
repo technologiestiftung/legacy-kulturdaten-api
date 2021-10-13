@@ -16,7 +16,7 @@ export default class OfferTypeSeeder extends BaseSeeder {
           .createMany(resource.relations.translations);
 
         for (const subjectData of resource.relations.subjects) {
-          const offerSubject = await offerType.related('subjects').create();
+          const offerSubject = await offerType.related('subjects').create({});
           await offerSubject
             .related('translations')
             .createMany(subjectData.relations.translations);
