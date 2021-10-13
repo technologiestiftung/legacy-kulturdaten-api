@@ -163,26 +163,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     });
   }
 
-  private async $updateContacts(organizer: Organizer, data) {
-    if (!data.length) {
-      return;
-    }
-
-    for (const item of data) {
-      const contact = new OrganizerContact();
-      contact.fill(
-        Object.assign({ organizerId: organizer.id }, item.attributes)
-      );
-      await contact.save();
-
-      await contact
-        .related('translations')
-        .createMany(item.relations.translations);
-    }
-
-    await organizer.load('contacts', withTranslations);
-  }
-
   public async create() {
     const { attributes, relations } = await this.ctx.request.validate(
       new CreateOrganizerValidator(this.ctx)
@@ -209,9 +189,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     // Storing the logo needs to happen outside the transaction
     // as it creates a belongsTo relationship
     await this.$storeLogo(organizer);
-    if (relations?.contacts) {
-      await this.$updateContacts(organizer, relations.contacts);
-    }
+    await this.$updateMany(organizer, 'contacts', relations?.contacts);
 
     this.instance = organizer;
     return this.instance;
@@ -256,9 +234,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     });
 
     await this.$storeLogo(organizer);
-    if (relations?.contacts) {
-      await this.$updateContacts(organizer, relations.contacts);
-    }
+    await this.$updateMany(organizer, 'contacts', relations?.contacts);
 
     return this.instance;
   }

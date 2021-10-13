@@ -73,6 +73,12 @@ export class UpdatePhysicalLocationValidator {
     relations: schema.object.optional().members({
       openingHours: schema.array.optional().members(
         schema.object().members({
+          id: schema.number.optional([
+            rules.exists({
+              table: 'opening_hours',
+              column: 'id',
+            }),
+          ]),
           attributes: schema.object().members({
             weekday: schema.enum(Object.values(Weekdays)),
             from: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),

@@ -15,6 +15,7 @@ import Database from '@ioc:Adonis/Lucid/Database';
 import Address from 'App/Models/Address';
 import Media from 'App/Models/Media';
 import { withTranslations } from 'App/Helpers/Utilities';
+import { OpeningHours } from 'App/Models/Location';
 
 export default class LocationManager extends BaseManager<typeof Location> {
   public ManagedModel = Location;
@@ -86,22 +87,6 @@ export default class LocationManager extends BaseManager<typeof Location> {
     return address;
   }
 
-  private async $updateOpeningHours(
-    physicalLocation: PhysicalLocation,
-    openingHours
-  ) {
-    if (!openingHours.length) {
-      return;
-    }
-
-    await physicalLocation.related('openingHours').createMany(
-      openingHours.map((openingHour) => {
-        return openingHour.attributes;
-      })
-    );
-    await physicalLocation.load('openingHours');
-  }
-
   private async $createPhysicalLocation() {
     const { attributes, relations } = await this.ctx.request.validate(
       new CreatePhysicalLocationValidator(this.ctx)
@@ -123,7 +108,11 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
-    await this.$updateOpeningHours(location.physical, relations?.openingHours);
+    await this.$updateMany(
+      location.physical,
+      'openingHours',
+      relations?.openingHours
+    );
     await this.$storeMedia(location);
 
     this.instance = location;
@@ -191,7 +180,11 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
-    await this.$updateOpeningHours(location.physical, relations?.openingHours);
+    await this.$updateMany(
+      location.physical,
+      'openingHours',
+      relations?.openingHours
+    );
     await this.$storeMedia(location);
 
     return this.instance;

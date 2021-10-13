@@ -101,6 +101,12 @@ export class UpdateOrganizerValidator {
       ),
       contacts: schema.array.optional().members(
         schema.object.optional().members({
+          id: schema.number.optional([
+            rules.exists({
+              table: 'organizer_contacts',
+              column: 'id',
+            }),
+          ]),
           attributes: schema.object().members({
             phone: schema.string.optional({ trim: true }, [
               rules.mobile(),
@@ -111,7 +117,7 @@ export class UpdateOrganizerValidator {
               rules.requiredIfNotExists('phone'),
             ]),
           }),
-          relations: schema.object().members({
+          relations: schema.object.optional().members({
             translations: schema.array.optional([rules.minLength(1)]).members(
               schema.object().members({
                 name: schema.string({ trim: true }),

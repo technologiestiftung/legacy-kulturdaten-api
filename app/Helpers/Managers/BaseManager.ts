@@ -117,7 +117,6 @@ export class BaseManager<ManagedModel extends LucidModel> {
       });
 
       if (!filter) {
-        console.error('Unknown filter, continue');
         continue;
       }
 
@@ -266,9 +265,13 @@ export class BaseManager<ManagedModel extends LucidModel> {
     return data.relations?.translations;
   }
 
-  public async $translate(instance) {
-    const translations = await this.$validateTranslation();
-    if (!translations.length) {
+  public async $translate(
+    instance,
+    validatedTranslations: undefined | any[] = undefined
+  ) {
+    const translations =
+      validatedTranslations || (await this.$validateTranslation());
+    if (!translations?.length) {
       return;
     }
 
@@ -297,6 +300,59 @@ export class BaseManager<ManagedModel extends LucidModel> {
     await instance.load('translations');
 
     return this.instance;
+  }
+
+  public async $updateMany(instance, relation, items) {
+    if (!items || items.length == 0) {
+      return;
+    }
+
+    const RelatedModel = instance.related(relation).relation.relatedModel();
+
+    let hasTranslations = false;
+    const newItems: any[] = [];
+    for (const item of items) {
+      if (item.id) {
+        let relatedInstance = await RelatedModel.query().where('id', item.id);
+        if (!relatedInstance.length) {
+          continue;
+        }
+
+        relatedInstance = relatedInstance[0];
+        relatedInstance.merge(item.attributes);
+        if (relatedInstance.$isDirty) {
+          await relatedInstance.save();
+        }
+
+        if (item.relations?.translations) {
+          hasTranslations = true;
+          await relatedInstance.load('translations');
+          this.$translate(relatedInstance, item.relations?.translations);
+        }
+      } else {
+        const relatedInstance = new RelatedModel();
+        relatedInstance.fill(item.attributes);
+        await relatedInstance.save();
+
+        if (item.translations) {
+          hasTranslations = true;
+          await relatedInstance
+            .related('translations')
+            .createMany(item.relations.translations);
+        }
+
+        newItems.push(relatedInstance);
+      }
+    }
+
+    if (newItems.length) {
+      await instance.related(relation).saveMany(newItems);
+    }
+
+    await instance.load(
+      relation,
+      hasTranslations ? withTranslations : () => {}
+    );
   }
 
   public async $updateTags(instance, tags) {
