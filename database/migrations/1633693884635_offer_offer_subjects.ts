@@ -16,7 +16,7 @@ export default class OfferOfferSubjects extends BaseSchema {
       table
         .integer('offer_subject_id')
         .unsigned()
-        .references('offer_subject.id')
+        .references('offer_subjects.id')
         .onDelete('CASCADE');
     });
   }
