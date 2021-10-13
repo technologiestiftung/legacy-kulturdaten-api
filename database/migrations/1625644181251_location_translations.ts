@@ -14,7 +14,7 @@ export default class LocationTranslation extends BaseSchema {
 
       table.integer('location_id').unsigned().references('locations.id');
 
-      table.string('name').notNullable();
+      table.string('name');
       table.text('description');
     });
   }
