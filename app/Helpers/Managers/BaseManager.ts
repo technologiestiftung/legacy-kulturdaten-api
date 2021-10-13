@@ -334,7 +334,7 @@ export class BaseManager<ManagedModel extends LucidModel> {
         relatedInstance.fill(item.attributes);
         await relatedInstance.save();
 
-        if (item.translations) {
+        if (item.relations?.translations) {
           hasTranslations = true;
           await relatedInstance
             .related('translations')
