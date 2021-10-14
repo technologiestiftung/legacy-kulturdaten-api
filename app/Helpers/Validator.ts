@@ -25,8 +25,10 @@ export const initialTranslation = schema.array
   .optional([rules.minLength(1)])
   .members(
     schema.object().members({
-      name: schema.string(),
-      language: schema.enum(allowedLanguages),
+      attributes: schema.object().members({
+        name: schema.string(),
+        language: schema.enum(allowedLanguages),
+      }),
     })
   );
 
