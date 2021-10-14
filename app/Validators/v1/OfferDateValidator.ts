@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-import { OfferDateStatus } from 'App/Models/OfferDate';
+import { OfferDateStatus } from 'App/Models/Offer/OfferDate';
 import { allowedLanguages } from 'Config/app';
 
 export class CreateOfferDateValidator {

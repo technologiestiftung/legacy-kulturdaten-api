@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import OfferDate from 'App/Models/OfferDate';
+import OfferDate from 'App/Models/Offer/OfferDate';
 import { updateField, withTranslations } from 'App/Helpers/Utilities';
 import { translation } from 'App/Validators/v1/OfferTranslationValidator';
 import {

@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
-import { OfferDateStatus } from 'App/Models/OfferDate';
+import { OfferDateStatus } from 'App/Models/Offer/OfferDate';
 
 export default class OfferDates extends BaseSchema {
   protected tableName = 'offer_dates';
