@@ -209,7 +209,6 @@ export class BaseManager<ManagedModel extends LucidModel> {
       !this.ctx.auth.user
     ) {
       throw new UnauthorizedException();
-      return;
     }
 
     switch (this.method) {
