@@ -260,9 +260,11 @@ export class BaseManager<ManagedModel extends LucidModel> {
     const data = await this.ctx.request.validate({
       schema: schema.create({
         relations: schema.object.optional().members({
-          translations: schema.array
-            .optional([rules.minLength(1)])
-            .members(this.validators.translation),
+          translations: schema.array.optional([rules.minLength(1)]).members(
+            schema.object().members({
+              attributes: this.validators.translation,
+            })
+          ),
         }),
       }),
     });
@@ -289,17 +291,19 @@ export class BaseManager<ManagedModel extends LucidModel> {
     for (const translation of translations) {
       const existingTranslation = instance.translations.find(
         (existingTranslation) => {
-          return existingTranslation.language === translation.language;
+          return (
+            existingTranslation.language === translation.attributes?.language
+          );
         }
       );
 
       if (!existingTranslation) {
-        newTranslations.push(translation);
+        newTranslations.push(translation.attributes);
         continue;
       }
 
       // If a translation already exists, update it
-      existingTranslation.merge(translation);
+      existingTranslation.merge(translation.attributes);
       await existingTranslation.save();
     }
 

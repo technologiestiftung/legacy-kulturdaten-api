@@ -19,6 +19,7 @@ export class CreateLocationValidator {
       status: schema.enum.optional(Object.values(LocationStatus)),
     }),
     relations: schema.object.optional().members({
+      translations: initialTranslation,
       organizer: schema.string({}, [
         rules.exists({
           table: 'organizers',
@@ -37,7 +38,6 @@ export class CreateLocationValidator {
       address: address.create,
       tags,
       links,
-      translations: initialTranslation,
     }),
     media,
   });

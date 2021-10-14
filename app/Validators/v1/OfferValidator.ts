@@ -15,9 +15,9 @@ export class CreateOfferValidator {
       ticketUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
+      translations: initialTranslation,
       links,
       tags,
-      translations: initialTranslation,
       organizers: schema.array().members(
         schema.string({}, [
           rules.exists({
