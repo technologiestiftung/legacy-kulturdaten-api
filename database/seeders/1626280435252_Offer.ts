@@ -48,7 +48,7 @@ export default class OfferSeeder extends BaseSeeder {
         // }
 
         const offer = await factory.create();
-        await offer.related('organizer').associate(theater);
+        await offer.related('organizers').sync([theater.publicId]);
       }
     }
 
@@ -88,7 +88,7 @@ export default class OfferSeeder extends BaseSeeder {
         // }
 
         const offer = await factory.create();
-        await offer.related('organizer').associate(museum);
+        await offer.related('organizers').sync([museum.publicId]);
       }
     }
   }

@@ -6,6 +6,8 @@ import {
   ManyToMany,
   hasMany,
   HasMany,
+  hasManyThrough,
+  HasManyThrough,
   belongsTo,
   BelongsTo,
   beforeCreate,
@@ -17,8 +19,14 @@ import Organizer from 'App/Models/Organizer/Organizer';
 import Location from 'App/Models/Location/Location';
 import Link from 'App/Models/Link';
 import Media from 'App/Models/Media';
-import OfferDate from 'App/Models/OfferDate';
-import { OfferMainType, OfferType, OfferSubject } from 'App/Models/Offer';
+import User from 'App/Models/User';
+import {
+  OfferMainType,
+  OfferType,
+  OfferSubject,
+  OfferDate,
+} from 'App/Models/Offer';
+import { OfferRole } from 'App/Models/Roles';
 import { publishable } from 'App/Helpers/Utilities';
 import Tag from 'App/Models/Tag';
 
@@ -69,16 +77,17 @@ export default class Offer extends BaseModel {
   @column()
   public ticketUrl: string;
 
+  @manyToMany(() => Organizer, {
+    relatedKey: 'publicId',
+  })
+  public organizers: ManyToMany<typeof Organizer>;
+
   @column({ serializeAs: null })
-  public organizerId: number;
+  public locationId: string;
 
-  @belongsTo(() => Organizer)
-  public organizer: BelongsTo<typeof Organizer>;
-
-  @column({ serializeAs: null })
-  public locationId: number;
-
-  @belongsTo(() => Location)
+  @belongsTo(() => Location, {
+    localKey: 'publicId',
+  })
   public location: BelongsTo<typeof Location>;
 
   @hasMany(() => OfferTranslation)
@@ -116,6 +125,12 @@ export default class Offer extends BaseModel {
 
   @manyToMany(() => OfferSubject)
   public subjects: ManyToMany<typeof OfferSubject>;
+
+  @hasMany(() => OfferRole)
+  public roles: HasMany<typeof OfferRole>;
+
+  @hasManyThrough([() => User, () => OfferRole])
+  public users: HasManyThrough<typeof User>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

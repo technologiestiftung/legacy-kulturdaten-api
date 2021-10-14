@@ -18,8 +18,7 @@ export default class Offers extends BaseSchema {
       table.boolean('is_permanent');
       table.string('ticket_url');
 
-      table.integer('organizer_id').unsigned().references('organizers.id');
-      table.integer('location_id').unsigned().references('locations.id');
+      table.string('location_id').unsigned().references('locations.public_id');
 
       table.timestamps(true);
     });

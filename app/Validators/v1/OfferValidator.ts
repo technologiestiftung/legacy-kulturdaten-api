@@ -17,7 +17,21 @@ export class CreateOfferValidator {
     relations: schema.object.optional().members({
       links,
       tags,
-      initialTranslation,
+      translations: initialTranslation,
+      organizers: schema.array().members(
+        schema.string({}, [
+          rules.exists({
+            table: 'organizers',
+            column: 'public_id',
+          }),
+        ])
+      ),
+      location: schema.string({}, [
+        rules.exists({
+          table: 'locations',
+          column: 'public_id',
+        }),
+      ]),
       mainType: schema.array.optional().members(
         schema.number([
           rules.exists({
