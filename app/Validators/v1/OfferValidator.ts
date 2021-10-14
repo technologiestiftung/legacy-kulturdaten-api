@@ -84,13 +84,13 @@ export class UpdateOfferValidator {
     relations: schema.object.optional().members({
       links,
       tags,
-      location: schema.string({}, [
+      location: schema.string.optional({}, [
         rules.exists({
           table: 'locations',
           column: 'public_id',
         }),
       ]),
-      organizers: schema.array().members(
+      organizers: schema.array.optional().members(
         schema.string({}, [
           rules.exists({
             table: 'organizers',

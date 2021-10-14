@@ -56,7 +56,7 @@ export class UpdateLocationValidator {
       url: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
-      organizer: schema.string({}, [
+      organizer: schema.string.optional({}, [
         rules.exists({
           table: 'organizers',
           column: 'public_id',
