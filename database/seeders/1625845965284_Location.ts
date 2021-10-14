@@ -18,22 +18,11 @@ export default class LocationSeeder extends BaseSeeder {
         });
       }
 
-      // Decide if the location is going to be a virtual or
-      // physical one. A truthy value creates a physical one
-      if (faker.datatype.boolean()) {
-        factory.with('physical', 1, (physicalLocationFactory) => {
-          physicalLocationFactory.with('address', 1, (address) => {
-            address.merge(organizer.address.serializeAttributes());
-          });
+      factory.with('address', 1, (address) => {
+        address.merge(organizer.address.serializeAttributes());
+      });
 
-          physicalLocationFactory.with(
-            'openingHours',
-            faker.datatype.number(6)
-          );
-        });
-      } else {
-        factory.with('virtual', 1);
-      }
+      factory.with('openingHours', faker.datatype.number(6));
 
       // if (faker.datatype.boolean()) {
       //   factory.with('media', faker.datatype.number(1), (mediaFactory) => {

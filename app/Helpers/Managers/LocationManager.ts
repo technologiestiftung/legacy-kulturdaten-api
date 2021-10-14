@@ -1,21 +1,17 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import Location, {
-  LocationTypes,
-  PhysicalLocation,
-} from 'App/Models/Location/Location';
+import Location from 'App/Models/Location/Location';
 import {
-  CreatePhysicalLocationValidator,
-  UpdatePhysicalLocationValidator,
-  CreateVirtualLocationValidator,
-  UpdateVirtualLocationValidator,
+  CreateLocationValidator,
+  UpdateLocationValidator,
+  DeleteLocationValidator,
 } from 'App/Validators/v1/LocationValidator';
 import { translation } from 'App/Validators/v1/LocationTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Address from 'App/Models/Address';
-import Media from 'App/Models/Media';
-import { withTranslations } from 'App/Helpers/Utilities';
+import { withTranslations, updateField } from 'App/Helpers/Utilities';
 import { OpeningHours } from 'App/Models/Location';
+import Media from 'App/Models/Media';
 
 export default class LocationManager extends BaseManager<typeof Location> {
   public ManagedModel = Location;
@@ -23,6 +19,8 @@ export default class LocationManager extends BaseManager<typeof Location> {
   public settings = {
     queryId: 'public_id',
     includables: [
+      { name: 'openingHours' },
+      { name: 'address' },
       {
         name: 'organizer',
         query: withTranslations,
@@ -66,177 +64,90 @@ export default class LocationManager extends BaseManager<typeof Location> {
     super(ctx, Location);
   }
 
-  public query() {
-    return super
-      .query()
-      .preload('physical', (query) => {
-        return query.preload('address').preload('openingHours');
-      })
-      .preload('virtual');
-  }
+  private async $createAddress(location, attributes) {
+    if (!attributes) {
+      return;
+    }
 
-  private async $createAddress(physicalLocation, attributes) {
     const address = new Address();
     address.fill(attributes);
 
     await address.save();
-    await physicalLocation.related('address').associate(address);
+    await location.related('address').associate(address);
 
-    await physicalLocation.load('address');
+    await location.load('address');
 
     return address;
   }
 
-  private async $createPhysicalLocation() {
+  public async create() {
     const { attributes, relations } = await this.ctx.request.validate(
-      new CreatePhysicalLocationValidator(this.ctx)
+      new CreateLocationValidator(this.ctx)
     );
 
     const location = new Location();
+    updateField(attributes, location, 'status');
+    updateField(attributes, location, 'url');
+    if (relations?.organizer) {
+      location.organizerId = relations!.organizer;
+    }
     await location.save();
 
-    await location.related('physical').create({});
-    await location.load('physical');
-
-    if (relations?.address) {
-      await this.$createAddress(
-        location.physical,
-        relations.address.attributes
-      );
-    }
+    await this.$createAddress(location, relations?.address?.attributes);
 
     await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
-    await this.$updateMany(
-      location.physical,
-      'openingHours',
-      relations?.openingHours
-    );
+    await this.$updateMany(location, 'openingHours', relations?.openingHours);
     await this.$storeMedia(location);
 
     this.instance = location;
     return this.instance;
   }
 
-  private async $createVirtualLocation() {
+  public async update() {
     const { attributes, relations } = await this.ctx.request.validate(
-      new CreateVirtualLocationValidator(this.ctx)
+      new UpdateLocationValidator(this.ctx)
     );
 
-    const location = new Location();
-    await Database.transaction(async (trx) => {
-      location.useTransaction(trx);
-      await location.save();
-
-      await location.related('virtual').create({ url: attributes.url });
-      await location.load('virtual');
-
-      await this.$translate(location);
-      await this.$updateLinks(location, relations?.links);
-      await this.$updateTags(location, relations?.tags);
-      await this.$storeMedia(location);
-    });
-
-    this.instance = location;
-    return this.instance;
-  }
-
-  public async create() {
-    if (
-      this.ctx.request.input('type', LocationTypes[LocationTypes.PHYSICAL]) ===
-      LocationTypes.PHYSICAL
-    ) {
-      return this.$createPhysicalLocation();
-    } else {
-      return this.$createVirtualLocation();
-    }
-  }
-
-  private async $updatePhysicalLocation() {
     const location = this.instance;
-    const { attributes, relations } = await this.ctx.request.validate(
-      new UpdatePhysicalLocationValidator(this.ctx)
-    );
-
-    location.status = attributes?.status || location.status;
-
+    updateField(attributes, location, 'status');
+    updateField(attributes, location, 'url');
+    if (relations?.organizer) {
+      location.organizerId = relations!.organizer;
+    }
     if (location.$isDirty) {
       await location.save();
     }
 
     if (relations?.address) {
-      if (location.physical.address) {
-        location.physical.address.merge(relations.address.attributes);
-        await location.physical.address.save();
+      if (location.address) {
+        location.address.merge(relations.address.attributes);
+        await location.address.save();
       } else {
-        await this.$createAddress(
-          location.physical,
-          relations.address.attributes
-        );
+        await this.$createAddress(location, relations.address.attributes);
       }
     }
 
     await this.$translate(location);
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
-    await this.$updateMany(
-      location.physical,
-      'openingHours',
-      relations?.openingHours
-    );
+    await this.$updateMany(location, 'openingHours', relations?.openingHours);
     await this.$storeMedia(location);
 
     return this.instance;
   }
 
-  private async $updateVirtualLocation() {
-    const location = this.instance;
+  public async delete() {
     const { attributes, relations } = await this.ctx.request.validate(
-      new UpdateVirtualLocationValidator(this.ctx)
+      new DeleteLocationValidator(this.ctx)
     );
 
-    await Database.transaction(async (trx) => {
-      location.useTransaction(trx);
-
-      location.status = attributes?.status || location.status;
-      if (location.$isDirty) {
-        await location.save();
-      }
-
-      location.virtual.url = attributes?.url || location.virtual.url;
-
-      if (location.virtual.$isDirty) {
-        await location.virtual.save();
-      }
-
-      await this.$translate(location);
-      await this.$updateLinks(location, relations?.links);
-      await this.$updateTags(location, relations?.tags);
-      await this.$storeMedia(location);
-    });
-
-    return this.instance;
+    return [
+      ...(await this.$deleteObject(Location, attributes?.id, 'public_id')),
+      ...(await this.$deleteObject(Address, relations?.address)),
+      ...(await this.$deleteObjects(OpeningHours, relations?.openingHours)),
+      ...(await this.$deleteObjects(Media, relations?.media)),
+    ];
   }
-
-  public async update() {
-    await this.byId();
-    if (this.instance.specific() instanceof PhysicalLocation) {
-      return this.$updatePhysicalLocation();
-    } else {
-      return this.$updateVirtualLocation();
-    }
-  }
-
-  // public async delete() {
-  //   const { attributes, relations } = await this.ctx.request.validate(
-  //     new DeleteLocationValidator(this.ctx)
-  //   );
-
-  //   return [
-  //     ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
-  //     ...(await this.$deleteObjects(Media, relations?.media)),
-  //     ...(await this.$deleteObject(Location, attributes?.id, 'public_id')),
-  //   ];
-  // }
 }

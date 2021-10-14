@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-import { LocationStatus, LocationTypes } from 'App/Models/Location/Location';
+import { LocationStatus } from 'App/Models/Location';
+import { Weekdays } from 'App/Models/Location/OpeningHours';
 import {
   tags,
   links,
@@ -8,17 +9,22 @@ import {
   address,
   initialTranslation,
 } from 'App/Helpers/Validator';
-import { Weekdays } from 'App/Models/Location/OpeningHours';
 
-export class CreatePhysicalLocationValidator {
+export class CreateLocationValidator {
   constructor(private context: HttpContextContract) {}
 
   public schema = schema.create({
-    type: schema.string({}, [rules.equalTo(LocationTypes.PHYSICAL)]),
     attributes: schema.object.optional().members({
+      url: schema.string.optional({}, [rules.url()]),
       status: schema.enum.optional(Object.values(LocationStatus)),
     }),
     relations: schema.object.optional().members({
+      organizer: schema.string({}, [
+        rules.exists({
+          table: 'organizers',
+          column: 'public_id',
+        }),
+      ]),
       openingHours: schema.array.optional().members(
         schema.object().members({
           attributes: schema.object().members({
@@ -41,36 +47,21 @@ export class CreatePhysicalLocationValidator {
   public messages = {};
 }
 
-export class CreateVirtualLocationValidator {
-  constructor(private context: HttpContextContract) {}
-
-  public schema = schema.create({
-    type: schema.string({}, [rules.equalTo(LocationTypes.VIRTUAL)]),
-    attributes: schema.object().members({
-      url: schema.string({}, [rules.url()]),
-      status: schema.enum.optional(Object.values(LocationStatus)),
-    }),
-    relations: schema.object.optional().members({
-      tags,
-      links,
-      translations: initialTranslation,
-    }),
-    media,
-  });
-
-  public cacheKey = this.context.routeKey;
-
-  public messages = {};
-}
-
-export class UpdatePhysicalLocationValidator {
+export class UpdateLocationValidator {
   constructor(private context: HttpContextContract) {}
 
   public schema = schema.create({
     attributes: schema.object.optional().members({
       status: schema.enum.optional(Object.values(LocationStatus)),
+      url: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
+      organizer: schema.string({}, [
+        rules.exists({
+          table: 'organizers',
+          column: 'public_id',
+        }),
+      ]),
       openingHours: schema.array.optional().members(
         schema.object().members({
           id: schema.number.optional([
@@ -98,19 +89,42 @@ export class UpdatePhysicalLocationValidator {
   public messages = {};
 }
 
-export class UpdateVirtualLocationValidator {
+export class DeleteLocationValidator {
   constructor(private context: HttpContextContract) {}
 
   public schema = schema.create({
-    attributes: schema.object().members({
-      url: schema.string.optional({}, [rules.url()]),
-      status: schema.enum.optional(Object.values(LocationStatus)),
+    attributes: schema.object.optional().members({
+      id: schema.string({}, [
+        rules.exists({
+          table: 'locations',
+          column: 'public_id',
+        }),
+      ]),
     }),
     relations: schema.object.optional().members({
-      tags,
-      links,
+      openingHours: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'opening_hours',
+            column: 'id',
+          }),
+        ])
+      ),
+      address: schema.number.optional([
+        rules.exists({
+          table: 'address',
+          column: 'id',
+        }),
+      ]),
+      media: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'media',
+            column: 'id',
+          }),
+        ])
+      ),
     }),
-    media,
   });
 
   public cacheKey = this.context.routeKey;
@@ -118,31 +132,16 @@ export class UpdateVirtualLocationValidator {
   public messages = {};
 }
 
-export class PublishPhysicalLocationValidator {
-  constructor(private context: HttpContextContract) {}
-
+export class PublishLocationValidator {
   public schema = schema.create({
-    type: schema.string({}, [rules.equalTo(LocationTypes.PHYSICAL)]),
     attributes: schema.object().members({
       status: schema.enum(Object.values(LocationStatus)),
+      url: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object().members({
-      address: address.publish,
-      links,
-    }),
-  });
-
-  public messages = {};
-}
-
-export class PublishVirtualLocationValidator {
-  public schema = schema.create({
-    type: schema.string({}, [rules.equalTo(LocationTypes.VIRTUAL)]),
-    attributes: schema.object().members({
-      url: schema.string({}, [rules.url()]),
-      status: schema.enum(Object.values(LocationStatus)),
-    }),
-    relations: schema.object.optional().members({
+      // For a location an address is not required,
+      // hence reuse the create rule
+      address: address.create,
       links,
     }),
   });

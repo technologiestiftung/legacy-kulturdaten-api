@@ -16,7 +16,7 @@ export default class OpeningHours extends BaseModel {
   public id: number;
 
   @column({ serializeAs: null })
-  public physicalLocationId: number;
+  public locationId: number;
 
   @column()
   public weekday: string;

@@ -3,8 +3,6 @@ import Location from 'App/Models/Location/Location';
 import {
   LocationStatus,
   LocationTranslation,
-  VirtualLocation,
-  PhysicalLocation,
   OpeningHours,
 } from 'App/Models/Location';
 import { AddressFactory } from './Address';
@@ -17,6 +15,7 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
   const updatedAt = faker.date.between(createdAt, new Date()).toISOString();
 
   return {
+    url: faker.internet.url(),
     createdAt: DateTime.fromISO(createdAt),
     updatedAt: DateTime.fromISO(updatedAt),
     status: faker.random.arrayElement([
@@ -44,45 +43,31 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
     }).build()
   )
 
-  .relation('physical', () =>
-    Factory.define(PhysicalLocation, ({ faker }) => {
-      return {};
-    })
-      .relation('address', () => AddressFactory)
-      .relation('openingHours', () =>
-        Factory.define(OpeningHours, ({ faker }) => {
-          const hours = [
-            ['09:00', '18:00'],
-            ['10:00', '16:00'],
-            ['07:00', '12:30'],
-            ['11:00', '14:00'],
-            ['06:00', '12:00'],
-            ['00:00', '23:59'],
-          ];
+  .relation('address', () => AddressFactory)
+  .relation('openingHours', () =>
+    Factory.define(OpeningHours, ({ faker }) => {
+      const hours = [
+        ['09:00', '18:00'],
+        ['10:00', '16:00'],
+        ['07:00', '12:30'],
+        ['11:00', '14:00'],
+        ['06:00', '12:00'],
+        ['00:00', '23:59'],
+      ];
 
-          const [from, to] = faker.random.arrayElement(hours);
-          return {
-            weekday: faker.random.arrayElement([
-              'monday',
-              'tuesday',
-              'wednesday',
-              'thursday',
-              'friday',
-              'saturday',
-              'sunday',
-            ]),
-            from,
-            to,
-          };
-        }).build()
-      )
-      .build()
-  )
-
-  .relation('virtual', () =>
-    Factory.define(VirtualLocation, ({ faker }) => {
+      const [from, to] = faker.random.arrayElement(hours);
       return {
-        url: faker.internet.url(),
+        weekday: faker.random.arrayElement([
+          'monday',
+          'tuesday',
+          'wednesday',
+          'thursday',
+          'friday',
+          'saturday',
+          'sunday',
+        ]),
+        from,
+        to,
       };
     }).build()
   )
