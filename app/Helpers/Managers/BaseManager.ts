@@ -15,6 +15,7 @@ import { withTranslations } from '../Utilities';
 import { schema, SchemaObject } from '@ioc:Adonis/Core/Validator';
 import * as schemas from 'App/Helpers/Validator';
 import { rules } from '@ioc:Adonis/Core/Validator';
+import { UnauthorizedException } from 'App/Exceptions/Auth';
 
 interface OrderableInstruction {
   name: string;
@@ -203,6 +204,14 @@ export class BaseManager<ManagedModel extends LucidModel> {
   }
 
   public fromContext() {
+    if (
+      ['POST', 'PATCH', 'DELETE'].includes(this.method) &&
+      !this.ctx.auth.user
+    ) {
+      throw new UnauthorizedException();
+      return;
+    }
+
     switch (this.method) {
       case 'POST':
         return this.create();
