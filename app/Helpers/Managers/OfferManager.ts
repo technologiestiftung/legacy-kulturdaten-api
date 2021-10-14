@@ -10,7 +10,6 @@ import Database from '@ioc:Adonis/Lucid/Database';
 import { withTranslations, updateField } from 'App/Helpers/Utilities';
 import { RRule } from 'rrule';
 import { DateTime } from 'luxon';
-import Location from 'App/Models/Location/Location';
 
 export default class OfferManager extends BaseManager<typeof Offer> {
   public ManagedModel = Offer;
@@ -183,13 +182,17 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       updateField(attributes, offer, 'hasFee');
       updateField(attributes, offer, 'isPermanent');
       updateField(attributes, offer, 'ticketUrl');
-
+      if (relations?.location) {
+        offer.locationId = relations!.location;
+      }
       if (offer.$isDirty) {
         await offer.save();
       }
 
       await this.$translate(offer);
       await this.$updateDates(offer, meta);
+
+      await this.$updateManyToMany(offer, 'organizers', relations?.organizers);
 
       await this.$updateManyToMany(offer, 'mainType', relations?.mainType);
       await this.$updateManyToMany(offer, 'types', relations?.types);
