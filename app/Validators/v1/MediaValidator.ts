@@ -6,7 +6,7 @@ export class UpdateMediaValidator {
 
   public schema = schema.create({
     attributes: schema.object().members({
-      copyright: schema.string({ trim: true }),
+      copyright: schema.string.optional({ trim: true }),
       license: schema.string.optional({ trim: true }),
       expiresAt: schema.date.optional(),
     }),
