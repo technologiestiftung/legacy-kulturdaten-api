@@ -123,8 +123,6 @@ export class UpdateOfferValidator {
 }
 
 export class PublishOfferValidator {
-  constructor(private context: HttpContextContract) {}
-
   public schema = schema.create({
     attributes: schema.object().members({
       status: schema.enum(Object.values(OfferStatus)),
@@ -135,7 +133,6 @@ export class PublishOfferValidator {
     }),
     relations: schema.object().members({
       links,
-      tags,
     }),
   });
 
