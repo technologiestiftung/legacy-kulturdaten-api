@@ -110,7 +110,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
       new UpdateLocationValidator(this.ctx)
     );
 
-    const location = this.instance;
+    const location = await this.byId();
     updateField(attributes, location, 'status');
     updateField(attributes, location, 'url');
     if (relations?.organizer) {
