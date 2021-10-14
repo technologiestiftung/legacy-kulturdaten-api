@@ -42,8 +42,10 @@ export class CreateOrganizerValidator {
           relations: schema.object().members({
             translations: schema.array.optional([rules.minLength(1)]).members(
               schema.object().members({
-                name: schema.string({ trim: true }),
-                language: schema.enum(allowedLanguages),
+                attributes: schema.object().members({
+                  name: schema.string({ trim: true }),
+                  language: schema.enum(allowedLanguages),
+                }),
               })
             ),
           }),
@@ -120,8 +122,10 @@ export class UpdateOrganizerValidator {
           relations: schema.object.optional().members({
             translations: schema.array.optional([rules.minLength(1)]).members(
               schema.object().members({
-                name: schema.string({ trim: true }),
-                language: schema.enum(allowedLanguages),
+                attributes: schema.object().members({
+                  name: schema.string({ trim: true }),
+                  language: schema.enum(allowedLanguages),
+                }),
               })
             ),
           }),
