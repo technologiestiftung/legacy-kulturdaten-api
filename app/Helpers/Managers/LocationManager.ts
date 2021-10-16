@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import Location from 'App/Models/Location/Location';
+import Location, { LocationStatus } from 'App/Models/Location/Location';
 import {
   CreateLocationValidator,
   UpdateLocationValidator,
@@ -52,6 +52,28 @@ export default class LocationManager extends BaseManager<typeof Location> {
       {
         name: 'updatedAt',
         attribute: 'updated_at',
+      },
+    ],
+    filters: [
+      {
+        name: 'status',
+        query: (query, name, value) => {
+          if (
+            ![LocationStatus.DRAFT, LocationStatus.PUBLISHED].includes(value)
+          ) {
+            return query;
+          }
+
+          return query.where('status', 'LIKE', value);
+        },
+      },
+      {
+        name: 'organizer',
+        query: (query, name, value) => {
+          return query.whereHas('organizer', (organizersQuery) => {
+            organizersQuery.where('public_id', value);
+          });
+        },
       },
     ],
   };
