@@ -87,6 +87,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
 
     const location = new Location();
     updateField(attributes, location, 'status');
+    updateField(attributes, location, 'type');
     updateField(attributes, location, 'url');
     if (relations?.organizer) {
       location.organizerId = relations!.organizer;
@@ -112,6 +113,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
 
     const location = await this.byId();
     updateField(attributes, location, 'status');
+    updateField(attributes, location, 'type');
     updateField(attributes, location, 'url');
     if (relations?.organizer) {
       location.organizerId = relations!.organizer;

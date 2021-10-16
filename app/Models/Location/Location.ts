@@ -43,6 +43,11 @@ export enum LocationStatus {
   PUBLISHED = 'published',
 }
 
+export enum LocationType {
+  VIRTUAL = 'virtual',
+  PHYSICAL = 'physical',
+}
+
 export default class Location extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
@@ -63,6 +68,9 @@ export default class Location extends BaseModel {
 
   @hasMany(() => LocationTranslation)
   public translations: HasMany<typeof LocationTranslation>;
+
+  @column()
+  public type: string;
 
   @column()
   public url: string;

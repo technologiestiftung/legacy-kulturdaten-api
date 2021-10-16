@@ -1,6 +1,7 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
 import Location from 'App/Models/Location/Location';
 import {
+  LocationType,
   LocationStatus,
   LocationTranslation,
   OpeningHours,
@@ -15,13 +16,17 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
   const updatedAt = faker.date.between(createdAt, new Date()).toISOString();
 
   return {
-    url: faker.internet.url(),
-    createdAt: DateTime.fromISO(createdAt),
-    updatedAt: DateTime.fromISO(updatedAt),
     status: faker.random.arrayElement([
       LocationStatus.DRAFT,
       LocationStatus.PUBLISHED,
     ]),
+    type: faker.random.arrayElement([
+      LocationType.VIRTUAL,
+      LocationType.PHYSICAL,
+    ]),
+    url: faker.internet.url(),
+    createdAt: DateTime.fromISO(createdAt),
+    updatedAt: DateTime.fromISO(updatedAt),
   };
 })
   .state('draft', (location, { faker }) => {
