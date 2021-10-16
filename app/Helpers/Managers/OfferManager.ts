@@ -65,6 +65,17 @@ export default class OfferManager extends BaseManager<typeof Offer> {
           return query.where('status', 'LIKE', value);
         },
       },
+      {
+        name: 'organizers',
+        query: (query, name, value) => {
+          const publicIds = value.split(',');
+          query = query.whereHas('organizers', (organizersQuery) => {
+            organizersQuery.whereIn('public_id', publicIds);
+          });
+
+          return query;
+        },
+      },
     ],
     orderableBy: [
       {
