@@ -2,7 +2,10 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import Media from 'App/Models/Media';
 import { translation } from 'App/Validators/v1/MediaTranslationValidator';
-import { UpdateMediaValidator } from 'App/Validators/v1/MediaValidator';
+import {
+  UpdateMediaValidator,
+  DeleteMediaValidator,
+} from 'App/Validators/v1/MediaValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 
 export default class MediaManager extends BaseManager<typeof Media> {
@@ -39,5 +42,13 @@ export default class MediaManager extends BaseManager<typeof Media> {
     });
 
     return this.instance;
+  }
+
+  public async delete() {
+    const { attributes } = await this.ctx.request.validate(
+      new DeleteMediaValidator(this.ctx)
+    );
+
+    return await this.$deleteObject(Media, attributes?.id);
   }
 }

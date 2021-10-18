@@ -17,4 +17,9 @@ export default class MediaController {
 
     return new ApiDocument(ctx, manager.toResources());
   }
+
+  public async destroy(ctx: HttpContextContract) {
+    const manager = new MediaManager(ctx);
+    return new ApiDocument(ctx, await manager.delete());
+  }
 }
