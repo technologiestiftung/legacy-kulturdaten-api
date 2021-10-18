@@ -136,6 +136,43 @@ export class UpdateOfferValidator {
   public messages = {};
 }
 
+export class DeleteOfferValidator {
+  constructor(private context: HttpContextContract) {}
+
+  public schema = schema.create({
+    attributes: schema.object.optional().members({
+      id: schema.string({}, [
+        rules.exists({
+          table: 'offers',
+          column: 'public_id',
+        }),
+      ]),
+    }),
+    relations: schema.object.optional().members({
+      dates: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'offer_dates',
+            column: 'id',
+          }),
+        ])
+      ),
+      media: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'media',
+            column: 'id',
+          }),
+        ])
+      ),
+    }),
+  });
+
+  public cacheKey = this.context.routeKey;
+
+  public messages = {};
+}
+
 export class PublishOfferValidator {
   public schema = schema.create({
     attributes: schema.object().members({

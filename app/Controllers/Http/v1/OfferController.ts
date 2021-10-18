@@ -48,4 +48,9 @@ export default class OfferController {
       publishable,
     });
   }
+
+  public async destroy(ctx: HttpContextContract) {
+    const manager = new OfferManager(ctx);
+    return new ApiDocument(ctx, await manager.delete());
+  }
 }

@@ -1,9 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import Offer, { OfferStatus } from 'App/Models/Offer/Offer';
+import { OfferDate } from 'App/Models/Offer';
+import Media from 'App/Models/Media';
 import {
   CreateOfferValidator,
   UpdateOfferValidator,
+  DeleteOfferValidator,
 } from 'App/Validators/v1/OfferValidator';
 import { translation } from 'App/Validators/v1/OfferTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
@@ -215,5 +218,17 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     });
 
     return this.instance;
+  }
+
+  public async delete() {
+    const { attributes, relations } = await this.ctx.request.validate(
+      new DeleteOfferValidator(this.ctx)
+    );
+
+    return [
+      ...(await this.$deleteObjects(OfferDate, relations?.dates)),
+      ...(await this.$deleteObjects(Media, relations?.media)),
+      ...(await this.$deleteObject(Offer, attributes?.id, 'public_id')),
+    ];
   }
 }
