@@ -14,6 +14,8 @@ import Application from '@ioc:Adonis/Core/Application';
 import Media, { MEDIA_BASE_PATH } from 'App/Models/Media';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
 import { join } from 'path';
+import { OrganizerRole } from 'App/Models/Roles';
+import { Roles } from '../Roles';
 
 export default class OrganizerManager extends BaseManager<typeof Organizer> {
   public ManagedModel = Organizer;
@@ -190,6 +192,15 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     // as it creates a belongsTo relationship
     await this.$storeLogo(organizer);
     await this.$updateMany(organizer, 'contacts', relations?.contacts);
+
+    // Create a role for the user creating the organizer
+    await new OrganizerRole()
+      .fill({
+        organizerId: organizer.publicId,
+        userId: this.ctx.auth.user!.id,
+        role: Roles.OWNER,
+      })
+      .save();
 
     this.instance = organizer;
     return this.instance;

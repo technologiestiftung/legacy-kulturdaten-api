@@ -9,7 +9,10 @@ export default class OrganizerRoles extends BaseSchema {
       table.increments('id');
 
       table.integer('user_id').unsigned().references('users.id');
-      table.integer('organizer_id').unsigned().references('organizers.id');
+      table
+        .string('organizer_id')
+        .unsigned()
+        .references('organizers.public_id');
       table.enu('role', [Roles.OWNER, Roles.EDITOR]).defaultTo(Roles.EDITOR);
 
       table.timestamps(true);
