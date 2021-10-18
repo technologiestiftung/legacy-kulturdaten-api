@@ -21,13 +21,28 @@ export class CreateOfferDateValidator {
         schema.object().members({
           attributes: schema.object().members({
             name: schema.string.optional({ trim: true }, [
-              rules.requiredIfNotExistsAll(['description', 'roomDescription']),
+              rules.requiredIfNotExistsAll([
+                'description',
+                'roomDescription',
+                'teaser',
+              ]),
+            ]),
+            teaser: schema.string.optional({ trim: true }, [
+              rules.requiredIfNotExistsAll([
+                'name',
+                'description',
+                'roomDescription',
+              ]),
             ]),
             description: schema.string.optional({ trim: true }, [
-              rules.requiredIfNotExistsAll(['name', 'roomDescription']),
+              rules.requiredIfNotExistsAll([
+                'name',
+                'roomDescription',
+                'teaser',
+              ]),
             ]),
             roomDescription: schema.string.optional({ trim: true }, [
-              rules.requiredIfNotExistsAll(['description', 'name']),
+              rules.requiredIfNotExistsAll(['description', 'name', 'teaser']),
             ]),
             language: schema.enum(allowedLanguages),
           }),

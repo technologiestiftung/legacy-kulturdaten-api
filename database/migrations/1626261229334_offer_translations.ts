@@ -15,6 +15,7 @@ export default class OfferTranslations extends BaseSchema {
       table.integer('offer_id').unsigned().references('offers.id');
 
       table.string('name');
+      table.text('teaser');
       table.text('description');
       table.text('room_description');
     });

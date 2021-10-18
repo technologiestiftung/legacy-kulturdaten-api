@@ -15,6 +15,7 @@ export default class OfferDateTranslations extends BaseSchema {
       table.integer('offer_date_id').unsigned().references('offer_dates.id');
 
       table.string('name');
+      table.text('teaser');
       table.text('description');
       table.text('room_description');
     });
