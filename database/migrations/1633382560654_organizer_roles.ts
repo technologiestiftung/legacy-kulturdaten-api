@@ -10,7 +10,7 @@ export default class OrganizerRoles extends BaseSchema {
 
       table.integer('user_id').unsigned().references('users.id');
       table
-        .string('organizer_id')
+        .string('organizer_public_id')
         .unsigned()
         .references('organizers.public_id');
       table.enu('role', [Roles.OWNER, Roles.EDITOR]).defaultTo(Roles.EDITOR);
