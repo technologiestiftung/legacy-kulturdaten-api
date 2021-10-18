@@ -48,4 +48,9 @@ export default class LocationController {
       publishable,
     });
   }
+
+  public async destroy(ctx: HttpContextContract) {
+    const manager = new LocationManager(ctx);
+    return new ApiDocument(ctx, await manager.delete());
+  }
 }
