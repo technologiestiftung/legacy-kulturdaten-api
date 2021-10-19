@@ -196,7 +196,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     // Create a role for the user creating the organizer
     await new OrganizerRole()
       .fill({
-        organizerPublicId: organizer.publicId,
+        organizerId: organizer.publicId,
         userId: this.ctx.auth.user!.id,
         role: Roles.OWNER,
       })
