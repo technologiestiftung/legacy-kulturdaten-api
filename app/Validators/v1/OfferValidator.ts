@@ -26,7 +26,7 @@ export class CreateOfferValidator {
           }),
         ])
       ),
-      location: schema.string({}, [
+      location: schema.string.optional({}, [
         rules.exists({
           table: 'locations',
           column: 'public_id',
