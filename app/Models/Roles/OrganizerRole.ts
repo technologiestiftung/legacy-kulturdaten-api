@@ -11,10 +11,10 @@ export default class OrganizerRole extends BaseModel {
   public role: string;
 
   @column({ serializeAs: null })
-  public organizerPublicId: string;
+  public organizerId: string;
 
   @belongsTo(() => Organizer, {
-    foreignKey: 'public_id',
+    localKey: 'publicId',
   })
   public organizer: BelongsTo<typeof Organizer>;
 

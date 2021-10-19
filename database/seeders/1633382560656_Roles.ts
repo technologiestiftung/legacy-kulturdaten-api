@@ -32,7 +32,7 @@ export default class RoleSeeder extends BaseSeeder {
         const organizerRole = new OrganizerRole();
         organizerRole.fill({
           userId: user.id,
-          organizerPublicId: organizer.publicId,
+          organizerId: organizer.publicId,
           role: Roles.OWNER,
         });
 
