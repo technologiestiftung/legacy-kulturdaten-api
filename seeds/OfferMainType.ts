@@ -4,24 +4,28 @@ const types = [
     en: 'play ',
   },
   {
-    de: 'Ausstellung',
-    en: 'exhibition',
+    de: 'the artist is present',
+    en: 'the artist is present',
   },
   {
-    de: 'Ballett',
-    en: 'ballet',
+    de: 'Ausstellung',
+    en: 'exhibition',
   },
   {
     de: 'Buchvorstellung',
     en: 'book presentation',
   },
   {
-    de: 'Comedy',
-    en: 'comedy',
+    de: 'Datenset',
+    en: 'Datenset',
   },
   {
     de: 'Dauerausstellung',
     en: 'permanent exhibition',
+  },
+  {
+    de: 'Dialog',
+    en: 'dialogue',
   },
   {
     de: 'Diskussion',
@@ -64,14 +68,6 @@ const types = [
     en: 'hackathon',
   },
   {
-    de: 'Impro-Theater',
-    en: 'improv theatre',
-  },
-  {
-    de: 'Inklusive Führung',
-    en: 'Inclusive guided tour',
-  },
-  {
     de: 'Installation',
     en: 'installation',
   },
@@ -108,6 +104,10 @@ const types = [
     en: 'book reading',
   },
   {
+    de: 'Lesekreis',
+    en: 'reading circle',
+  },
+  {
     de: 'Liederabend',
     en: 'song recital',
   },
@@ -120,24 +120,8 @@ const types = [
     en: 'hands-on activities',
   },
   {
-    de: 'Musical',
-    en: 'musical',
-  },
-  {
     de: 'open mike',
     en: 'open mike',
-  },
-  {
-    de: 'Oper ',
-    en: 'opera',
-  },
-  {
-    de: 'Operette',
-    en: 'operetta',
-  },
-  {
-    de: 'Performance',
-    en: 'performance',
   },
   {
     de: 'Playtest',
@@ -146,10 +130,6 @@ const types = [
   {
     de: 'Podiumsgespräch',
     en: 'panel discussion',
-  },
-  {
-    de: 'Poetry Slam',
-    en: 'poetry slam',
   },
   {
     de: 'Präsentation',
@@ -174,6 +154,10 @@ const types = [
   {
     de: 'Relaxed performance',
     en: 'relaxed performance',
+  },
+  {
+    de: 'Schreibkurs',
+    en: 'writing class',
   },
   {
     de: 'Seminar',
@@ -254,6 +238,22 @@ const types = [
   {
     de: '360-Grad-Tour',
     en: '360 ° virtual tour',
+  },
+  {
+    de: 'Audiowalk',
+    en: 'audiowalk',
+  },
+  {
+    de: 'Online-Service',
+    en: 'online service',
+  },
+  {
+    de: 'Online-Game',
+    en: 'online game',
+  },
+  {
+    de: 'Audioguide',
+    en: 'audio guide',
   },
   {
     de: 'Audiowalk',
