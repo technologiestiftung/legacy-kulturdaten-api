@@ -101,7 +101,6 @@ export default class LoadFixtures extends BaseCommand {
 
   public async run() {
     this.fixturePaths = await this.listFixtureFiles();
-    console.log(this.fixturePaths);
 
     for (const path of this.fixturePaths) {
       const fixture = await this.loadFixture(path);
