@@ -59,6 +59,15 @@ Route.group(() => {
     Route.resource('organizer', 'v1/OrganizerController').apiOnly();
 
     Route.resource('location', 'v1/LocationController').apiOnly();
+    Route.get('location/:id/accessibility', 'v1/AccessibilityController.show');
+    Route.patch(
+      'location/:id/accessibility',
+      'v1/AccessibilityController.update'
+    );
+    Route.delete(
+      'location/:id/accessibility',
+      'v1/AccessibilityController.delete'
+    );
 
     Route.resource('offerMainType', 'v1/OfferMainTypeController').apiOnly();
     Route.resource('offerType', 'v1/OfferTypeController').apiOnly();

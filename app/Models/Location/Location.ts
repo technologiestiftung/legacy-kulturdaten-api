@@ -8,6 +8,8 @@ import {
   HasMany,
   belongsTo,
   BelongsTo,
+  hasOne,
+  HasOne,
   beforeCreate,
 } from '@ioc:Adonis/Lucid/Orm';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
@@ -20,6 +22,7 @@ import Organizer from 'App/Models/Organizer/Organizer';
 import Tag from 'App/Models/Tag';
 import { OpeningHours } from 'App/Models/Location';
 import { publishable } from 'App/Helpers/Utilities';
+import Accessibility from 'App/Models/Location/Accessibility';
 
 export class LocationTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -83,6 +86,11 @@ export default class Location extends BaseModel {
 
   @hasMany(() => OpeningHours)
   public openingHours: HasMany<typeof OpeningHours>;
+
+  @hasOne(() => Accessibility, {
+    localKey: 'publicId',
+  })
+  public accessibility: HasOne<typeof Accessibility>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',

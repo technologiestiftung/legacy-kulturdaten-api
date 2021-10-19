@@ -10,7 +10,7 @@ import { translation } from 'App/Validators/v1/LocationTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Address from 'App/Models/Address';
 import { withTranslations, updateField } from 'App/Helpers/Utilities';
-import { OpeningHours } from 'App/Models/Location';
+import { Accessibility, OpeningHours } from 'App/Models/Location';
 import Media from 'App/Models/Media';
 
 export default class LocationManager extends BaseManager<typeof Location> {
@@ -35,6 +35,12 @@ export default class LocationManager extends BaseManager<typeof Location> {
         query: (query) => {
           withTranslations(query);
           query.preload('renditions');
+        },
+      },
+      {
+        name: 'accessibility',
+        query: (query) => {
+          query.preload('fields');
         },
       },
     ],
@@ -123,6 +129,13 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await this.$updateTags(location, relations?.tags);
     await this.$updateMany(location, 'openingHours', relations?.openingHours);
     await this.$storeMedia(location);
+
+    // Create an accessibility object to hold a11y info separate
+    // from all the basic location logic
+    await Accessibility.create({
+      locationId: location.publicId,
+    });
+    await location.load('accessibility');
 
     this.instance = location;
     return this.instance;
