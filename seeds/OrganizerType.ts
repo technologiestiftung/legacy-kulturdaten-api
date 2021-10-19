@@ -166,7 +166,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'spoken theatre',
+                name: 'Sprechtheater / acting',
                 language: 'en',
               },
             ],
@@ -181,20 +181,6 @@ const types = [
               },
               {
                 name: 'musical theatre',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Tanz',
-                language: 'de',
-              },
-              {
-                name: 'dance',
                 language: 'en',
               },
             ],
@@ -236,7 +222,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'cabaret',
+                name: 'Kleinkunst',
                 language: 'en',
               },
             ],
@@ -282,7 +268,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'dance theatre',
+                name: 'Tanztheater (dance theatre)',
                 language: 'en',
               },
             ],
@@ -311,6 +297,20 @@ const types = [
               },
               {
                 name: 'contemporary dance',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Performance',
+                language: 'de',
+              },
+              {
+                name: 'performance',
                 language: 'en',
               },
             ],
@@ -366,11 +366,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Architektur, Kunsthandwerk und Design',
+                name: 'Architektur / Kunsthandwerk und Design',
                 language: 'de',
               },
               {
-                name: 'architecture, crafts and design',
+                name: 'architecture / crafts and design',
                 language: 'en',
               },
             ],
@@ -394,11 +394,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Museum für Naturkunde, Naturwissenschaft, Technik',
+                name: 'Museum für Naturkunde / Naturwissenschaft / Technik',
                 language: 'de',
               },
               {
-                name: 'nature, technology museums',
+                name: 'nature / technology museums',
                 language: 'en',
               },
             ],
@@ -630,7 +630,7 @@ const types = [
                 language: 'de',
               },
               {
-                name: 'activity venue',
+                name: 'Aktionsraum',
                 language: 'en',
               },
             ],
@@ -649,7 +649,7 @@ const types = [
           language: 'de',
         },
         {
-          name: 'memorials / place of remembrance',
+          name: 'memorials / places of remembrance',
           language: 'en',
         },
       ],
@@ -993,11 +993,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Literaturhaus / Veranstaltungsort für Literatur',
+          name: 'Literaturhaus / Veranstalter:in für Literatur',
           language: 'de',
         },
         {
-          name: 'organizations for literature / venues for literary events',
+          name: 'organizations for literature / organier of literary events',
           language: 'en',
         },
       ],
