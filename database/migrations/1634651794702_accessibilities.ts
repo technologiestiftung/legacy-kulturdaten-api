@@ -7,7 +7,7 @@ export default class Accessibilities extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
 
-      table.integer('location_id').unsigned().references('locations.public_id');
+      table.string('location_id').unsigned().references('locations.public_id');
 
       table.timestamps(true);
     });
