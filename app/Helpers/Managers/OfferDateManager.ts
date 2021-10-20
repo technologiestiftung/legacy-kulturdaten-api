@@ -129,6 +129,7 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
         needsRegistration: attributes.needsRegistration || false,
         hasFee: attributes.hasFee || false,
         ticketUrl: attributes.ticketUrl || undefined,
+        registrationUrl: attributes.registrationUrl || undefined,
       });
 
       await this.$translate(offerDate);
@@ -152,6 +153,7 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
       updateField(attributes, offerDate, 'needsRegistration');
       updateField(attributes, offerDate, 'hasFee');
       updateField(attributes, offerDate, 'ticketUrl');
+      updateField(attributes, offerDate, 'registrationUrl');
 
       if (offerDate.$isDirty) {
         await offerDate.save();
