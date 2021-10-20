@@ -62,6 +62,9 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
         hasFee: faker.datatype.boolean(),
         ticketUrl: faker.internet.url(),
         registrationUrl: faker.internet.url(),
+        locationUrl: faker.datatype.boolean()
+          ? faker.internet.url()
+          : undefined,
         startsAt: DateTime.fromISO(startsAt.toISOString()),
         endsAt,
       };
