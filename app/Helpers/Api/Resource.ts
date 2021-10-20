@@ -1,6 +1,9 @@
 export interface ResourceObject {
   id: number | string;
   type: string;
+  subtype?: {
+    [key: string]: any;
+  };
   attributes?: {
     [key: string]: any;
   };
@@ -104,20 +107,16 @@ export default class Resource {
       return;
     }
 
-    // If there is a specific model, we also update the type to match the specific model
-    this.type =
-      this.specific.type || this.specific.constructor.name.toLowerCase();
-
     const specificResource = this.$bootRelatedResource(this.specific);
     this.$attributes = Object.assign(
       {},
-      specificResource.$attributes,
-      this.$attributes
+      this.$attributes,
+      specificResource.$attributes
     );
     this.$relations = Object.assign(
       {},
-      specificResource.$relations,
-      this.$relations
+      this.$relations,
+      specificResource.$relations
     );
   }
 
@@ -126,6 +125,14 @@ export default class Resource {
       id: this.id,
       type: this.type,
     };
+
+    if (this.specific) {
+      resource.subtype = {
+        type:
+          this.specific.type || this.specific.constructor.name.toLowerCase(),
+        id: this.specific.publicId || this.specific.id,
+      };
+    }
 
     if (this.$attributes) {
       resource.attributes = this.$attributes;

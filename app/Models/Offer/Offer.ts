@@ -25,6 +25,7 @@ import {
   OfferType,
   OfferSubject,
   OfferDate,
+  OfferContributor,
 } from 'App/Models/Offer';
 import { OfferRole } from 'App/Models/Roles';
 import { publishable } from 'App/Helpers/Utilities';
@@ -101,6 +102,9 @@ export default class Offer extends BaseModel {
 
   @hasMany(() => OfferDate)
   public dates: HasMany<typeof OfferDate>;
+
+  @hasMany(() => OfferContributor)
+  public contributors: HasMany<typeof OfferContributor>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',

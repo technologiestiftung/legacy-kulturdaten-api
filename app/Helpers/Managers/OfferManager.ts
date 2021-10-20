@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import Offer, { OfferStatus } from 'App/Models/Offer/Offer';
-import { OfferDate } from 'App/Models/Offer';
+import { OfferContributor, OfferDate } from 'App/Models/Offer';
 import Media from 'App/Models/Media';
 import {
   CreateOfferValidator,
@@ -20,6 +20,12 @@ export default class OfferManager extends BaseManager<typeof Offer> {
   public settings = {
     queryId: 'public_id',
     includables: [
+      {
+        name: 'contributors',
+        query: (query) => {
+          query.preload('translations').preload('organizer', withTranslations);
+        },
+      },
       {
         name: 'dates',
         query: withTranslations,
@@ -141,6 +147,29 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     await offer.load('dates', withTranslations);
   }
 
+  private async $updateContributors(offer, contributors: any[] = []) {
+    return this.$updateMany(
+      offer,
+      'contributors',
+      contributors.map((contributor) => {
+        if (!contributor.relations?.organizer) {
+          return contributor;
+        }
+
+        contributor.attributes = {
+          organizerId: contributor.relations!.organizer,
+        };
+        delete contributor.relations.organizer;
+
+        return contributor;
+      }),
+      (contributorsQuery) =>
+        contributorsQuery
+          .preload('translations')
+          .preload('organizer', withTranslations)
+    );
+  }
+
   public async create() {
     const { attributes, relations, meta } = await this.ctx.request.validate(
       new CreateOfferValidator(this.ctx)
@@ -178,6 +207,8 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       await this.$updateTags(offer, relations?.tags);
       await this.$storeMedia(offer);
     });
+
+    await this.$updateContributors(offer, relations?.contributors);
 
     this.instance = offer;
     return this.instance;
@@ -219,6 +250,8 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       await this.$storeMedia(offer);
     });
 
+    await this.$updateMany(offer, 'contributors', relations?.contributors);
+
     return this.instance;
   }
 
@@ -229,6 +262,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
 
     return [
       ...(await this.$deleteObjects(OfferDate, relations?.dates)),
+      ...(await this.$deleteObjects(OfferContributor, relations?.contributors)),
       ...(await this.$deleteObjects(Media, relations?.media)),
       ...(await this.$deleteObject(Offer, attributes?.id, 'public_id')),
     ];

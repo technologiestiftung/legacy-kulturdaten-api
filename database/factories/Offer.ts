@@ -4,6 +4,8 @@ import OfferDate, { OfferDateTranslation } from 'App/Models/Offer/OfferDate';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
 import { MediaFactory } from './Media';
+import { OfferContributor } from 'App/Models/Offer';
+import { OfferContributorTranslation } from 'App/Models/Offer/OfferContributor';
 
 export const OfferFactory = Factory.define(Offer, ({ faker }) => {
   const createdAt = faker.date.recent(120).toISOString();
@@ -84,6 +86,22 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
             roomDescription: faker.datatype.boolean()
               ? faker.lorem.sentence()
               : undefined,
+          };
+        }).build()
+      )
+      .build()
+  )
+  .relation('contributors', () =>
+    Factory.define(OfferContributor, ({ faker }) => {
+      faker.locale = 'de';
+      return {};
+    })
+      .relation('translations', () =>
+        Factory.define(OfferContributorTranslation, ({ faker }) => {
+          faker.locale = 'de';
+
+          return {
+            name: faker.company.companyName(),
           };
         }).build()
       )

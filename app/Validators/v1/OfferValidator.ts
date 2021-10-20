@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { OfferStatus } from 'App/Models/Offer/Offer';
 import { tags, links, media, initialTranslation } from 'App/Helpers/Validator';
+import { allowedLanguages } from 'Config/app';
 
 export class CreateOfferValidator {
   constructor(private context: HttpContextContract) {}
@@ -56,6 +57,26 @@ export class CreateOfferValidator {
             column: 'id',
           }),
         ])
+      ),
+      contributors: schema.array.optional().members(
+        schema.object.optional().members({
+          relations: schema.object().members({
+            organizer: schema.string.optional({}, [
+              rules.exists({
+                table: 'organizers',
+                column: 'public_id',
+              }),
+            ]),
+            translations: schema.array.optional([rules.minLength(1)]).members(
+              schema.object().members({
+                attributes: schema.object().members({
+                  name: schema.string({ trim: true }),
+                  language: schema.enum(allowedLanguages),
+                }),
+              })
+            ),
+          }),
+        })
       ),
     }),
     meta: schema.object.optional().members({
@@ -124,6 +145,32 @@ export class UpdateOfferValidator {
           }),
         ])
       ),
+      contributors: schema.array.optional().members(
+        schema.object.optional().members({
+          id: schema.number.optional([
+            rules.exists({
+              table: 'offer_contributors',
+              column: 'id',
+            }),
+          ]),
+          relations: schema.object.optional().members({
+            organizer: schema.string.optional({}, [
+              rules.exists({
+                table: 'organizers',
+                column: 'public_id',
+              }),
+            ]),
+            translations: schema.array.optional([rules.minLength(1)]).members(
+              schema.object().members({
+                attributes: schema.object().members({
+                  name: schema.string({ trim: true }),
+                  language: schema.enum(allowedLanguages),
+                }),
+              })
+            ),
+          }),
+        })
+      ),
     }),
     meta: schema.object.optional().members({
       startsAt: schema.date(),
@@ -155,6 +202,14 @@ export class DeleteOfferValidator {
         schema.number([
           rules.exists({
             table: 'offer_dates',
+            column: 'id',
+          }),
+        ])
+      ),
+      contributors: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'offer_contributors',
             column: 'id',
           }),
         ])

@@ -47,6 +47,16 @@ export default class OfferSeeder extends BaseSeeder {
         //   });
         // }
 
+        factory.with('contributors', 2, (contributorFactory) => {
+          if (faker.datatype.boolean()) {
+            contributorFactory.with('translations', 1);
+          } else {
+            contributorFactory.merge({
+              organizerId: faker.random.arrayElement(theaters).publicId,
+            });
+          }
+        });
+
         const offer = await factory.create();
         await offer.related('organizers').sync([theater.publicId]);
       }
@@ -86,6 +96,16 @@ export default class OfferSeeder extends BaseSeeder {
         //     mediaFactory.with('translations', 1);
         //   });
         // }
+
+        factory.with('contributors', 2, (contributorFactory) => {
+          if (faker.datatype.boolean()) {
+            contributorFactory.with('translations', 1);
+          } else {
+            contributorFactory.merge({
+              organizerId: faker.random.arrayElement(museums).publicId,
+            });
+          }
+        });
 
         const offer = await factory.create();
         await offer.related('organizers').sync([museum.publicId]);

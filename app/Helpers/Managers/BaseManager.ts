@@ -314,7 +314,12 @@ export class BaseManager<ManagedModel extends LucidModel> {
     return this.instance;
   }
 
-  public async $updateMany(instance, relation, items) {
+  public async $updateMany(
+    instance,
+    relation,
+    items,
+    query: undefined | Function = undefined
+  ) {
     if (!items || items.length === 0) {
       return;
     }
@@ -359,10 +364,13 @@ export class BaseManager<ManagedModel extends LucidModel> {
       await instance.related(relation).saveMany(newItems);
     }
 
-    await instance.load(
-      relation,
-      hasTranslations ? withTranslations : () => {}
-    );
+    if (!query && hasTranslations) {
+      query = withTranslations;
+    } else if (!query) {
+      query = () => {};
+    }
+
+    await instance.load(relation, query);
   }
 
   public async $updateManyToMany(instance, relation, items) {
