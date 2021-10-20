@@ -23,6 +23,7 @@ export default class LocationSeeder extends BaseSeeder {
       });
 
       factory.with('openingHours', faker.datatype.number(6));
+      factory.with('accessibility', 1);
 
       // if (faker.datatype.boolean()) {
       //   factory.with('media', faker.datatype.number(1), (mediaFactory) => {
