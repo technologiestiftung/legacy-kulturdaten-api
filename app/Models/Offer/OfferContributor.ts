@@ -45,7 +45,7 @@ export default class OfferContributor extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime;
 
-  specific() {
+  public specific() {
     if (this.organizerId && this.organizer) {
       return this.organizer;
     }
