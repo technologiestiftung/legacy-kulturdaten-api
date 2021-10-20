@@ -41,6 +41,9 @@ export class OfferTranslation extends BaseModel {
   public name: string;
 
   @column()
+  public teaser: string;
+
+  @column()
   public description: string;
 
   @column()

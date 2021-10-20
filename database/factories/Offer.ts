@@ -34,6 +34,7 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
 
       return {
         name: faker.company.companyName(),
+        teaser: faker.datatype.boolean() ? faker.lorem.sentence() : undefined,
         description: faker.datatype.boolean()
           ? faker.lorem.paragraph()
           : undefined,
@@ -60,6 +61,7 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
         needsRegistration: faker.datatype.boolean(),
         hasFee: faker.datatype.boolean(),
         ticketUrl: faker.internet.url(),
+        registrationUrl: faker.internet.url(),
         startsAt: DateTime.fromISO(startsAt.toISOString()),
         endsAt,
       };
@@ -70,11 +72,14 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
 
           return {
             name: faker.company.companyName(),
+            teaser: faker.datatype.boolean()
+              ? faker.lorem.sentence()
+              : undefined,
             description: faker.datatype.boolean()
               ? faker.lorem.paragraph()
               : undefined,
             roomDescription: faker.datatype.boolean()
-              ? faker.lorem.paragraph()
+              ? faker.lorem.sentence()
               : undefined,
           };
         }).build()

@@ -20,6 +20,9 @@ export class OfferDateTranslation extends BaseModel {
   public name: string;
 
   @column()
+  public teaser: string;
+
+  @column()
   public description: string;
 
   @column()
