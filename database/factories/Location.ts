@@ -26,6 +26,7 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
       LocationType.PHYSICAL,
     ]),
     url: faker.internet.url(),
+    rentUrl: faker.internet.url(),
     createdAt: DateTime.fromISO(createdAt),
     updatedAt: DateTime.fromISO(updatedAt),
   };

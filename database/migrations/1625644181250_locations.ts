@@ -15,6 +15,7 @@ export default class Locations extends BaseSchema {
 
       table.string('type');
       table.string('url');
+      table.string('rent_url');
       table.integer('address_id').unsigned().references('addresses.id');
 
       table

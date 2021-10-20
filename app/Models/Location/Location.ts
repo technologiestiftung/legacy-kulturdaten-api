@@ -78,6 +78,9 @@ export default class Location extends BaseModel {
   @column()
   public url: string;
 
+  @column()
+  public rentUrl: string;
+
   @column({ serializeAs: null })
   public addressId: number;
 
