@@ -339,7 +339,7 @@ export class BaseManager<ManagedModel extends LucidModel> {
         if (item.relations?.translations) {
           hasTranslations = true;
           await relatedInstance.load('translations');
-          this.$translate(relatedInstance, item.relations?.translations);
+          await this.$translate(relatedInstance, item.relations?.translations);
         }
       } else {
         const relatedInstance = new RelatedModel();
@@ -348,9 +348,7 @@ export class BaseManager<ManagedModel extends LucidModel> {
 
         if (item.relations?.translations) {
           hasTranslations = true;
-          await relatedInstance
-            .related('translations')
-            .createMany(item.relations.translations);
+          await this.$translate(relatedInstance, item.relations?.translations);
         }
 
         newItems.push(relatedInstance);
