@@ -6,6 +6,7 @@ import { translation } from 'App/Validators/v1/OfferTranslationValidator';
 import {
   CreateOfferDateValidator,
   UpdateOfferDateValidator,
+  DeleteOfferDateValidator,
 } from 'App/Validators/v1/OfferDateValidator';
 import Offer from 'App/Models/Offer/Offer';
 import Database from '@ioc:Adonis/Lucid/Database';
@@ -163,5 +164,13 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
     });
 
     return this.instance;
+  }
+
+  public async delete() {
+    const { attributes } = await this.ctx.request.validate(
+      new DeleteOfferDateValidator(this.ctx)
+    );
+
+    return [...(await this.$deleteObject(OfferDate, attributes?.id))];
   }
 }

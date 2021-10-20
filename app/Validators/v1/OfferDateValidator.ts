@@ -80,3 +80,22 @@ export class UpdateOfferDateValidator {
 
   public messages = {};
 }
+
+export class DeleteOfferDateValidator {
+  constructor(private context: HttpContextContract) {}
+
+  public schema = schema.create({
+    attributes: schema.object.optional().members({
+      id: schema.string({}, [
+        rules.exists({
+          table: 'offer_dates',
+          column: 'id',
+        }),
+      ]),
+    }),
+  });
+
+  public cacheKey = this.context.routeKey;
+
+  public messages = {};
+}

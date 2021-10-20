@@ -34,4 +34,9 @@ export default class OfferDateController {
 
     return new ApiDocument(ctx, manager.toResources());
   }
+
+  public async destroy(ctx: HttpContextContract) {
+    const manager = new OfferDateManager(ctx);
+    return new ApiDocument(ctx, await manager.delete());
+  }
 }
