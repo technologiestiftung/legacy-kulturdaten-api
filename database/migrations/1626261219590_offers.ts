@@ -17,6 +17,7 @@ export default class Offers extends BaseSchema {
       table.boolean('needs_registration');
       table.boolean('is_permanent');
       table.string('ticket_url');
+      table.string('registration_url');
 
       table.string('location_id').unsigned().references('locations.public_id');
 

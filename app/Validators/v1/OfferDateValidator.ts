@@ -14,6 +14,7 @@ export class CreateOfferDateValidator {
       needsRegistration: schema.boolean.optional(),
       hasFee: schema.boolean.optional(),
       ticketUrl: schema.string.optional({}, [rules.url()]),
+      registrationUrl: schema.string.optional({}, [rules.url()]),
       locationUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
@@ -70,6 +71,7 @@ export class UpdateOfferDateValidator {
       needsRegistration: schema.boolean.optional(),
       hasFee: schema.boolean.optional(),
       ticketUrl: schema.string.optional({}, [rules.url()]),
+      registrationUrl: schema.string.optional({}, [rules.url()]),
       locationUrl: schema.string.optional({}, [rules.url()]),
     }),
   });

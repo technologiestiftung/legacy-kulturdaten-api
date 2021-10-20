@@ -154,6 +154,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       offer.hasFee = attributes?.hasFee || false;
       offer.isPermanent = attributes?.isPermanent || false;
       offer.ticketUrl = attributes?.ticketUrl || '';
+      offer.registrationUrl = attributes?.registrationUrl || '';
       if (relations?.location) {
         offer.locationId = relations!.location;
       }
@@ -196,6 +197,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       updateField(attributes, offer, 'hasFee');
       updateField(attributes, offer, 'isPermanent');
       updateField(attributes, offer, 'ticketUrl');
+      updateField(attributes, offer, 'registrationUrl');
       if (relations?.location) {
         offer.locationId = relations!.location;
       }

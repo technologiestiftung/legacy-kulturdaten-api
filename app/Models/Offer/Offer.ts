@@ -80,6 +80,9 @@ export default class Offer extends BaseModel {
   @column()
   public ticketUrl: string;
 
+  @column()
+  public registrationUrl: string;
+
   @manyToMany(() => Organizer, {
     relatedKey: 'publicId',
   })

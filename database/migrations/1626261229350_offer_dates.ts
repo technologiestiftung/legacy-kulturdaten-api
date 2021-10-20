@@ -21,6 +21,7 @@ export default class OfferDates extends BaseSchema {
       table.boolean('has_fee');
       table.boolean('needs_registration');
       table.string('ticket_url');
+      table.string('registration_url');
       table.string('location_url');
 
       table.integer('offer_id').unsigned().references('offers.id');

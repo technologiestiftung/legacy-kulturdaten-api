@@ -80,6 +80,7 @@ export class UpdateOfferValidator {
       hasFee: schema.boolean.optional(),
       isPermanent: schema.boolean.optional(),
       ticketUrl: schema.string.optional({}, [rules.url()]),
+      registrationUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
       links,
@@ -181,6 +182,7 @@ export class PublishOfferValidator {
       hasFee: schema.boolean(),
       isPermanent: schema.boolean(),
       ticketUrl: schema.string.optional({}, [rules.url()]),
+      registrationUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object().members({
       links,
