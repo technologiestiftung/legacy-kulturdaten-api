@@ -13,6 +13,7 @@ export class CreateOfferValidator {
       hasFee: schema.boolean.optional(),
       isPermanent: schema.boolean.optional(),
       ticketUrl: schema.string.optional({}, [rules.url()]),
+      registrationUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
       translations: initialTranslation,
