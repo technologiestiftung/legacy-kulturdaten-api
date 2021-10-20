@@ -22,7 +22,13 @@ export default class LocationSeeder extends BaseSeeder {
         address.merge(organizer.address.serializeAttributes());
       });
 
-      factory.with('openingHours', faker.datatype.number(6));
+      factory.with(
+        'openingHours',
+        faker.datatype.number(6),
+        (openingHoursFactory) => {
+          factory.with('translations', 1);
+        }
+      );
       factory.with('accessibility', 1);
 
       // if (faker.datatype.boolean()) {

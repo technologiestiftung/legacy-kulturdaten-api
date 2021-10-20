@@ -11,6 +11,7 @@ import { AddressFactory } from './Address';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
 import { MediaFactory } from './Media';
+import { OpeningHoursTranslation } from 'App/Models/Location/OpeningHours';
 
 export const LocationFactory = Factory.define(Location, ({ faker }) => {
   const createdAt = faker.date.recent(120).toISOString();
@@ -81,7 +82,19 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
         from,
         to,
       };
-    }).build()
+    })
+      .relation('translations', () =>
+        Factory.define(OpeningHoursTranslation, ({ faker }) => {
+          faker.locale = 'de';
+
+          return {
+            additionalInfo: faker.datatype.boolean()
+              ? faker.lorem.sentence()
+              : undefined,
+          };
+        }).build()
+      )
+      .build()
   )
 
   .relation('links', () => LinkFactory)

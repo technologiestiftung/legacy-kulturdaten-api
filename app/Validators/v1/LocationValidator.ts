@@ -9,6 +9,7 @@ import {
   address,
   initialTranslation,
 } from 'App/Helpers/Validator';
+import { allowedLanguages } from 'Config/app';
 
 export class CreateLocationValidator {
   constructor(private context: HttpContextContract) {}
@@ -33,6 +34,16 @@ export class CreateLocationValidator {
             weekday: schema.enum(Object.values(Weekdays)),
             from: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
             to: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+          }),
+          relations: schema.object().members({
+            translations: schema.array.optional([rules.minLength(1)]).members(
+              schema.object().members({
+                attributes: schema.object().members({
+                  additionalInfo: schema.string({ trim: true }),
+                  language: schema.enum(allowedLanguages),
+                }),
+              })
+            ),
           }),
         })
       ),
@@ -76,6 +87,16 @@ export class UpdateLocationValidator {
             weekday: schema.enum(Object.values(Weekdays)),
             from: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
             to: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+          }),
+          relations: schema.object.optional().members({
+            translations: schema.array.optional([rules.minLength(1)]).members(
+              schema.object().members({
+                attributes: schema.object().members({
+                  additionalInfo: schema.string({ trim: true }),
+                  language: schema.enum(allowedLanguages),
+                }),
+              })
+            ),
           }),
         })
       ),
