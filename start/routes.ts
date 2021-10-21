@@ -49,6 +49,10 @@ Route.group(() => {
   Route.group(() => {
     Route.resource('tag', 'v1/TagController').only(['index', 'show']);
 
+    Route.resource('mediaLicense', 'v1/MediaLicenseController').only([
+      'index',
+      'show',
+    ]);
     Route.resource('media', 'v1/MediaController').only([
       'show',
       'update',

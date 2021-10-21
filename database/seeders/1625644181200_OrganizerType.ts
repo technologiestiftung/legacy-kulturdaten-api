@@ -18,7 +18,7 @@ export default class OrganizerTypeSeeder extends BaseSeeder {
         for (const subjectData of resource.relations.subjects) {
           const organizerSubject = await organizerType
             .related('subjects')
-            .create();
+            .create({});
           await organizerSubject
             .related('translations')
             .createMany(subjectData.relations.translations);

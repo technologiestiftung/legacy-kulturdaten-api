@@ -10,6 +10,14 @@ export class UpdateMediaValidator {
       license: schema.string.optional({ trim: true }),
       expiresAt: schema.date.optional(),
     }),
+    relations: schema.object.optional().members({
+      license: schema.number([
+        rules.exists({
+          table: 'media_licenses',
+          column: 'id',
+        }),
+      ]),
+    }),
   });
 
   public cacheKey = this.context.routeKey;

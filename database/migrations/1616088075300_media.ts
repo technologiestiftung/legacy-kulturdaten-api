@@ -13,8 +13,12 @@ export default class Media extends BaseSchema {
       table.bigInteger('filesize');
       table.string('format');
       table.string('copyright');
-      table.string('license');
       table.dateTime('expires_at', { useTz: true });
+
+      table
+        .integer('media_license_id')
+        .unsigned()
+        .references('media_licenses.id');
 
       table.timestamps(true);
     });
