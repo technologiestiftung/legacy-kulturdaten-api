@@ -30,7 +30,7 @@ export class DeleteMediaValidator {
 
   public schema = schema.create({
     attributes: schema.object.optional().members({
-      id: schema.string({}, [
+      id: schema.number([
         rules.exists({
           table: 'media',
           column: 'id',
