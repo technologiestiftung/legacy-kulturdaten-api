@@ -12,7 +12,11 @@ export default class OfferTranslations extends BaseSchema {
         .enu('language', [Languages.DE, Languages.DE_EASY, Languages.EN])
         .defaultTo(Languages.DE);
 
-      table.integer('offer_id').unsigned().references('offers.id');
+      table
+        .integer('offer_id')
+        .unsigned()
+        .references('offers.id')
+        .onDelete('CASCADE');
 
       table.string('name');
       table.text('teaser');

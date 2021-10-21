@@ -21,7 +21,8 @@ export default class AccessibilityFields extends BaseSchema {
       table
         .integer('accessibility_id')
         .unsigned()
-        .references('accessibilities.id');
+        .references('accessibilities.id')
+        .onDelete('CASCADE');
 
       table.timestamps(true);
     });

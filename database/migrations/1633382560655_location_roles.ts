@@ -8,8 +8,16 @@ export default class LocationRoles extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
 
-      table.integer('user_id').unsigned().references('users.id');
-      table.integer('location_id').unsigned().references('locations.id');
+      table
+        .integer('user_id')
+        .unsigned()
+        .references('users.id')
+        .onDelete('CASCADE');
+      table
+        .integer('location_id')
+        .unsigned()
+        .references('locations.id')
+        .onDelete('CASCADE');
       table.enu('role', [Roles.OWNER, Roles.EDITOR]).defaultTo(Roles.EDITOR);
 
       table.timestamps(true);

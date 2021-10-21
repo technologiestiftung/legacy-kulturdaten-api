@@ -12,7 +12,11 @@ export default class MediaTranslations extends BaseSchema {
         .enu('language', [Languages.DE, Languages.DE_EASY, Languages.EN])
         .defaultTo(Languages.DE);
 
-      table.integer('media_id').unsigned().references('media.id');
+      table
+        .integer('media_id')
+        .unsigned()
+        .references('media.id')
+        .onDelete('CASCADE');
 
       table.text('alternative_text').notNullable();
     });

@@ -18,7 +18,8 @@ export default class Media extends BaseSchema {
       table
         .integer('media_license_id')
         .unsigned()
-        .references('media_licenses.id');
+        .references('media_licenses.id')
+        .onDelete('CASCADE');
 
       table.timestamps(true);
     });

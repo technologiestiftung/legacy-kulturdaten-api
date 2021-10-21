@@ -12,7 +12,11 @@ export default class OrganizerTranslations extends BaseSchema {
         .enu('language', [Languages.DE, Languages.DE_EASY, Languages.EN])
         .defaultTo(Languages.DE);
 
-      table.integer('organizer_id').unsigned().references('organizers.id');
+      table
+        .integer('organizer_id')
+        .unsigned()
+        .references('organizers.id')
+        .onDelete('CASCADE');
 
       table.string('name');
       table.text('description');

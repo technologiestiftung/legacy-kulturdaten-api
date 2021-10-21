@@ -24,7 +24,11 @@ export default class OfferDates extends BaseSchema {
       table.string('registration_url');
       table.string('location_url');
 
-      table.integer('offer_id').unsigned().references('offers.id');
+      table
+        .integer('offer_id')
+        .unsigned()
+        .references('offers.id')
+        .onDelete('CASCADE');
     });
   }
 

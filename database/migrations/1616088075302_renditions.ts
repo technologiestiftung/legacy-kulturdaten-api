@@ -14,7 +14,11 @@ export default class Renditions extends BaseSchema {
       table.bigInteger('filesize');
       table.string('format');
 
-      table.integer('media_id').unsigned().references('media.id');
+      table
+        .integer('media_id')
+        .unsigned()
+        .references('media.id')
+        .onDelete('CASCADE');
 
       table.timestamps(true);
     });

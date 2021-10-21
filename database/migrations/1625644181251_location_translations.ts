@@ -12,7 +12,11 @@ export default class LocationTranslation extends BaseSchema {
         .enu('language', [Languages.DE, Languages.DE_EASY, Languages.EN])
         .defaultTo(Languages.DE);
 
-      table.integer('location_id').unsigned().references('locations.id');
+      table
+        .integer('location_id')
+        .unsigned()
+        .references('locations.id')
+        .onDelete('CASCADE');
 
       table.string('name');
       table.text('description');

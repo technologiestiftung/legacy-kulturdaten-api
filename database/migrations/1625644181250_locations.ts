@@ -16,12 +16,17 @@ export default class Locations extends BaseSchema {
       table.string('type');
       table.string('url');
       table.string('rent_url');
-      table.integer('address_id').unsigned().references('addresses.id');
+      table
+        .integer('address_id')
+        .unsigned()
+        .references('addresses.id')
+        .onDelete('CASCADE');
 
       table
         .string('organizer_id')
         .unsigned()
-        .references('organizers.public_id');
+        .references('organizers.public_id')
+        .onDelete('CASCADE');
 
       table.timestamps(true);
     });
