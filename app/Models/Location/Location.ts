@@ -37,6 +37,9 @@ export class LocationTranslation extends BaseModel {
   @column()
   public description: string;
 
+  @column()
+  public openingHours: string;
+
   @column({ serializeAs: null })
   public locationId: number;
 }

@@ -4,6 +4,7 @@ import { allowedLanguages } from 'Config/app';
 export const translation = schema.object().members({
   name: schema.string.optional({ trim: true }),
   description: schema.string.optional({ trim: true }),
+  openingHours: schema.string.optional({ trim: true }),
   language: schema.enum(allowedLanguages),
 });
 
@@ -12,6 +13,7 @@ export class PublishLocationTranslationValidator {
     attributes: schema.object().members({
       name: schema.string({ trim: true }),
       description: schema.string({ trim: true }),
+      openingHours: schema.string.optional({ trim: true }),
       language: schema.enum(allowedLanguages),
     }),
   });

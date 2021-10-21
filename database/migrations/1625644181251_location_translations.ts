@@ -16,6 +16,7 @@ export default class LocationTranslation extends BaseSchema {
 
       table.string('name');
       table.text('description');
+      table.text('openingHours');
     });
   }
 
