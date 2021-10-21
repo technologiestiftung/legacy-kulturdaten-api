@@ -73,6 +73,12 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
           query.preload('renditions');
         },
       },
+      {
+        name: 'roles',
+        query: (query) => {
+          query.preload('user');
+        },
+      },
     ],
     filters: [
       {
@@ -165,6 +171,29 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     });
   }
 
+  private $updateRoles(organizer, roles: any[] = []) {
+    return this.$updateMany(
+      organizer,
+      'roles',
+      roles.map((role) => {
+        if (!role.relations?.user) {
+          return role;
+        }
+
+        role.attributes = {
+          userId: role.relations!.user,
+        };
+        delete role.relations.user;
+
+        return role;
+      }),
+      (rolesQuery) =>
+        rolesQuery.preload('user', (userQuery) => {
+          userQuery.select('email');
+        })
+    );
+  }
+
   public async create() {
     const { attributes, relations } = await this.ctx.request.validate(
       new CreateOrganizerValidator(this.ctx)
@@ -246,6 +275,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
 
     await this.$storeLogo(organizer);
     await this.$updateMany(organizer, 'contacts', relations?.contacts);
+    await this.$updateRoles(organizer, relations?.roles);
 
     return this.instance;
   }

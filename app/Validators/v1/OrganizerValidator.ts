@@ -9,6 +9,7 @@ import {
   initialTranslation,
 } from 'App/Helpers/Validator';
 import { allowedLanguages } from 'Config/app';
+import { Roles } from 'App/Helpers/Roles';
 
 export class CreateOrganizerValidator {
   constructor(private context: HttpContextContract) {}
@@ -131,6 +132,27 @@ export class UpdateOrganizerValidator {
           }),
         })
       ),
+      roles: schema.array.optional().members(
+        schema.object.optional().members({
+          id: schema.number.optional([
+            rules.exists({
+              table: 'organizer_roles',
+              column: 'id',
+            }),
+          ]),
+          attributes: schema.object.optional().members({
+            role: schema.enum(Object.values(Roles)),
+          }),
+          relations: schema.object().members({
+            user: schema.number.optional([
+              rules.exists({
+                table: 'users',
+                column: 'id',
+              }),
+            ]),
+          }),
+        })
+      ),
       subjects: schema.array.optional().members(
         schema.number([
           rules.exists({
@@ -192,6 +214,14 @@ export class DeleteOrganizerValidator {
         schema.number([
           rules.exists({
             table: 'media',
+            column: 'id',
+          }),
+        ])
+      ),
+      roles: schema.array.optional().members(
+        schema.number.optional([
+          rules.exists({
+            table: 'organizer_roles',
             column: 'id',
           }),
         ])

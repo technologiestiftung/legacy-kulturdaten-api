@@ -128,6 +128,11 @@ export default class Organizer extends BaseModel {
   @manyToMany(() => Tag)
   public tags: ManyToMany<typeof Tag>;
 
+  @hasMany(() => OrganizerRole, {
+    localKey: 'publicId',
+  })
+  public roles: HasMany<typeof OrganizerRole>;
+
   @hasManyThrough([() => User, () => OrganizerRole])
   public users: HasManyThrough<typeof User>;
 
