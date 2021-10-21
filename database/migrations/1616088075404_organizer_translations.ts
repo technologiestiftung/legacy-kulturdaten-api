@@ -9,7 +9,7 @@ export default class OrganizerTranslations extends BaseSchema {
       table.increments('id').primary();
 
       table
-        .enu('language', [Languages.DE, Languages.EN])
+        .enu('language', [Languages.DE, Languages.DE_EASY, Languages.EN])
         .defaultTo(Languages.DE);
 
       table.integer('organizer_id').unsigned().references('organizers.id');

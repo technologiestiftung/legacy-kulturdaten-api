@@ -9,7 +9,7 @@ export default class OfferDateTranslations extends BaseSchema {
       table.increments('id').primary();
 
       table
-        .enu('language', [Languages.DE, Languages.EN])
+        .enu('language', [Languages.DE, Languages.DE_EASY, Languages.EN])
         .defaultTo(Languages.DE);
 
       table.integer('offer_date_id').unsigned().references('offer_dates.id');
