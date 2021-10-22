@@ -31,6 +31,7 @@ export default class RoleSeeder extends BaseSeeder {
       for (const organizer of this.$selectObjects(organizers) as Organizer[]) {
         const organizerRole = new OrganizerRole();
         organizerRole.fill({
+          email: user.email,
           userId: user.id,
           organizerId: organizer.publicId,
           role: Roles.OWNER,
@@ -38,24 +39,25 @@ export default class RoleSeeder extends BaseSeeder {
 
         await organizerRole.save();
       }
+      // const location = this.$selectObject(locations) as Location;
+      // const locationRole = new LocationRole();
+      // locationRole.fill({
+      //   email: user.email,
+      //   userId: user.id,
+      //   locationId: location.id,
+      //   role: Roles.EDITOR,
+      // });
+      // await locationRole.save();
 
-      const location = this.$selectObject(locations) as Location;
-      const locationRole = new LocationRole();
-      locationRole.fill({
-        userId: user.id,
-        locationId: location.id,
-        role: Roles.EDITOR,
-      });
-      await locationRole.save();
-
-      const offer = this.$selectObject(offers) as Offer;
-      const offerRole = new OfferRole();
-      offerRole.fill({
-        userId: user.id,
-        offerId: offer.id,
-        role: Roles.EDITOR,
-      });
-      await offerRole.save();
+      // const offer = this.$selectObject(offers) as Offer;
+      // const offerRole = new OfferRole();
+      // offerRole.fill({
+      //   email: user.email,
+      //   userId: user.id,
+      //   offerId: offer.id,
+      //   role: Roles.EDITOR,
+      // });
+      // await offerRole.save();
     }
   }
 }
