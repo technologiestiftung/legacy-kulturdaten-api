@@ -20,12 +20,12 @@ export default class Organizers extends BaseSchema {
         .integer('address_id')
         .unsigned()
         .references('addresses.id')
-        .onDelete('CASCADE');
+        .onDelete('SET NULL');
       table
         .integer('logo_id')
         .unsigned()
         .references('media.id')
-        .onDelete('CASCADE');
+        .onDelete('SET NULL');
 
       table.timestamps(true);
     });
