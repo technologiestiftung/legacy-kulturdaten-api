@@ -134,22 +134,9 @@ export class UpdateOrganizerValidator {
       ),
       roles: schema.array.optional().members(
         schema.object.optional().members({
-          id: schema.number.optional([
-            rules.exists({
-              table: 'organizer_roles',
-              column: 'id',
-            }),
-          ]),
           attributes: schema.object.optional().members({
+            email: schema.string({ trim: true }, [rules.email()]),
             role: schema.enum(Object.values(Roles)),
-          }),
-          relations: schema.object().members({
-            user: schema.number.optional([
-              rules.exists({
-                table: 'users',
-                column: 'id',
-              }),
-            ]),
           }),
         })
       ),

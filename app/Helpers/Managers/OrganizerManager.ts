@@ -16,6 +16,7 @@ import { cuid } from '@ioc:Adonis/Core/Helpers';
 import { join } from 'path';
 import { OrganizerRole } from 'App/Models/Roles';
 import { Roles } from '../Roles';
+import User from 'App/Models/User';
 
 export default class OrganizerManager extends BaseManager<typeof Organizer> {
   public ManagedModel = Organizer;
@@ -171,19 +172,40 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     });
   }
 
-  private $updateRoles(organizer, roles: any[] = []) {
+  private async $updateRoles(organizer, roles: any[] = []) {
+    if (!roles.length) {
+      return;
+    }
+
+    const emails = roles.map((role) => {
+      return role.attributes.email;
+    });
+    const existingUsers = emails.length
+      ? await User.query().whereIn('email', emails)
+      : [];
+    const existingRoles = emails.length
+      ? await OrganizerRole.query()
+          .where('organizerId', organizer.publicId)
+          .whereIn('email', emails)
+      : [];
+
     return this.$updateMany(
       organizer,
       'roles',
       roles.map((role) => {
-        if (!role.relations?.user) {
-          return role;
+        for (const existingRole of existingRoles) {
+          if (existingRole.email == role.attributes.email) {
+            role.id = existingRole.id;
+            continue;
+          }
         }
 
-        role.attributes = {
-          userId: role.relations!.user,
-        };
-        delete role.relations.user;
+        for (const existingUser of existingUsers) {
+          if (existingUser.email == role.attributes.email) {
+            role.attributes.userId = existingUser.id;
+            continue;
+          }
+        }
 
         return role;
       }),

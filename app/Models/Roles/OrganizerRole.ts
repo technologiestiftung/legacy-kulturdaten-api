@@ -10,6 +10,9 @@ export default class OrganizerRole extends BaseModel {
   @column()
   public role: string;
 
+  @column()
+  public email: string;
+
   @column({ serializeAs: null })
   public organizerId: string;
 

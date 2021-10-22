@@ -19,6 +19,7 @@ export default class OrganizerRoles extends BaseSchema {
         .references('organizers.public_id')
         .onDelete('CASCADE');
       table.enu('role', [Roles.OWNER, Roles.EDITOR]).defaultTo(Roles.EDITOR);
+      table.string('email');
 
       table.timestamps(true);
     });
