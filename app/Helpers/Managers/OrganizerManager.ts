@@ -194,14 +194,14 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       'roles',
       roles.map((role) => {
         for (const existingRole of existingRoles) {
-          if (existingRole.email == role.attributes.email) {
+          if (existingRole.email === role.attributes.email) {
             role.id = existingRole.id;
             continue;
           }
         }
 
         for (const existingUser of existingUsers) {
-          if (existingUser.email == role.attributes.email) {
+          if (existingUser.email === role.attributes.email) {
             role.attributes.userId = existingUser.id;
             continue;
           }
