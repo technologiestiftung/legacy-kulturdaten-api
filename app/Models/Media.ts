@@ -79,6 +79,9 @@ export default class Media extends BaseModel {
   @column.dateTime()
   public expiresAt: DateTime;
 
+  @column.dateTime()
+  public acceptedTermsAt: DateTime;
+
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;
 

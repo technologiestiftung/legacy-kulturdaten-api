@@ -8,6 +8,7 @@ export class UpdateMediaValidator {
     attributes: schema.object().members({
       copyright: schema.string.optional({ trim: true }),
       license: schema.string.optional({ trim: true }),
+      acceptedTermsAt: schema.date.optional(),
       expiresAt: schema.date.optional(),
     }),
     relations: schema.object.optional().members({

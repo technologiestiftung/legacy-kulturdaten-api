@@ -36,6 +36,7 @@ export default class MediaManager extends BaseManager<typeof Media> {
       updateField(attributes, media, 'copyright');
       updateField(attributes, media, 'license');
       updateField(attributes, media, 'expiresAt');
+      updateField(attributes, media, 'acceptedTermsAt');
 
       if (relations?.license) {
         media.mediaLicenseId = relations?.license;
