@@ -1,17 +1,14 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class Addresses extends BaseSchema {
-  protected tableName = 'addresses';
+export default class MediaLicenses extends BaseSchema {
+  protected tableName = 'media_licenses';
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
 
-      table.string('street1');
-      table.string('street2');
-      table.string('city');
-      table.string('district');
-      table.string('zip_code');
+      table.string('name');
+      table.string('url');
 
       table.timestamps(true);
     });

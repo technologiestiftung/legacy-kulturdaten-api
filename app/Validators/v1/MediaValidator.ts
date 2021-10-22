@@ -8,7 +8,16 @@ export class UpdateMediaValidator {
     attributes: schema.object().members({
       copyright: schema.string.optional({ trim: true }),
       license: schema.string.optional({ trim: true }),
+      acceptedTermsAt: schema.date.optional(),
       expiresAt: schema.date.optional(),
+    }),
+    relations: schema.object.optional().members({
+      license: schema.number([
+        rules.exists({
+          table: 'media_licenses',
+          column: 'id',
+        }),
+      ]),
     }),
   });
 
@@ -22,7 +31,7 @@ export class DeleteMediaValidator {
 
   public schema = schema.create({
     attributes: schema.object.optional().members({
-      id: schema.string({}, [
+      id: schema.number([
         rules.exists({
           table: 'media',
           column: 'id',

@@ -11,7 +11,8 @@ export default class OfferContributors extends BaseSchema {
       table
         .string('organizer_id')
         .unsigned()
-        .references('organizers.public_id');
+        .references('organizers.public_id')
+        .onDelete('CASCADE');
 
       table.timestamps(true);
     });

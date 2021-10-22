@@ -48,8 +48,17 @@ Route.group(() => {
 Route.group(() => {
   Route.group(() => {
     Route.resource('tag', 'v1/TagController').only(['index', 'show']);
+    Route.resource('district', 'v1/DistrictController').only(['index', 'show']);
 
-    Route.resource('media', 'v1/MediaController').only(['show', 'update']);
+    Route.resource('mediaLicense', 'v1/MediaLicenseController').only([
+      'index',
+      'show',
+    ]);
+    Route.resource('media', 'v1/MediaController').only([
+      'show',
+      'update',
+      'destroy',
+    ]);
 
     Route.resource('organizerType', 'v1/OrganizerTypeController').apiOnly();
     Route.resource(

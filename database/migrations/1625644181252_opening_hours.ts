@@ -10,7 +10,11 @@ export default class OpeningHours extends BaseSchema {
       table.string('weekday');
       table.string('from');
       table.string('to');
-      table.integer('location_id').unsigned().references('locations.id');
+      table
+        .integer('location_id')
+        .unsigned()
+        .references('locations.id')
+        .onDelete('CASCADE');
 
       table.timestamps(true);
     });

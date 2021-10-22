@@ -9,7 +9,7 @@ export default class OfferTypeTranslations extends BaseSchema {
       table.increments('id');
 
       table
-        .enu('language', [Languages.DE, Languages.EN])
+        .enu('language', [Languages.DE, Languages.DE_EASY, Languages.EN])
         .defaultTo(Languages.DE);
 
       table.string('name');

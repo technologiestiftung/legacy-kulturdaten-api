@@ -7,6 +7,7 @@ import {
   DeleteMediaValidator,
 } from 'App/Validators/v1/MediaValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
+import { updateField } from 'App/Helpers/Utilities';
 
 export default class MediaManager extends BaseManager<typeof Media> {
   public ModelClass = Media;
@@ -20,11 +21,11 @@ export default class MediaManager extends BaseManager<typeof Media> {
   }
 
   public query() {
-    return super.query().preload('renditions');
+    return super.query().preload('renditions').preload('license');
   }
 
   public async update() {
-    const { attributes } = await this.ctx.request.validate(
+    const { attributes, relations } = await this.ctx.request.validate(
       new UpdateMediaValidator(this.ctx)
     );
 
@@ -32,9 +33,15 @@ export default class MediaManager extends BaseManager<typeof Media> {
     await Database.transaction(async (trx) => {
       media.useTransaction(trx);
 
-      media.copyright = attributes?.copyright || media.copyright;
-      media.license = attributes?.license || media.license;
-      media.expiresAt = attributes?.expiresAt || media.expiresAt;
+      updateField(attributes, media, 'copyright');
+      updateField(attributes, media, 'license');
+      updateField(attributes, media, 'expiresAt');
+      updateField(attributes, media, 'acceptedTermsAt');
+
+      if (relations?.license) {
+        media.mediaLicenseId = relations?.license;
+        await media.load('license');
+      }
 
       if (media.$isDirty) {
         await media.save();

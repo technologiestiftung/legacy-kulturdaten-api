@@ -23,13 +23,41 @@ export default class AccessibilityManager extends BaseManager<
     return super.query().preload('fields');
   }
 
+  private async $updateFields(accessibility, fields) {
+    if (!fields.length) {
+      return;
+    }
+
+    const keys = fields.map((role) => {
+      return role.attributes.key;
+    });
+
+    const existingFields = keys.length
+      ? await AccessibilityField.query().whereIn('key', keys)
+      : [];
+    return this.$updateMany(
+      accessibility,
+      'fields',
+      fields.map((field) => {
+        for (const existingField of existingFields) {
+          if (existingField.key === field.attributes.key) {
+            field.id = existingField.id;
+            continue;
+          }
+        }
+
+        return field;
+      })
+    );
+  }
+
   public async update() {
     const { relations } = await this.ctx.request.validate(
       new UpdateAccessibilityValidator(this.ctx)
     );
 
     const accessibility = await this.byId();
-    await this.$updateMany(accessibility, 'fields', relations?.fields);
+    await this.$updateFields(accessibility, relations?.fields);
 
     return this.instance;
   }

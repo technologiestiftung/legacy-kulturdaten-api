@@ -8,12 +8,6 @@ export class UpdateAccessibilityValidator {
     relations: schema.object.optional().members({
       fields: schema.array.optional().members(
         schema.object.optional().members({
-          id: schema.number.optional([
-            rules.exists({
-              table: 'accessibility_fields',
-              column: 'id',
-            }),
-          ]),
           attributes: schema.object().members({
             type: schema.string.optional({ trim: true }),
             key: schema.string.optional({ trim: true }),

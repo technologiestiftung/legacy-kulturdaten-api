@@ -1,5 +1,11 @@
 import { DateTime } from 'luxon';
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  column,
+  belongsTo,
+  BelongsTo,
+  computed,
+} from '@ioc:Adonis/Lucid/Orm';
 import User from 'App/Models/User';
 import Organizer from 'App/Models/Organizer/Organizer';
 
@@ -9,6 +15,9 @@ export default class OrganizerRole extends BaseModel {
 
   @column()
   public role: string;
+
+  @column()
+  public email: string;
 
   @column({ serializeAs: null })
   public organizerId: string;
@@ -23,6 +32,11 @@ export default class OrganizerRole extends BaseModel {
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>;
+
+  @computed()
+  public get isActive() {
+    return !!this.userId;
+  }
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

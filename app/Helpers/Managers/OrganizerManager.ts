@@ -16,6 +16,7 @@ import { cuid } from '@ioc:Adonis/Core/Helpers';
 import { join } from 'path';
 import { OrganizerRole } from 'App/Models/Roles';
 import { Roles } from '../Roles';
+import User from 'App/Models/User';
 
 export default class OrganizerManager extends BaseManager<typeof Organizer> {
   public ManagedModel = Organizer;
@@ -71,6 +72,12 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
         query: (query) => {
           withTranslations(query);
           query.preload('renditions');
+        },
+      },
+      {
+        name: 'roles',
+        query: (query) => {
+          query.preload('user');
         },
       },
     ],
@@ -165,6 +172,50 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     });
   }
 
+  private async $updateRoles(organizer, roles: any[] = []) {
+    if (!roles.length) {
+      return;
+    }
+
+    const emails = roles.map((role) => {
+      return role.attributes.email;
+    });
+    const existingUsers = emails.length
+      ? await User.query().whereIn('email', emails)
+      : [];
+    const existingRoles = emails.length
+      ? await OrganizerRole.query()
+          .where('organizerId', organizer.publicId)
+          .whereIn('email', emails)
+      : [];
+
+    return this.$updateMany(
+      organizer,
+      'roles',
+      roles.map((role) => {
+        for (const existingRole of existingRoles) {
+          if (existingRole.email === role.attributes.email) {
+            role.id = existingRole.id;
+            continue;
+          }
+        }
+
+        for (const existingUser of existingUsers) {
+          if (existingUser.email === role.attributes.email) {
+            role.attributes.userId = existingUser.id;
+            continue;
+          }
+        }
+
+        return role;
+      }),
+      (rolesQuery) =>
+        rolesQuery.preload('user', (userQuery) => {
+          userQuery.select('email');
+        })
+    );
+  }
+
   public async create() {
     const { attributes, relations } = await this.ctx.request.validate(
       new CreateOrganizerValidator(this.ctx)
@@ -246,6 +297,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
 
     await this.$storeLogo(organizer);
     await this.$updateMany(organizer, 'contacts', relations?.contacts);
+    await this.$updateRoles(organizer, relations?.roles);
 
     return this.instance;
   }
@@ -258,6 +310,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     return [
       ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
       ...(await this.$deleteObjects(Media, relations?.media)),
+      ...(await this.$deleteObjects(OrganizerRole, relations?.roles)),
       ...(await this.$deleteObject(Media, relations?.logo)),
       ...(await this.$deleteObject(Organizer, attributes?.id, 'public_id')),
     ];

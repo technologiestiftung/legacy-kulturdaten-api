@@ -47,6 +47,9 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
         description: faker.datatype.boolean()
           ? faker.lorem.paragraph()
           : undefined,
+        openingHours: faker.datatype.boolean()
+          ? faker.lorem.paragraph()
+          : undefined,
       };
     }).build()
   )

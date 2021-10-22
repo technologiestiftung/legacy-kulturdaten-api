@@ -234,7 +234,7 @@ export const profiler: ProfilerConfig = {
 */
 export const validator: ValidatorConfig = {};
 
-export const allowedLanguages = [Languages.DE, Languages.EN];
+export const allowedLanguages = [Languages.DE, Languages.DE_EASY, Languages.EN];
 
 export const allowedCountries = ['DE'];
 

@@ -3,6 +3,8 @@ import {
   column,
   hasMany,
   HasMany,
+  belongsTo,
+  BelongsTo,
   beforeCreate,
   afterCreate,
 } from '@ioc:Adonis/Lucid/Orm';
@@ -12,11 +14,11 @@ import Rendition, {
   RENDITION_BASE_PATH,
   RENDITION_SIZES,
 } from 'App/Models/Rendition';
-import Event from '@ioc:Adonis/Core/Event';
+import MediaLicense from 'App/Models/MediaLicense';
 import { absoluteUrl } from 'App/Helpers/Utilities';
 import sharp from 'sharp';
 import Logger from '@ioc:Adonis/Core/Logger';
-import { unlink, writeFile } from 'fs/promises';
+import { writeFile } from 'fs/promises';
 import { parse, join } from 'path';
 
 export const MEDIA_BASE_PATH = '/media/images/original';
@@ -63,7 +65,10 @@ export default class Media extends BaseModel {
   public copyright: string;
 
   @column()
-  public license: string;
+  public mediaLicenseId: number;
+
+  @belongsTo(() => MediaLicense)
+  public license: BelongsTo<typeof MediaLicense>;
 
   @hasMany(() => Rendition)
   public renditions: HasMany<typeof Rendition>;
@@ -73,6 +78,9 @@ export default class Media extends BaseModel {
 
   @column.dateTime()
   public expiresAt: DateTime;
+
+  @column.dateTime()
+  public acceptedTermsAt: DateTime;
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;

@@ -8,12 +8,18 @@ export default class OrganizerRoles extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
 
-      table.integer('user_id').unsigned().references('users.id');
+      table
+        .integer('user_id')
+        .unsigned()
+        .references('users.id')
+        .onDelete('CASCADE');
       table
         .string('organizer_id')
         .unsigned()
-        .references('organizers.public_id');
+        .references('organizers.public_id')
+        .onDelete('CASCADE');
       table.enu('role', [Roles.OWNER, Roles.EDITOR]).defaultTo(Roles.EDITOR);
+      table.string('email');
 
       table.timestamps(true);
     });
