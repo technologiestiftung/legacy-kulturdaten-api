@@ -53,7 +53,11 @@ export default class Resource {
   }
 
   private $serializeAttributes() {
-    const attributes = this.instance.serializeAttributes();
+    const attributes = Object.assign(
+      {},
+      this.instance.serializeAttributes(),
+      this.instance.serializeComputed()
+    );
 
     // Sanity check if any attributes exist, otherwise set them
     // back to undefiend
