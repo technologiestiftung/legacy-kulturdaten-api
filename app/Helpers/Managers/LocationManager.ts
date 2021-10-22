@@ -9,7 +9,11 @@ import {
 import { translation } from 'App/Validators/v1/LocationTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Address from 'App/Models/Address';
-import { withTranslations, updateField } from 'App/Helpers/Utilities';
+import {
+  withTranslations,
+  updateField,
+  queryMedia,
+} from 'App/Helpers/Utilities';
 import { Accessibility, OpeningHours } from 'App/Models/Location';
 import Media from 'App/Models/Media';
 
@@ -32,10 +36,7 @@ export default class LocationManager extends BaseManager<typeof Location> {
       { name: 'links' },
       {
         name: 'media',
-        query: (query) => {
-          withTranslations(query);
-          query.preload('renditions');
-        },
+        query: queryMedia,
       },
       {
         name: 'accessibility',

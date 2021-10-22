@@ -6,6 +6,10 @@ export function withTranslations(query) {
   return query.preload('translations');
 }
 
+export function queryMedia(query) {
+  return query.preload('translations').preload('renditions').preload('license');
+}
+
 export function findTranslation(translations, language?) {
   if (!language) {
     return translations[0];

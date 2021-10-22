@@ -10,7 +10,11 @@ import {
 } from 'App/Validators/v1/OfferValidator';
 import { translation } from 'App/Validators/v1/OfferTranslationValidator';
 import Database from '@ioc:Adonis/Lucid/Database';
-import { withTranslations, updateField } from 'App/Helpers/Utilities';
+import {
+  withTranslations,
+  updateField,
+  queryMedia,
+} from 'App/Helpers/Utilities';
 import { RRule } from 'rrule';
 import { DateTime } from 'luxon';
 
@@ -57,10 +61,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       { name: 'links' },
       {
         name: 'media',
-        query: (query) => {
-          withTranslations(query);
-          query.preload('renditions');
-        },
+        query: queryMedia,
       },
     ],
     filters: [
