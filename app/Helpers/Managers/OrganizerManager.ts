@@ -310,6 +310,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     return [
       ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
       ...(await this.$deleteObjects(Media, relations?.media)),
+      ...(await this.$deleteObjects(OrganizerRole, relations?.roles)),
       ...(await this.$deleteObject(Media, relations?.logo)),
       ...(await this.$deleteObject(Organizer, attributes?.id, 'public_id')),
     ];
