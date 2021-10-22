@@ -206,7 +206,7 @@ export class DeleteOrganizerValidator {
         ])
       ),
       roles: schema.array.optional().members(
-        schema.number.optional([
+        schema.number([
           rules.exists({
             table: 'organizer_roles',
             column: 'id',
