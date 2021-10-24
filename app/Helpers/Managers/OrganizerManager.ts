@@ -66,11 +66,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       },
       {
         name: 'logo',
-        query: (query) => {
-          withTranslations(query);
-          query.preload('renditions');
-          query.preload('license');
-        },
+        query: queryMedia,
       },
       {
         name: 'roles',
