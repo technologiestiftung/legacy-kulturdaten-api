@@ -1,9 +1,11 @@
+import faker from 'faker';
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import Organizer from 'App/Models/Organizer/Organizer';
-import faker from 'faker';
 import { LocationFactory } from 'Database/factories/Location';
 
 export default class LocationSeeder extends BaseSeeder {
+  public static developmentOnly = true;
+
   public async run() {
     const organizers = faker.random.arrayElements(
       await Organizer.query().preload('translations').preload('address')
