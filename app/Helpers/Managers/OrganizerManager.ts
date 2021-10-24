@@ -69,6 +69,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
         query: (query) => {
           withTranslations(query);
           query.preload('renditions');
+          query.preload('license');
         },
       },
       {
