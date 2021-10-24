@@ -10,7 +10,11 @@ export default class OrganizerContacts extends BaseSchema {
       table.string('phone');
       table.string('email');
 
-      table.integer('organizer_id').unsigned().references('organizers.id');
+      table
+        .integer('organizer_id')
+        .unsigned()
+        .references('organizers.id')
+        .onDelete('CASCADE');
 
       table.timestamps(true);
     });
