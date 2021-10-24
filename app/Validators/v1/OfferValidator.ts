@@ -242,6 +242,21 @@ export class PublishOfferValidator {
     }),
     relations: schema.object().members({
       links,
+      mainType: schema.array([rules.minLength(1)]).members(
+        schema.object().members({
+          id: schema.number(),
+        })
+      ),
+      types: schema.array([rules.minLength(1)]).members(
+        schema.object().members({
+          id: schema.number(),
+        })
+      ),
+      subjects: schema.array([rules.minLength(1)]).members(
+        schema.object().members({
+          id: schema.number(),
+        })
+      ),
     }),
   });
 
