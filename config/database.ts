@@ -32,12 +32,18 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
       useNullAsDefault: true,
       healthCheck: false,
       debug: false,
+      seeders: {
+        paths: ['./database/seeders', './database/inits'],
+      },
     },
 
     pg: {
       client: 'pg',
       connection: Env.get('DATABASE_URL') as string,
       healthCheck: true,
+      seeders: {
+        paths: ['./database/seeders', './database/inits'],
+      },
     },
   },
 
