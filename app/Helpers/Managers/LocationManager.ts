@@ -14,7 +14,7 @@ import {
   updateField,
   queryMedia,
 } from 'App/Helpers/Utilities';
-import { Accessibility, OpeningHours } from 'App/Models/Location';
+import { Accessibility, OpeningHours, Service } from 'App/Models/Location';
 import Media from 'App/Models/Media';
 
 export default class LocationManager extends BaseManager<typeof Location> {
@@ -40,6 +40,12 @@ export default class LocationManager extends BaseManager<typeof Location> {
       },
       {
         name: 'accessibility',
+        query: (query) => {
+          query.preload('fields');
+        },
+      },
+      {
+        name: 'service',
         query: (query) => {
           query.preload('fields');
         },
@@ -131,12 +137,16 @@ export default class LocationManager extends BaseManager<typeof Location> {
     await this.$updateMany(location, 'openingHours', relations?.openingHours);
     await this.$storeMedia(location);
 
-    // Create an accessibility object to hold a11y info separate
-    // from all the basic location logic
+    // Create an accessibility and service object to hold additional
+    // info separate from all the basic location logic
     await Accessibility.create({
       locationId: location.publicId,
     });
     await location.load('accessibility');
+    await Service.create({
+      locationId: location.publicId,
+    });
+    await location.load('service');
 
     this.instance = location;
     return this.instance;

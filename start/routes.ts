@@ -77,6 +77,9 @@ Route.group(() => {
       'location/:id/accessibility',
       'v1/AccessibilityController.delete'
     );
+    Route.get('location/:id/service', 'v1/ServiceController.show');
+    Route.patch('location/:id/service', 'v1/ServiceController.update');
+    Route.delete('location/:id/service', 'v1/ServiceController.delete');
 
     Route.resource('offerMainType', 'v1/OfferMainTypeController').apiOnly();
     Route.resource('offerType', 'v1/OfferTypeController').apiOnly();
