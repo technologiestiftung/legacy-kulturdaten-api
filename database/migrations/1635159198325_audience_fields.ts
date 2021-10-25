@@ -19,9 +19,9 @@ export default class AudienceFields extends BaseSchema {
       table.string('key');
       table.string('value');
       table
-        .integer('service_id')
+        .integer('audience_id')
         .unsigned()
-        .references('services.id')
+        .references('audiences.id')
         .onDelete('CASCADE');
 
       table.timestamps(true);
