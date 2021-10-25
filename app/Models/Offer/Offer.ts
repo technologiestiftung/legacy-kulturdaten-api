@@ -29,6 +29,7 @@ import {
   OfferDate,
   Audience,
   OfferContributor,
+  PeakHours,
 } from 'App/Models/Offer';
 import { OfferRole } from 'App/Models/Roles';
 import { publishable } from 'App/Helpers/Utilities';
@@ -113,6 +114,9 @@ export default class Offer extends BaseModel {
 
   @hasMany(() => OfferContributor)
   public contributors: HasMany<typeof OfferContributor>;
+
+  @hasMany(() => PeakHours)
+  public peakHours: HasMany<typeof PeakHours>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',

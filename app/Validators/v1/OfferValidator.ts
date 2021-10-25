@@ -3,6 +3,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { OfferStatus } from 'App/Models/Offer/Offer';
 import { tags, links, media, initialTranslation } from 'App/Helpers/Validator';
 import { allowedLanguages } from 'Config/app';
+import { Weekdays } from 'App/Models/Offer/PeakHours';
 
 export class CreateOfferValidator {
   constructor(private context: HttpContextContract) {}
@@ -75,6 +76,15 @@ export class CreateOfferValidator {
                 }),
               })
             ),
+          }),
+        })
+      ),
+      peakHours: schema.array.optional().members(
+        schema.object().members({
+          attributes: schema.object().members({
+            weekday: schema.enum(Object.values(Weekdays)),
+            from: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+            to: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
           }),
         })
       ),
@@ -171,6 +181,21 @@ export class UpdateOfferValidator {
           }),
         })
       ),
+      peakHours: schema.array.optional().members(
+        schema.object().members({
+          id: schema.number.optional([
+            rules.exists({
+              table: 'peak_hours',
+              column: 'id',
+            }),
+          ]),
+          attributes: schema.object().members({
+            weekday: schema.enum(Object.values(Weekdays)),
+            from: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+            to: schema.string({}, [rules.regex(/^\d{2}:\d{2}$/)]),
+          }),
+        })
+      ),
     }),
     meta: schema.object.optional().members({
       startsAt: schema.date(),
@@ -210,6 +235,14 @@ export class DeleteOfferValidator {
         schema.number([
           rules.exists({
             table: 'offer_contributors',
+            column: 'id',
+          }),
+        ])
+      ),
+      peakHours: schema.array.optional().members(
+        schema.number([
+          rules.exists({
+            table: 'peak_hours',
             column: 'id',
           }),
         ])
