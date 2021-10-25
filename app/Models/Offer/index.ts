@@ -4,6 +4,8 @@ import OfferMainType from 'App/Models/Offer/OfferMainType';
 import OfferType from 'App/Models/Offer/OfferType';
 import OfferSubject from 'App/Models/Offer/OfferSubject';
 import OfferContributor from 'App/Models/Offer/OfferContributor';
+import Audience from 'App/Models/Offer/Audience';
+import AudienceField from 'App/Models/Offer/AudienceField';
 
 export {
   Offer,
@@ -12,4 +14,6 @@ export {
   OfferType,
   OfferSubject,
   OfferContributor,
+  Audience,
+  AudienceField,
 };

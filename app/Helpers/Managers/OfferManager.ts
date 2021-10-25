@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import Offer, { OfferStatus } from 'App/Models/Offer/Offer';
-import { OfferContributor, OfferDate } from 'App/Models/Offer';
+import { OfferContributor, OfferDate, Audience } from 'App/Models/Offer';
 import Media from 'App/Models/Media';
 import {
   CreateOfferValidator,
@@ -210,6 +210,13 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     });
 
     await this.$updateContributors(offer, relations?.contributors);
+
+    // Create an audience object to hold additional
+    // info separate from all the basic offer logic
+    await Audience.create({
+      offerId: offer.publicId,
+    });
+    await offer.load('audience');
 
     this.instance = offer;
     return this.instance;

@@ -2,6 +2,8 @@ import { DateTime } from 'luxon';
 import {
   BaseModel,
   column,
+  hasOne,
+  HasOne,
   manyToMany,
   ManyToMany,
   hasMany,
@@ -25,6 +27,7 @@ import {
   OfferType,
   OfferSubject,
   OfferDate,
+  Audience,
   OfferContributor,
 } from 'App/Models/Offer';
 import { OfferRole } from 'App/Models/Roles';
@@ -88,6 +91,11 @@ export default class Offer extends BaseModel {
     relatedKey: 'publicId',
   })
   public organizers: ManyToMany<typeof Organizer>;
+
+  @hasOne(() => Audience, {
+    localKey: 'publicId',
+  })
+  public audience: HasOne<typeof Audience>;
 
   @column({ serializeAs: null })
   public locationId: string;

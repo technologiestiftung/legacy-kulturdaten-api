@@ -85,5 +85,8 @@ Route.group(() => {
     Route.resource('offerType', 'v1/OfferTypeController').apiOnly();
     Route.resource('offer', 'v1/OfferController').apiOnly();
     Route.resource('offer.date', 'v1/OfferDateController').apiOnly();
+    Route.get('offer/:id/audience', 'v1/AudienceController.show');
+    Route.patch('offer/:id/audience', 'v1/AudienceController.update');
+    Route.delete('offer/:id/audience', 'v1/AudienceController.delete');
   });
 }).prefix('v1');
