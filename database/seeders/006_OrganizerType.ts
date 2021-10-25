@@ -1,13 +1,12 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import OrganizerType from 'App/Models/Organizer/OrganizerType';
-import OrganizerSubject from 'App/Models/Organizer/OrganizerSubject';
 
-import organizerTypeData from '../../seeds/OrganizerType';
+import organizerTypes from '../../seeds/OrganizerType';
 
 export default class OrganizerTypeSeeder extends BaseSeeder {
   public async run() {
-    const organizerTypes = await Promise.all(
-      organizerTypeData.map(async (resource) => {
+    await Promise.all(
+      organizerTypes.map(async (resource) => {
         const organizerType = new OrganizerType();
         await organizerType.save();
 
@@ -22,11 +21,8 @@ export default class OrganizerTypeSeeder extends BaseSeeder {
           await organizerSubject
             .related('translations')
             .createMany(subjectData.relations.translations);
-
-          await organizerSubject.save();
         }
 
-        await organizerType.save();
         return organizerType;
       })
     );

@@ -11,8 +11,8 @@ COPY . /app/
 RUN node ace build --production --client npm --ignore-ts-errors &&  \
   mv build /build && \ 
   mv node_modules /build/node_modules && \
-  mv fixtures /build/fixtures && \ 
   mv resources/images /build/resources/images && \ 
+  mv database/inits /build/database/inits && \ 
   mv CHECKS /build/CHECKS && \
   mv web.sh /build/web.sh && \
   mv release.sh /build/release.sh && \

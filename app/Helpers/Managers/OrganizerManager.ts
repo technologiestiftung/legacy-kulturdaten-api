@@ -1,7 +1,7 @@
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import Organizer, { OrganizerStatus } from 'App/Models/Organizer/Organizer';
 import OrganizerContact from 'App/Models/Organizer/OrganizerContact';
-import { withTranslations } from 'App/Helpers/Utilities';
+import { queryMedia, withTranslations } from 'App/Helpers/Utilities';
 import {
   CreateOrganizerValidator,
   UpdateOrganizerValidator,
@@ -62,17 +62,11 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       { name: 'links' },
       {
         name: 'media',
-        query: (query) => {
-          withTranslations(query);
-          query.preload('renditions');
-        },
+        query: queryMedia,
       },
       {
         name: 'logo',
-        query: (query) => {
-          withTranslations(query);
-          query.preload('renditions');
-        },
+        query: queryMedia,
       },
       {
         name: 'roles',

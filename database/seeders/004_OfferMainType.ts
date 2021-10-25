@@ -1,21 +1,20 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import OfferMainType from 'App/Models/Offer/OfferMainType';
 
-import offerMainTypeData from '../../seeds/OfferMainType';
+import offerMainTypes from '../../seeds/OfferMainType';
 
 export default class OfferMainTypeSeeder extends BaseSeeder {
   public async run() {
     await Promise.all(
-      offerMainTypeData.map(async (offerMainTypeData) => {
+      offerMainTypes.map(async (resource) => {
         const offerMainType = new OfferMainType();
         await offerMainType.save();
 
         await offerMainType.related('translations').createMany([
-          { language: 'en', name: offerMainTypeData.en },
-          { language: 'de', name: offerMainTypeData.de },
+          { language: 'en', name: resource.en },
+          { language: 'de', name: resource.de },
         ]);
 
-        await offerMainType.save();
         return offerMainType;
       })
     );

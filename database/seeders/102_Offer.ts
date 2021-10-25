@@ -9,6 +9,8 @@ import plays from '../../seeds/Offer/plays';
 import exhibitions from '../../seeds/Offer/exhibitions';
 
 export default class OfferSeeder extends BaseSeeder {
+  public static developmentOnly = true;
+
   public async run() {
     const theaters = faker.random.arrayElements(
       await Organizer.findByType(

@@ -9,6 +9,8 @@ tmp/**/*
 .keys
 .nyc_output
 
+database/inits/**/*.ts
+
 public/media/images/original/**/*
 !public/media/images/original/.gitkeep
 public/media/images/renditions/**/*

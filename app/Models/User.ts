@@ -34,6 +34,9 @@ export default class User extends BaseModel {
   @column()
   public rememberMeToken?: string;
 
+  @column()
+  public isSuperuser: boolean;
+
   @hasMany(() => OrganizerRole)
   public organizers: HasMany<typeof OrganizerRole>;
 

@@ -46,6 +46,8 @@ export default class MediaManager extends BaseManager<typeof Media> {
       if (media.$isDirty) {
         await media.save();
       }
+
+      await this.$translate(media);
     });
 
     return this.instance;

@@ -3,12 +3,14 @@ import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import { OrganizerFactory } from 'Database/factories/Organizer';
 import { OrganizerStatus } from 'App/Models/Organizer/Organizer';
 import OrganizerType from 'App/Models/Organizer/OrganizerType';
+import Tag from 'App/Models/Tag';
 
 import museumsData from '../../seeds/Organizer/museums';
 import theatersData from '../../seeds/Organizer/theaters';
-import Tag from 'App/Models/Tag';
 
 export default class OrganizerSeeder extends BaseSeeder {
+  public static developmentOnly = true;
+
   private async $create(resource, type: OrganizerType) {
     const factory = OrganizerFactory.merge(resource.attributes);
 

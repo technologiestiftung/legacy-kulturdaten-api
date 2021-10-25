@@ -1,6 +1,4 @@
 import { BaseCommand, flags } from '@adonisjs/ace';
-import { readFile, writeFile } from 'fs/promises';
-import Encryption from '@ioc:Adonis/Core/Encryption';
 import databaseConfig from 'Config/database';
 import { unlink } from 'fs/promises';
 import execa from 'execa';
@@ -69,12 +67,6 @@ export default class Bootstrap extends BaseCommand {
     await execa.node('ace', ['migration:run'], {
       stdio: 'inherit',
     });
-
-    if (this.load) {
-      await execa.node('ace', ['fixtures:load'], {
-        stdio: 'inherit',
-      });
-    }
 
     if (this.fill) {
       await execa.node('ace', ['db:seed'], {

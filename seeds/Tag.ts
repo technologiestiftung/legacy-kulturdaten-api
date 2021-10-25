@@ -146,7 +146,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'egyptian museum',
+          name: 'Egyptian museum',
           language: 'en',
         },
       ],
@@ -316,7 +316,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'paleolithic period',
+          name: 'palaeolithic period',
           language: 'en',
         },
       ],
@@ -537,7 +537,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'labor movement',
+          name: 'labour movement',
           language: 'en',
         },
       ],
@@ -1457,7 +1457,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'library catalogs',
+          name: 'library catalogues',
           language: 'en',
         },
       ],
@@ -2307,7 +2307,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'community theater',
+          name: 'community theatre',
           language: 'en',
         },
       ],
@@ -2494,7 +2494,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'coverband',
+          name: 'cover band',
           language: 'en',
         },
       ],
@@ -3463,7 +3463,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'experimental theater',
+          name: 'experimental theatre',
           language: 'en',
         },
       ],
@@ -3565,7 +3565,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'color print',
+          name: 'colour print',
           language: 'en',
         },
       ],
@@ -3854,7 +3854,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'folkblues',
+          name: 'folk blues',
           language: 'en',
         },
       ],
@@ -4109,7 +4109,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: "women's theater",
+          name: "women's theatre",
           language: 'en',
         },
       ],
@@ -4160,7 +4160,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'independent music theater',
+          name: 'independent music theatre',
           language: 'en',
         },
       ],
@@ -4245,7 +4245,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'open-air theater',
+          name: 'open-air theatre',
           language: 'en',
         },
       ],
@@ -4483,7 +4483,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'GASAG artprice',
+          name: 'GASAG artprize',
           language: 'en',
         },
       ],
@@ -7237,7 +7237,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'cultural center',
+          name: 'cultural centre',
           language: 'en',
         },
       ],
@@ -8308,7 +8308,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'marchingband',
+          name: 'marching band',
           language: 'en',
         },
       ],
@@ -8546,7 +8546,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'media center',
+          name: 'media centre',
           language: 'en',
         },
       ],
@@ -8954,7 +8954,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'coin cabinett',
+          name: 'coin cabinet',
           language: 'en',
         },
       ],
@@ -9158,7 +9158,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'musical theater',
+          name: 'musical theatre',
           language: 'en',
         },
       ],
@@ -10195,7 +10195,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'paleontology',
+          name: 'palaeontology',
           language: 'en',
         },
       ],
@@ -10569,7 +10569,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'postdramatic theater',
+          name: 'postdramatic theatre',
           language: 'en',
         },
       ],
@@ -13068,7 +13068,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'dance theater',
+          name: 'dance theatre',
           language: 'en',
         },
       ],
@@ -13238,7 +13238,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'theater archive',
+          name: 'theatre archive',
           language: 'en',
         },
       ],
@@ -13255,7 +13255,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'theater library',
+          name: 'theatre library',
           language: 'en',
         },
       ],
@@ -13391,7 +13391,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'trienniale',
+          name: 'triennial',
           language: 'en',
         },
       ],
@@ -13629,7 +13629,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'verism',
+          name: 'verismo',
           language: 'en',
         },
       ],
@@ -14887,7 +14887,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Arctica',
+          name: 'Arctic',
           language: 'en',
         },
       ],
@@ -15176,7 +15176,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Brasil',
+          name: 'Brazil',
           language: 'en',
         },
       ],
@@ -16653,7 +16653,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Maledives',
+          name: 'Maldives',
           language: 'en',
         },
       ],

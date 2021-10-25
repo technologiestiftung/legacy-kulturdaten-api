@@ -64,7 +64,7 @@ export default class Media extends BaseModel {
   @column()
   public copyright: string;
 
-  @column()
+  @column({ serializeAs: null })
   public mediaLicenseId: number;
 
   @belongsTo(() => MediaLicense)
