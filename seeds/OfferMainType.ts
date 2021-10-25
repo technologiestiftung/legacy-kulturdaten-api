@@ -1,272 +1,260 @@
 const types = [
   {
-    de: 'Aufführung',
-    en: 'play ',
+    de: "Aufführung",
+    en: "play "
   },
   {
-    de: 'the artist is present',
-    en: 'the artist is present',
+    de: "the artist is present",
+    en: "the artist is present"
   },
   {
-    de: 'Ausstellung',
-    en: 'exhibition',
+    de: "Ausstellung",
+    en: "exhibition"
   },
   {
-    de: 'Buchvorstellung',
-    en: 'book presentation',
+    de: "Buchvorstellung",
+    en: "book presentation"
   },
   {
-    de: 'Datenset',
-    en: 'Datenset',
+    de: "Datenset",
+    en: "data set"
   },
   {
-    de: 'Dauerausstellung',
-    en: 'permanent exhibition',
+    de: "Dauerausstellung",
+    en: "permanent exhibition"
   },
   {
-    de: 'Dialog',
-    en: 'dialogue',
+    de: "Dialog",
+    en: "dialogue"
   },
   {
-    de: 'Diskussion',
-    en: 'discussion',
+    de: "Diskussion",
+    en: "discussion"
   },
   {
-    de: 'DJ-Set',
-    en: 'DJ mixset',
+    de: "DJ-Set",
+    en: "DJ mixset"
   },
   {
-    de: 'Eröffnung',
-    en: 'opening',
+    de: "Eröffnung",
+    en: "opening"
   },
   {
-    de: 'Festival',
-    en: 'festival',
+    de: "Festival",
+    en: "festival"
   },
   {
-    de: 'Festakt',
-    en: 'ceremony',
+    de: "Festakt",
+    en: "ceremony"
   },
   {
-    de: 'Filmvorführung',
-    en: 'film screening',
+    de: "Filmvorführung",
+    en: "film screening"
   },
   {
-    de: 'Finissage',
-    en: 'finissage',
+    de: "Finissage",
+    en: "closing"
   },
   {
-    de: 'Gesprächsreihe',
-    en: 'Gesprächsreihe',
+    de: "Gesprächsreihe",
+    en: "Gesprächsreihe"
   },
   {
-    de: 'Führung',
-    en: 'guided tour',
+    de: "Führung",
+    en: "guided tour"
   },
   {
-    de: 'Hackathon',
-    en: 'hackathon',
+    de: "Hackathon",
+    en: "hackathon"
   },
   {
-    de: 'Installation',
-    en: 'installation',
+    de: "Installation",
+    en: "installation"
   },
   {
-    de: 'Intervention',
-    en: 'intervention',
+    de: "Intervention",
+    en: "intervention"
   },
   {
-    de: 'Kabarett',
-    en: 'cabaret',
+    de: "Kabarett",
+    en: "cabaret"
   },
   {
-    de: 'Kolloquium',
-    en: 'colloquium',
+    de: "Kolloquium",
+    en: "colloquium"
   },
   {
-    de: 'Konferenz / Tagung',
-    en: 'conference / symposium',
+    de: "Konferenz / Tagung",
+    en: "conference / symposium"
   },
   {
-    de: 'Konzert',
-    en: 'concert',
+    de: "Konzert",
+    en: "concert"
   },
   {
-    de: 'Kurs',
-    en: 'lesson / course',
+    de: "Kurs",
+    en: "lesson / course"
   },
   {
-    de: 'Lange Nacht',
-    en: 'Lange Nacht',
+    de: "Lange Nacht",
+    en: "Lange Nacht"
   },
   {
-    de: 'Lesung',
-    en: 'book reading',
+    de: "Lesung",
+    en: "book reading"
   },
   {
-    de: 'Lesekreis',
-    en: 'reading circle',
+    de: "Lesekreis",
+    en: "reading circle"
   },
   {
-    de: 'Liederabend',
-    en: 'song recital',
+    de: "Liederabend",
+    en: "song recital"
   },
   {
-    de: 'Messe',
-    en: 'fair',
+    de: "Messe",
+    en: "fair"
   },
   {
-    de: 'Mitmachaktion',
-    en: 'hands-on activities',
+    de: "Mitmachaktion",
+    en: "hands-on activities"
   },
   {
-    de: 'open mike',
-    en: 'open mike',
+    de: "open mike",
+    en: "open mike"
   },
   {
-    de: 'Playtest',
-    en: 'playtest',
+    de: "Playtest",
+    en: "playtest"
   },
   {
-    de: 'Podiumsgespräch',
-    en: 'panel discussion',
+    de: "Podiumsgespräch",
+    en: "panel discussion"
   },
   {
-    de: 'Präsentation',
-    en: 'presentation',
+    de: "Präsentation",
+    en: "presentation"
   },
   {
-    de: 'Premiere',
-    en: 'premiere',
+    de: "Premiere",
+    en: "premiere"
   },
   {
-    de: 'Pressekonferenz /-event',
-    en: 'press event',
+    de: "Pressekonferenz /-event",
+    en: "press event"
   },
   {
-    de: 'Probe / Generalprobe',
-    en: '(dress) rehearsal',
+    de: "Probe / Generalprobe",
+    en: "(dress) rehearsal"
   },
   {
-    de: 'Release',
-    en: 'release event',
+    de: "Release",
+    en: "release event"
   },
   {
-    de: 'Relaxed performance',
-    en: 'relaxed performance',
+    de: "Relaxed performance",
+    en: "relaxed performance"
   },
   {
-    de: 'Schreibkurs',
-    en: 'writing class',
+    de: "Schreibkurs",
+    en: "writing class"
   },
   {
-    de: 'Seminar',
-    en: 'seminar',
+    de: "Seminar",
+    en: "seminar"
   },
   {
-    de: 'Sonderausstellung',
-    en: 'special exhibition',
+    de: "Sonderausstellung",
+    en: "special exhibition"
   },
   {
-    de: 'Studiobesuch',
-    en: 'studio visit ',
+    de: "Studiobesuch",
+    en: "studio visit "
   },
   {
-    de: 'Tour / Stadtrundgang',
-    en: 'city tour',
+    de: "Tour / Stadtrundgang",
+    en: "city tour"
   },
   {
-    de: 'Uraufführung',
-    en: 'Uraufführung',
+    de: "Uraufführung",
+    en: "Uraufführung"
   },
   {
-    de: 'Vernissage',
-    en: 'vernissage',
+    de: "Vernissage",
+    en: "vernissage"
   },
   {
-    de: 'Vortrag',
-    en: 'talk / lecture',
+    de: "Vortrag",
+    en: "talk / lecture"
   },
   {
-    de: 'Werkstattgespräch',
-    en: 'artist talk',
+    de: "Werkstattgespräch",
+    en: "artist talk"
   },
   {
-    de: 'Publikumsgespräch',
-    en: 'Publikumsgespräch',
+    de: "Publikumsgespräch",
+    en: "Publikumsgespräch"
   },
   {
-    de: 'Wiederaufnahme',
-    en: 'revival',
+    de: "Wiederaufnahme",
+    en: "revival"
   },
   {
-    de: 'Workshop',
-    en: 'workshop',
+    de: "Workshop",
+    en: "workshop"
   },
   {
-    de: 'Hinter-den-Kulissen',
-    en: 'behind the scenes',
+    de: "Hinter-den-Kulissen",
+    en: "behind the scenes"
   },
   {
-    de: 'App',
-    en: 'app',
+    de: "App",
+    en: "app"
   },
   {
-    de: 'Online-Sammlung',
-    en: 'online collection',
+    de: "Online-Sammlung",
+    en: "online collection"
   },
   {
-    de: 'Livestream',
-    en: 'livestream',
+    de: "Livestream",
+    en: "livestream"
   },
   {
-    de: 'Mediathek / Online-Archiv',
-    en: 'media library',
+    de: "Mediathek / Online-Archiv",
+    en: "media library"
   },
   {
-    de: 'Webinar',
-    en: 'webinar',
+    de: "Webinar",
+    en: "webinar"
   },
   {
-    de: 'Podcast',
-    en: 'podcast',
+    de: "Podcast",
+    en: "podcast"
   },
   {
-    de: 'Radiosendung',
-    en: 'radio broadcast',
+    de: "Radiosendung",
+    en: "radio broadcast"
   },
   {
-    de: '360-Grad-Tour',
-    en: '360 ° virtual tour',
+    de: "360-Grad-Tour",
+    en: "360° virtual tour"
   },
   {
-    de: 'Audiowalk',
-    en: 'audiowalk',
+    de: "Audiowalk",
+    en: "audiowalk"
   },
   {
-    de: 'Online-Service',
-    en: 'online service',
+    de: "Online-Service",
+    en: "online service"
   },
   {
-    de: 'Online-Game',
-    en: 'online game',
+    de: "Online-Game",
+    en: "online game"
   },
   {
-    de: 'Audioguide',
-    en: 'audio guide',
-  },
-  {
-    de: 'Audiowalk',
-    en: 'audiowalk',
-  },
-  {
-    de: 'Online-Game',
-    en: 'online game',
-  },
-  {
-    de: 'Audioguide',
-    en: 'audio guide',
-  },
+    de: "Audioguide",
+    en: "audio guide"
+  }
 ];
 
 export default types;
