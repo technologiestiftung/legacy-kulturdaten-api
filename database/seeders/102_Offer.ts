@@ -109,6 +109,8 @@ export default class OfferSeeder extends BaseSeeder {
           }
         });
 
+        factory.with('audience', 1);
+
         const offer = await factory.create();
         await offer.related('organizers').sync([museum.publicId]);
       }
