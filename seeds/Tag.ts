@@ -17084,7 +17084,7 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4293521-0',
+      gndId: '131744-1',
     },
     relations: {
       translations: [
@@ -17093,7 +17093,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Niue',
+          name: 'Niue Island',
           language: 'en',
         },
       ],
