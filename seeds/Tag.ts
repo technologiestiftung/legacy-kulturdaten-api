@@ -17101,23 +17101,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '131744-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Niue',
-          language: 'de',
-        },
-        {
-          name: 'Niue Island',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4042483-2',
     },
     relations: {
