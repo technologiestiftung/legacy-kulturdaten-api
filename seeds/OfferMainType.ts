@@ -124,12 +124,20 @@ const types = [
     en: 'open mike',
   },
   {
+    de: 'Performance',
+    en: 'performance',
+  },
+  {
     de: 'Playtest',
     en: 'playtest',
   },
   {
     de: 'Podiumsgespräch',
     en: 'panel discussion',
+  },
+  {
+    de: 'Poetry Slam',
+    en: 'poetry slam',
   },
   {
     de: 'Präsentation',
@@ -154,6 +162,10 @@ const types = [
   {
     de: 'Relaxed performance',
     en: 'relaxed performance',
+  },
+  {
+    de: 'Schauspiel',
+    en: 'Schauspiel',
   },
   {
     de: 'Schreibkurs',

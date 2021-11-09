@@ -990,20 +990,6 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Poetry-Slam',
-                language: 'de',
-              },
-              {
-                name: 'poetry slam',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
                 name: 'Comic / Graphic Novel',
                 language: 'de',
               },

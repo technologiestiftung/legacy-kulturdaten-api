@@ -795,11 +795,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Kunst im öffentlichen Raum / Kunst am Bau',
+                name: 'Kunst im öffentlichen Raum',
                 language: 'de',
               },
               {
-                name: 'art in public space / Art on building',
+                name: 'percent of art',
                 language: 'en',
               },
             ],
@@ -1101,11 +1101,25 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Staatliches Archiv',
+                name: 'Landes- / Staatsarchiv',
                 language: 'de',
               },
               {
                 name: 'state archive / public records',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Bezirks- / Stadtteilbibliothek',
+                language: 'de',
+              },
+              {
+                name: 'district library',
                 language: 'en',
               },
             ],
@@ -1276,11 +1290,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Jugendkunstschule',
+                name: 'Kunstschule',
                 language: 'de',
               },
               {
-                name: 'youth art school',
+                name: 'art school',
                 language: 'en',
               },
             ],
