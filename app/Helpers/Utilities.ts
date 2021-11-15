@@ -1,6 +1,7 @@
 import Resource from 'App/Helpers/Api/Resource';
 import { ValidationException, validator } from '@ioc:Adonis/Core/Validator';
 import Env from '@ioc:Adonis/Core/Env';
+import { defaultLanguage } from 'Config/app';
 
 export function withTranslations(query) {
   return query.preload('translations');
@@ -42,29 +43,26 @@ export async function publishable(
   }
 
   if (PublishableTranslationValidator) {
-    // Use an empty object to validate against, to force the error
-    // even if there are no translations at all
     let translations = resource.relations?.translations;
-    if (!translations || translations.length === 0) {
-      translations = [{ attributes: {} }];
+    // Use an empty object to validate against, to force the error
+    // even if there is no german/default translation
+    let defaultTranslation = { attributes: {} };
+    if (translations) {
+      defaultTranslation = translations.find((translation) => {
+        return translation.attributes?.language === defaultLanguage;
+      });
     }
 
-    for (const translation of translations) {
-      try {
-        await validator.validate({
-          schema: new PublishableTranslationValidator().schema,
-          data: translation,
-        });
-
-        // Stop validating if there is only one valid
-        // translation
-        break;
-      } catch (e) {
-        if (e instanceof ValidationException) {
-          Object.assign(errors, e.messages);
-        } else {
-          throw e;
-        }
+    try {
+      await validator.validate({
+        schema: new PublishableTranslationValidator().schema,
+        data: defaultTranslation,
+      });
+    } catch (e) {
+      if (e instanceof ValidationException) {
+        Object.assign(errors, e.messages);
+      } else {
+        throw e;
       }
     }
   }
