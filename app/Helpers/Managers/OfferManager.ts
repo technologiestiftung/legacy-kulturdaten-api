@@ -94,6 +94,14 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         },
       },
       {
+        name: 'mainType',
+        query: (query, name, value) => {
+          return query.whereHas('mainType', (query) => {
+            query.where('offer_main_type_id', '=', value);
+          });
+        },
+      },
+      {
         name: 'type',
         query: (query, name, value) => {
           return query.whereHas('types', (query) => {
