@@ -259,7 +259,7 @@ export class BaseManager<ManagedModel extends LucidModel> {
     const data = await this.ctx.request.validate({
       schema: schema.create({
         relations: schema.object.optional().members({
-          translations: schema.array.optional([rules.minLength(1)]).members(
+          translations: schema.array.optional().members(
             schema.object().members({
               attributes: this.validators.translation,
             })
