@@ -12,7 +12,7 @@ export class UpdateMediaValidator {
       expiresAt: schema.date.optional(),
     }),
     relations: schema.object.optional().members({
-      license: schema.number([
+      license: schema.number.optional([
         rules.exists({
           table: 'media_licenses',
           column: 'id',
