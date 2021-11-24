@@ -28,8 +28,8 @@ export default class AccessibilityManager extends BaseManager<
       return;
     }
 
-    const keys = fields.map((role) => {
-      return role.attributes.key;
+    const keys = fields.map((field) => {
+      return field.attributes.key;
     });
 
     const existingFields = keys.length

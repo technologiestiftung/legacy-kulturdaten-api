@@ -37,14 +37,15 @@
   "dependencies": {
     "@adonisjs/ace": "11.0.1",
     "@adonisjs/auth": "8.0.2",
-    "@adonisjs/bouncer": "^2.2.1",
-    "@adonisjs/core": "5.1.6",
+    "@adonisjs/bouncer": "^2.2.5",
+    "@adonisjs/core": "5.4.1",
     "@adonisjs/lucid": "14.0.1",
     "@adonisjs/mail": "7.1.1",
-    "@adonisjs/repl": "3.1.2",
-    "@adonisjs/view": "6.0.1",
+    "@adonisjs/repl": "3.1.7",
+    "@adonisjs/view": "6.1.1",
     "del": "6.0.0",
     "luxon": "1.26.0",
+    "markdown-to-txt": "2.0.0",
     "pg": "8.6.0",
     "phc-argon2": "1.1.1",
     "proxy-addr": "2.0.6",
@@ -53,6 +54,6 @@
     "sharp": "0.28.3",
     "source-map-support": "0.5.19",
     "sqlite3": "5.0.2",
-    "xlsx": "^0.17.4"
+    "xlsx": "0.17.4"
   }
 }
