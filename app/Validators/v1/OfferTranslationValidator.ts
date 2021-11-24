@@ -1,10 +1,10 @@
-import { schema } from '@ioc:Adonis/Core/Validator';
+import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { allowedLanguages } from 'Config/app';
 
 export const translation = schema.object().members({
-  name: schema.string.optional({ trim: true }),
-  teaser: schema.string.optional({ trim: true }),
-  description: schema.string.optional({ trim: true }),
+  name: schema.string.optional({ trim: true }, [rules.maxLength(100)]),
+  teaser: schema.string.optional({ trim: true }, [rules.maxLength(150)]),
+  description: schema.string.optional({ trim: true }, [rules.maxLength(1500)]),
   roomDescription: schema.string.optional({ trim: true }),
   language: schema.enum(allowedLanguages),
 });
@@ -12,9 +12,9 @@ export const translation = schema.object().members({
 export class PublishOfferTranslationValidator {
   public schema = schema.create({
     attributes: schema.object().members({
-      name: schema.string({ trim: true }),
-      teaser: schema.string.optional({ trim: true }),
-      description: schema.string({ trim: true }),
+      name: schema.string({ trim: true }, [rules.maxLength(100)]),
+      teaser: schema.string.optional({ trim: true }, [rules.maxLength(150)]),
+      description: schema.string({ trim: true }, [rules.maxLength(1500)]),
       language: schema.enum(allowedLanguages),
     }),
   });

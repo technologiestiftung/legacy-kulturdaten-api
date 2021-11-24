@@ -1,9 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { schema } from '@ioc:Adonis/Core/Validator';
+import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { allowedLanguages } from 'Config/app';
 
 export const translation = schema.object().members({
-  name: schema.string.optional({ trim: true }),
+  name: schema.string.optional({ trim: true }, [rules.maxLength(100)]),
   description: schema.string.optional({ trim: true }),
   language: schema.enum(allowedLanguages),
 });
@@ -11,7 +11,7 @@ export const translation = schema.object().members({
 export class PublishOrganizerTranslationValidator {
   public schema = schema.create({
     attributes: schema.object().members({
-      name: schema.string({ trim: true }),
+      name: schema.string({ trim: true }, [rules.maxLength(100)]),
       description: schema.string({ trim: true }),
       language: schema.enum(allowedLanguages),
     }),
