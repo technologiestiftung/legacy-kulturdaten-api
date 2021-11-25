@@ -10786,7 +10786,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Provenienz ',
+          name: 'Provenienz',
           language: 'de',
         },
         {
@@ -11198,7 +11198,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'regional archive ',
+          name: 'regional archive',
           language: 'en',
         },
       ],
@@ -11381,7 +11381,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Revue ',
+          name: 'Revue',
           language: 'de',
         },
         {
@@ -11988,23 +11988,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4046277-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Skulptur',
-          language: 'de',
-        },
-        {
-          name: 'sculpture',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4480980-3',
     },
     relations: {
@@ -12452,7 +12435,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Stadtgeschichte ',
+          name: 'Stadtgeschichte',
           language: 'de',
         },
         {
@@ -13612,7 +13595,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'persecution ',
+          name: 'persecution',
           language: 'en',
         },
       ],
@@ -14020,7 +14003,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'universe ',
+          name: 'universe',
           language: 'en',
         },
       ],
@@ -14037,7 +14020,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Memory of the World ',
+          name: 'Memory of the World',
           language: 'en',
         },
       ],
@@ -16059,7 +16042,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Jamaica ',
+          name: 'Jamaica',
           language: 'en',
         },
       ],
@@ -17008,7 +16991,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'New Zealand ',
+          name: 'New Zealand',
           language: 'en',
         },
       ],
@@ -17077,23 +17060,6 @@ const tags = [
         },
         {
           name: 'Nigeria',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4293521-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Niue',
-          language: 'de',
-        },
-        {
-          name: 'Niue',
           language: 'en',
         },
       ],
@@ -17517,7 +17483,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Rwanda ',
+          name: 'Rwanda',
           language: 'en',
         },
       ],
@@ -17806,7 +17772,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Sierra Leone ',
+          name: 'Sierra Leone',
           language: 'en',
         },
       ],
@@ -18265,7 +18231,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Trinidad and Tobago ',
+          name: 'Trinidad and Tobago',
           language: 'en',
         },
       ],
@@ -18418,7 +18384,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'Hungary ',
+          name: 'Hungary',
           language: 'en',
         },
       ],
@@ -18482,7 +18448,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Vanuatu ',
+          name: 'Vanuatu',
           language: 'de',
         },
         {

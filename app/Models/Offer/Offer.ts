@@ -2,6 +2,8 @@ import { DateTime } from 'luxon';
 import {
   BaseModel,
   column,
+  hasOne,
+  HasOne,
   manyToMany,
   ManyToMany,
   hasMany,
@@ -25,7 +27,9 @@ import {
   OfferType,
   OfferSubject,
   OfferDate,
+  Audience,
   OfferContributor,
+  PeakHours,
 } from 'App/Models/Offer';
 import { OfferRole } from 'App/Models/Roles';
 import { publishable } from 'App/Helpers/Utilities';
@@ -89,6 +93,11 @@ export default class Offer extends BaseModel {
   })
   public organizers: ManyToMany<typeof Organizer>;
 
+  @hasOne(() => Audience, {
+    localKey: 'publicId',
+  })
+  public audience: HasOne<typeof Audience>;
+
   @column({ serializeAs: null })
   public locationId: string;
 
@@ -105,6 +114,9 @@ export default class Offer extends BaseModel {
 
   @hasMany(() => OfferContributor)
   public contributors: HasMany<typeof OfferContributor>;
+
+  @hasMany(() => PeakHours)
+  public peakHours: HasMany<typeof PeakHours>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',

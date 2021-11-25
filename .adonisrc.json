@@ -19,7 +19,13 @@
     "./start/kernel",
     "./start/events",
     "./start/boot",
-    "./start/bouncer"
+    "./start/bouncer",
+    {
+      "file": "./start/validator",
+      "environment": [
+        "web"
+      ]
+    }
   ],
   "providers": [
     "./providers/AppProvider",

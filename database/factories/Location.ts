@@ -6,6 +6,7 @@ import {
   LocationTranslation,
   OpeningHours,
   Accessibility,
+  Service,
 } from 'App/Models/Location';
 import { AddressFactory } from './Address';
 import { LinkFactory } from './Link';
@@ -57,6 +58,11 @@ export const LocationFactory = Factory.define(Location, ({ faker }) => {
   .relation('address', () => AddressFactory)
   .relation('accessibility', () =>
     Factory.define(Accessibility, ({ faker }) => {
+      return {};
+    }).build()
+  )
+  .relation('service', () =>
+    Factory.define(Service, ({ faker }) => {
       return {};
     }).build()
   )

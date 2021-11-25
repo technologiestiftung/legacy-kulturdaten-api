@@ -4,6 +4,8 @@ import { BaseModel } from '@ioc:Adonis/Lucid/Orm';
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database';
 import { LucidRow, ModelPaginatorContract } from '@ioc:Adonis/Lucid/Model';
+import * as XLSX from 'xlsx';
+import { types } from '@ioc:Adonis/Core/Helpers';
 
 type ApiResource = Resource | Array<Resource> | LucidModel;
 
@@ -121,7 +123,65 @@ export class ApiDocument {
     return resource.toObject();
   }
 
+  private $flatDataItem(ob) {
+    let toReturn = {};
+
+    for (let i in ob) {
+      if (!ob.hasOwnProperty(i)) continue;
+      if (i === 'type' || i === 'id') continue;
+
+      if (typeof ob[i] === 'object' && ob[i] !== null) {
+        let flatObject = this.$flatDataItem(ob[i]);
+        for (let x in flatObject) {
+          if (!flatObject.hasOwnProperty(x)) continue;
+
+          toReturn[i + '.' + x] = flatObject[x];
+        }
+      } else {
+        toReturn[i] = ob[i];
+      }
+    }
+    return toReturn;
+  }
+
+  private $export() {
+    const workbook = XLSX.utils.book_new();
+    const data = types.isArray(this.data) ? this.data : [this.data];
+
+    if (!data.length) {
+      return;
+    }
+
+    const type = data[0].type;
+
+    const rows = [];
+    for (const item of data) {
+      rows.push(Object.assign({ id: item.id }, this.$flatDataItem(item)));
+    }
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    XLSX.utils.book_append_sheet(workbook, worksheet, type);
+
+    const buffer = XLSX.write(workbook, { type: 'buffer' });
+
+    this.ctx.response.header(
+      'content-type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    this.ctx.response.header('Content-Length', Buffer.byteLength(buffer));
+    this.ctx.response.header(
+      'Content-Disposition',
+      `attachment; filename=${Date.now()}_${type}.xls`
+    );
+    this.ctx.response.send(buffer);
+  }
+
   public send() {
+    if (this.ctx.request.input('format') === 'xls') {
+      this.$export();
+      return;
+    }
+
     this.ctx.response.ok({
       data: this.data,
       links: this.links,

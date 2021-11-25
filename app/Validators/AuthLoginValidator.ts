@@ -7,7 +7,7 @@ export default class AuthLoginValidator {
   public schema = schema.create({
     email: schema.string({ escape: true, trim: true }, [
       rules.email({
-        sanitize: true,
+        sanitize: false,
       }),
     ]),
 

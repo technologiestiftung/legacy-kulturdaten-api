@@ -23,6 +23,7 @@ import Tag from 'App/Models/Tag';
 import { OpeningHours } from 'App/Models/Location';
 import { publishable } from 'App/Helpers/Utilities';
 import Accessibility from 'App/Models/Location/Accessibility';
+import Service from 'App/Models/Location/Service';
 
 export class LocationTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -97,6 +98,11 @@ export default class Location extends BaseModel {
     localKey: 'publicId',
   })
   public accessibility: HasOne<typeof Accessibility>;
+
+  @hasOne(() => Service, {
+    localKey: 'publicId',
+  })
+  public service: HasOne<typeof Service>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',

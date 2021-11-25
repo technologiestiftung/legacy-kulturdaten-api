@@ -77,10 +77,16 @@ Route.group(() => {
       'location/:id/accessibility',
       'v1/AccessibilityController.delete'
     );
+    Route.get('location/:id/service', 'v1/ServiceController.show');
+    Route.patch('location/:id/service', 'v1/ServiceController.update');
+    Route.delete('location/:id/service', 'v1/ServiceController.delete');
 
     Route.resource('offerMainType', 'v1/OfferMainTypeController').apiOnly();
     Route.resource('offerType', 'v1/OfferTypeController').apiOnly();
     Route.resource('offer', 'v1/OfferController').apiOnly();
     Route.resource('offer.date', 'v1/OfferDateController').apiOnly();
+    Route.get('offer/:id/audience', 'v1/AudienceController.show');
+    Route.patch('offer/:id/audience', 'v1/AudienceController.update');
+    Route.delete('offer/:id/audience', 'v1/AudienceController.delete');
   });
 }).prefix('v1');

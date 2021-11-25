@@ -1,6 +1,7 @@
 import Factory from '@ioc:Adonis/Lucid/Factory';
 import Offer, { OfferTranslation, OfferStatus } from 'App/Models/Offer/Offer';
 import OfferDate, { OfferDateTranslation } from 'App/Models/Offer/OfferDate';
+import { Audience } from 'App/Models/Offer';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
 import { MediaFactory } from './Media';
@@ -106,6 +107,11 @@ export const OfferFactory = Factory.define(Offer, ({ faker }) => {
         }).build()
       )
       .build()
+  )
+  .relation('audience', () =>
+    Factory.define(Audience, ({ faker }) => {
+      return {};
+    }).build()
   )
   .relation('links', () => LinkFactory)
   .relation('media', () => MediaFactory)

@@ -21,16 +21,13 @@ export const media = schema.array.optional().members(
   })
 );
 
-export const initialTranslation = schema.array
-  .optional([rules.minLength(1)])
-  .members(
-    schema.object().members({
-      attributes: schema.object().members({
-        name: schema.string(),
-        language: schema.enum(allowedLanguages),
-      }),
-    })
-  );
+export const initialTranslation = schema.array.optional().members(
+  schema.object().members({
+    attributes: schema.object().members({
+      language: schema.enum(allowedLanguages),
+    }),
+  })
+);
 
 export const address = {
   create: schema.object.optional().members({

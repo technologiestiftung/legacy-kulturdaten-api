@@ -1,22 +1,20 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import { Accessibility, AccessibilityField } from 'App/Models/Location';
+import { Audience, AudienceField } from 'App/Models/Offer';
 import {
-  UpdateAccessibilityValidator,
-  DeleteAccessibilityValidator,
-} from 'App/Validators/v1/AccessibilityValidator';
+  UpdateAudienceValidator,
+  DeleteAudienceValidator,
+} from 'App/Validators/v1/AudienceValidator';
 
-export default class AccessibilityManager extends BaseManager<
-  typeof Accessibility
-> {
-  public ModelClass = Accessibility;
+export default class AudienceManager extends BaseManager<typeof Audience> {
+  public ModelClass = Audience;
 
   public settings = {
-    queryId: 'location_id',
+    queryId: 'offer_id',
   };
 
   constructor(ctx: HttpContextContract) {
-    super(ctx, Accessibility);
+    super(ctx, Audience);
   }
 
   public query() {
@@ -28,12 +26,12 @@ export default class AccessibilityManager extends BaseManager<
       return;
     }
 
-    const keys = fields.map((field) => {
-      return field.attributes.key;
+    const keys = fields.map((role) => {
+      return role.attributes.key;
     });
 
     const existingFields = keys.length
-      ? await AccessibilityField.query().whereIn('key', keys)
+      ? await AudienceField.query().whereIn('key', keys)
       : [];
     return this.$updateMany(
       accessibility,
@@ -53,7 +51,7 @@ export default class AccessibilityManager extends BaseManager<
 
   public async update() {
     const { relations } = await this.ctx.request.validate(
-      new UpdateAccessibilityValidator(this.ctx)
+      new UpdateAudienceValidator(this.ctx)
     );
 
     const accessibility = await this.byId();
@@ -64,11 +62,9 @@ export default class AccessibilityManager extends BaseManager<
 
   public async delete() {
     const { relations } = await this.ctx.request.validate(
-      new DeleteAccessibilityValidator(this.ctx)
+      new DeleteAudienceValidator(this.ctx)
     );
 
-    return [
-      ...(await this.$deleteObjects(AccessibilityField, relations?.fields)),
-    ];
+    return [...(await this.$deleteObjects(AudienceField, relations?.fields))];
   }
 }

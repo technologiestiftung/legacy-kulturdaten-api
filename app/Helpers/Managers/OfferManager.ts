@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import Offer, { OfferStatus } from 'App/Models/Offer/Offer';
-import { OfferContributor, OfferDate } from 'App/Models/Offer';
+import { OfferContributor, OfferDate, Audience } from 'App/Models/Offer';
 import Media from 'App/Models/Media';
 import {
   CreateOfferValidator,
@@ -63,6 +63,13 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         name: 'media',
         query: queryMedia,
       },
+      {
+        name: 'audience',
+        query: (query) => {
+          query.preload('fields');
+        },
+      },
+      { name: 'peakHours' },
     ],
     filters: [
       {
@@ -84,6 +91,30 @@ export default class OfferManager extends BaseManager<typeof Offer> {
           });
 
           return query;
+        },
+      },
+      {
+        name: 'mainType',
+        query: (query, name, value) => {
+          return query.whereHas('mainType', (query) => {
+            query.where('offer_main_type_id', '=', value);
+          });
+        },
+      },
+      {
+        name: 'type',
+        query: (query, name, value) => {
+          return query.whereHas('types', (query) => {
+            query.where('offer_type_id', '=', value);
+          });
+        },
+      },
+      {
+        name: 'subject',
+        query: (query, name, value) => {
+          return query.whereHas('subjects', (query) => {
+            query.where('offer_subject_id', '=', value);
+          });
         },
       },
     ],
@@ -210,6 +241,14 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     });
 
     await this.$updateContributors(offer, relations?.contributors);
+    await this.$updateMany(offer, 'peakHours', relations?.peakHours);
+
+    // Create an audience object to hold additional
+    // info separate from all the basic offer logic
+    await Audience.create({
+      offerId: offer.publicId,
+    });
+    await offer.load('audience');
 
     this.instance = offer;
     return this.instance;
@@ -252,6 +291,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     });
 
     await this.$updateMany(offer, 'contributors', relations?.contributors);
+    await this.$updateMany(offer, 'peakHours', relations?.peakHours);
 
     return this.instance;
   }

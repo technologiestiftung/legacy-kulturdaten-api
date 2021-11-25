@@ -175,107 +175,6 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Tanz / Performance',
-          language: 'de',
-        },
-        {
-          name: 'dance / performance',
-          language: 'en',
-        },
-      ],
-      subjects: [
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Ballett',
-                language: 'de',
-              },
-              {
-                name: 'ballet',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Tanztheater',
-                language: 'de',
-              },
-              {
-                name: 'dance theater',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Zeitgenössischer Tanz',
-                language: 'de',
-              },
-              {
-                name: 'contemporary dance',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Urban Dance',
-                language: 'de',
-              },
-              {
-                name: 'urban dance',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Performance',
-                language: 'de',
-              },
-              {
-                name: 'performance',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Tanzunterricht',
-                language: 'de',
-              },
-              {
-                name: 'dance classes',
-                language: 'en',
-              },
-            ],
-          },
-        },
-      ],
-    },
-  },
-  {
-    attributes: {},
-    relations: {
-      translations: [
-        {
           name: 'Theater / Oper / Musical / ...',
           language: 'de',
         },
@@ -433,11 +332,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Literatur / gesprochenes Wort ',
+          name: 'Tanz / Performance',
           language: 'de',
         },
         {
-          name: 'literature / spoken word / discourse',
+          name: 'dance / performance',
           language: 'en',
         },
       ],
@@ -446,11 +345,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Gegenwartsliteratur',
+                name: 'Ballett',
                 language: 'de',
               },
               {
-                name: 'contemporary literature',
+                name: 'ballet',
                 language: 'en',
               },
             ],
@@ -460,11 +359,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Literaturgeschichte',
+                name: 'Tanztheater',
                 language: 'de',
               },
               {
-                name: 'history of literature',
+                name: 'dance theater',
                 language: 'en',
               },
             ],
@@ -474,11 +373,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Lyrik',
+                name: 'Zeitgenössischer Tanz',
                 language: 'de',
               },
               {
-                name: 'poetry',
+                name: 'contemporary dance',
                 language: 'en',
               },
             ],
@@ -488,11 +387,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Kinder- und Jugendliteratur',
+                name: 'Urban Dance',
                 language: 'de',
               },
               {
-                name: "children's and young adult literature",
+                name: 'urban dance',
                 language: 'en',
               },
             ],
@@ -502,11 +401,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Poetry-Slam',
+                name: 'Performance',
                 language: 'de',
               },
               {
-                name: 'poetry slam',
+                name: 'performance',
                 language: 'en',
               },
             ],
@@ -516,11 +415,42 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Comic / Graphic Novel',
+                name: 'Tanzunterricht',
                 language: 'de',
               },
               {
-                name: 'comic / graphic novel',
+                name: 'dance classes',
+                language: 'en',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+  {
+    attributes: {},
+    relations: {
+      translations: [
+        {
+          name: 'Kunst / Kunstgeschichte',
+          language: 'de',
+        },
+        {
+          name: 'art / art history',
+          language: 'en',
+        },
+      ],
+      subjects: [
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Zeitgenössische Kunst',
+                language: 'de',
+              },
+              {
+                name: 'contemporary art',
                 language: 'en',
               },
             ],
@@ -530,11 +460,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Übersetzung',
+                name: 'Kunstgeschichte',
                 language: 'de',
               },
               {
-                name: 'translation',
+                name: 'art history',
                 language: 'en',
               },
             ],
@@ -544,11 +474,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Erzähl-/ Schreibwerkstatt',
+                name: 'Digitale Kunst',
                 language: 'de',
               },
               {
-                name: 'storytelling / writing workshop',
+                name: 'digital art',
                 language: 'en',
               },
             ],
@@ -558,11 +488,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'poetische Bildung',
+                name: 'Fotografie ',
                 language: 'de',
               },
               {
-                name: 'poetic education',
+                name: 'photography',
                 language: 'en',
               },
             ],
@@ -572,11 +502,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Nachwuchsförderung',
+                name: 'Architektur / Design',
                 language: 'de',
               },
               {
-                name: 'promotion of emerging authors',
+                name: 'architecture & design',
                 language: 'en',
               },
             ],
@@ -586,11 +516,241 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Autor:innentreffen & Vernetzung',
+                name: 'Film',
                 language: 'de',
               },
               {
-                name: "author's meeting & networking",
+                name: 'film',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Kunst im öffentlichen Raum',
+                language: 'de',
+              },
+              {
+                name: 'art in public space',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Kunstunterricht',
+                language: 'de',
+              },
+              {
+                name: 'art classes',
+                language: 'en',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+  {
+    attributes: {},
+    relations: {
+      translations: [
+        {
+          name: 'Geschichte / Stadtleben',
+          language: 'de',
+        },
+        {
+          name: 'history / commemoration',
+          language: 'en',
+        },
+      ],
+      subjects: [
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Alte Kulturen / Archäologie',
+                language: 'de',
+              },
+              {
+                name: 'archaeology',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Geschichte',
+                language: 'de',
+              },
+              {
+                name: 'history',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Politik & Gesellschaft',
+                language: 'de',
+              },
+              {
+                name: 'politics & society',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Jüdisches Berlin',
+                language: 'de',
+              },
+              {
+                name: 'Jewish Berlin',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Stadtgeschichte',
+                language: 'de',
+              },
+              {
+                name: 'urban history',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Kiezleben & Alltagskultur',
+                language: 'de',
+              },
+              {
+                name: 'local culture & everyday life',
+                language: 'en',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+  {
+    attributes: {},
+    relations: {
+      translations: [
+        {
+          name: 'Natur / Technik',
+          language: 'de',
+        },
+        {
+          name: 'nature / technology',
+          language: 'en',
+        },
+      ],
+      subjects: [
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Naturkunde',
+                language: 'de',
+              },
+              {
+                name: 'natural history',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Naturwissenschaften',
+                language: 'de',
+              },
+              {
+                name: 'natural science',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Technik',
+                language: 'de',
+              },
+              {
+                name: 'technology',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Technikgeschichte',
+                language: 'de',
+              },
+              {
+                name: 'history of technology',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Medizingeschichte',
+                language: 'de',
+              },
+              {
+                name: 'history of medicine',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Computer / Informatik',
+                language: 'de',
+              },
+              {
+                name: 'computer science',
                 language: 'en',
               },
             ],
@@ -761,11 +921,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Geschichte / Stadtleben',
+          name: 'Literatur / gesprochenes Wort ',
           language: 'de',
         },
         {
-          name: 'history / commemoration',
+          name: 'literature / spoken word / discourse',
           language: 'en',
         },
       ],
@@ -774,11 +934,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Alte Kulturen / Archäologie',
+                name: 'Gegenwartsliteratur',
                 language: 'de',
               },
               {
-                name: 'archaeology',
+                name: 'contemporary literature',
                 language: 'en',
               },
             ],
@@ -788,11 +948,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Geschichte',
+                name: 'Literaturgeschichte',
                 language: 'de',
               },
               {
-                name: 'history',
+                name: 'history of literature',
                 language: 'en',
               },
             ],
@@ -802,11 +962,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Politik & Gesellschaft',
+                name: 'Lyrik',
                 language: 'de',
               },
               {
-                name: 'politics & society',
+                name: 'poetry',
                 language: 'en',
               },
             ],
@@ -816,11 +976,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Jüdisches Berlin',
+                name: 'Kinder- und Jugendliteratur',
                 language: 'de',
               },
               {
-                name: 'Jewish Berlin',
+                name: "children's and young adult literature",
                 language: 'en',
               },
             ],
@@ -830,11 +990,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Stadtgeschichte',
+                name: 'Comic / Graphic Novel',
                 language: 'de',
               },
               {
-                name: 'urban history',
+                name: 'comic / graphic novel',
                 language: 'en',
               },
             ],
@@ -844,11 +1004,67 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Kiezleben & Alltagskultur',
+                name: 'Übersetzung',
                 language: 'de',
               },
               {
-                name: 'local culture & everyday life',
+                name: 'translation',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Erzähl-/ Schreibwerkstatt',
+                language: 'de',
+              },
+              {
+                name: 'storytelling / writing workshop',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'poetische Bildung',
+                language: 'de',
+              },
+              {
+                name: 'poetic education',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Nachwuchsförderung',
+                language: 'de',
+              },
+              {
+                name: 'promotion of emerging authors',
+                language: 'en',
+              },
+            ],
+          },
+        },
+        {
+          relations: {
+            translations: [
+              {
+                name: 'Autor:innentreffen & Vernetzung',
+                language: 'de',
+              },
+              {
+                name: "author's meeting & networking",
                 language: 'en',
               },
             ],
@@ -862,11 +1078,11 @@ const types = [
     relations: {
       translations: [
         {
-          name: 'Kunst / Kunstgeschichte',
+          name: 'Outreach / kulturelle Bildung ',
           language: 'de',
         },
         {
-          name: 'art / art history',
+          name: 'outreach / cultural education',
           language: 'en',
         },
       ],
@@ -875,11 +1091,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Zeitgenössische Kunst',
+                name: 'Kulturvermittlung',
                 language: 'de',
               },
               {
-                name: 'contemporary art',
+                name: 'art / culture interpretation & outreach',
                 language: 'en',
               },
             ],
@@ -889,11 +1105,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Kunstgeschichte',
+                name: 'Community-Projekt',
                 language: 'de',
               },
               {
-                name: 'art history',
+                name: 'community project',
                 language: 'en',
               },
             ],
@@ -903,182 +1119,11 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Digitale Kunst',
+                name: 'kulturelle Teilhabe',
                 language: 'de',
               },
               {
-                name: 'digital art',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Fotografie ',
-                language: 'de',
-              },
-              {
-                name: 'photography',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Architektur / Design',
-                language: 'de',
-              },
-              {
-                name: 'architecture & design',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Film',
-                language: 'de',
-              },
-              {
-                name: 'film',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Kunst im öffentlichen Raum',
-                language: 'de',
-              },
-              {
-                name: 'art in public space',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Kunstunterricht',
-                language: 'de',
-              },
-              {
-                name: 'art classes',
-                language: 'en',
-              },
-            ],
-          },
-        },
-      ],
-    },
-  },
-  {
-    attributes: {},
-    relations: {
-      translations: [
-        {
-          name: 'Natur / Technik',
-          language: 'de',
-        },
-        {
-          name: 'nature / technology',
-          language: 'en',
-        },
-      ],
-      subjects: [
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Naturkunde',
-                language: 'de',
-              },
-              {
-                name: 'natural history',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Naturwissenschaften',
-                language: 'de',
-              },
-              {
-                name: 'natural science',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Technik',
-                language: 'de',
-              },
-              {
-                name: 'technology',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Technikgeschichte',
-                language: 'de',
-              },
-              {
-                name: 'history of technology',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Medizingeschichte',
-                language: 'de',
-              },
-              {
-                name: 'history of medicine',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Computer / Informatik',
-                language: 'de',
-              },
-              {
-                name: 'computer science',
+                name: 'cultural participation',
                 language: 'en',
               },
             ],
@@ -1194,65 +1239,6 @@ const types = [
               },
               {
                 name: 'pantomime',
-                language: 'en',
-              },
-            ],
-          },
-        },
-      ],
-    },
-  },
-  {
-    attributes: {},
-    relations: {
-      translations: [
-        {
-          name: 'Outreach / kulturelle Bildung ',
-          language: 'de',
-        },
-        {
-          name: 'outreach / cultural education',
-          language: 'en',
-        },
-      ],
-      subjects: [
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Kulturvermittlung',
-                language: 'de',
-              },
-              {
-                name: 'art / culture interpretation & outreach',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'Community-Projekt',
-                language: 'de',
-              },
-              {
-                name: 'community project',
-                language: 'en',
-              },
-            ],
-          },
-        },
-        {
-          relations: {
-            translations: [
-              {
-                name: 'kulturelle Teilhabe',
-                language: 'de',
-              },
-              {
-                name: 'cultural participation',
                 language: 'en',
               },
             ],

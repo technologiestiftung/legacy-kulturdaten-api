@@ -1,7 +1,7 @@
 const types = [
   {
     de: 'Aufführung',
-    en: 'play ',
+    en: 'play',
   },
   {
     de: 'the artist is present',
@@ -17,7 +17,7 @@ const types = [
   },
   {
     de: 'Datenset',
-    en: 'Datenset',
+    en: 'data set',
   },
   {
     de: 'Dauerausstellung',
@@ -53,7 +53,7 @@ const types = [
   },
   {
     de: 'Finissage',
-    en: 'finissage',
+    en: 'closing',
   },
   {
     de: 'Gesprächsreihe',
@@ -124,12 +124,20 @@ const types = [
     en: 'open mike',
   },
   {
+    de: 'Performance',
+    en: 'performance',
+  },
+  {
     de: 'Playtest',
     en: 'playtest',
   },
   {
     de: 'Podiumsgespräch',
     en: 'panel discussion',
+  },
+  {
+    de: 'Poetry Slam',
+    en: 'poetry slam',
   },
   {
     de: 'Präsentation',
@@ -154,6 +162,10 @@ const types = [
   {
     de: 'Relaxed performance',
     en: 'relaxed performance',
+  },
+  {
+    de: 'Schauspiel',
+    en: 'Schauspiel',
   },
   {
     de: 'Schreibkurs',
@@ -237,7 +249,7 @@ const types = [
   },
   {
     de: '360-Grad-Tour',
-    en: '360 ° virtual tour',
+    en: '360° virtual tour',
   },
   {
     de: 'Audiowalk',
@@ -246,18 +258,6 @@ const types = [
   {
     de: 'Online-Service',
     en: 'online service',
-  },
-  {
-    de: 'Online-Game',
-    en: 'online game',
-  },
-  {
-    de: 'Audioguide',
-    en: 'audio guide',
-  },
-  {
-    de: 'Audiowalk',
-    en: 'audiowalk',
   },
   {
     de: 'Online-Game',

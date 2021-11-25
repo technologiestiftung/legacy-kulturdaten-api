@@ -7,7 +7,7 @@ export default class UserStoreValidator {
   public schema = schema.create({
     email: schema.string({ escape: true, trim: true }, [
       rules.email({
-        sanitize: true,
+        sanitize: false,
       }),
       rules.unique({ table: 'users', column: 'email' }),
     ]),

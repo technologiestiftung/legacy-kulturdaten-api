@@ -1,42 +1,40 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
-import { Accessibility, AccessibilityField } from 'App/Models/Location';
+import { Service, ServiceField } from 'App/Models/Location';
 import {
-  UpdateAccessibilityValidator,
-  DeleteAccessibilityValidator,
-} from 'App/Validators/v1/AccessibilityValidator';
+  UpdateServiceValidator,
+  DeleteServiceValidator,
+} from 'App/Validators/v1/ServiceValidator';
 
-export default class AccessibilityManager extends BaseManager<
-  typeof Accessibility
-> {
-  public ModelClass = Accessibility;
+export default class ServiceManager extends BaseManager<typeof Service> {
+  public ModelClass = Service;
 
   public settings = {
     queryId: 'location_id',
   };
 
   constructor(ctx: HttpContextContract) {
-    super(ctx, Accessibility);
+    super(ctx, Service);
   }
 
   public query() {
     return super.query().preload('fields');
   }
 
-  private async $updateFields(accessibility, fields) {
+  private async $updateFields(service, fields) {
     if (!fields.length) {
       return;
     }
 
-    const keys = fields.map((field) => {
-      return field.attributes.key;
+    const keys = fields.map((role) => {
+      return role.attributes.key;
     });
 
     const existingFields = keys.length
-      ? await AccessibilityField.query().whereIn('key', keys)
+      ? await ServiceField.query().whereIn('key', keys)
       : [];
     return this.$updateMany(
-      accessibility,
+      service,
       'fields',
       fields.map((field) => {
         for (const existingField of existingFields) {
@@ -53,22 +51,20 @@ export default class AccessibilityManager extends BaseManager<
 
   public async update() {
     const { relations } = await this.ctx.request.validate(
-      new UpdateAccessibilityValidator(this.ctx)
+      new UpdateServiceValidator(this.ctx)
     );
 
-    const accessibility = await this.byId();
-    await this.$updateFields(accessibility, relations?.fields);
+    const service = await this.byId();
+    await this.$updateFields(service, relations?.fields);
 
     return this.instance;
   }
 
   public async delete() {
     const { relations } = await this.ctx.request.validate(
-      new DeleteAccessibilityValidator(this.ctx)
+      new DeleteServiceValidator(this.ctx)
     );
 
-    return [
-      ...(await this.$deleteObjects(AccessibilityField, relations?.fields)),
-    ];
+    return [...(await this.$deleteObjects(ServiceField, relations?.fields))];
   }
 }
