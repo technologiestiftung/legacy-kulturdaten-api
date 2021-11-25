@@ -8,7 +8,7 @@ export enum Weekdays {
   THU = 'thursday',
   FRI = 'friday',
   SAT = 'saturday',
-  SUN = 'friday',
+  SUN = 'sunday',
 }
 
 export default class PeakHours extends BaseModel {
