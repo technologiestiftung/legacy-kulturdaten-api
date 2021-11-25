@@ -137,23 +137,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4638925-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Ägyptisches Museum',
-          language: 'de',
-        },
-        {
-          name: 'Egyptian museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4001307-8',
     },
     relations: {
@@ -232,23 +215,6 @@ const tags = [
         },
         {
           name: 'Early Christian art',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4691269-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Alte Musik',
-          language: 'de',
-        },
-        {
-          name: 'early music',
           language: 'en',
         },
       ],
@@ -586,7 +552,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Archaik ',
+          name: 'Archaik',
           language: 'de',
         },
         {
@@ -615,29 +581,12 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4142944-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Archäologisches Museum',
-          language: 'de',
-        },
-        {
-          name: 'archaeological museums',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4002851-3',
     },
     relations: {
       translations: [
         {
-          name: 'Architektur ',
+          name: 'Architektur',
           language: 'de',
         },
         {
@@ -659,40 +608,6 @@ const tags = [
         },
         {
           name: 'architectural photography',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4223221-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Architekturmuseum',
-          language: 'de',
-        },
-        {
-          name: 'architecture museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4002859-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Archiv',
-          language: 'de',
-        },
-        {
-          name: 'archive',
           language: 'en',
         },
       ],
@@ -819,23 +734,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4143143-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Artothek',
-          language: 'de',
-        },
-        {
-          name: 'artothek',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4133150-3',
     },
     relations: {
@@ -926,7 +824,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Aufklärungszeit ',
+          name: 'Aufklärungszeit',
           language: 'de',
         },
         {
@@ -972,23 +870,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4125859-9',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Auktion',
-          language: 'de',
-        },
-        {
-          name: 'auction',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4234453-0',
     },
     relations: {
@@ -1006,6 +887,23 @@ const tags = [
   },
   {
     attributes: {
+      gndId: '4003942-0',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Autografen',
+          language: 'de',
+        },
+        {
+          name: 'autograph (manuscript)',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
       gndId: '4133965-4',
     },
     relations: {
@@ -1015,7 +913,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'avant-garde ',
+          name: 'avant-garde',
           language: 'en',
         },
       ],
@@ -1244,23 +1142,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4666203-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Bergbaumuseum',
-          language: 'de',
-        },
-        {
-          name: 'mining museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '1078804745',
     },
     relations: {
@@ -1380,23 +1261,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4006439-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Bibliothek',
-          language: 'de',
-        },
-        {
-          name: 'library',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '7623751-5',
     },
     relations: {
@@ -1407,23 +1271,6 @@ const tags = [
         },
         {
           name: 'Library of the Year',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '7503036-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Bibliothekseinführung',
-          language: 'de',
-        },
-        {
-          name: 'introduction to library services',
           language: 'en',
         },
       ],
@@ -1623,7 +1470,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Biografie ',
+          name: 'Biografie',
           language: 'de',
         },
         {
@@ -1662,23 +1509,6 @@ const tags = [
         },
         {
           name: 'black metal',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4145967-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Blindenbibliothek',
-          language: 'de',
-        },
-        {
-          name: 'Library for the Blind',
           language: 'en',
         },
       ],
@@ -1805,23 +1635,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4598694-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Botanisches Museum',
-          language: 'de',
-        },
-        {
-          name: 'botanical museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4008024-9',
     },
     relations: {
@@ -1832,6 +1645,23 @@ const tags = [
         },
         {
           name: 'brewery',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
+      gndId: '4008240-4',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Briefe',
+          language: 'de',
+        },
+        {
+          name: 'letters',
           language: 'en',
         },
       ],
@@ -1934,23 +1764,6 @@ const tags = [
         },
         {
           name: 'illumination',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4368309-5',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Buchmuseum',
-          language: 'de',
-        },
-        {
-          name: 'book museum',
           language: 'en',
         },
       ],
@@ -2587,23 +2400,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '1029344566',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Dauerausstellung',
-          language: 'de',
-        },
-        {
-          name: 'permanent exhibition',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4011890-3',
     },
     relations: {
@@ -3097,23 +2893,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '1160074038',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Einzelausstellung',
-          language: 'de',
-        },
-        {
-          name: 'solo exhibition',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4014102-0',
     },
     relations: {
@@ -3352,23 +3131,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4188477-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Ethnologisches Museum',
-          language: 'de',
-        },
-        {
-          name: 'ethnological museums ',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '7641109-6',
     },
     relations: {
@@ -3565,7 +3327,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'colour print',
+          name: 'colour woodblock print',
           language: 'en',
         },
       ],
@@ -3736,23 +3498,6 @@ const tags = [
         },
         {
           name: 'film installation',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4382428-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Filmmuseum',
-          language: 'de',
-        },
-        {
-          name: 'film museum',
           language: 'en',
         },
       ],
@@ -3991,23 +3736,6 @@ const tags = [
         },
         {
           name: 'photography',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4174498-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Fotografiemuseum',
-          language: 'de',
-        },
-        {
-          name: 'photography museum',
           language: 'en',
         },
       ],
@@ -4270,23 +3998,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4155353-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Freizeitangebot',
-          language: 'de',
-        },
-        {
-          name: 'leisure facilities',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4018391-9',
     },
     relations: {
@@ -4406,23 +4117,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4166030-4',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Galerie',
-          language: 'de',
-        },
-        {
-          name: 'gallery',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '1076249337',
     },
     relations: {
@@ -4491,23 +4185,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4255674-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Gastspiel',
-          language: 'de',
-        },
-        {
-          name: 'guest performance',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4369798-7',
     },
     relations: {
@@ -4535,23 +4212,6 @@ const tags = [
         },
         {
           name: 'commemorative ceremony',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4019622-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Gedenkstätte',
-          language: 'de',
-        },
-        {
-          name: 'memorial',
           language: 'en',
         },
       ],
@@ -4661,16 +4321,16 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4359483-9',
+      gndId: '4020227-6',
     },
     relations: {
       translations: [
         {
-          name: 'Geologisches Museum',
+          name: 'Geologie',
           language: 'de',
         },
         {
-          name: 'geological museum',
+          name: 'geology',
           language: 'en',
         },
       ],
@@ -4739,23 +4399,6 @@ const tags = [
         },
         {
           name: 'history',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4160032-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Geschichtsmuseum',
-          language: 'de',
-        },
-        {
-          name: 'historical museum',
           language: 'en',
         },
       ],
@@ -5052,6 +4695,23 @@ const tags = [
   },
   {
     attributes: {
+      gndId: '4023287-6',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Handschriften',
+          language: 'de',
+        },
+        {
+          name: 'manuscripts',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
       gndId: '7507261-0',
     },
     relations: {
@@ -5062,6 +4722,23 @@ const tags = [
         },
         {
           name: 'manuscript collection',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
+      gndId: '4023299-2',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Handwerk',
+          language: 'de',
+        },
+        {
+          name: 'handicrafts',
           language: 'en',
         },
       ],
@@ -5210,7 +4887,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Hip Hop',
+          name: 'Hip-Hop',
           language: 'de',
         },
         {
@@ -5256,40 +4933,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4308687-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Hochschularchiv',
-          language: 'de',
-        },
-        {
-          name: 'academic archive',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4160196-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Hochschulbibliothek',
-          language: 'de',
-        },
-        {
-          name: 'university library',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4025736-8',
     },
     relations: {
@@ -5299,7 +4942,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'wood-engraving',
+          name: 'woodcut',
           language: 'en',
         },
       ],
@@ -5334,23 +4977,6 @@ const tags = [
         },
         {
           name: 'radio broadcasting',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4025435-5',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Hörspiel',
-          language: 'de',
-        },
-        {
-          name: 'radio plays',
           language: 'en',
         },
       ],
@@ -5635,7 +5261,7 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Industrielle Revolution ',
+          name: 'Industrielle Revolution',
           language: 'de',
         },
         {
@@ -5758,7 +5384,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'instrumental ',
+          name: 'instrumental',
           language: 'en',
         },
       ],
@@ -6191,23 +5817,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4130814-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Jugendbibliothek',
-          language: 'de',
-        },
-        {
-          name: "young adults' library",
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4114114-3',
     },
     relations: {
@@ -6218,40 +5827,6 @@ const tags = [
         },
         {
           name: 'youth subculture',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4162844-5',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Jugendkunstschule',
-          language: 'de',
-        },
-        {
-          name: 'youth art school',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4028911-4',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Jugendliteratur',
-          language: 'de',
-        },
-        {
-          name: 'young adult literature',
           language: 'en',
         },
       ],
@@ -6293,23 +5868,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4162874-3',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Jugendtheater',
-          language: 'de',
-        },
-        {
-          name: 'youth theatre',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4075272-0',
     },
     relations: {
@@ -6320,23 +5878,6 @@ const tags = [
         },
         {
           name: 'neolithic period',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4276164-5',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Juristische Bibliothek',
-          language: 'de',
-        },
-        {
-          name: 'law library',
           language: 'en',
         },
       ],
@@ -6412,23 +5953,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4631768-5',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kammerorchester',
-          language: 'de',
-        },
-        {
-          name: 'chamber orchestra',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4364037-0',
     },
     relations: {
@@ -6480,16 +6004,33 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4418364-1',
+      gndId: '4029783-4 ',
     },
     relations: {
       translations: [
         {
-          name: 'Keramikmuseum',
+          name: 'Karten (Kartograpfie)',
           language: 'de',
         },
         {
-          name: 'ceramics museum',
+          name: 'maps',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
+      gndId: '4030270-2',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Keramik',
+          language: 'de',
+        },
+        {
+          name: 'ceramics',
           language: 'en',
         },
       ],
@@ -6514,23 +6055,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4130812-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kinderbibliothek',
-          language: 'de',
-        },
-        {
-          name: "children's library",
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '7607723-8',
     },
     relations: {
@@ -6541,23 +6065,6 @@ const tags = [
         },
         {
           name: "children's concert",
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4073409-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kinderliteratur',
-          language: 'de',
-        },
-        {
-          name: "children's literature",
           language: 'en',
         },
       ],
@@ -6660,23 +6167,6 @@ const tags = [
         },
         {
           name: 'soundart',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4030960-5',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Klassik',
-          language: 'de',
-        },
-        {
-          name: 'classic (arts)',
           language: 'en',
         },
       ],
@@ -6881,23 +6371,6 @@ const tags = [
         },
         {
           name: 'communism',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4130470-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kongress',
-          language: 'de',
-        },
-        {
-          name: 'congress',
           language: 'en',
         },
       ],
@@ -7267,28 +6740,11 @@ const tags = [
     relations: {
       translations: [
         {
-          name: 'Kunst am Bau ',
+          name: 'Kunst am Bau',
           language: 'de',
         },
         {
           name: 'percent for art',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '1024012069',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kunst im Öffentlichen Raum',
-          language: 'de',
-        },
-        {
-          name: 'art in public space',
           language: 'en',
         },
       ],
@@ -7330,23 +6786,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4166030-4',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kunstgalerie',
-          language: 'de',
-        },
-        {
-          name: 'art gallery',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '7503709-9',
     },
     relations: {
@@ -7357,23 +6796,6 @@ const tags = [
         },
         {
           name: 'art history',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4542688-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kunstgewerbemuseum',
-          language: 'de',
-        },
-        {
-          name: 'museum of applied arts',
           language: 'en',
         },
       ],
@@ -7483,23 +6905,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4537940-3',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kunstmesse',
-          language: 'de',
-        },
-        {
-          name: 'art fair',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4136702-9',
     },
     relations: {
@@ -7534,23 +6939,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4166045-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kunstschule',
-          language: 'de',
-        },
-        {
-          name: 'art school',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4208853-7',
     },
     relations: {
@@ -7561,23 +6949,6 @@ const tags = [
         },
         {
           name: 'art scene',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4166085-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Kunstverein',
-          language: 'de',
-        },
-        {
-          name: 'art association',
           language: 'en',
         },
       ],
@@ -7704,23 +7075,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4166544-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Landesbibliothek',
-          language: 'de',
-        },
-        {
-          name: 'state libraries',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4166546-6',
     },
     relations: {
@@ -7731,23 +7085,6 @@ const tags = [
         },
         {
           name: 'regional history',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '7636604-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Lange Nacht',
-          language: 'de',
-        },
-        {
-          name: 'Long Night',
           language: 'en',
         },
       ],
@@ -8104,7 +7441,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'literary theory ',
+          name: 'literary theory',
           language: 'en',
         },
       ],
@@ -8156,23 +7493,6 @@ const tags = [
         },
         {
           name: 'lithography',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4570116-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Live-Auftritt',
-          language: 'de',
-        },
-        {
-          name: 'live performance',
           language: 'en',
         },
       ],
@@ -8418,23 +7738,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4169198-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Mediathek',
-          language: 'de',
-        },
-        {
-          name: 'media library',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4169187-8',
     },
     relations: {
@@ -8445,23 +7748,6 @@ const tags = [
         },
         {
           name: 'media',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4419791-3',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Medienarchiv',
-          language: 'de',
-        },
-        {
-          name: 'media archive',
           language: 'en',
         },
       ],
@@ -8564,23 +7850,6 @@ const tags = [
         },
         {
           name: 'medicine',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '1190744996',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Mehrspartentheater',
-          language: 'de',
-        },
-        {
-          name: 'Mehrspartentheater',
           language: 'en',
         },
       ],
@@ -8707,16 +7976,16 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4169944-0',
+      gndId: '7503813-4',
     },
     relations: {
       translations: [
         {
-          name: 'Militärgeschichtliches Museum',
+          name: 'Militärgeschichte',
           language: 'de',
         },
         {
-          name: 'military museums',
+          name: 'military history',
           language: 'en',
         },
       ],
@@ -8785,6 +8054,23 @@ const tags = [
         },
         {
           name: 'mixed media',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
+      gndId: '4039792-0 ',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Mode',
+          language: 'de',
+        },
+        {
+          name: 'fashion',
           language: 'en',
         },
       ],
@@ -8928,23 +8214,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4170640-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Mudéjarstil',
-          language: 'de',
-        },
-        {
-          name: 'Mudéjar art',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '7503840-7',
     },
     relations: {
@@ -8996,23 +8265,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4040795-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Museum',
-          language: 'de',
-        },
-        {
-          name: 'museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4170785-0',
     },
     relations: {
@@ -9040,23 +8292,6 @@ const tags = [
         },
         {
           name: 'museum education',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4040801-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Musical',
-          language: 'de',
-        },
-        {
-          name: 'musical',
           language: 'en',
         },
       ],
@@ -9098,23 +8333,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4128838-5',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Musikbibliothek',
-          language: 'de',
-        },
-        {
-          name: 'music library',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '7503845-6',
     },
     relations: {
@@ -9149,16 +8367,16 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4040874-7',
+      gndId: '4170831-3',
     },
     relations: {
       translations: [
         {
-          name: 'Musiktheater',
+          name: 'Musikinstrumente',
           language: 'de',
         },
         {
-          name: 'musical theatre',
+          name: 'musicology',
           language: 'en',
         },
       ],
@@ -9210,23 +8428,6 @@ const tags = [
         },
         {
           name: 'music interpretation',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4385404-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Musikwettbewerb',
-          language: 'de',
-        },
-        {
-          name: 'music competition',
           language: 'en',
         },
       ],
@@ -9336,23 +8537,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4120787-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Nationalarchiv',
-          language: 'de',
-        },
-        {
-          name: 'national archive',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4041316-0',
     },
     relations: {
@@ -9421,23 +8605,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4203075-4',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Naturkundemuseum',
-          language: 'de',
-        },
-        {
-          name: 'natural history museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4171301-1',
     },
     relations: {
@@ -9447,7 +8614,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'natural history collection ',
+          name: 'natural history collection',
           language: 'en',
         },
       ],
@@ -9702,7 +8869,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'new translation ',
+          name: 'new translation',
           language: 'en',
         },
       ],
@@ -9770,7 +8937,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'notturno',
+          name: 'nocturn',
           language: 'en',
         },
       ],
@@ -9846,23 +9013,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4043141-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Öffentliche Bibliothek',
-          language: 'de',
-        },
-        {
-          name: 'public library',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4529310-7',
     },
     relations: {
@@ -9907,23 +9057,6 @@ const tags = [
         },
         {
           name: 'online research',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Online-Sammlung',
-          language: 'de',
-        },
-        {
-          name: 'online collection',
           language: 'en',
         },
       ],
@@ -10009,57 +9142,6 @@ const tags = [
         },
         {
           name: 'open science',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4827203-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Open-air',
-          language: 'de',
-        },
-        {
-          name: 'open air festival',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4043582-9',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Oper',
-          language: 'de',
-        },
-        {
-          name: 'opera',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4043602-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Operette',
-          language: 'de',
-        },
-        {
-          name: 'operetta',
           language: 'en',
         },
       ],
@@ -10264,23 +9346,6 @@ const tags = [
         },
         {
           name: 'patent database',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4173750-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Performance',
-          language: 'de',
-        },
-        {
-          name: 'performance art',
           language: 'en',
         },
       ],
@@ -10883,16 +9948,16 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4248715-8',
+      gndId: '4047870-1',
     },
     relations: {
       translations: [
         {
-          name: 'Puppenmuseum',
+          name: 'Puppen',
           language: 'de',
         },
         {
-          name: 'doll museum',
+          name: 'dolls',
           language: 'en',
         },
       ],
@@ -10994,7 +10059,7 @@ const tags = [
           language: 'de',
         },
         {
-          name: 'ragtime ',
+          name: 'ragtime',
           language: 'en',
         },
       ],
@@ -11216,23 +10281,6 @@ const tags = [
         },
         {
           name: 'regional culture',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4470945-6',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Regionalmuseum',
-          language: 'de',
-        },
-        {
-          name: 'regional museum',
           language: 'en',
         },
       ],
@@ -11699,16 +10747,16 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4439619-3',
+      gndId: '4052945-9',
     },
     relations: {
       translations: [
         {
-          name: 'Schlossmuseum',
+          name: 'Schmuck',
           language: 'de',
         },
         {
-          name: 'Schlossmuseum',
+          name: 'jewellery',
           language: 'en',
         },
       ],
@@ -11726,23 +10774,6 @@ const tags = [
         },
         {
           name: 'Dark Romanticism',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '1206009179',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Science Slam',
-          language: 'de',
-        },
-        {
-          name: 'science slam',
           language: 'en',
         },
       ],
@@ -12243,57 +11274,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '7573257-9',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Spezialarchiv',
-          language: 'de',
-        },
-        {
-          name: 'special archive',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4182209-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Spezialbibliothek',
-          language: 'de',
-        },
-        {
-          name: 'special library',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4277672-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Spezialmuseum',
-          language: 'de',
-        },
-        {
-          name: 'special museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4056218-9',
     },
     relations: {
@@ -12304,23 +11284,6 @@ const tags = [
         },
         {
           name: 'game',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '7846292-7',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Spielstätte',
-          language: 'de',
-        },
-        {
-          name: 'performance venue',
           language: 'en',
         },
       ],
@@ -12355,57 +11318,6 @@ const tags = [
         },
         {
           name: 'square dance',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4191991-9',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Staatsarchiv',
-          language: 'de',
-        },
-        {
-          name: 'state archives',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4336196-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Stadtarchiv',
-          language: 'de',
-        },
-        {
-          name: 'municipal archives',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4182736-3',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Stadtbibliothek',
-          language: 'de',
-        },
-        {
-          name: 'municipal library',
           language: 'en',
         },
       ],
@@ -13042,23 +11954,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4184451-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Tanztheater',
-          language: 'de',
-        },
-        {
-          name: 'dance theatre',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4059038-0',
     },
     relations: {
@@ -13103,23 +11998,6 @@ const tags = [
         },
         {
           name: 'history of technology',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4184584-5',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Technisches Museum',
-          language: 'de',
-        },
-        {
-          name: 'museum of technology',
           language: 'en',
         },
       ],
@@ -13195,23 +12073,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '1083032054',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Textilmuseum',
-          language: 'de',
-        },
-        {
-          name: 'textile museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '1028845332',
     },
     relations: {
@@ -13263,6 +12124,23 @@ const tags = [
   },
   {
     attributes: {
+      gndId: '4133697-5 ',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Topographie',
+          language: 'de',
+        },
+        {
+          name: 'topography',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
       gndId: '4060087-7',
     },
     relations: {
@@ -13307,6 +12185,23 @@ const tags = [
         },
         {
           name: 'trance',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
+      gndId: '4060680-6',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Transportwesen',
+          language: 'de',
+        },
+        {
+          name: 'transportatino',
           language: 'en',
         },
       ],
@@ -13450,40 +12345,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4186930-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Universitätsarchiv',
-          language: 'de',
-        },
-        {
-          name: 'university archive',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4133334-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Universitätsbibliothek',
-          language: 'de',
-        },
-        {
-          name: 'academic libraries',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4276520-1',
     },
     relations: {
@@ -13528,6 +12389,23 @@ const tags = [
         },
         {
           name: 'urbanity',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
+      gndId: '4062132-7',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Urkunden',
+          language: 'de',
+        },
+        {
+          name: 'Urkunden (deeds)',
           language: 'en',
         },
       ],
@@ -13630,23 +12508,6 @@ const tags = [
         },
         {
           name: 'traffic',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4187821-8',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Verkehrsmuseum',
-          language: 'de',
-        },
-        {
-          name: 'transport museum',
           language: 'en',
         },
       ],
@@ -13902,23 +12763,6 @@ const tags = [
         },
         {
           name: 'wax museum',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '7511071-4',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Waffensammlung',
-          language: 'de',
-        },
-        {
-          name: 'weapon collection',
           language: 'en',
         },
       ],
@@ -14198,23 +13042,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4065835-1',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Wettbewerb',
-          language: 'de',
-        },
-        {
-          name: 'competition',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4235034-7',
     },
     relations: {
@@ -14266,16 +13093,16 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '7779708-5',
+      gndId: '4066399-1',
     },
     relations: {
       translations: [
         {
-          name: 'Wirtschaftsmuseum',
+          name: 'Wirtschaft',
           language: 'de',
         },
         {
-          name: 'economy museum',
+          name: 'economy',
           language: 'en',
         },
       ],
@@ -14293,23 +13120,6 @@ const tags = [
         },
         {
           name: 'science',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4066573-2',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Wissenschaftliche Bibliothek',
-          language: 'de',
-        },
-        {
-          name: 'scientific library',
           language: 'en',
         },
       ],
@@ -14504,23 +13314,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '4520724-0',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Zentralbibliothek',
-          language: 'de',
-        },
-        {
-          name: 'central library',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4190833-8',
     },
     relations: {
@@ -14531,6 +13324,23 @@ const tags = [
         },
         {
           name: 'Zimmertheater',
+          language: 'en',
+        },
+      ],
+    },
+  },
+  {
+    attributes: {
+      gndId: '4067878-7',
+    },
+    relations: {
+      translations: [
+        {
+          name: 'Zirkus',
+          language: 'de',
+        },
+        {
+          name: 'circus',
           language: 'en',
         },
       ],
@@ -14582,23 +13392,6 @@ const tags = [
         },
         {
           name: 'zoology',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '4636942-9',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Zoologisches Museum',
-          language: 'de',
-        },
-        {
-          name: 'zoological museum',
           language: 'en',
         },
       ],
@@ -15534,22 +14327,6 @@ const tags = [
         },
         {
           name: 'Europe',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Falklandinseln',
-          language: 'de',
-        },
-        {
           language: 'en',
         },
       ],
@@ -16560,22 +15337,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Macau',
-          language: 'de',
-        },
-        {
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4074425-5',
     },
     relations: {
@@ -16746,22 +15507,6 @@ const tags = [
   },
   {
     attributes: {
-      gndId: '',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Martinique',
-          language: 'de',
-        },
-        {
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
       gndId: '4039058-5',
     },
     relations: {
@@ -16874,22 +15619,6 @@ const tags = [
         },
         {
           name: 'Montenegro',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Montserrat',
-          language: 'de',
-        },
-        {
           language: 'en',
         },
       ],
@@ -17451,22 +16180,6 @@ const tags = [
         },
         {
           name: 'Puerto Rico',
-          language: 'en',
-        },
-      ],
-    },
-  },
-  {
-    attributes: {
-      gndId: '',
-    },
-    relations: {
-      translations: [
-        {
-          name: 'Polynesien',
-          language: 'de',
-        },
-        {
           language: 'en',
         },
       ],
