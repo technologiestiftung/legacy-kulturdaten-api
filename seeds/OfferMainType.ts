@@ -4,6 +4,10 @@ const types = [
     en: 'play',
   },
   {
+    de: 'Auktion',
+    en: 'auction ',
+  },
+  {
     de: 'the artist is present',
     en: 'the artist is present',
   },
@@ -36,6 +40,10 @@ const types = [
     en: 'DJ mixset',
   },
   {
+    de: 'Einführung in die Benutzung',
+    en: 'introduction to service users',
+  },
+  {
     de: 'Eröffnung',
     en: 'opening',
   },
@@ -56,6 +64,10 @@ const types = [
     en: 'closing',
   },
   {
+    de: 'Gastspiel',
+    en: 'guest performance',
+  },
+  {
     de: 'Gesprächsreihe',
     en: 'Gesprächsreihe',
   },
@@ -66,6 +78,14 @@ const types = [
   {
     de: 'Hackathon',
     en: 'hackathon',
+  },
+  {
+    de: 'Hörspiel',
+    en: 'radio play',
+  },
+  {
+    de: 'Hybridevent (online & vor Ort)',
+    en: 'hybrid event',
   },
   {
     de: 'Installation',
@@ -110,6 +130,10 @@ const types = [
   {
     de: 'Liederabend',
     en: 'song recital',
+  },
+  {
+    de: 'Live',
+    en: 'live',
   },
   {
     de: 'Messe',
@@ -172,6 +196,10 @@ const types = [
     en: 'writing class',
   },
   {
+    de: 'Science Slam',
+    en: 'science slam',
+  },
+  {
     de: 'Seminar',
     en: 'seminar',
   },
@@ -206,6 +234,10 @@ const types = [
   {
     de: 'Publikumsgespräch',
     en: 'Publikumsgespräch',
+  },
+  {
+    de: 'Wettbewerb',
+    en: 'competition',
   },
   {
     de: 'Wiederaufnahme',

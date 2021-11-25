@@ -1220,7 +1220,7 @@ const types = [
           relations: {
             translations: [
               {
-                name: 'Kabarret',
+                name: 'Kabarett',
                 language: 'de',
               },
               {
