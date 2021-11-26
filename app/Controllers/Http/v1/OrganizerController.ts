@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ApiDocument } from 'App/Helpers/Api/Document';
 import Organizer, { OrganizerStatus } from 'App/Models/Organizer/Organizer';
 import OrganizerManager from 'App/Helpers/Managers/OrganizerManager';
+import { OrganizerTransformer } from 'App/Helpers/Api/Transformers/OrganizerTransformer';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OrganizerController {
@@ -11,6 +12,7 @@ export default class OrganizerController {
 
     return new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,
+      transformer: OrganizerTransformer,
     });
   }
 
@@ -30,7 +32,10 @@ export default class OrganizerController {
     const organizer: Organizer = manager.instance;
     const publishable = await organizer.publishable();
 
-    return new ApiDocument(ctx, manager.toResources(), { publishable });
+    return new ApiDocument(ctx, manager.toResources(), {
+      publishable,
+      transformer: OrganizerTransformer,
+    });
   }
 
   public async update(ctx: HttpContextContract) {

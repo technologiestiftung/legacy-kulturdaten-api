@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ApiDocument } from 'App/Helpers/Api/Document';
 import Offer, { OfferStatus } from 'App/Models/Offer/Offer';
 import OfferManager from 'App/Helpers/Managers/OfferManager';
+import { OfferTransformer } from 'App/Helpers/Api/Transformers/OfferTransformer';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OfferController {
@@ -11,6 +12,7 @@ export default class OfferController {
 
     return new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,
+      transformer: OfferTransformer,
     });
   }
 
@@ -29,7 +31,10 @@ export default class OfferController {
     const offer: Offer = manager.instance;
     const publishable = await offer.publishable();
 
-    return new ApiDocument(ctx, manager.toResources(), { publishable });
+    return new ApiDocument(ctx, manager.toResources(), {
+      publishable,
+      transformer: OfferTransformer,
+    });
   }
 
   public async update(ctx: HttpContextContract) {

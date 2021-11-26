@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ApiDocument } from 'App/Helpers/Api/Document';
 import Location, { LocationStatus } from 'App/Models/Location/Location';
 import LocationManager from 'App/Helpers/Managers/LocationManager';
+import { LocationTransformer } from 'App/Helpers/Api/Transformers/LocationTransformer';
 
 // TODO(matthiasrohmer): Add permissions
 export default class LocationController {
@@ -11,6 +12,7 @@ export default class LocationController {
 
     return new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,
+      transformer: LocationTransformer,
     });
   }
 
@@ -28,7 +30,10 @@ export default class LocationController {
     const location: Location = manager.instance;
     const publishable = await location.publishable();
 
-    return new ApiDocument(ctx, manager.toResources(), { publishable });
+    return new ApiDocument(ctx, manager.toResources(), {
+      publishable,
+      transformer: LocationTransformer,
+    });
   }
 
   public async update(ctx: HttpContextContract) {

@@ -17,6 +17,7 @@ interface ApiDocumentMeta {
   paginator?:
     | ModelPaginatorContract<LucidRow>
     | SimplePaginatorContract<LucidRow>;
+  transformer?: any;
   pages?: {
     total: number;
     perPage: number;
@@ -44,9 +45,13 @@ export class ApiDocument {
 
   public language: string;
 
+  public format: string;
+
   public data: ApiDocumentData;
 
   public meta: ApiDocumentMeta;
+
+  private transformer: any;
 
   public links: ApiDocumentLinks;
 
@@ -65,6 +70,12 @@ export class ApiDocument {
   ) {
     this.ctx = ctx;
     this.language = ctx.language as string;
+    this.format = this.ctx.request.input('format') || 'json';
+
+    if (meta.transformer) {
+      this.transformer = meta.transformer;
+      delete meta.transformer;
+    }
 
     if (resource) {
       this.data = this.$transformResource(resource);
@@ -104,59 +115,66 @@ export class ApiDocument {
 
   private $transformResource(resource: ApiResource): ApiDocumentData {
     if (Array.isArray(resource)) {
-      return resource.map(this.$getResourceObject);
+      return resource.map(this.$getResourceObject.bind(this));
     }
 
     return this.$getResourceObject(resource);
   }
 
-  private $getResourceObject(
-    instance: Resource | typeof BaseModel
-  ): ResourceObject {
+  private $getResourceObject(instance: Resource | typeof BaseModel) {
+    let resourceObject = {};
     if (instance instanceof BaseModel) {
       const resource = new Resource(instance);
       resource.boot();
-      return resource.toObject();
+
+      resourceObject = resource.toObject();
+    } else {
+      const resource: Resource = instance as Resource;
+      resourceObject = resource.toObject();
     }
 
-    const resource: Resource = instance as Resource;
-    return resource.toObject();
+    if (this.transformer) {
+      const transformer = new this.transformer(this.ctx, resourceObject);
+      transformer.run();
+    }
+
+    if (this.format === 'xls') {
+      resourceObject = this.$flattenResourceObject(resourceObject);
+    }
+
+    return resourceObject;
   }
 
-  private $flatDataItem(ob) {
-    let toReturn = {};
+  private $flattenResourceObject(resource) {
+    let flatResource = {};
 
-    for (let i in ob) {
-      if (!ob.hasOwnProperty(i)) continue;
-      if (i === 'type' || i === 'id') continue;
+    for (let i in resource) {
+      if (!resource.hasOwnProperty(i)) continue;
 
-      if (typeof ob[i] === 'object' && ob[i] !== null) {
-        let flatObject = this.$flatDataItem(ob[i]);
+      if (typeof resource[i] === 'object' && resource[i] !== null) {
+        let flatObject = this.$flattenResourceObject(resource[i]);
         for (let x in flatObject) {
           if (!flatObject.hasOwnProperty(x)) continue;
 
-          toReturn[i + '.' + x] = flatObject[x];
+          flatResource[i + '.' + x] = flatObject[x];
         }
       } else {
-        toReturn[i] = ob[i];
+        flatResource[i] = resource[i];
       }
     }
-    return toReturn;
+    return flatResource;
   }
 
-  private $export() {
-    const workbook = XLSX.utils.book_new();
+  private $toXlsDocument() {
     const data = types.isArray(this.data) ? this.data : [this.data];
 
-    if (!data.length) {
-      return;
-    }
-
     const type = data[0].type;
+    const fileName = `${Date.now()}_${type}.xls`;
+    const workbook = XLSX.utils.book_new();
 
     const rows = [];
     for (const item of data) {
-      rows.push(Object.assign({ id: item.id }, this.$flatDataItem(item)));
+      rows.push(Object.assign({ id: item.id }, item));
     }
 
     const worksheet = XLSX.utils.json_to_sheet(rows);
@@ -164,21 +182,23 @@ export class ApiDocument {
 
     const buffer = XLSX.write(workbook, { type: 'buffer' });
 
-    this.ctx.response.header(
-      'content-type',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    );
-    this.ctx.response.header('Content-Length', Buffer.byteLength(buffer));
-    this.ctx.response.header(
-      'Content-Disposition',
-      `attachment; filename=${Date.now()}_${type}.xls`
-    );
-    this.ctx.response.send(buffer);
+    return [fileName, buffer];
   }
 
   public send() {
     if (this.ctx.request.input('format') === 'xls') {
-      this.$export();
+      const [fileName, buffer] = this.$toXlsDocument();
+
+      this.ctx.response.header(
+        'content-type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      );
+      this.ctx.response.header('Content-Length', Buffer.byteLength(buffer));
+      this.ctx.response.header(
+        'Content-Disposition',
+        `attachment; filename=${fileName}`
+      );
+      this.ctx.response.send(buffer);
       return;
     }
 
