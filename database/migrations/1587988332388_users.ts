@@ -14,6 +14,10 @@ export default class UsersSchema extends BaseSchema {
       table
         .enu('status', [UserStatus.ACTIVE, UserStatus.INACTIVE])
         .defaultTo(UserStatus.INACTIVE);
+
+      table.dateTime('accepted_terms_at', { useTz: true });
+      table.dateTime('deletion_requested_at', { useTz: true });
+
       table.timestamps(true);
     });
   }

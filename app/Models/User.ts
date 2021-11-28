@@ -2,15 +2,11 @@ import { DateTime } from 'luxon';
 import Hash from '@ioc:Adonis/Core/Hash';
 import {
   column,
-  computed,
   beforeSave,
   BaseModel,
   hasMany,
   HasMany,
-  manyToMany,
-  ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm';
-import Organizer from 'App/Models/Organizer/Organizer';
 import { OrganizerRole, LocationRole, OfferRole } from 'App/Models/Roles';
 
 export enum UserStatus {
@@ -51,6 +47,12 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
+
+  @column.dateTime({ autoCreate: true })
+  public acceptedTermsAt: DateTime;
+
+  @column.dateTime({ autoCreate: true })
+  public deletionRequestedAt: DateTime;
 
   @beforeSave()
   public static async hashPassword(user: User) {
