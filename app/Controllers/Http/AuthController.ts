@@ -15,7 +15,7 @@ import { ApiDocument } from 'App/Helpers/Api/Document';
 import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import Resource from 'App/Helpers/Api/Resource';
 
-export default class UsersController {
+export default class AuthController {
   public async info(ctx: HttpContextContract) {
     const { auth, response } = ctx;
     const user = auth.user;

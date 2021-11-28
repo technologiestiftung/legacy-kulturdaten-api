@@ -33,9 +33,11 @@ Route.group(() => {
   Route.post('info', 'AuthController.info').as('info');
   Route.post('validate', 'AuthController.validate').as('validate');
   Route.post('logout', 'AuthController.logout').as('logout');
+
+  Route.post('/', 'UserController.update').as('update');
 })
-  .prefix('auth')
-  .as('auth');
+  .prefix('user')
+  .as('user');
 
 Route.group(() => {
   Route.get('', 'InvitationController.index').as('index');
