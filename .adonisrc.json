@@ -20,12 +20,7 @@
     "./start/events",
     "./start/boot",
     "./start/bouncer",
-    {
-      "file": "./start/validator",
-      "environment": [
-        "web"
-      ]
-    }
+    "./start/validator"
   ],
   "providers": [
     "./providers/AppProvider",
@@ -36,9 +31,7 @@
     "@adonisjs/view",
     "@adonisjs/bouncer"
   ],
-  "aceProviders": [
-    "@adonisjs/repl"
-  ],
+  "aceProviders": ["@adonisjs/repl"],
   "metaFiles": [
     ".env",
     ".adonisrc.json",
