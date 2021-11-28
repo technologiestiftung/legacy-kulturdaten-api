@@ -52,6 +52,9 @@ export default class OfferDate extends BaseModel {
   public status: string;
 
   @column()
+  public hasBreaks: boolean;
+
+  @column()
   public hasFee: boolean;
 
   @column()
