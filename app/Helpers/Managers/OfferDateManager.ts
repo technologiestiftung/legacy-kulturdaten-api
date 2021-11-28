@@ -127,6 +127,7 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
       offerDate = await offer.related('dates').create({
         startsAt: attributes.startsAt,
         endsAt: attributes.endsAt,
+        hasBreaks: attributes.hasBreaks || false,
         needsRegistration: attributes.needsRegistration || false,
         hasFee: attributes.hasFee || false,
         ticketUrl: attributes.ticketUrl || undefined,
