@@ -166,7 +166,8 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       dates.map((ruleDate) => {
         const startsAt = DateTime.fromJSDate(ruleDate)
           .toUTC()
-          .setZone('local', { keepLocalTime: true });
+          .setZone('local', { keepLocalTime: true })
+          .set({ hour: meta.startsAt.hour, minute: meta.startsAt.minute });
         const endsAt = startsAt.plus(duration);
 
         return {
