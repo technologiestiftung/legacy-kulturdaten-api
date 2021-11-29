@@ -19,6 +19,7 @@ export default class OfferDates extends BaseSchema {
       table.dateTime('starts_at', { useTz: true });
       table.dateTime('ends_at', { useTz: true });
       table.boolean('has_breaks');
+      table.boolean('has_fee');
       table.boolean('needs_registration');
       table.string('ticket_url');
       table.string('registration_url');
