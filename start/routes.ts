@@ -33,11 +33,10 @@ Route.group(() => {
   Route.post('info', 'AuthController.info').as('info');
   Route.post('validate', 'AuthController.validate').as('validate');
   Route.post('logout', 'AuthController.logout').as('logout');
-
-  Route.post('/', 'UserController.update').as('update');
 })
-  .prefix('user')
+  .prefix('auth')
   .as('user');
+Route.post('/user', 'UserController.update').as('user.update');
 
 Route.group(() => {
   Route.get('', 'AppTokenController.index').as('index');
