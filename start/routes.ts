@@ -40,6 +40,14 @@ Route.group(() => {
   .as('user');
 
 Route.group(() => {
+  Route.get('', 'AppTokenController.index').as('index');
+  Route.post('', 'AppTokenController.store').as('store');
+  Route.delete('', 'AppTokenController.destroy').as('destroy');
+})
+  .prefix('appToken')
+  .as('appToken');
+
+Route.group(() => {
   Route.get('', 'InvitationController.index').as('index');
   Route.post('', 'InvitationController.store').as('store');
   Route.delete('/:id', 'InvitationController.destroy').as('destroy');
