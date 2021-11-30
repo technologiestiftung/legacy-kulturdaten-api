@@ -12,6 +12,7 @@ import { LoggerConfig } from '@ioc:Adonis/Core/Logger';
 import { ProfilerConfig } from '@ioc:Adonis/Core/Profiler';
 import { ValidatorConfig } from '@ioc:Adonis/Core/Validator';
 import { Languages } from 'App/Helpers/Languages';
+import { DateTime } from 'luxon';
 
 /*
 |--------------------------------------------------------------------------
@@ -241,3 +242,9 @@ export const allowedCountries = ['DE'];
 export const defaultLanguage = Languages.DE;
 
 export const defaultCountry = 'DE';
+
+export const termsUpdatedAt = DateTime.fromObject({
+  year: 2021,
+  month: 11,
+  day: 30,
+});

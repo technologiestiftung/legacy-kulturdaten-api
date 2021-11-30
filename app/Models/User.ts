@@ -6,8 +6,10 @@ import {
   BaseModel,
   hasMany,
   HasMany,
+  computed,
 } from '@ioc:Adonis/Lucid/Orm';
 import { OrganizerRole, LocationRole, OfferRole } from 'App/Models/Roles';
+import { termsUpdatedAt } from 'Config/app';
 
 export enum UserStatus {
   ACTIVE = 'active',
@@ -50,6 +52,11 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true })
   public acceptedTermsAt: DateTime;
+
+  @computed()
+  public get hasAcceptedCurrentTerms() {
+    return termsUpdatedAt <= this.acceptedTermsAt;
+  }
 
   @column.dateTime({ autoCreate: true })
   public deletionRequestedAt: DateTime | null;

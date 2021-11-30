@@ -14,6 +14,7 @@ import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 import { ApiDocument } from 'App/Helpers/Api/Document';
 import Resource from 'App/Helpers/Api/Resource';
 import { UserUpdateValidator } from 'App/Validators/UserValidator';
+import { termsUpdatedAt } from 'Config/app';
 
 export default class UserController {
   public async update(ctx: HttpContextContract) {
@@ -35,6 +36,8 @@ export default class UserController {
     const resource = new Resource(user);
     resource.boot();
 
-    return new ApiDocument(ctx, resource);
+    return new ApiDocument(ctx, resource, {
+      termsUpdatedAt,
+    });
   }
 }
