@@ -52,7 +52,7 @@ export default class User extends BaseModel {
   public acceptedTermsAt: DateTime;
 
   @column.dateTime({ autoCreate: true })
-  public deletionRequestedAt: DateTime;
+  public deletionRequestedAt: DateTime | null;
 
   @beforeSave()
   public static async hashPassword(user: User) {

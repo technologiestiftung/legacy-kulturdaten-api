@@ -23,8 +23,13 @@ export default class UserController {
       throw new UnauthorizedException();
     }
 
-    const { attributes } = await request.validate(UserUpdateValidator);
+    const { attributes, meta } = await request.validate(UserUpdateValidator);
     user.merge(attributes);
+
+    if (meta?.abortDeletionRequest) {
+      user.deletionRequestedAt = null;
+    }
+
     await user.save();
 
     const resource = new Resource(user);

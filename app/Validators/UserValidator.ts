@@ -19,6 +19,9 @@ export class UserUpdateValidator {
       acceptedTermsAt: schema.date.optional(),
       deletionRequestedAt: schema.date.optional(),
     }),
+    meta: schema.object.optional().members({
+      abortDeletionRequest: schema.boolean(),
+    }),
   });
 
   public cacheKey = this.context.routeKey;
