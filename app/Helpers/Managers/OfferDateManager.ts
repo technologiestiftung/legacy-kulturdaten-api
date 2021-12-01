@@ -37,6 +37,10 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
         name: 'startsAt',
         attribute: 'starts_at',
       },
+      {
+        name: 'endsAt',
+        attribute: 'ends_at',
+      },
     ],
     filters: [
       {
