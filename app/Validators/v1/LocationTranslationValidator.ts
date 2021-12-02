@@ -12,7 +12,9 @@ export class PublishLocationTranslationValidator {
   public schema = schema.create({
     attributes: schema.object().members({
       name: schema.string({ trim: true }, [rules.maxLength(100)]),
-      description: schema.string({ trim: true }, [rules.description()]),
+      description: schema.string.optional({ trim: true }, [
+        rules.description(),
+      ]),
       openingHours: schema.string.optional({ trim: true }),
       language: schema.enum(allowedLanguages),
     }),
