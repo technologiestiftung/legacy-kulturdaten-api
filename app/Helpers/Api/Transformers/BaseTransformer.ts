@@ -75,14 +75,15 @@ export class BaseTransformer {
       // need to be further evaluated
       if (array) {
         for (let index = 0; index < array.length; index++) {
-          return this.strip(
+          this.strip(
             key.replace(WILDCARD_INDEX_PATTERN, `.${index.toString()}.`)
           );
         }
       }
     }
-
-    unset(this.resource, key);
+    if (!key.includes(WILDCARD_INDEX_PATTERN)) {
+      unset(this.resource, key);
+    }
   }
 
   public run() {
