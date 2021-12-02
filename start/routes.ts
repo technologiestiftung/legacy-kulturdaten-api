@@ -27,6 +27,18 @@ Route.get('/', async () => {
 Route.get('/health', 'HealthController.index').as('health');
 
 Route.group(() => {
+  Route.group(() => {
+    Route.get('', 'Admin/UserController.index').as('index');
+    Route.post('', 'Admin/UserController.store').as('create');
+    Route.patch(':id', 'Admin/UserController.update').as('update');
+  })
+    .prefix('user')
+    .as('user');
+})
+  .prefix('admin')
+  .as('admin');
+
+Route.group(() => {
   Route.post('register', 'AuthController.register').as('register');
   Route.get('verify/:email', 'AuthController.verify').as('verify');
   Route.post('login', 'AuthController.login').as('login');

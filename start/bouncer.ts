@@ -6,6 +6,7 @@
  */
 
 import Bouncer from '@ioc:Adonis/Addons/Bouncer';
+import User from 'App/Models/User';
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,15 @@ import Bouncer from '@ioc:Adonis/Addons/Bouncer';
 | NOTE: Always export the "actions" const from this file
 |****************************************************************
 */
-export const { actions } = Bouncer;
+export const { actions } = Bouncer.define('superuser', (user: User) => {
+  if (user.isSuperuser) {
+    return true;
+  }
+
+  // Pretend admin routes do not exist for users trying
+  // to fiddle around with them unauthenticated
+  return Bouncer.deny('Not found', 404);
+});
 
 /*
 |--------------------------------------------------------------------------
