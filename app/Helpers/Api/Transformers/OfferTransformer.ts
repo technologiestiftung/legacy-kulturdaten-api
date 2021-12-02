@@ -4,7 +4,6 @@ export class OfferTransformer extends BaseTransformer {
   public run() {
     this.stripMany(
       [
-        'type',
         'attributes.createdAt',
         'attributes.updatedAt',
         'relations.translations.[*].id',
@@ -46,6 +45,16 @@ export class OfferTransformer extends BaseTransformer {
         'relations.dates.[*].relations.translations.[*].attributes.language',
         'relations.audience.id',
         'relations.audience.type',
+        'relations.mainType.[*].id',
+        'relations.mainType.[*].type',
+        'relations.mainType.[*].relations.translations.[*].id',
+        'relations.mainType.[*].relations.translations.[*].type',
+        'relations.mainType.[*].relations.translations.[*].attributes.language',
+        'relations.type.[*].id',
+        'relations.type.[*].type',
+        'relations.type.[*].relations.translations.[*].id',
+        'relations.type.[*].relations.translations.[*].type',
+        'relations.type.[*].relations.translations.[*].attributes.language',
       ],
       {
         format: 'xls',
