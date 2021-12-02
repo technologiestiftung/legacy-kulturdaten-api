@@ -58,7 +58,7 @@ export default class User extends BaseModel {
     return termsUpdatedAt <= this.acceptedTermsAt;
   }
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime()
   public deletionRequestedAt: DateTime | null;
 
   @beforeSave()
