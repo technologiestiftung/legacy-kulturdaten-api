@@ -5,10 +5,8 @@ import Route from '@ioc:Adonis/Core/Route';
 
 export default class NewUserListener {
   public async sendVerificationMail(user: EventsList['new:user']) {
-    const signedUrl = Route.makeSignedUrl('auth.verify', {
-      params: {
-        email: user.email,
-      },
+    const signedUrl = Route.makeSignedUrl('user.verify', {
+      email: user.email,
     });
     const verificationUrl = `${Env.get('APP_URL') as string}${signedUrl}`;
 
