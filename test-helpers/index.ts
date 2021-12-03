@@ -8,6 +8,10 @@ export function post(path) {
   return supertest(BASE_URL).post(path).set('Accept', 'application/json');
 }
 
+export function patch(path) {
+  return supertest(BASE_URL).patch(path).set('Accept', 'application/json');
+}
+
 export function get(path) {
   return supertest(BASE_URL).get(path).set('Accept', 'application/json');
 }
@@ -18,7 +22,7 @@ export function destroy(path) {
 
 let token = null;
 export async function auth(fresh = false) {
-  const email = `test+${Date.now()}@kulturdaten.berlin`;
+  const email = `test${fresh ? '+' + Date.now() : ''}@kulturdaten.berlin`;
   const password = `${Date.now()}`;
 
   if (!token || fresh) {
