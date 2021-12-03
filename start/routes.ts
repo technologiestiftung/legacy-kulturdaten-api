@@ -36,19 +36,23 @@ Route.group(() => {
     .as('user');
 })
   .prefix('admin')
-  .as('admin');
+  .as('admin')
+  .middleware('auth:api');
 
 Route.group(() => {
   Route.post('register', 'AuthController.register').as('register');
   Route.get('verify/:email', 'AuthController.verify').as('verify');
   Route.post('login', 'AuthController.login').as('login');
-  Route.post('info', 'AuthController.info').as('info');
+  Route.post('info', 'AuthController.info').as('info').middleware('auth:api');
   Route.post('validate', 'AuthController.validate').as('validate');
-  Route.post('logout', 'AuthController.logout').as('logout');
+  Route.post('logout', 'AuthController.logout')
+    .as('logout')
+    .middleware('auth:api');
+
+  Route.post('', 'UserController.update').as('update');
 })
   .prefix('auth')
   .as('user');
-Route.post('/user', 'UserController.update').as('user.update');
 
 Route.group(() => {
   Route.get('', 'AppTokenController.index').as('index');
@@ -56,7 +60,8 @@ Route.group(() => {
   Route.delete('', 'AppTokenController.destroy').as('destroy');
 })
   .prefix('appToken')
-  .as('appToken');
+  .as('appToken')
+  .middleware('auth:api');
 
 Route.group(() => {
   Route.get('', 'InvitationController.index').as('index');
@@ -67,47 +72,47 @@ Route.group(() => {
   .as('invitation');
 
 Route.group(() => {
-  Route.group(() => {
-    Route.resource('tag', 'v1/TagController').only(['index', 'show']);
-    Route.resource('district', 'v1/DistrictController').only(['index', 'show']);
+  Route.resource('tag', 'v1/TagController').only(['index', 'show']);
+  Route.resource('district', 'v1/DistrictController').only(['index', 'show']);
 
-    Route.resource('mediaLicense', 'v1/MediaLicenseController').only([
-      'index',
-      'show',
-    ]);
-    Route.resource('media', 'v1/MediaController').only([
-      'show',
-      'update',
-      'destroy',
-    ]);
+  Route.resource('mediaLicense', 'v1/MediaLicenseController').only([
+    'index',
+    'show',
+  ]);
+  Route.resource('media', 'v1/MediaController').only([
+    'show',
+    'update',
+    'destroy',
+  ]);
 
-    Route.resource('organizerType', 'v1/OrganizerTypeController').apiOnly();
-    Route.resource(
-      'organizerType.organizerSubject',
-      'v1/OrganizerSubjectController'
-    ).apiOnly();
-    Route.resource('organizer', 'v1/OrganizerController').apiOnly();
+  Route.resource('organizerType', 'v1/OrganizerTypeController').apiOnly();
+  Route.resource(
+    'organizerType.organizerSubject',
+    'v1/OrganizerSubjectController'
+  ).apiOnly();
+  Route.resource('organizer', 'v1/OrganizerController').apiOnly();
 
-    Route.resource('location', 'v1/LocationController').apiOnly();
-    Route.get('location/:id/accessibility', 'v1/AccessibilityController.show');
-    Route.patch(
-      'location/:id/accessibility',
-      'v1/AccessibilityController.update'
-    );
-    Route.delete(
-      'location/:id/accessibility',
-      'v1/AccessibilityController.delete'
-    );
-    Route.get('location/:id/service', 'v1/ServiceController.show');
-    Route.patch('location/:id/service', 'v1/ServiceController.update');
-    Route.delete('location/:id/service', 'v1/ServiceController.delete');
+  Route.resource('location', 'v1/LocationController').apiOnly();
+  Route.get('location/:id/accessibility', 'v1/AccessibilityController.show');
+  Route.patch(
+    'location/:id/accessibility',
+    'v1/AccessibilityController.update'
+  );
+  Route.delete(
+    'location/:id/accessibility',
+    'v1/AccessibilityController.delete'
+  );
+  Route.get('location/:id/service', 'v1/ServiceController.show');
+  Route.patch('location/:id/service', 'v1/ServiceController.update');
+  Route.delete('location/:id/service', 'v1/ServiceController.delete');
 
-    Route.resource('offerMainType', 'v1/OfferMainTypeController').apiOnly();
-    Route.resource('offerType', 'v1/OfferTypeController').apiOnly();
-    Route.resource('offer', 'v1/OfferController').apiOnly();
-    Route.resource('offer.date', 'v1/OfferDateController').apiOnly();
-    Route.get('offer/:id/audience', 'v1/AudienceController.show');
-    Route.patch('offer/:id/audience', 'v1/AudienceController.update');
-    Route.delete('offer/:id/audience', 'v1/AudienceController.delete');
-  });
-}).prefix('v1');
+  Route.resource('offerMainType', 'v1/OfferMainTypeController').apiOnly();
+  Route.resource('offerType', 'v1/OfferTypeController').apiOnly();
+  Route.resource('offer', 'v1/OfferController').apiOnly();
+  Route.resource('offer.date', 'v1/OfferDateController').apiOnly();
+  Route.get('offer/:id/audience', 'v1/AudienceController.show');
+  Route.patch('offer/:id/audience', 'v1/AudienceController.update');
+  Route.delete('offer/:id/audience', 'v1/AudienceController.delete');
+})
+  .prefix('v1')
+  .middleware('auth:api,app');
