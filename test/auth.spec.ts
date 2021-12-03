@@ -12,7 +12,7 @@ test.group('Registering as a new user', () => {
 
   test('fails with unsufficient data and provides validation errors', async (assert) => {
     const response = await post('/auth/register/')
-      .send({ email: 'user@kulturdaten.berlin' })
+      .send({ email: `user+${Date.now()}@kulturdaten.berlin` })
       .expect(422);
     assert.lengthOf(response.body.errors, 1);
   });
@@ -24,11 +24,14 @@ test.group('Registering as a new user', () => {
       });
     });
 
+    const email = `user+${Date.now()}@kulturdaten.berlin`;
+    const password = `${Date.now()}`;
+
     const response = await post('/auth/register/')
       .send({
-        email: 'user@kulturdaten.berlin',
-        password: 'secret',
-        passwordConfirmation: 'secret',
+        email,
+        password,
+        passwordConfirmation: password,
       })
       .expect(200);
 
@@ -38,14 +41,15 @@ test.group('Registering as a new user', () => {
       response.body.data.attributes.email
     );
 
+    assert.equal(user.email, email);
     assert.equal(response.body.data.attributes.email, user.email);
-    assert.equal(message.to[0].address, 'user@kulturdaten.berlin');
+    assert.equal(message.to[0].address, email);
 
     Mail.restore();
   });
 });
 
-test.group('Unuthenticated users', (group) => {
+test.group('Unauthenticated users', (group) => {
   test('can not fetch user info', async (assert) => {
     await post('/auth/info/').expect(401);
   });
@@ -70,22 +74,30 @@ test.group('Logging in', () => {
   });
 
   test('fails for an unverified user', async (assert) => {
+    const email = `user+${Date.now()}@kulturdaten.berlin`;
+    const password = `${Date.now()}`;
+
+    const user = await User.create({ email, password });
+
     const response = await post('/auth/login/')
-      .send({ email: 'user@kulturdaten.berlin', password: 'secret' })
+      .send({ email, password })
       .expect(428);
   });
 
   test('as a verified user returns an auth token', async (assert) => {
-    // Force verify the test user here, to work around
-    // testing the /verify endpoint
-    const user = await User.findBy('email', 'user@kulturdaten.berlin');
-    user.status = UserStatus.ACTIVE;
-    await user.save();
+    const email = `user+${Date.now()}@kulturdaten.berlin`;
+    const password = `${Date.now()}`;
+
+    const user = await User.create({
+      email,
+      password,
+      status: UserStatus.ACTIVE,
+    });
 
     const response = await post('/auth/login/')
       .send({
-        email: 'user@kulturdaten.berlin',
-        password: 'secret',
+        email,
+        password,
       })
       .expect(200);
 

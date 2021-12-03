@@ -18,28 +18,26 @@ export function destroy(path) {
 
 let token = null;
 export async function auth(fresh = false) {
-  if (!token) {
-    const testUser = new User();
-    testUser.email = 'test@kulturdaten.berlin';
-    testUser.password = 'secret';
-    testUser.status = UserStatus.ACTIVE;
-    await testUser.save();
+  const email = `test+${Date.now()}@kulturdaten.berlin`;
+  const password = `${Date.now()}`;
 
-    const { body } = await post('/auth/login/').send({
-      email: 'test@kulturdaten.berlin',
-      password: 'secret',
+  if (!token || fresh) {
+    await User.create({
+      email,
+      password,
+      status: UserStatus.ACTIVE,
     });
 
-    token = body.meta.token.token;
-  }
-
-  if (fresh) {
     const { body } = await post('/auth/login/').send({
-      email: 'test@kulturdaten.berlin',
-      password: 'secret',
+      email,
+      password,
     });
 
-    return body.meta.token;
+    if (!token && !fresh) {
+      token = body.meta.token.token;
+    } else {
+      return body.meta.token.token;
+    }
   }
 
   return token;
