@@ -48,7 +48,6 @@ export async function publishable(
     // even if there is no german/default translation
     let defaultTranslation = { attributes: {} };
     if (translations) {
-      console.log({ translations });
       defaultTranslation = translations.find((translation) => {
         return translation.attributes?.language === defaultLanguage;
       }) || { attributes: {} };
