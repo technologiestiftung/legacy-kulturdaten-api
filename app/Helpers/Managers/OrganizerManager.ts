@@ -243,9 +243,11 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       .fill({
         organizerId: organizer.publicId,
         userId: this.ctx.auth.user!.id,
+        email: this.ctx.auth.user!.email,
         role: Roles.OWNER,
       })
       .save();
+    await organizer.load('roles');
 
     this.instance = organizer;
     return this.instance;
