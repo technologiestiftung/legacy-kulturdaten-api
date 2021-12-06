@@ -186,7 +186,7 @@ export class ApiDocument {
       type || FALLBACK_EXPORT_TYPE
     );
 
-    const buffer = XLSX.write(workbook, { type: 'buffer' });
+    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xls' });
 
     return [fileName, buffer];
   }
