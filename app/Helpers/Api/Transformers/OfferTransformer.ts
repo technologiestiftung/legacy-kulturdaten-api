@@ -1,8 +1,24 @@
 import { BaseTransformer } from 'App/Helpers/Api/Transformers/BaseTransformer';
-import { transformTranslationsForXls } from 'App/Helpers/Utilities';
+import {
+  transformTranslationsForXls,
+  transformCategorizationsForXls,
+} from 'App/Helpers/Utilities';
 
 export class OfferTransformer extends BaseTransformer {
   public run() {
+    this.transformMany(
+      [
+        'relations.mainType',
+        'relations.types',
+        'relations.subjects',
+        'relations.tags',
+      ],
+      transformCategorizationsForXls,
+      {
+        format: 'xls',
+      }
+    );
+
     this.transformMany(
       [
         'relations.translations',
@@ -10,6 +26,7 @@ export class OfferTransformer extends BaseTransformer {
         'relations.contributors.[*].relations.translations',
         'relations.location.relations.translations',
         'relations.dates.[*].relations.translations',
+        'relations.mainType.[*].relations.translations',
       ],
       transformTranslationsForXls,
       {
@@ -44,6 +61,16 @@ export class OfferTransformer extends BaseTransformer {
         'relations.location.attributes.updatedAt',
         'relations.audience.id',
         'relations.audience.type',
+        'relations.mainType.[*].id',
+        'relations.mainType.[*].type',
+        'relations.mainType.[*].relations.translations.[*].id',
+        'relations.mainType.[*].relations.translations.[*].type',
+        'relations.mainType.[*].relations.translations.[*].attributes.language',
+        'relations.type.[*].id',
+        'relations.type.[*].type',
+        'relations.type.[*].relations.translations.[*].id',
+        'relations.type.[*].relations.translations.[*].type',
+        'relations.type.[*].relations.translations.[*].attributes.language',
       ],
       {
         format: 'xls',

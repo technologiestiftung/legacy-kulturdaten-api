@@ -49,7 +49,6 @@ export async function publishable(
     // even if there is no german/default translation
     let defaultTranslation = { attributes: {} };
     if (translations) {
-      console.log({ translations });
       defaultTranslation = translations.find((translation) => {
         return translation.attributes?.language === defaultLanguage;
       }) || { attributes: {} };
@@ -87,6 +86,36 @@ export function updateField(attributes, instance, key) {
   }
 
   instance[key] = value;
+}
+
+export function transformCategorizationsForXls(categorizations) {
+  function extractCategorizations(language) {
+    let mainTypes = [];
+    categorizations.find((categorization) => {
+      const translation = categorization.relations.translations.find(
+        (translation) => {
+          return (
+            translation.attributes &&
+            translation.attributes.language === language
+          );
+        }
+      );
+      if (!translation) {
+        return {};
+      }
+      mainTypes.push(translation.attributes.name);
+    });
+
+    if (!mainTypes.length) {
+      return {};
+    }
+
+    return mainTypes.join(', ');
+  }
+  return {
+    german: extractCategorizations(Languages.DE),
+    english: extractCategorizations(Languages.EN),
+  };
 }
 
 export function transformTranslationsForXls(translations) {
