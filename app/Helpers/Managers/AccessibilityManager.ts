@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import Database from '@ioc:Adonis/Lucid/Database';
 import BaseManager from 'App/Helpers/Managers/BaseManager';
 import { Accessibility, AccessibilityField } from 'App/Models/Location';
 import {
@@ -33,7 +34,14 @@ export default class AccessibilityManager extends BaseManager<
     });
 
     const existingFields = keys.length
-      ? await AccessibilityField.query().whereIn('key', keys)
+      ? await AccessibilityField.query()
+          .whereIn('key', keys)
+          .andWhere(
+            'accessibility_id',
+            Database.from('accessibilities')
+              .select('id')
+              .where('location_id', this.ctx.params.id)
+          )
       : [];
     return this.$updateMany(
       accessibility,

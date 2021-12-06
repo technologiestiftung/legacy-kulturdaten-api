@@ -21,7 +21,7 @@ export default class AudienceManager extends BaseManager<typeof Audience> {
     return super.query().preload('fields');
   }
 
-  private async $updateFields(accessibility, fields) {
+  private async $updateFields(audience, fields) {
     if (!fields.length) {
       return;
     }
@@ -31,10 +31,17 @@ export default class AudienceManager extends BaseManager<typeof Audience> {
     });
 
     const existingFields = keys.length
-      ? await AudienceField.query().whereIn('key', keys)
+      ? await AudienceField.query()
+          .whereIn('key', keys)
+          .andWhere(
+            'accessibility_id',
+            Database.from('audiences')
+              .select('id')
+              .where('offer_id', this.ctx.params.id)
+          )
       : [];
     return this.$updateMany(
-      accessibility,
+      audience,
       'fields',
       fields.map((field) => {
         for (const existingField of existingFields) {
@@ -54,8 +61,8 @@ export default class AudienceManager extends BaseManager<typeof Audience> {
       new UpdateAudienceValidator(this.ctx)
     );
 
-    const accessibility = await this.byId();
-    await this.$updateFields(accessibility, relations?.fields);
+    const audience = await this.byId();
+    await this.$updateFields(audience, relations?.fields);
 
     return this.instance;
   }
