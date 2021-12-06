@@ -5,7 +5,8 @@ import User from 'App/Models/User';
 test.group(
   'KDP-191: Altering organizer owner role does not create a second role for owner',
   async (group) => {
-    let organizerId, editorEmail;
+    let organizerId;
+    let editorEmail;
 
     test('Creating a new organizer adds the creating user as owner', async (assert) => {
       const response = await post('/v1/organizer/?include=roles')

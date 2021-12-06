@@ -7,7 +7,7 @@ test.group('Creating an organizer', () => {
     await post('/v1/organizer/').send({}).expect(401);
   });
 
-  test.skip'fails with unsufficient data and provides validation errors', async (assert) => {
+  test.skip('fails with unsufficient data and provides validation errors', async (assert) => {
     const response = await post('/v1/organizer/')
       .set('Authorization', `Bearer ${await auth()}`)
       .send({})
