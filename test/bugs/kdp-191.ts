@@ -1,9 +1,6 @@
 import test from 'japa';
 import { post, get, patch, auth } from '../../test-helpers';
 import User from 'App/Models/User';
-import { UserStatus } from 'App/Models/User';
-import Mail from '@ioc:Adonis/Addons/Mail';
-import { OrganizerFactory } from 'Database/factories/Organizer';
 
 test.group(
   'KDP-191: Altering organizer owner role does not create a second role for owner',
