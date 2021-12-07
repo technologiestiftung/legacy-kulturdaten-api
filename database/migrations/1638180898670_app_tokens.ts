@@ -4,10 +4,6 @@ export default class AppTokens extends BaseSchema {
   protected tableName = 'app_tokens';
 
   public async up() {
-    if (await this.schema.hasTable(this.tableName)) {
-      return;
-    }
-
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary();
       table
@@ -29,5 +25,7 @@ export default class AppTokens extends BaseSchema {
     });
   }
 
-  public async down() {}
+  public async down() {
+    this.schema.dropTable(this.tableName);
+  }
 }

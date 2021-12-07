@@ -24,6 +24,7 @@ export default class AppTokenController {
         return {
           id: token.id,
           name: token.name,
+          token: token.token,
           description: token.description,
         };
       }),
@@ -39,10 +40,15 @@ export default class AppTokenController {
     const { attributes } = await request.validate(CreateAppTokenValidator);
     const token = await auth.use('app').generate(auth.user, {
       name: attributes.name,
+      description: attributes.description,
     });
 
     return new ApiDocument(ctx, undefined, {
-      token: token.toJSON(),
+      token: {
+        ...token.toJSON(),
+        name: attributes.name,
+        description: attributes.description,
+      },
       message: 'Created new token.',
     });
   }
@@ -53,11 +59,11 @@ export default class AppTokenController {
       throw new UnauthorizedException();
     }
 
-    const { attributes } = await request.validate(DeleteAppTokenValidator);
+    const { id } = await request.validate(DeleteAppTokenValidator);
 
     await Database.from('app_tokens')
       .where('user_id', auth.user.id)
-      .andWhere('name', attributes.name)
+      .andWhere('id', id)
       .delete();
 
     return new ApiDocument(ctx, undefined, {
