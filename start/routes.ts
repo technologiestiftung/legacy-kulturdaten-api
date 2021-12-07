@@ -48,11 +48,10 @@ Route.group(() => {
   Route.post('logout', 'AuthController.logout')
     .as('logout')
     .middleware('auth:api');
-
-  Route.post('', 'UserController.update').as('update');
 })
   .prefix('auth')
   .as('user');
+Route.post('user', 'UserController.update').as('update');
 
 Route.group(() => {
   Route.get('', 'AppTokenController.index').as('index');
