@@ -14,7 +14,10 @@ export class UserUpdateValidator {
         rules.confirmed('emailConfirmation'),
       ]),
       password: schema.string.optional({ trim: true }, [
-        rules.confirmed('passwordConfirmation'),
+        rules.requiredIfExists('newPassword'),
+      ]),
+      newPassword: schema.string.optional({ trim: true }, [
+        rules.confirmed('newPasswordConfirmation'),
       ]),
       acceptedTermsAt: schema.date.optional(),
       deletionRequestedAt: schema.date.optional(),

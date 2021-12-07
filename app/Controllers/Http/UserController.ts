@@ -25,7 +25,24 @@ export default class UserController {
     }
 
     const { attributes, meta } = await request.validate(UserUpdateValidator);
-    user.merge(attributes);
+
+    user.merge({
+      email: attributes.email || user.email,
+      acceptedTermsAt: attributes.acceptedTermsAt || user.acceptedTermsAt,
+      deletionRequestedAt:
+        attributes.deletionRequestedAt || user.deletionRequestedAt,
+    });
+
+    if (attributes.password) {
+      const authenticated = await auth
+        .use('api')
+        .verifyCredentials(user.email, attributes.password);
+      if (!authenticated) {
+        throw new InvalidCredentialsException();
+      }
+
+      user.password = attributes.password;
+    }
 
     if (meta?.abortDeletionRequest) {
       user.deletionRequestedAt = null;
