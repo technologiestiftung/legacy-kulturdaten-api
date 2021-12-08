@@ -17,15 +17,16 @@ export default class AppTokenController {
 
     const tokens = await Database.from('app_tokens')
       .where('user_id', auth.user.id)
-      .select('id', 'name', 'description');
+      .select('id', 'name', 'description', 'token');
 
     return new ApiDocument(ctx, undefined, {
       tokens: tokens.map((token) => {
         return {
           id: token.id,
-          name: token.name,
           token: token.token,
+          name: token.name,
           description: token.description,
+          url: token.url,
         };
       }),
     });
@@ -41,6 +42,7 @@ export default class AppTokenController {
     const token = await auth.use('app').generate(auth.user, {
       name: attributes.name,
       description: attributes.description,
+      url: attributes.url,
     });
 
     return new ApiDocument(ctx, undefined, {
@@ -48,6 +50,7 @@ export default class AppTokenController {
         ...token.toJSON(),
         name: attributes.name,
         description: attributes.description,
+        url: attributes.url,
       },
       message: 'Created new token.',
     });

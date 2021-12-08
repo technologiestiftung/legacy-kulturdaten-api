@@ -16,6 +16,7 @@ export class CreateAppTokenValidator {
         }),
       ]),
       description: schema.string.optional({ trim: true }, []),
+      url: schema.string.optional({}, [rules.url()]),
     }),
   });
 
