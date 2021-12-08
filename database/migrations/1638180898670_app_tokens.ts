@@ -14,6 +14,7 @@ export default class AppTokens extends BaseSchema {
         .onDelete('CASCADE');
       table.string('name');
       table.string('description');
+      table.string('url');
       table.string('type').notNullable();
       table.string('token', 64).notNullable();
 
