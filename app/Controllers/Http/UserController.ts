@@ -41,7 +41,7 @@ export default class UserController {
         throw new InvalidCredentialsException();
       }
 
-      user.password = attributes.password;
+      user.password = attributes.newPassword;
     }
 
     if (meta?.abortDeletionRequest) {
