@@ -35,6 +35,8 @@ interface ApiDocumentLinks {
   last: string;
 }
 
+const FALLBACK_EXPORT_TYPE = 'kulturdaten';
+
 /**
  * An API Document describes a successful response to an API request.
  * Requests causing errors are supposed to be handled in respective
@@ -169,7 +171,7 @@ export class ApiDocument {
     const data = types.isArray(this.data) ? this.data : [this.data];
 
     const type = data[0].type;
-    const fileName = `${Date.now()}_${type}.xls`;
+    const fileName = `${Date.now()}_${type || FALLBACK_EXPORT_TYPE}.xls`;
     const workbook = XLSX.utils.book_new();
 
     const rows = [];
@@ -178,9 +180,13 @@ export class ApiDocument {
     }
 
     const worksheet = XLSX.utils.json_to_sheet(rows);
-    XLSX.utils.book_append_sheet(workbook, worksheet, type);
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      type || FALLBACK_EXPORT_TYPE
+    );
 
-    const buffer = XLSX.write(workbook, { type: 'buffer' });
+    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xls' });
 
     return [fileName, buffer];
   }

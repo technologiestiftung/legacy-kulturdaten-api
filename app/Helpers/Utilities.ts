@@ -2,6 +2,7 @@ import Resource from 'App/Helpers/Api/Resource';
 import { ValidationException, validator } from '@ioc:Adonis/Core/Validator';
 import Env from '@ioc:Adonis/Core/Env';
 import { defaultLanguage } from 'Config/app';
+import { Languages } from 'App/Helpers/Languages';
 
 export function withTranslations(query) {
   return query.preload('translations');
@@ -85,4 +86,56 @@ export function updateField(attributes, instance, key) {
   }
 
   instance[key] = value;
+}
+
+export function transformCategorizationsForXls(categorizations) {
+  function extractCategorizations(language) {
+    let mainTypes = [];
+    categorizations.find((categorization) => {
+      const translation = categorization.relations.translations.find(
+        (translation) => {
+          return (
+            translation.attributes &&
+            translation.attributes.language === language
+          );
+        }
+      );
+      if (!translation) {
+        return {};
+      }
+      mainTypes.push(translation.attributes.name);
+    });
+
+    if (!mainTypes.length) {
+      return {};
+    }
+
+    return mainTypes.join(', ');
+  }
+  return {
+    german: extractCategorizations(Languages.DE),
+    english: extractCategorizations(Languages.EN),
+  };
+}
+
+export function transformTranslationsForXls(translations) {
+  function extractTranslation(language) {
+    const translation = translations.find((translation) => {
+      return translation.attributes.language === language;
+    });
+
+    if (!translation) {
+      return {};
+    }
+
+    const attributes = translation.attributes;
+    delete attributes.language;
+    return attributes;
+  }
+
+  return {
+    german: extractTranslation(Languages.DE),
+    easyGerman: extractTranslation(Languages.DE_EASY),
+    english: extractTranslation(Languages.EN),
+  };
 }

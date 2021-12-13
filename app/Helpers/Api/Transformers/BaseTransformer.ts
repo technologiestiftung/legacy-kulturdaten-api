@@ -1,8 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Resource from 'App/Helpers/Api/Resource';
-import { get, unset } from 'lodash';
+import { get, unset, set } from 'lodash';
 
-const WILDCARD_INDEX_PATTERN = '.[*].';
+const WILDCARD_INDEX_PATTERN = '.[*]';
 
 interface TransformGuards {
   format?: 'xls' | 'json';
@@ -19,6 +19,27 @@ export class BaseTransformer {
   constructor(ctx: HttpContextContract, resource) {
     this.ctx = ctx;
     this.resource = resource;
+  }
+
+  private $resolveWildcardKey(
+    key,
+    callback: (resolvedKey: string, resolvedIndex: number) => void
+  ) {
+    if (!key.includes(WILDCARD_INDEX_PATTERN)) {
+      return key;
+    }
+
+    const arrayKey = key.split(WILDCARD_INDEX_PATTERN)[0];
+    const array = get(this.resource, arrayKey);
+    if (array) {
+      for (let index = 0; index < array.length; index++) {
+        const resolvedKey = key.replace(
+          WILDCARD_INDEX_PATTERN,
+          `.${index.toString()}`
+        );
+        callback(resolvedKey, index);
+      }
+    }
   }
 
   private $passesFormatGuard(guards: TransformGuards) {
@@ -65,24 +86,53 @@ export class BaseTransformer {
       return;
     }
 
-    // Check if the key contains a wildcard index. If it does,
-    // all keys in an array need to be unset
-    if (key.includes(WILDCARD_INDEX_PATTERN)) {
-      const arrayPath = key.split(WILDCARD_INDEX_PATTERN)[0];
-      const array = get(this.resource, arrayPath);
+    const resolvedKey = this.$resolveWildcardKey(key, (resolvedKey) => {
+      this.strip(resolvedKey);
+    });
 
-      // It may be a certain include is not even there, then it doesn't
-      // need to be further evaluated
-      if (array) {
-        for (let index = 0; index < array.length; index++) {
-          this.strip(
-            key.replace(WILDCARD_INDEX_PATTERN, `.${index.toString()}.`)
-          );
-        }
-      }
-    }
-    if (!key.includes(WILDCARD_INDEX_PATTERN)) {
+    if (resolvedKey) {
       unset(this.resource, key);
+    }
+  }
+
+  public transformMany(
+    keys: string[],
+    callback: (value: any) => any,
+    guards?: TransformGuards | undefined
+  ) {
+    if (guards && !this.$passesGuards(guards)) {
+      return;
+    }
+
+    for (const key of keys) {
+      this.transform(key, callback);
+    }
+  }
+
+  public transform(
+    key,
+    callback: (value: any) => any,
+    guards?: TransformGuards | undefined
+  ) {
+    if (guards && !this.$passesGuards(guards)) {
+      return;
+    }
+
+    const resolvedKey = this.$resolveWildcardKey(
+      key,
+      (resolvedKey, resolvedIndex) => {
+        this.transform(resolvedKey, callback);
+      }
+    );
+
+    if (resolvedKey) {
+      const currentValue = get(this.resource, resolvedKey);
+      if (!currentValue) {
+        return;
+      }
+
+      const newValue = callback(currentValue);
+      set(this.resource, resolvedKey, newValue);
     }
   }
 

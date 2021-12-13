@@ -1,29 +1,49 @@
 import { BaseTransformer } from 'App/Helpers/Api/Transformers/BaseTransformer';
+import {
+  transformTranslationsForXls,
+  transformCategorizationsForXls,
+} from 'App/Helpers/Utilities';
 
 export class OfferTransformer extends BaseTransformer {
   public run() {
+    this.transformMany(
+      [
+        'relations.mainType',
+        'relations.types',
+        'relations.subjects',
+        'relations.tags',
+      ],
+      transformCategorizationsForXls,
+      {
+        format: 'xls',
+      }
+    );
+
+    this.transformMany(
+      [
+        'relations.translations',
+        'relations.organizers.[*].relations.translations',
+        'relations.contributors.[*].relations.translations',
+        'relations.location.relations.translations',
+        'relations.dates.[*].relations.translations',
+      ],
+      transformTranslationsForXls,
+      {
+        format: 'xls',
+      }
+    );
+
     this.stripMany(
       [
         'attributes.createdAt',
         'attributes.updatedAt',
-        'relations.translations.[*].id',
-        'relations.translations.[*].type',
-        'relations.translations.[*].attributes.language',
         'relations.organizers.[*].id',
         'relations.organizers.[*].type',
         'relations.organizers.[*].attributes',
-        'relations.organizers.[*].relations.translations.[*].id',
-        'relations.organizers.[*].relations.translations.[*].type',
-        'relations.organizers.[*].relations.translations.[*].attributes.language',
-        'relations.organizers.[*].relations.translations.[*].attributes.description',
         'relations.contributors.[*].id',
         'relations.contributors.[*].type',
         'relations.contributors.[*].subtype.type',
         'relations.contributors.[*].subtype.id',
-        'relations.contributors.[*].relations.translations.[*].id',
-        'relations.contributors.[*].relations.translations.[*].type',
-        'relations.contributors.[*].relations.translations.[*].attributes.language',
-        'relations.contributors.[*].relations.translations.[*].attributes.description',
         'relations.contributors.[*].attributes.status',
         'relations.contributors.[*].attributes.homepage',
         'relations.contributors.[*].attributes.email',
@@ -37,12 +57,6 @@ export class OfferTransformer extends BaseTransformer {
         'relations.location.attributes.rentUrl',
         'relations.location.attributes.createdAt',
         'relations.location.attributes.updatedAt',
-        'relations.location.relations.translations.[*].attributes.description',
-        'relations.dates.[*].id',
-        'relations.dates.[*].type',
-        'relations.dates.[*].relations.translations.[*].id',
-        'relations.dates.[*].relations.translations.[*].type',
-        'relations.dates.[*].relations.translations.[*].attributes.language',
         'relations.audience.id',
         'relations.audience.type',
         'relations.mainType.[*].id',
