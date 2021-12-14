@@ -144,10 +144,6 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     super(ctx, Offer);
   }
 
-  public query() {
-    return super.query().preload('dates', withTranslations);
-  }
-
   private async $updateDates(
     offer: Offer,
     meta:
