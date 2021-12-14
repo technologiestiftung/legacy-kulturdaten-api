@@ -5,6 +5,7 @@ import {
   UpdateServiceValidator,
   DeleteServiceValidator,
 } from 'App/Validators/v1/ServiceValidator';
+import Database from '@ioc:Adonis/Lucid/Database';
 
 export default class ServiceManager extends BaseManager<typeof Service> {
   public ModelClass = Service;
@@ -31,7 +32,14 @@ export default class ServiceManager extends BaseManager<typeof Service> {
     });
 
     const existingFields = keys.length
-      ? await ServiceField.query().whereIn('key', keys)
+      ? await ServiceField.query()
+          .whereIn('key', keys)
+          .andWhere(
+            'service_id',
+            Database.from('services')
+              .select('id')
+              .where('location_id', this.ctx.params.id)
+          )
       : [];
     return this.$updateMany(
       service,
