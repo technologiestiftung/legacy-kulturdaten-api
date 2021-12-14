@@ -16,6 +16,7 @@ import { schema, SchemaObject } from '@ioc:Adonis/Core/Validator';
 import * as schemas from 'App/Helpers/Validator';
 import { rules } from '@ioc:Adonis/Core/Validator';
 import { UnauthorizedException } from 'App/Exceptions/Auth';
+import { allowedLanguages } from 'Config/app';
 
 interface OrderableInstruction {
   name: string;
@@ -253,6 +254,22 @@ export class BaseManager<ManagedModel extends LucidModel> {
 
   public async update() {
     return this.instance;
+  }
+
+  public async $bootstrapTranslations(instance) {
+    const translations = await instance
+      .related('translations')
+      .updateOrCreateMany(
+        allowedLanguages.map((language) => {
+          return {
+            language,
+          };
+        })
+      );
+
+    console.log({ translations });
+
+    await instance.load('translations');
   }
 
   public async $validateTranslation() {

@@ -138,7 +138,9 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
         registrationUrl: attributes.registrationUrl || undefined,
       });
 
+      await this.$bootstrapTranslations(offerDate);
       await this.$translate(offerDate);
+
       await offerDate.load('offer');
     });
 
@@ -165,6 +167,7 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
         await offerDate.save();
       }
 
+      await this.$bootstrapTranslations(offerDate);
       await this.$translate(offerDate);
     });
 

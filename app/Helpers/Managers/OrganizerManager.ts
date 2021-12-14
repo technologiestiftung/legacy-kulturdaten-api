@@ -225,7 +225,9 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
         await this.$createAddress(organizer, relations.address.attributes, trx);
       }
 
+      await this.$bootstrapTranslations(organizer);
       await this.$translate(organizer);
+
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
       await this.$updateTags(organizer, relations?.tags);

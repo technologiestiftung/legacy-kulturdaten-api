@@ -131,7 +131,9 @@ export default class LocationManager extends BaseManager<typeof Location> {
 
     await this.$createAddress(location, relations?.address?.attributes);
 
+    await this.$bootstrapTranslations(location);
     await this.$translate(location);
+
     await this.$updateLinks(location, relations?.links);
     await this.$updateTags(location, relations?.tags);
     await this.$updateMany(location, 'openingHours', relations?.openingHours);

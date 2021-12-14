@@ -228,6 +228,8 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       }
 
       await this.$translate(offer);
+      await this.$bootstrapTranslations(offer);
+
       await this.$updateDates(offer, meta);
 
       await this.$updateManyToMany(offer, 'organizers', relations?.organizers);
