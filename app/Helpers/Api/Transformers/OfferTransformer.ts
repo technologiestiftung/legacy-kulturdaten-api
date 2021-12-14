@@ -53,6 +53,8 @@ export class OfferTransformer extends BaseTransformer {
         'relations.media.[*].attributes.filesize',
         'relations.media.[*].attributes.acceptedTermsAt',
         'relations.media.[*].relations.renditions.[*].attributes.filesize',
+        'relations.location.id',
+        'relations.location.type',
         'relations.location.attributes.status',
         'relations.location.attributes.rentUrl',
         'relations.location.attributes.createdAt',
@@ -69,6 +71,8 @@ export class OfferTransformer extends BaseTransformer {
         'relations.type.[*].relations.translations.[*].id',
         'relations.type.[*].relations.translations.[*].type',
         'relations.type.[*].relations.translations.[*].attributes.language',
+        'relations.links.[*].id',
+        'relations.links.[*].type',
       ],
       {
         format: 'xls',
