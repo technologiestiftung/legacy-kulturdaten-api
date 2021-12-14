@@ -5,6 +5,7 @@ import {
   UpdateAudienceValidator,
   DeleteAudienceValidator,
 } from 'App/Validators/v1/AudienceValidator';
+import Database from '@ioc:Adonis/Lucid/Database';
 
 export default class AudienceManager extends BaseManager<typeof Audience> {
   public ModelClass = Audience;
