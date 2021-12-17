@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ApiDocument } from 'App/Helpers/Api/Document';
 import OfferDateManager from 'App/Helpers/Managers/OfferDateManager';
+import { OfferTransformer } from 'App/Helpers/Api/Transformers/OfferTransformer';
 
 // TODO(matthiasrohmer): Add permissions
 export default class OfferDateController {
@@ -10,6 +11,7 @@ export default class OfferDateController {
 
     return new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,
+      transformer: OfferTransformer,
     });
   }
 

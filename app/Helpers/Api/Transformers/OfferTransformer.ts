@@ -25,7 +25,7 @@ export class OfferTransformer extends BaseTransformer {
         'relations.organizers.[*].relations.translations',
         'relations.contributors.[*].relations.translations',
         'relations.location.relations.translations',
-        'relations.dates.[*].relations.translations',
+        'relations.offer.relations.translations',
       ],
       transformTranslationsForXls,
       {
@@ -73,6 +73,13 @@ export class OfferTransformer extends BaseTransformer {
         'relations.type.[*].relations.translations.[*].attributes.language',
         'relations.links.[*].id',
         'relations.links.[*].type',
+        'relations.dates',
+        'relations.offer.type',
+        'relations.offer.id',
+        'relations.offer.attributes.createdAt',
+        'relations.offer.attributes.updatedAt',
+        'relations.translations.[*].id',
+        'relations.translations.[*].type',
       ],
       {
         format: 'xls',
