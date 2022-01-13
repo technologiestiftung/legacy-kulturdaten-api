@@ -17,7 +17,7 @@ export default class AppTokenController {
 
     const tokens = await Database.from('app_tokens')
       .where('user_id', auth.user.id)
-      .select('id', 'name', 'description', 'token');
+      .select('id', 'name', 'description', 'url', 'token');
 
     return new ApiDocument(ctx, undefined, {
       tokens: tokens.map((token) => {
