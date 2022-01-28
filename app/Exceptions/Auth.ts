@@ -29,13 +29,3 @@ export class UnverifiedUserException extends Exception {
     );
   }
 }
-
-export class UserAlreadyVerifiedException extends Exception {
-  constructor() {
-    super(
-      "This user's email address has already been verified",
-      409,
-      'E_USER_ALREADY_VERIFIED'
-    );
-  }
-}

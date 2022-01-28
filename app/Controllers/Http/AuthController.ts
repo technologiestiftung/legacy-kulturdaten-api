@@ -8,7 +8,6 @@ import {
   InvalidCredentialsException,
   UnauthorizedException,
   UnverifiedUserException,
-  UserAlreadyVerifiedException,
 } from 'App/Exceptions/Auth';
 import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 import { ApiDocument } from 'App/Helpers/Api/Document';
@@ -70,12 +69,10 @@ export default class AuthController {
     }
 
     const user: User = await User.findByOrFail('email', params.email);
-    if (user.isActive()) {
-      throw new UserAlreadyVerifiedException();
+    if (!user.isActive()) {
+      user.status = UserStatus.ACTIVE;
+      await user.save();
     }
-
-    user.status = UserStatus.ACTIVE;
-    await user.save();
 
     const loginUrl = `${Env.get('APP_URL') as string}/auth/success`;
     return response.redirect().toPath(loginUrl);
