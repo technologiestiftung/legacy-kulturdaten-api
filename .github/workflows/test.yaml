@@ -17,6 +17,7 @@ jobs:
       HOST: 0.0.0.0
       NODE_ENV: testing
       APP_KEY: dOu9BlkA6mEqVbn6c_aRBONwtYjMfKzQ
+      API_URL: http://localhost:3333
       APP_URL: http://localhost:3333
       DB_CONNECTION: sqlite
       CACHE_VIEWS: false

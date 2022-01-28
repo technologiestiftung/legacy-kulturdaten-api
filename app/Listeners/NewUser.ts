@@ -8,7 +8,7 @@ export default class NewUserListener {
     const signedUrl = Route.makeSignedUrl('user.verify', {
       email: user.email,
     });
-    const verificationUrl = `${Env.get('APP_URL') as string}${signedUrl}`;
+    const verificationUrl = `${Env.get('API_URL') as string}${signedUrl}`;
 
     try {
       await Mail.send((message) => {
