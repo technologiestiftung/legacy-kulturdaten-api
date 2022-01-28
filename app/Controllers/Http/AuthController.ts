@@ -12,8 +12,8 @@ import {
 } from 'App/Exceptions/Auth';
 import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 import { ApiDocument } from 'App/Helpers/Api/Document';
-import { LucidModel } from '@ioc:Adonis/Lucid/Model';
 import Resource from 'App/Helpers/Api/Resource';
+import Env from '@ioc:Adonis/Core/Env';
 
 export default class AuthController {
   public async info(ctx: HttpContextContract) {
@@ -64,6 +64,7 @@ export default class AuthController {
 
   public async verify(ctx: HttpContextContract) {
     const { params, request, response } = ctx;
+
     if (!request.hasValidSignature()) {
       throw new InvalidRouteSignature();
     }
@@ -76,9 +77,8 @@ export default class AuthController {
     user.status = UserStatus.ACTIVE;
     await user.save();
 
-    return new ApiDocument(ctx, undefined, {
-      message: 'Successfully verified account',
-    });
+    const loginUrl = `${Env.get('APP_URL') as string}/auth/success`;
+    return response.redirect().toPath(loginUrl);
   }
 
   public async login(ctx: HttpContextContract) {
