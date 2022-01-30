@@ -27,4 +27,4 @@ RUN addgroup -S kulturdaten-berlin && adduser -S api -G kulturdaten-berlin
 RUN chown -R api:kulturdaten-berlin /build
 USER api
 
-ENTRYPOINT [ "./web.sh" ]
+ENTRYPOINT ["bash", "./web.sh"]
