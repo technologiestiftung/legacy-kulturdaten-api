@@ -16,6 +16,10 @@ jobs:
       PORT: 3333
       HOST: 0.0.0.0
       NODE_ENV: beta
+      DB_HOST: ${{ secrets.ENV_DB_HOST }}
+      DB_USER: ${{ secrets.ENV_DB_USER }}
+      DB_PASSWORD: ${{ secrets.ENV_DB_PASSWORD }}
+      DB_NAME: ${{ secrets.ENV_DB_NAME }}
       APP_KEY: dOu9BlkA6mEqVbn6c_aRBONwtYjMfKzQ
       API_URL: http://localhost:3333
       APP_URL: http://localhost:3333
