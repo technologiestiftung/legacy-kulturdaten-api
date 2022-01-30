@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Getting latest container image ..."
 
 export CONTAINER_IMAGE=$(aws lightsail get-container-images --service-name $AWS_LIGHTSAIL_SERVICE_NAME | jq --raw-output ".containerImages[0].image")

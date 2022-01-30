@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Building new image ..."
 docker build -t $AWS_LIGHTSAIL_SERVICE_NAME:release .
 
