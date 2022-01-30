@@ -13,7 +13,7 @@
         "DB_NAME": "kulturdaten-api-beta",
         "PORT": "$PORT",
         "HOST": "$HOST",
-        "NODE_ENV": "$APP_ENVIRONMENT",
+        "NODE_ENV": "beta",
         "APP_KEY": "$APP_KEY",
         "API_URL": "http://beta.api.kulturdaten-berlin.anyvent.cloud",
         "APP_URL": "http://beta.kulturdaten-berlin.anyvent.cloud",
