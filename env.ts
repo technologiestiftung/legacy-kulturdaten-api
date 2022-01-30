@@ -31,7 +31,10 @@ export default Env.rules({
   CACHE_VIEWS: Env.schema.boolean(),
 
   DB_CONNECTION: Env.schema.string(),
-  DATABASE_URL: Env.schema.string.optional(),
+  DB_HOST: Env.schema.string.optional(),
+  DB_USER: Env.schema.string.optional(),
+  DB_PASSWORD: Env.schema.string.optional(),
+  DB_NAME: Env.schema.string.optional(),
 
   FROM_EMAIL: Env.schema.string({ format: 'email' }),
   SMTP_HOST: Env.schema.string({ format: 'host' }),

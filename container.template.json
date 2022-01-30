@@ -1,0 +1,33 @@
+{
+  "containers": {
+    "$AWS_LIGHTSAIL_SERVICE_NAME": {
+      "image": "$CONTAINER_IMAGE",
+      "ports": {
+        "80": "HTTP"
+      },
+      "environment": {
+        "DB_CONNECTION": "$DB_CONNECTION",
+        "DB_HOST": "$DB_HOST",
+        "DB_USER": "$DB_USER",
+        "DB_PASSWORD": "$DB_PASSWORD",
+        "DB_NAME": "kulturdaten-api-beta",
+        "PORT": "$PORT",
+        "HOST": "$HOST",
+        "NODE_ENV": "$APP_ENVIRONMENT",
+        "APP_KEY": "$APP_KEY",
+        "API_URL": "http://beta.api.kulturdaten-berlin.anyvent.cloud",
+        "APP_URL": "http://beta.kulturdaten-berlin.anyvent.cloud",
+        "FROM_EMAIL": "no-reply@kulturdaten-berlin.jobs.anyvent.org",
+        "SMTP_HOST": "$SMTP_HOST",
+        "SMTP_PORT": "$SMTP_PORT",
+        "SMTP_USERNAME": "$SMTP_USERNAME",
+        "SMTP_PASSWORD": "$SMTP_PASSWORD",
+        "CACHE_VIEWS": "false"
+      }
+    }
+  },
+  "publicEndpoint": {
+    "containerName": "$AWS_LIGHTSAIL_SERVICE_NAME",
+    "containerPort": 3333
+  }
+}

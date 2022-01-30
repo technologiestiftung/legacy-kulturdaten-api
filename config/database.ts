@@ -39,7 +39,12 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
 
     pg: {
       client: 'pg',
-      connection: Env.get('DATABASE_URL') as string,
+      connection: {
+        host: Env.get('DB_HOST'),
+        user: Env.get('DB_USER'),
+        password: Env.get('DB_PASSWORD'),
+        database: Env.get('DB_NAME'),
+      },
       healthCheck: true,
       seeders: {
         paths: ['./database/seeders', './database/inits'],
