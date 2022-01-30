@@ -10,8 +10,22 @@ env:
   AWS_REGION: eu-central-1
   AWS_LIGHTSAIL_SERVICE_NAME: kulturdaten-api-beta
 jobs:
-  verify:
+  deploy:
     runs-on: ubuntu-latest
+    env:
+      PORT: 3333
+      HOST: 0.0.0.0
+      NODE_ENV: beta
+      APP_KEY: dOu9BlkA6mEqVbn6c_aRBONwtYjMfKzQ
+      API_URL: http://localhost:3333
+      APP_URL: http://localhost:3333
+      DB_CONNECTION: mysql
+      CACHE_VIEWS: false
+      FROM_EMAIL: ${{ secrets.ENV_FROM_EMAIL }}
+      SMTP_HOST: ${{ secrets.ENV_SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.ENV_SMTP_PORT }}
+      SMTP_USERNAME: ${{ secrets.ENV_SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.ENV_SMTP_PASSWORD }}
     steps:
       - name: Cloning repository
         uses: actions/checkout@v2
@@ -34,37 +48,24 @@ jobs:
       - name: Running tests
         run: |
           npm run lint
-  deploy:
-    name: Build and deploy
-    runs-on: ubuntu-latest
-    env:
-      PORT: 3333
-      HOST: 0.0.0.0
-      NODE_ENV: beta
-      APP_KEY: dOu9BlkA6mEqVbn6c_aRBONwtYjMfKzQ
-      API_URL: http://localhost:3333
-      APP_URL: http://localhost:3333
-      DB_CONNECTION: mysql
-      CACHE_VIEWS: false
-      FROM_EMAIL: ${{ secrets.ENV_FROM_EMAIL }}
-      SMTP_HOST: ${{ secrets.ENV_SMTP_HOST }}
-      SMTP_PORT: ${{ secrets.ENV_SMTP_PORT }}
-      SMTP_USERNAME: ${{ secrets.ENV_SMTP_USERNAME }}
-      SMTP_PASSWORD: ${{ secrets.ENV_SMTP_PASSWORD }}
-    steps:
+
       - name: Install Utilities
         run: |
           sudo apt-get update
           sudo apt-get install -y jq unzip
+
       - name: Install AWS CLI
         run: ./scripts/install-aws-cli.sh
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
       - name: Build and push Docker Image
         run: ./scripts/build-and-push-docker-image.sh
+
       - name: Push and Deploy
         run: ./scripts/update-container-service.sh
