@@ -1,6 +1,6 @@
 echo "Getting latest container image ..."
 
-CONTAINER_IMAGE=$(aws lightsail get-container-images --service-name $SERVICE_NAME | jq --raw-output ".containerImages[0].image")
+CONTAINER_IMAGE=$(aws lightsail get-container-images --service-name $AWS_LIGHTSAIL_SERVICE_NAME | jq --raw-output ".containerImages[0].image")
 
 echo "Latest container image: $CONTAINER_IMAGE"
 
