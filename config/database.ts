@@ -37,8 +37,8 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
       },
     },
 
-    mysql: {
-      client: 'mysql',
+    pg: {
+      client: 'pg',
       connection: {
         host: Env.get('DB_HOST'),
         user: Env.get('DB_USER'),

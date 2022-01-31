@@ -47,7 +47,7 @@
     "lodash": "4.17.21",
     "luxon": "1.26.0",
     "markdown-to-txt": "2.0.0",
-    "mysql": "2.18.1",
+    "pg": "8.6.0",
     "phc-argon2": "1.1.1",
     "proxy-addr": "2.0.6",
     "reflect-metadata": "0.1.13",
