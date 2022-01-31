@@ -41,17 +41,8 @@ jobs:
         with:
           node-version: 16
 
-      - uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: node_modules-${{ hashFiles('**/package-lock.json') }}
-
       - name: Installing Node.js packages
         run: npm install
-
-      - name: Running tests
-        run: |
-          npm run lint
 
       - name: Install Utilities
         run: |
