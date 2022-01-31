@@ -4,7 +4,7 @@ RUN mkdir /app
 WORKDIR /app/
 
 COPY package.json package-lock.json ./
-RUN npm i && npm install mysql
+RUN npm i
 
 COPY . /app/
 
