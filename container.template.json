@@ -10,7 +10,7 @@
         "DB_HOST": "$DB_HOST",
         "DB_USER": "$DB_USER",
         "DB_PASSWORD": "$DB_PASSWORD",
-        "DB_NAME": "kulturdaten-api-beta",
+        "DB_NAME": "db-kulturdaten-api-beta",
         "PORT": "$PORT",
         "HOST": "$HOST",
         "NODE_ENV": "beta",
