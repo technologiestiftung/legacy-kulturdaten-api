@@ -1,11 +1,10 @@
 ---
-name: 'Deploy'
+name: 'Deploy: Beta'
 
 on:
   push:
     branches:
       - main
-      - live
 
 env:
   AWS_REGION: eu-central-1
@@ -13,6 +12,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: Beta
     env:
       NODE_ENV: ${{ secrets.ENV_NODE_ENV }}
       DB_HOST: ${{ secrets.ENV_DB_HOST }}
