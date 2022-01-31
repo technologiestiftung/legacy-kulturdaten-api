@@ -6,7 +6,7 @@
         "3333": "HTTP"
       },
       "environment": {
-        "DB_CONNECTION": "pq",
+        "DB_CONNECTION": "pg",
         "DB_HOST": "$DB_HOST",
         "DB_USER": "$DB_USER",
         "DB_PASSWORD": "$DB_PASSWORD",
