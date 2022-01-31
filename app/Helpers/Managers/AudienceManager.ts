@@ -35,7 +35,7 @@ export default class AudienceManager extends BaseManager<typeof Audience> {
       ? await AudienceField.query()
           .whereIn('key', keys)
           .andWhere(
-            'accessibility_id',
+            'audience_id',
             Database.from('audiences')
               .select('id')
               .where('offer_id', this.ctx.params.id)
