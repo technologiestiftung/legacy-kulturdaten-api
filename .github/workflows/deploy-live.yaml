@@ -49,5 +49,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Build and push Docker Image
+        run: ./scripts/build-and-push-docker-image.sh
+
       - name: Push and Deploy
         run: ./scripts/update-container-service.sh
