@@ -16,7 +16,6 @@ import Logger from '@ioc:Adonis/Core/Logger';
 import { parse, join } from 'path';
 import Drive from '@ioc:Adonis/Core/Drive';
 
-export const MEDIA_BASE_PATH = '/media/images/original';
 export const MEDIA_MAX_RESOLUTION = 2048;
 
 export class MediaTranslation extends BaseModel {
@@ -37,7 +36,7 @@ export default class Media extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column()
+  @column({ serializeAs: null })
   public path: string;
 
   @column()

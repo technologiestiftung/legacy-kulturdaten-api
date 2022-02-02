@@ -8,7 +8,7 @@ export default class Rendition extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column()
+  @column({ serializeAs: null })
   public path: string;
 
   @column()
