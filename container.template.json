@@ -22,7 +22,12 @@
         "SMTP_PORT": "$SMTP_PORT",
         "SMTP_USERNAME": "$SMTP_USERNAME",
         "SMTP_PASSWORD": "$SMTP_PASSWORD",
-        "CACHE_VIEWS": "false"
+        "CACHE_VIEWS": "false",
+        "DRIVE_DISK": "s3",
+        "S3_KEY": "$S3_KEY",
+        "S3_SECRET": "$S3_SECRET",
+        "S3_REGION": "$AWS_REGION",
+        "S3_BUCKET": "$S3_BUCKET"
       }
     }
   },
