@@ -38,7 +38,7 @@ export class CreateLocationValidator {
       ),
       address: address.create,
       tags,
-      links,
+      links: links.create,
     }),
     media,
   });
@@ -81,7 +81,7 @@ export class UpdateLocationValidator {
       ),
       address: address.update,
       tags,
-      links,
+      links: links.create,
     }),
     media,
   });
@@ -144,7 +144,7 @@ export class PublishLocationValidator {
       // For a location an address is not required,
       // hence reuse the create rule
       address: address.create,
-      links,
+      links: links.publish,
     }),
   });
 

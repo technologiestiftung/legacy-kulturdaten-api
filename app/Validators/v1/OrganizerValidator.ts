@@ -68,7 +68,7 @@ export class CreateOrganizerValidator {
           }),
         ])
       ),
-      links,
+      links: links.create,
       tags,
     }),
     logo: schema.file.optional({
@@ -149,7 +149,7 @@ export class UpdateOrganizerValidator {
         ])
       ),
       address: address.update,
-      links,
+      links: links.create,
       tags,
     }),
     logo: schema.file.optional({

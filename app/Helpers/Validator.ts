@@ -1,9 +1,18 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
 import { allowedLanguages } from 'Config/app';
 
-export const link = schema.string({}, [rules.url()]);
-
-export const links = schema.array.optional([rules.maxLength(3)]).members(link);
+export const links = {
+  create: schema.array
+    .optional([rules.maxLength(3)])
+    .members(schema.string({}, [rules.url()])),
+  publish: schema.array.optional([rules.maxLength(3)]).members(
+    schema.object().members({
+      attributes: schema.object().members({
+        url: schema.string({}, [rules.url()]),
+      }),
+    })
+  ),
+};
 
 export const tags = schema.array.optional().members(
   schema.number([

@@ -19,7 +19,7 @@ export class CreateOfferValidator {
     }),
     relations: schema.object.optional().members({
       translations: initialTranslation,
-      links,
+      links: links.create,
       tags,
       organizers: schema.array().members(
         schema.string({}, [
@@ -115,7 +115,7 @@ export class UpdateOfferValidator {
       registrationUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object.optional().members({
-      links,
+      links: links.create,
       tags,
       location: schema.string.optional({}, [
         rules.exists({
@@ -274,7 +274,7 @@ export class PublishOfferValidator {
       registrationUrl: schema.string.optional({}, [rules.url()]),
     }),
     relations: schema.object().members({
-      links,
+      links: links.publish,
       mainType: schema.array([rules.minLength(1)]).members(
         schema.object().members({
           id: schema.number(),
