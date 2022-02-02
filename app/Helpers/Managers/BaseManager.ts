@@ -7,16 +7,11 @@ import {
 } from '@ioc:Adonis/Lucid/Model';
 import { RawBuilderContract } from '@ioc:Adonis/Lucid/DatabaseQueryBuilder';
 import { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm';
-import Application from '@ioc:Adonis/Core/Application';
-import Media, { MEDIA_BASE_PATH } from 'App/Models/Media';
-import { cuid } from '@ioc:Adonis/Core/Helpers';
-import { join } from 'path';
 import { withTranslations } from '../Utilities';
-import { schema, SchemaObject } from '@ioc:Adonis/Core/Validator';
-import * as schemas from 'App/Helpers/Validator';
-import { rules } from '@ioc:Adonis/Core/Validator';
+import { schema } from '@ioc:Adonis/Core/Validator';
 import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { allowedLanguages } from 'Config/app';
+import Drive from '@ioc:Adonis/Core/Drive';
 
 interface OrderableInstruction {
   name: string;
@@ -266,8 +261,6 @@ export class BaseManager<ManagedModel extends LucidModel> {
           };
         })
       );
-
-    console.log({ translations });
 
     await instance.load('translations');
   }

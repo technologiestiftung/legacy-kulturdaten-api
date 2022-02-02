@@ -84,8 +84,6 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
   }
 
   private async $createMany(offer: Offer, attributes, relations, meta) {
-    console.log({ attributes, relations, meta });
-
     const rrule = RRule.fromString(meta.recurrenceRule);
     const duration = attributes.endsAt.diff(attributes.startsAt);
 
