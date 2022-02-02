@@ -17,7 +17,7 @@
         "APP_KEY": "$APP_KEY",
         "API_URL": "$API_URL",
         "APP_URL": "http://beta.kulturdaten-berlin.anyvent.cloud",
-        "FROM_EMAIL": "no-reply@kulturdaten-berlin.jobs.anyvent.org",
+        "FROM_EMAIL": "info@kulturdaten.berlin",
         "SMTP_HOST": "$SMTP_HOST",
         "SMTP_PORT": "$SMTP_PORT",
         "SMTP_USERNAME": "$SMTP_USERNAME",
