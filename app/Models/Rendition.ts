@@ -1,26 +1,18 @@
 import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
 import { DateTime } from 'luxon';
 import Media from 'App/Models/Media';
-import Application from '@ioc:Adonis/Core/Application';
-import { absoluteUrl } from 'App/Helpers/Utilities';
 
-export const RENDITION_BASE_PATH = '/media/images/renditions/';
 export const RENDITION_SIZES = [1500, 1000, 500];
 
 export default class Rendition extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column({
-    serialize: (value) => {
-      return absoluteUrl(value);
-    },
-  })
-  public url: string;
+  @column()
+  public path: string;
 
-  public get path() {
-    return Application.publicPath(this.url);
-  }
+  @column()
+  public url: string;
 
   @column()
   public base: number;

@@ -36,6 +36,13 @@ export default Env.rules({
   DB_PASSWORD: Env.schema.string.optional(),
   DB_NAME: Env.schema.string.optional(),
 
+  DRIVE_DISK: Env.schema.string(),
+  S3_KEY: Env.schema.string.optional(),
+  S3_SECRET: Env.schema.string.optional(),
+  S3_REGION: Env.schema.string.optional(),
+  S3_BUCKET: Env.schema.string.optional(),
+  S3_ENDPOINT: Env.schema.string.optional(),
+
   FROM_EMAIL: Env.schema.string({ format: 'email' }),
   SMTP_HOST: Env.schema.string({ format: 'host' }),
   SMTP_PORT: Env.schema.number(),

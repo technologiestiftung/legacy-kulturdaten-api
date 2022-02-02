@@ -438,13 +438,11 @@ export class BaseManager<ManagedModel extends LucidModel> {
 
     await Promise.all(
       files.map(async (file) => {
-        const fileName = `${cuid()}.${file.extname}`;
-        await file.move(Application.publicPath(MEDIA_BASE_PATH), {
-          name: fileName,
-        });
+        await file.moveToDisk('./');
 
         await instance.related('media').create({
-          url: join(MEDIA_BASE_PATH, fileName),
+          path: file.fileName,
+          url: await Drive.getUrl(file.fieldName),
           filesize: file.size,
         });
       })

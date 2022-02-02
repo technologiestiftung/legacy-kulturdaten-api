@@ -9,17 +9,12 @@ import {
   afterCreate,
 } from '@ioc:Adonis/Lucid/Orm';
 import { DateTime } from 'luxon';
-import Application from '@ioc:Adonis/Core/Application';
-import Rendition, {
-  RENDITION_BASE_PATH,
-  RENDITION_SIZES,
-} from 'App/Models/Rendition';
+import Rendition, { RENDITION_SIZES } from 'App/Models/Rendition';
 import MediaLicense from 'App/Models/MediaLicense';
-import { absoluteUrl } from 'App/Helpers/Utilities';
 import sharp from 'sharp';
 import Logger from '@ioc:Adonis/Core/Logger';
-import { writeFile } from 'fs/promises';
 import { parse, join } from 'path';
+import Drive from '@ioc:Adonis/Core/Drive';
 
 export const MEDIA_BASE_PATH = '/media/images/original';
 export const MEDIA_MAX_RESOLUTION = 2048;
@@ -42,11 +37,10 @@ export default class Media extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
   public id: number;
 
-  @column({
-    serialize: (value) => {
-      return absoluteUrl(value);
-    },
-  })
+  @column()
+  public path: string;
+
+  @column()
   public url: string;
 
   @column()
@@ -88,10 +82,6 @@ export default class Media extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime;
 
-  public get path() {
-    return Application.publicPath(this.url);
-  }
-
   public renditionSizes: Array<number>;
 
   private sharp: sharp.Sharp | undefined;
@@ -99,7 +89,8 @@ export default class Media extends BaseModel {
   public async getSharpInstance() {
     if (!this.sharp) {
       try {
-        this.sharp = sharp(this.path);
+        const buffer = await Drive.get(this.path);
+        this.sharp = sharp(buffer);
       } catch (e) {
         Logger.error('The media file could not be opened as an image.');
         return;
@@ -111,7 +102,7 @@ export default class Media extends BaseModel {
 
   private async $updateFile(sharp: sharp.Sharp) {
     const buffer = await sharp.toBuffer({ resolveWithObject: true });
-    await writeFile(this.path, buffer.data);
+    await Drive.put(this.path, buffer.data);
 
     return buffer.info;
   }
@@ -164,23 +155,20 @@ export default class Media extends BaseModel {
     media.format = metadata.format!;
   }
 
-  private async $createRendition(sharp: sharp.Sharp, size, url) {
+  private async $createRendition(sharp: sharp.Sharp, size, fileName) {
     sharp.resize({ width: size, height: size, fit: 'inside' });
-    let metadata = await sharp.toFile(Application.publicPath(url));
 
-    // During seeding metadata only contains the plain metdata,
-    // during runtime this is an {data, info} object
-    if (metadata.data) {
-      metadata = metadata.data;
-    }
+    const buffer = await sharp.toBuffer({ resolveWithObject: true });
+    await Drive.put(fileName, buffer.data);
 
     return {
-      url,
+      path: fileName,
+      url: await Drive.getUrl(fileName),
       base: size,
-      width: metadata.width,
-      height: metadata.height,
-      filesize: metadata.size,
-      format: metadata.format,
+      width: buffer.info.width,
+      height: buffer.info.height,
+      filesize: buffer.info.size,
+      format: buffer.info.format,
     };
   }
 
@@ -208,13 +196,10 @@ export default class Media extends BaseModel {
     const sizes = media.renditionSizes || RENDITION_SIZES;
     for (const size of sizes) {
       if (metadata.width! > size) {
-        const url = join(
-          RENDITION_BASE_PATH,
-          `${path.name}-${size}w${path.ext}`
-        );
+        const fileName = join(`${path.name}-${size}w${path.ext}`);
 
         renditions.push(
-          await media.$createRendition(sharp?.clone(), size, url)
+          await media.$createRendition(sharp?.clone(), size, fileName)
         );
       }
     }
@@ -222,5 +207,10 @@ export default class Media extends BaseModel {
     if (renditions.length) {
       await media.related('renditions').createMany(renditions);
     }
+  }
+
+  @beforeCreate()
+  public static async getUrl(media: Media) {
+    media.url = await Drive.getUrl(media.path);
   }
 }
