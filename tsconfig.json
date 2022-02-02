@@ -33,7 +33,8 @@
       "@adonisjs/mail",
       "@adonisjs/view",
       "@adonisjs/bouncer",
-      "@types/sharp"
+      "@types/sharp",
+      "@adonisjs/drive-s3"
     ]
   }
 }

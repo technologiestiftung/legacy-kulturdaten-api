@@ -28,6 +28,11 @@ jobs:
       SMTP_USERNAME: ${{ secrets.ENV_SMTP_USERNAME }}
       SMTP_PASSWORD: ${{ secrets.ENV_SMTP_PASSWORD }}
       CACHE_VIEWS: false
+      DRIVE_DISK: 's3'
+      S3_KEY: ${{ secrets.ENV_S3_KEY }}
+      S3_SECRET: ${{ secrets.ENV_S3_SECRET }}
+      S3_REGION: ${{ secrets.ENV_S3_REGION }}
+      S3_BUCKET: ${{ secrets.ENV_S3_BUCKET }}
     steps:
       - name: Cloning repository
         uses: actions/checkout@v2
