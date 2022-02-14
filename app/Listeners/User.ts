@@ -3,8 +3,8 @@ import Env from '@ioc:Adonis/Core/Env';
 import Mail from '@ioc:Adonis/Addons/Mail';
 import Route from '@ioc:Adonis/Core/Route';
 
-export default class NewUserListener {
-  public async sendVerificationMail(user: EventsList['new:user']) {
+export default class UserListener {
+  public async sendVerificationMail(user: EventsList['user:new']) {
     const signedUrl = Route.makeSignedUrl('user.verify', {
       email: user.email,
     });

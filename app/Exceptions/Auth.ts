@@ -10,16 +10,6 @@ export class UnauthorizedException extends Exception {
   }
 }
 
-export class InvalidCredentialsException extends Exception {
-  constructor() {
-    super(
-      'The credentials provided can not be used to login',
-      401,
-      'E_INVALID_CREDENTIALS'
-    );
-  }
-}
-
 export class UnverifiedUserException extends Exception {
   constructor() {
     super(

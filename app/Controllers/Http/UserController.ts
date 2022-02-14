@@ -1,16 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import User from 'App/Models/User';
-import { UserStatus } from 'App/Models/User';
-import AuthRegisterValidator from 'App/Validators/AuthRegisterValidator';
-import AuthLoginValidator from 'App/Validators/AuthLoginValidator';
-import Event from '@ioc:Adonis/Core/Event';
-import {
-  InvalidCredentialsException,
-  UnauthorizedException,
-  UnverifiedUserException,
-  UserAlreadyVerifiedException,
-} from 'App/Exceptions/Auth';
-import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
+import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { ApiDocument } from 'App/Helpers/Api/Document';
 import Resource from 'App/Helpers/Api/Resource';
 import { UserUpdateValidator } from 'App/Validators/UserValidator';
@@ -38,7 +27,7 @@ export default class UserController {
         .use('api')
         .verifyCredentials(user.email, attributes.password);
       if (!authenticated) {
-        throw new InvalidCredentialsException();
+        throw new UnauthorizedException();
       }
 
       user.password = attributes.newPassword;

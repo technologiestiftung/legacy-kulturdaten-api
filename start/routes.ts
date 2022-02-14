@@ -43,6 +43,12 @@ Route.group(() => {
   Route.post('register', 'AuthController.register').as('register');
   Route.get('verify/:email', 'AuthController.verify').as('verify');
   Route.post('login', 'AuthController.login').as('login');
+  Route.post('requestPasswordReset', 'AuthController.requestPasswordReset').as(
+    'requestPasswordReset'
+  );
+  Route.post('resetPassword/:email', 'AuthController.resetPassword').as(
+    'resetPassword'
+  );
   Route.post('info', 'AuthController.info').as('info').middleware('auth:api');
   Route.post('validate', 'AuthController.validate').as('validate');
   Route.post('logout', 'AuthController.logout')

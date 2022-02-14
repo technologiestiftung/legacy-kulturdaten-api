@@ -1,11 +1,14 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import User from 'App/Models/User';
 import { UserStatus } from 'App/Models/User';
-import AuthRegisterValidator from 'App/Validators/AuthRegisterValidator';
-import AuthLoginValidator from 'App/Validators/AuthLoginValidator';
+import {
+  LoginValidator,
+  CreateUserValidator,
+  RequestPasswordResetValidator,
+  PasswordResetValidator,
+} from 'App/Validators/AuthValidator';
 import Event from '@ioc:Adonis/Core/Event';
 import {
-  InvalidCredentialsException,
   UnauthorizedException,
   UnverifiedUserException,
 } from 'App/Exceptions/Auth';
@@ -52,10 +55,10 @@ export default class AuthController {
 
   public async register(ctx: HttpContextContract) {
     const { request, response } = ctx;
-    const data = await request.validate(AuthRegisterValidator);
+    const data = await request.validate(CreateUserValidator);
     const user = await User.create(data);
 
-    Event.emit('new:user', user);
+    Event.emit('user:new', user);
     return new ApiDocument(ctx, user, {
       message: 'Account created successfully',
     });
@@ -80,16 +83,7 @@ export default class AuthController {
 
   public async login(ctx: HttpContextContract) {
     const { request, auth } = ctx;
-    const data = await request.validate(AuthLoginValidator);
-
-    const user = await User.findBy('email', data.email);
-    if (!user) {
-      throw new InvalidCredentialsException();
-    }
-
-    if (!user.isActive()) {
-      throw new UnverifiedUserException();
-    }
+    const data = await request.validate(LoginValidator);
 
     const token = await auth.use('api').attempt(data.email, data.password);
 
@@ -104,6 +98,40 @@ export default class AuthController {
     await auth.logout();
     return new ApiDocument(ctx, undefined, {
       message: 'Logged out successfully',
+    });
+  }
+
+  public async requestPasswordReset(ctx: HttpContextContract) {
+    const { request, response } = ctx;
+    const data = await request.validate(RequestPasswordResetValidator);
+
+    const user: User = await User.findByOrFail('email', data.email);
+    user.status = UserStatus.INACTIVE;
+    user.save();
+
+    Event.emit('auth:requestPasswordReset', data.email);
+    return new ApiDocument(ctx, null, {
+      message: 'Sent password reset instructions',
+    });
+  }
+
+  public async resetPassword(ctx: HttpContextContract) {
+    const { params, request, response } = ctx;
+
+    const data = await request.validate(PasswordResetValidator);
+    const user: User = await User.findByOrFail('email', params.email);
+
+    if (!request.hasValidSignature() || user.status !== UserStatus.INACTIVE) {
+      throw new InvalidRouteSignature();
+    }
+
+    user.password = data.password;
+    user.status = UserStatus.ACTIVE;
+    await user.save();
+
+    Event.emit('auth:passwordReset', data.email);
+    return new ApiDocument(ctx, user, {
+      message: 'Successfully reset password',
     });
   }
 }
