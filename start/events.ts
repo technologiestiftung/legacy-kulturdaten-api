@@ -6,7 +6,7 @@ import Application from '@ioc:Adonis/Core/Application';
 Event.on('user:new', 'User.sendVerificationMail');
 
 Event.on('auth:requestPasswordReset', 'Auth.sendPasswordResetInstructions');
-Event.on('auth:passwordReset', 'Auth.sendPasswortResetNotification');
+Event.on('auth:passwordReset', 'Auth.sendPasswordResetNotification');
 
 Event.on('new:invitation', 'NewInvitation.sendInvitationMail');
 
