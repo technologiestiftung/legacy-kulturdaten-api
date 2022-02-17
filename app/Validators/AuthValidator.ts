@@ -83,7 +83,7 @@ export class PasswordResetValidator {
         table: 'users',
         column: 'email',
         where: {
-          status: UserStatus.ACTIVE,
+          status: UserStatus.INACTIVE,
         },
       }),
     ]),
