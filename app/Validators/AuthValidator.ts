@@ -59,9 +59,6 @@ export class RequestPasswordResetValidator {
       rules.exists({
         table: 'users',
         column: 'email',
-        where: {
-          status: UserStatus.ACTIVE,
-        },
       }),
     ]),
   });
