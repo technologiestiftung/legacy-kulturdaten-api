@@ -43,12 +43,6 @@ export default class OfferSeeder extends BaseSeeder {
           });
         }
 
-        // if (faker.datatype.boolean()) {
-        //   factory.with('media', faker.datatype.number(1), (mediaFactory) => {
-        //     mediaFactory.with('translations', 1);
-        //   });
-        // }
-
         factory.with('contributors', 2, (contributorFactory) => {
           if (faker.datatype.boolean()) {
             contributorFactory.with('translations', 1);
@@ -92,12 +86,6 @@ export default class OfferSeeder extends BaseSeeder {
             });
           });
         }
-
-        // if (faker.datatype.boolean()) {
-        //   factory.with('media', faker.datatype.number(3), (mediaFactory) => {
-        //     mediaFactory.with('translations', 1);
-        //   });
-        // }
 
         factory.with('contributors', 2, (contributorFactory) => {
           if (faker.datatype.boolean()) {

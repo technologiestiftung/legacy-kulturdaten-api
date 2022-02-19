@@ -11,7 +11,6 @@ import {
 import { AddressFactory } from './Address';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
-import { MediaFactory } from './Media';
 
 export const LocationFactory = Factory.define(Location, ({ faker }) => {
   const createdAt = faker.date.recent(120).toISOString();

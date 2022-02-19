@@ -4,7 +4,6 @@ import OfferDate, { OfferDateTranslation } from 'App/Models/Offer/OfferDate';
 import { Audience } from 'App/Models/Offer';
 import { LinkFactory } from './Link';
 import { DateTime } from 'luxon';
-import { MediaFactory } from './Media';
 import { OfferContributor } from 'App/Models/Offer';
 import { OfferContributorTranslation } from 'App/Models/Offer/OfferContributor';
 
