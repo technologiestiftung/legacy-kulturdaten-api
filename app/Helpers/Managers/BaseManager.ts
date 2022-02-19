@@ -98,6 +98,11 @@ export class BaseManager<ManagedModel extends LucidModel> {
       query = this.$addIncludesToQuery(query, includes);
     }
 
+    const search = this.ctx.request.input('search');
+    if (search) {
+      query = this.$addSearchQuery(query, search);
+    }
+
     return query;
   }
 
@@ -180,6 +185,24 @@ export class BaseManager<ManagedModel extends LucidModel> {
     }
 
     return query;
+  }
+
+  private $addSearchQuery(query, searchTerm: string) {
+    if (!this.ManagedModel.$hasRelation('translations')) {
+      return query;
+    }
+
+    const TranslationModel = this.ManagedModel.$getRelation(
+      'translations'
+    ).relatedModel();
+    return query.whereIn(
+      'id',
+      TranslationModel.query()
+        .where('name', 'like', `%${searchTerm}%`)
+        .select(
+          this.ManagedModel.$getRelation('translations').foreignKeyColumName
+        )
+    );
   }
 
   public async all(
