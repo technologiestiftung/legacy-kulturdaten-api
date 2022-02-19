@@ -10,13 +10,11 @@ import {
 import { translation } from 'App/Validators/v1/OrganizerTranslationValidator';
 import Address from 'App/Models/Address';
 import Database from '@ioc:Adonis/Lucid/Database';
-import Application from '@ioc:Adonis/Core/Application';
-import Media, { MEDIA_BASE_PATH } from 'App/Models/Media';
-import { cuid } from '@ioc:Adonis/Core/Helpers';
-import { join } from 'path';
+import Media from 'App/Models/Media';
 import { OrganizerRole } from 'App/Models/Roles';
 import { Roles } from '../Roles';
 import User from 'App/Models/User';
+import Drive from '@ioc:Adonis/Core/Drive';
 
 export default class OrganizerManager extends BaseManager<typeof Organizer> {
   public ManagedModel = Organizer;
@@ -146,18 +144,16 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       return;
     }
 
-    const fileName = `${cuid()}.${logo.extname}`;
-    await logo.move(Application.publicPath(MEDIA_BASE_PATH), {
-      name: fileName,
-    });
+    await logo.moveToDisk('./');
 
     const media = new Media();
     media.renditionSizes = [48, 96, 144];
-
     media.fill({
-      url: join(MEDIA_BASE_PATH, fileName),
+      path: logo.fileName,
+      url: await Drive.getUrl(logo.fieldName),
       filesize: logo.size,
     });
+
     await media.save();
 
     await organizer.related('logo').associate(media);
