@@ -11,7 +11,6 @@ import { withTranslations } from '../Utilities';
 import { schema } from '@ioc:Adonis/Core/Validator';
 import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { allowedLanguages } from 'Config/app';
-import Drive from '@ioc:Adonis/Core/Drive';
 
 interface OrderableInstruction {
   name: string;
@@ -465,7 +464,6 @@ export class BaseManager<ManagedModel extends LucidModel> {
 
         await instance.related('media').create({
           path: file.fileName,
-          url: await Drive.getUrl(file.fieldName),
           filesize: file.size,
         });
       })

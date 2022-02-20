@@ -1,6 +1,13 @@
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  column,
+  belongsTo,
+  BelongsTo,
+  beforeDelete,
+} from '@ioc:Adonis/Lucid/Orm';
 import { DateTime } from 'luxon';
 import Media from 'App/Models/Media';
+import Drive from '@ioc:Adonis/Core/Drive';
 
 export const RENDITION_SIZES = [1500, 1000, 500];
 
@@ -40,4 +47,21 @@ export default class Rendition extends BaseModel {
 
   @belongsTo(() => Media)
   public media: BelongsTo<typeof Media>;
+
+  @beforeDelete()
+  public static async removeStaleFile(rendition: Rendition) {
+    await Drive.delete(rendition.path);
+  }
+
+  public async updateUrl(media: Media) {
+    if (!media.expiresAt) {
+      this.url = await Drive.getUrl(this.path);
+    } else {
+      this.url = await Drive.getSignedUrl(this.path, {
+        expiresIn: (media.expiresAt - DateTime.now()) / 1000,
+      });
+    }
+
+    await this.save();
+  }
 }

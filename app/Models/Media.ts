@@ -7,6 +7,8 @@ import {
   BelongsTo,
   beforeCreate,
   afterCreate,
+  beforeSave,
+  beforeDelete,
 } from '@ioc:Adonis/Lucid/Orm';
 import { DateTime } from 'luxon';
 import Rendition, { RENDITION_SIZES } from 'App/Models/Rendition';
@@ -208,8 +210,24 @@ export default class Media extends BaseModel {
     }
   }
 
-  @beforeCreate()
-  public static async getUrl(media: Media) {
-    media.url = await Drive.getUrl(media.path);
+  @beforeSave()
+  public static async updateUrl(media: Media) {
+    if (!media.expiresAt) {
+      media.url = await Drive.getUrl(media.path);
+    } else {
+      media.url = await Drive.getSignedUrl(media.path, {
+        expiresIn: (media.expiresAt - DateTime.now()) / 1000,
+      });
+    }
+
+    await media.load('renditions');
+    for (const rendition of media.renditions) {
+      await rendition.updateUrl(media);
+    }
+  }
+
+  @beforeDelete()
+  public static async removeStaleFile(media: Media) {
+    await Drive.delete(media.path);
   }
 }

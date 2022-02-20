@@ -14,7 +14,6 @@ import Media from 'App/Models/Media';
 import { OrganizerRole } from 'App/Models/Roles';
 import { Roles } from '../Roles';
 import User from 'App/Models/User';
-import Drive from '@ioc:Adonis/Core/Drive';
 
 export default class OrganizerManager extends BaseManager<typeof Organizer> {
   public ManagedModel = Organizer;
@@ -150,7 +149,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     media.renditionSizes = [48, 96, 144];
     media.fill({
       path: logo.fileName,
-      url: await Drive.getUrl(logo.fieldName),
       filesize: logo.size,
     });
 
