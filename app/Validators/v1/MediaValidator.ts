@@ -9,7 +9,7 @@ export class UpdateMediaValidator {
       copyright: schema.string.optional({ trim: true }),
       license: schema.string.optional({ trim: true }),
       acceptedTermsAt: schema.date.optional(),
-      expiresAt: schema.date.optional(),
+      expiresAt: schema.date.nullableAndOptional(),
     }),
     relations: schema.object.optional().members({
       license: schema.number.optional([
