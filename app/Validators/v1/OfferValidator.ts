@@ -29,12 +29,14 @@ export class CreateOfferValidator {
           }),
         ])
       ),
-      location: schema.string.optional({}, [
-        rules.exists({
-          table: 'locations',
-          column: 'public_id',
-        }),
-      ]),
+      locations: schema.array().members(
+        schema.string({}, [
+          rules.exists({
+            table: 'locations',
+            column: 'public_id',
+          }),
+        ])
+      ),
       mainType: schema.array.optional().members(
         schema.number([
           rules.exists({
@@ -117,16 +119,18 @@ export class UpdateOfferValidator {
     relations: schema.object.optional().members({
       links: links.create,
       tags,
-      location: schema.string.optional({}, [
-        rules.exists({
-          table: 'locations',
-          column: 'public_id',
-        }),
-      ]),
       organizers: schema.array.optional().members(
         schema.string({}, [
           rules.exists({
             table: 'organizers',
+            column: 'public_id',
+          }),
+        ])
+      ),
+      locations: schema.array.optional().members(
+        schema.string({}, [
+          rules.exists({
+            table: 'locations',
             column: 'public_id',
           }),
         ])
@@ -275,6 +279,7 @@ export class PublishOfferValidator {
     }),
     relations: schema.object().members({
       links: links.publish,
+      locations: schema.array([rules.minLength(1)]).anyMembers(),
       mainType: schema.array([rules.minLength(1)]).members(
         schema.object().members({
           id: schema.number(),

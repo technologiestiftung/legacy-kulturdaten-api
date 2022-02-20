@@ -19,12 +19,6 @@ export default class Offers extends BaseSchema {
       table.string('ticket_url');
       table.string('registration_url');
 
-      table
-        .string('location_id')
-        .unsigned()
-        .references('locations.public_id')
-        .onDelete('CASCADE');
-
       table.timestamps(true);
     });
   }

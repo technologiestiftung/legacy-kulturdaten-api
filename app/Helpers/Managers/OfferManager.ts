@@ -39,7 +39,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         query: withTranslations,
       },
       {
-        name: 'location',
+        name: 'locations',
         query: withTranslations,
       },
       {
@@ -213,15 +213,8 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       offer.isPermanent = attributes?.isPermanent || false;
       offer.ticketUrl = attributes?.ticketUrl || '';
       offer.registrationUrl = attributes?.registrationUrl || '';
-      if (relations?.location) {
-        offer.locationId = relations!.location;
-      }
 
       await offer.save();
-
-      if (relations?.location) {
-        await offer.load('location');
-      }
 
       await this.$translate(offer);
       await this.$bootstrapTranslations(offer);
@@ -229,6 +222,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       await this.$updateDates(offer, meta);
 
       await this.$updateManyToMany(offer, 'organizers', relations?.organizers);
+      await this.$updateManyToMany(offer, 'locations', relations?.locations);
 
       await this.$updateManyToMany(offer, 'mainType', relations?.mainType);
       await this.$updateManyToMany(offer, 'types', relations?.types);
@@ -268,9 +262,6 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       updateField(attributes, offer, 'isPermanent');
       updateField(attributes, offer, 'ticketUrl');
       updateField(attributes, offer, 'registrationUrl');
-      if (relations?.location) {
-        offer.locationId = relations!.location;
-      }
       if (offer.$isDirty) {
         await offer.save();
       }
@@ -279,6 +270,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       await this.$updateDates(offer, meta);
 
       await this.$updateManyToMany(offer, 'organizers', relations?.organizers);
+      await this.$updateManyToMany(offer, 'locations', relations?.locations);
 
       await this.$updateManyToMany(offer, 'mainType', relations?.mainType);
       await this.$updateManyToMany(offer, 'types', relations?.types);

@@ -93,18 +93,11 @@ export default class Offer extends BaseModel {
   })
   public organizers: ManyToMany<typeof Organizer>;
 
-  @hasOne(() => Audience, {
-    localKey: 'publicId',
+  @manyToMany(() => Location, {
+    relatedKey: 'publicId',
+    pivotTable: 'offer_locations',
   })
-  public audience: HasOne<typeof Audience>;
-
-  @column({ serializeAs: null })
-  public locationId: string;
-
-  @belongsTo(() => Location, {
-    localKey: 'publicId',
-  })
-  public location: BelongsTo<typeof Location>;
+  public locations: ManyToMany<typeof Location>;
 
   @hasMany(() => OfferTranslation)
   public translations: HasMany<typeof OfferTranslation>;
@@ -117,6 +110,11 @@ export default class Offer extends BaseModel {
 
   @hasMany(() => PeakHours)
   public peakHours: HasMany<typeof PeakHours>;
+
+  @hasOne(() => Audience, {
+    localKey: 'publicId',
+  })
+  public audience: HasOne<typeof Audience>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',

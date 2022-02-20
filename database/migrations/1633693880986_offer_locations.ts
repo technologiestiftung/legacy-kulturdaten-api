@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class OfferOrganizers extends BaseSchema {
-  protected tableName = 'offer_organizer';
+export default class OfferLocations extends BaseSchema {
+  protected tableName = 'offer_locations';
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -14,9 +14,9 @@ export default class OfferOrganizers extends BaseSchema {
         .references('offers.id')
         .onDelete('CASCADE');
       table
-        .string('organizer_id')
+        .string('location_id')
         .unsigned()
-        .references('organizers.public_id')
+        .references('locations.public_id')
         .onDelete('CASCADE');
     });
   }
