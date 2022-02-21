@@ -12,6 +12,7 @@ RUN node ace build --production --client npm --ignore-ts-errors &&  \
   mv build /build && \ 
   mv node_modules /build/node_modules && \
   mv resources/images /build/resources/images && \ 
+  mv database/migrations /build/database/migrations && \ 
   mv database/inits /build/database/inits && \ 
   mv CHECKS /build/CHECKS && \
   mv web.sh /build/web.sh && \
