@@ -533,13 +533,11 @@ const tags = [
     relations: {
       translations: [
         {
-          name:
-            'Arbeitsstipendium Bildende Kunst der Berliner Kulturverwaltung',
+          name: 'Arbeitsstipendium Bildende Kunst der Berliner Kulturverwaltung',
           language: 'de',
         },
         {
-          name:
-            'Arbeitsstipendium Bildende Kunst der Berliner Kulturverwaltung',
+          name: 'Arbeitsstipendium Bildende Kunst der Berliner Kulturverwaltung',
           language: 'en',
         },
       ],

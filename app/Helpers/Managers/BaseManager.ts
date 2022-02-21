@@ -191,9 +191,8 @@ export class BaseManager<ManagedModel extends LucidModel> {
       return query;
     }
 
-    const TranslationModel = this.ManagedModel.$getRelation(
-      'translations'
-    ).relatedModel();
+    const TranslationModel =
+      this.ManagedModel.$getRelation('translations').relatedModel();
     return query.whereIn(
       'id',
       TranslationModel.query()

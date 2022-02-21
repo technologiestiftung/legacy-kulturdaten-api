@@ -1467,8 +1467,7 @@ const theaters = [
     relations: {
       translations: [
         {
-          name:
-            'Kinder- und Jugendzirkus Cabuwazi Tempelhof - Der Kulturflughafen',
+          name: 'Kinder- und Jugendzirkus Cabuwazi Tempelhof - Der Kulturflughafen',
           language: 'de',
         },
       ],
