@@ -16,7 +16,6 @@ RUN node ace build --production --client npm --ignore-ts-errors &&  \
   mv database/inits /build/database/inits && \ 
   mv CHECKS /build/CHECKS && \
   mv web.sh /build/web.sh && \
-  mv release.sh /build/release.sh && \
   mv Procfile /build/Procfile
 
 RUN ls /build
