@@ -220,9 +220,11 @@ export default class Media extends BaseModel {
       });
     }
 
-    await media.load('renditions');
-    for (const rendition of media.renditions) {
-      await rendition.updateUrl(media);
+    if (media.$isPersisted) {
+      await media.load('renditions');
+      for (const rendition of media.renditions) {
+        await rendition.updateUrl(media);
+      }
     }
   }
 
