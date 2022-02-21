@@ -129,7 +129,7 @@ export default class AuthController {
     user.status = UserStatus.ACTIVE;
     await user.save();
 
-    Event.emit('auth:passwordReset', data.email);
+    Event.emit('auth:passwordReset', user);
     return new ApiDocument(ctx, user, {
       message: 'Successfully reset password',
     });
