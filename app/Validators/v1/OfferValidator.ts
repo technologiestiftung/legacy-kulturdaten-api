@@ -29,7 +29,7 @@ export class CreateOfferValidator {
           }),
         ])
       ),
-      locations: schema.array().members(
+      locations: schema.array.optional().members(
         schema.string({}, [
           rules.exists({
             table: 'locations',
