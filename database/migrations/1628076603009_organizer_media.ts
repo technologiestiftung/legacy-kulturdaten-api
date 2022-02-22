@@ -11,8 +11,7 @@ export default class OrganizerMedia extends BaseSchema {
       table
         .string('organizer_public_id')
         .unsigned()
-        .references('organizers.public_id')
-        .onDelete('CASCADE');
+        .references('organizers.public_id');
       table
         .integer('media_id')
         .unsigned()

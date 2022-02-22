@@ -8,11 +8,7 @@ export default class OfferMedia extends BaseSchema {
       table.increments('id');
       table.timestamps(true);
 
-      table
-        .string('offer_public_id')
-        .unsigned()
-        .references('offers.public_id')
-        .onDelete('CASCADE');
+      table.string('offer_public_id').unsigned().references('offers.public_id');
       table
         .integer('media_id')
         .unsigned()

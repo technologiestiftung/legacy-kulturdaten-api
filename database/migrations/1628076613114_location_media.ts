@@ -11,8 +11,7 @@ export default class LocationMedia extends BaseSchema {
       table
         .string('location_public_id')
         .unsigned()
-        .references('locations.public_id')
-        .onDelete('CASCADE');
+        .references('locations.public_id');
       table
         .integer('media_id')
         .unsigned()
