@@ -211,7 +211,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     }
 
     if (organizer.mainContactId) {
-      console.log(organizer.mainContactId);
       const mainContact = await OrganizerContact.find(organizer.mainContactId);
       mainContact!.merge(data.attributes);
       if (mainContact!.$isDirty) {
@@ -227,7 +226,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
 
     await this.$translate(organizer.mainContact, data.relations?.translations);
 
-    console.log(organizer.mainContact.addressId);
     if (organizer.mainContact.addressId) {
       const address = await Address.find(organizer.mainContact.addressId);
       await address!.merge(data.relations?.address?.attributes);

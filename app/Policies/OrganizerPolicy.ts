@@ -12,7 +12,6 @@ export default class OrganizerPolicy extends BasePolicy {
     const roles = await OrganizerRole.query()
       .where('user_id', user.id)
       .andWhere('organizer_id', organizerId);
-    console.log(roles);
     return roles.length;
   }
 }
