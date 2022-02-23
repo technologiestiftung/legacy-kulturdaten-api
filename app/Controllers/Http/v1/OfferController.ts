@@ -20,21 +20,22 @@ export default class OfferController {
     const manager: OfferManager = new OfferManager(ctx);
     await manager.create();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async show(ctx: HttpContextContract) {
     const manager: OfferManager = new OfferManager(ctx);
-
     await manager.byId();
 
     const offer: Offer = manager.instance;
     const publishable = await offer.publishable();
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       publishable,
       transformer: OfferTransformer,
     });
+    await document.send();
   }
 
   public async update(ctx: HttpContextContract) {
@@ -49,13 +50,16 @@ export default class OfferController {
       }
     }
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       publishable,
     });
+    await document.send();
   }
 
   public async destroy(ctx: HttpContextContract) {
     const manager = new OfferManager(ctx);
-    return new ApiDocument(ctx, await manager.delete());
+
+    const document = new ApiDocument(ctx, await manager.delete());
+    await document.send();
   }
 }

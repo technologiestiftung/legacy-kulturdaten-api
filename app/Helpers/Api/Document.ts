@@ -49,7 +49,7 @@ export class ApiDocument {
 
   public format: string;
 
-  public data: ApiDocumentData;
+  public data: Promise<ApiDocumentData>;
 
   public meta: ApiDocumentMeta;
 
@@ -67,8 +67,7 @@ export class ApiDocument {
   constructor(
     ctx: HttpContextContract,
     resource: ApiResource | undefined | { data: any },
-    meta: ApiDocumentMeta = {},
-    hold: boolean = false
+    meta: ApiDocumentMeta = {}
   ) {
     this.ctx = ctx;
     this.language = ctx.language as string;
@@ -91,10 +90,6 @@ export class ApiDocument {
     }
 
     this.meta.language = this.language;
-
-    if (!hold) {
-      this.send();
-    }
   }
 
   private $transformPaginator(paginator) {
@@ -115,15 +110,18 @@ export class ApiDocument {
     };
   }
 
-  private $transformResource(resource: ApiResource): ApiDocumentData {
+  private async $transformResource(
+    resource: ApiResource
+  ): Promise<ApiDocumentData> {
     if (Array.isArray(resource)) {
-      return resource.map(this.$getResourceObject.bind(this));
+      const resourceObjects = resource.map(this.$getResourceObject.bind(this));
+      return await Promise.all(resourceObjects);
     }
 
-    return this.$getResourceObject(resource);
+    return await this.$getResourceObject(resource);
   }
 
-  private $getResourceObject(instance: Resource | typeof BaseModel) {
+  private async $getResourceObject(instance: Resource | typeof BaseModel) {
     let resourceObject = {};
     if (instance instanceof BaseModel) {
       const resource = new Resource(instance);
@@ -137,7 +135,7 @@ export class ApiDocument {
 
     if (this.transformer) {
       const transformer = new this.transformer(this.ctx, resourceObject);
-      transformer.run();
+      await transformer.run();
     }
 
     if (this.format === 'xls') {
@@ -167,8 +165,8 @@ export class ApiDocument {
     return flatResource;
   }
 
-  private $toXlsDocument() {
-    const data = types.isArray(this.data) ? this.data : [this.data];
+  private $toXlsDocument(data) {
+    data = types.isArray(data) ? data : [data];
 
     const type = data[0].type;
     const fileName = `${Date.now()}_${type || FALLBACK_EXPORT_TYPE}.xls`;
@@ -191,27 +189,34 @@ export class ApiDocument {
     return [fileName, buffer];
   }
 
+  private $sendXls(data) {
+    const [fileName, buffer] = this.$toXlsDocument(data);
+
+    this.ctx.response.header(
+      'content-type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    this.ctx.response.header('Content-Length', Buffer.byteLength(buffer));
+    this.ctx.response.header(
+      'Content-Disposition',
+      `attachment; filename=${fileName}`
+    );
+    this.ctx.response.send(buffer);
+  }
+
   public send() {
-    if (this.ctx.request.input('format') === 'xls') {
-      const [fileName, buffer] = this.$toXlsDocument();
+    console.log('Sending data ...');
+    return this.data.then((data) => {
+      console.log(data);
+      if (this.ctx.request.input('format') === 'xls') {
+        return this.$sendXls(data);
+      }
 
-      this.ctx.response.header(
-        'content-type',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      );
-      this.ctx.response.header('Content-Length', Buffer.byteLength(buffer));
-      this.ctx.response.header(
-        'Content-Disposition',
-        `attachment; filename=${fileName}`
-      );
-      this.ctx.response.send(buffer);
-      return;
-    }
-
-    this.ctx.response.ok({
-      data: this.data,
-      links: this.links,
-      meta: this.meta,
+      this.ctx.response.ok({
+        data,
+        links: this.links,
+        meta: this.meta,
+      });
     });
   }
 }

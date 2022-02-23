@@ -2,15 +2,15 @@ import { BaseTransformer } from 'App/Helpers/Api/Transformers/BaseTransformer';
 import { transformTranslationsForXls } from 'App/Helpers/Utilities';
 
 export class LocationTransformer extends BaseTransformer {
-  public run() {
-    this.transformMany(
+  public async run() {
+    await this.transformMany(
       ['relations.translations'],
       transformTranslationsForXls,
       {
         format: 'xls',
       }
     );
-    this.stripMany(
+    await this.stripMany(
       [
         'attributes.createdAt',
         'attributes.updatedAt',

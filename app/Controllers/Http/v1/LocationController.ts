@@ -20,7 +20,8 @@ export default class LocationController {
     const manager: LocationManager = new LocationManager(ctx);
     await manager.create();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async show(ctx: HttpContextContract) {
@@ -30,17 +31,18 @@ export default class LocationController {
     const location: Location = manager.instance;
     const publishable = await location.publishable();
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       publishable,
       transformer: LocationTransformer,
     });
+    await document.send();
   }
 
   public async update(ctx: HttpContextContract) {
     const manager: LocationManager = new LocationManager(ctx);
     await manager.update();
 
-    const location = await manager.instance;
+    const location = manager.instance;
     const publishable = await location.publishable();
     if (publishable !== true) {
       location.status = LocationStatus.DRAFT;
@@ -49,13 +51,16 @@ export default class LocationController {
       }
     }
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       publishable,
     });
+    await document.send();
   }
 
   public async destroy(ctx: HttpContextContract) {
     const manager = new LocationManager(ctx);
-    return new ApiDocument(ctx, await manager.delete());
+
+    const document = new ApiDocument(ctx, await manager.delete());
+    await document.send();
   }
 }

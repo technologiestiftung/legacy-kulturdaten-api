@@ -7,38 +7,42 @@ import { OfferTransformer } from 'App/Helpers/Api/Transformers/OfferTransformer'
 export default class OfferDateController {
   public async index(ctx: HttpContextContract) {
     const manager: OfferDateManager = new OfferDateManager(ctx);
-    await manager.all();
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,
       transformer: OfferTransformer,
     });
+    await document.send();
   }
 
   public async store(ctx: HttpContextContract) {
     const manager: OfferDateManager = new OfferDateManager(ctx);
     await manager.create();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async show(ctx: HttpContextContract) {
     const manager: OfferDateManager = new OfferDateManager(ctx);
-
     await manager.byId();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async update(ctx: HttpContextContract) {
     const manager: OfferDateManager = new OfferDateManager(ctx);
     await manager.update();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async destroy(ctx: HttpContextContract) {
     const manager = new OfferDateManager(ctx);
-    return new ApiDocument(ctx, await manager.delete());
+
+    const document = new ApiDocument(ctx, await manager.delete());
+    await document.send();
   }
 }

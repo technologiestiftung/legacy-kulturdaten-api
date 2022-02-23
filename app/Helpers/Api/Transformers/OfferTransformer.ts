@@ -5,8 +5,8 @@ import {
 } from 'App/Helpers/Utilities';
 
 export class OfferTransformer extends BaseTransformer {
-  public run() {
-    this.transformMany(
+  public async run() {
+    await this.transformMany(
       [
         'relations.mainType',
         'relations.types',
@@ -19,7 +19,7 @@ export class OfferTransformer extends BaseTransformer {
       }
     );
 
-    this.transformMany(
+    await this.transformMany(
       [
         'relations.translations',
         'relations.organizers.[*].relations.translations',
@@ -33,7 +33,7 @@ export class OfferTransformer extends BaseTransformer {
       }
     );
 
-    this.stripMany(
+    await this.stripMany(
       [
         'attributes.createdAt',
         'attributes.updatedAt',

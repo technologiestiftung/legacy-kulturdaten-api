@@ -4,38 +4,38 @@ import Organizer, { OrganizerStatus } from 'App/Models/Organizer/Organizer';
 import OrganizerManager from 'App/Helpers/Managers/OrganizerManager';
 import { OrganizerTransformer } from 'App/Helpers/Api/Transformers/OrganizerTransformer';
 
-// TODO(matthiasrohmer): Add permissions
 export default class OrganizerController {
   public async index(ctx: HttpContextContract) {
     const manager = new OrganizerManager(ctx);
     await manager.all();
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,
       transformer: OrganizerTransformer,
     });
+    await document.send();
   }
 
   public async store(ctx: HttpContextContract) {
     const manager = new OrganizerManager(ctx);
     await manager.create();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async show(ctx: HttpContextContract) {
     const manager = new OrganizerManager(ctx);
-
-    manager.include = 'address,types,subjects';
     await manager.byId();
 
     const organizer: Organizer = manager.instance;
     const publishable = await organizer.publishable();
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       publishable,
       transformer: OrganizerTransformer,
     });
+    await document.send();
   }
 
   public async update(ctx: HttpContextContract) {
@@ -50,13 +50,16 @@ export default class OrganizerController {
       }
     }
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       publishable,
     });
+    await document.send();
   }
 
   public async destroy(ctx: HttpContextContract) {
     const manager = new OrganizerManager(ctx);
-    return new ApiDocument(ctx, await manager.delete());
+
+    const document = new ApiDocument(ctx, await manager.delete());
+    await document.send();
   }
 }

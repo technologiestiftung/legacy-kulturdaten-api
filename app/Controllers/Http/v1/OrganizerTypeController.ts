@@ -1,75 +1,13 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import OrganizerTypeValidator from 'App/Validators/v1/OrganizerTypeValidator';
-import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { ApiDocument } from 'App/Helpers/Api/Document';
-import OrganizerType from 'App/Models/Organizer/OrganizerType';
 import OrganizerTypeManager from 'App/Helpers/Managers/OrganizerTypeManager';
 
-// TODO(matthiasrohmer): Add permissions
 export default class OrganizerTypeController {
   public async index(ctx: HttpContextContract) {
     const manager: OrganizerTypeManager = new OrganizerTypeManager(ctx);
     await manager.all();
 
-    return new ApiDocument(ctx, manager.toResources());
-  }
-
-  public async store(ctx: HttpContextContract) {
-    const { request, auth } = ctx;
-    if (!auth.user) {
-      throw new UnauthorizedException();
-    }
-
-    const data = await request.validate(OrganizerTypeValidator);
-    const organizerType = await OrganizerType.create(data);
-
-    return new ApiDocument(
-      ctx,
-      { data: organizerType },
-      'Organizer type created successfully'
-    );
-  }
-
-  public async show(ctx: HttpContextContract) {
-    const manager: OrganizerTypeManager = new OrganizerTypeManager(ctx);
-    await manager.fromContext();
-
-    return new ApiDocument(ctx, manager.toResources());
-  }
-
-  public async update(ctx: HttpContextContract) {
-    const { auth, request, params } = ctx;
-    if (!auth.user) {
-      throw new UnauthorizedException();
-    }
-
-    const data = await request.validate(OrganizerTypeValidator);
-
-    const organizerType = await OrganizerType.query()
-      .where('id', params.id)
-      .firstOrFail();
-
-    organizerType.merge(data);
-    await organizerType.save();
-
-    return new ApiDocument(
-      ctx,
-      { data: organizerType },
-      'Organizer type updated successfully'
-    );
-  }
-
-  public async destroy(ctx: HttpContextContract) {
-    const { params, auth } = ctx;
-    if (!auth.user) {
-      throw new UnauthorizedException();
-    }
-
-    const organizerType = await OrganizerType.query()
-      .where('id', params.id)
-      .firstOrFail();
-    await organizerType.delete();
-
-    return new ApiDocument(ctx, {}, 'Organizer type deleted successfully');
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 }

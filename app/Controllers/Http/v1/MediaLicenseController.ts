@@ -8,13 +8,15 @@ export default class MediaLicenseController {
     const manager = new MediaLicenseManager(ctx);
     await manager.all();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async show(ctx: HttpContextContract) {
     const manager = new MediaLicenseManager(ctx);
-
     await manager.byId();
-    return new ApiDocument(ctx, manager.toResources());
+
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 }
