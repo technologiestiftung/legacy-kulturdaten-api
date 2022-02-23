@@ -40,7 +40,10 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       },
       {
         name: 'locations',
-        query: withTranslations,
+        query: (query) => {
+          withTranslations(query);
+          query.preload('openingHours');
+        },
       },
       {
         name: 'tags',
