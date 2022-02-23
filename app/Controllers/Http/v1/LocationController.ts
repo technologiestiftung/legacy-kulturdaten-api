@@ -10,10 +10,11 @@ export default class LocationController {
     const manager: LocationManager = new LocationManager(ctx);
     await manager.all();
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,
       transformer: LocationTransformer,
     });
+    await document.send();
   }
 
   public async store(ctx: HttpContextContract) {

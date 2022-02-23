@@ -10,10 +10,11 @@ export default class OfferController {
     const manager: OfferManager = new OfferManager(ctx);
     await manager.all();
 
-    return new ApiDocument(ctx, manager.toResources(), {
+    const document = new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,
       transformer: OfferTransformer,
     });
+    await document.send();
   }
 
   public async store(ctx: HttpContextContract) {

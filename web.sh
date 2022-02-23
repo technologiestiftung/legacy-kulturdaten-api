@@ -1,5 +1,5 @@
 #!/bin/bash
-node ace migration:status
-node ace migration:run
-node ace migration:status
+echo "Running migrations ..."
+node ace migration:run --force -c pg
+echo "Starting server ..."
 node server.js
