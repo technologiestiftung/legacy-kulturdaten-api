@@ -35,7 +35,8 @@ export default class UserController {
     const resource = new Resource(user);
     resource.boot();
 
-    return new ApiDocument(ctx, resource);
+    const document = new ApiDocument(ctx, resource);
+    await document.send();
   }
 
   public async update(ctx: HttpContextContract) {
@@ -50,6 +51,7 @@ export default class UserController {
     const resource = new Resource(user);
     resource.boot();
 
-    return new ApiDocument(ctx, resource);
+    const document = new ApiDocument(ctx, resource);
+    await document.send();
   }
 }

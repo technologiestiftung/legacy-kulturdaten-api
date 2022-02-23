@@ -43,14 +43,16 @@ export default class AuthController {
     const resource = new Resource(user);
     resource.boot();
 
-    return new ApiDocument(ctx, resource);
+    const document = new ApiDocument(ctx, resource);
+    await document.send();
   }
 
   public async validate(ctx: HttpContextContract) {
     const { auth } = ctx;
-    return new ApiDocument(ctx, undefined, {
+    const document = new ApiDocument(ctx, undefined, {
       valid: !!auth.user,
     });
+    await document.send();
   }
 
   public async register(ctx: HttpContextContract) {
@@ -59,9 +61,10 @@ export default class AuthController {
     const user = await User.create(data);
 
     Event.emit('user:new', user);
-    return new ApiDocument(ctx, user, {
+    const document = new ApiDocument(ctx, user, {
       message: 'Account created successfully',
     });
+    await document.send();
   }
 
   public async verify(ctx: HttpContextContract) {
@@ -87,18 +90,20 @@ export default class AuthController {
 
     const token = await auth.use('api').attempt(data.email, data.password);
 
-    return new ApiDocument(ctx, undefined, {
+    const document = new ApiDocument(ctx, undefined, {
       token: token.toJSON(),
       message: 'Logged in successfully',
     });
+    await document.send();
   }
 
   public async logout(ctx: HttpContextContract) {
     const { auth } = ctx;
     await auth.logout();
-    return new ApiDocument(ctx, undefined, {
+    const document = new ApiDocument(ctx, undefined, {
       message: 'Logged out successfully',
     });
+    await document.send();
   }
 
   public async requestPasswordReset(ctx: HttpContextContract) {
@@ -110,9 +115,10 @@ export default class AuthController {
     user.save();
 
     Event.emit('auth:requestPasswordReset', data.email);
-    return new ApiDocument(ctx, null, {
+    const document = new ApiDocument(ctx, null, {
       message: 'Sent password reset instructions',
     });
+    await document.send();
   }
 
   public async resetPassword(ctx: HttpContextContract) {

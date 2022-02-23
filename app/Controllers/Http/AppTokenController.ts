@@ -45,7 +45,7 @@ export default class AppTokenController {
       url: attributes.url,
     });
 
-    return new ApiDocument(ctx, undefined, {
+    const document = new ApiDocument(ctx, undefined, {
       token: {
         ...token.toJSON(),
         name: attributes.name,
@@ -54,6 +54,7 @@ export default class AppTokenController {
       },
       message: 'Created new token.',
     });
+    await document.send();
   }
 
   public async destroy(ctx: HttpContextContract) {
@@ -69,8 +70,9 @@ export default class AppTokenController {
       .andWhere('id', id)
       .delete();
 
-    return new ApiDocument(ctx, undefined, {
+    const document = new ApiDocument(ctx, undefined, {
       message: 'Deleted token successfully.',
     });
+    await document.send();
   }
 }
