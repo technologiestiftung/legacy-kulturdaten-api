@@ -52,6 +52,23 @@ export class CreateOrganizerValidator {
           }),
         })
       ),
+      mainContact: schema.object.optional().members({
+        attributes: schema.object().members({
+          phone: schema.string.optional({ trim: true }, [rules.mobile()]),
+          email: schema.string({ trim: true }, [rules.email()]),
+        }),
+        relations: schema.object().members({
+          translations: schema.array.optional([rules.minLength(1)]).members(
+            schema.object().members({
+              attributes: schema.object().members({
+                name: schema.string({ trim: true }),
+                language: schema.enum(allowedLanguages),
+              }),
+            })
+          ),
+          address: address.create,
+        }),
+      }),
       types: schema.array.optional().members(
         schema.number([
           rules.exists({
@@ -89,9 +106,13 @@ export class UpdateOrganizerValidator {
   public schema = schema.create({
     attributes: schema.object.optional().members({
       status: schema.enum.optional(Object.values(OrganizerStatus)),
-      email: schema.string.optional({ trim: true }, [rules.email()]),
-      phone: schema.string.optional({ trim: true }, [rules.mobile()]),
-      homepage: schema.string.optional({ trim: true }, [rules.url()]),
+      email: schema.string.nullableAndOptional({ trim: true }, [rules.email()]),
+      phone: schema.string.nullableAndOptional({ trim: true }, [
+        rules.mobile(),
+      ]),
+      homepage: schema.string.nullableAndOptional({ trim: true }, [
+        rules.url(),
+      ]),
     }),
     relations: schema.object.optional().members({
       types: schema.array.optional([rules.minLength(1)]).members(
@@ -102,6 +123,25 @@ export class UpdateOrganizerValidator {
           }),
         ])
       ),
+      mainContact: schema.object.optional().members({
+        attributes: schema.object().members({
+          phone: schema.string.nullableAndOptional({ trim: true }, [
+            rules.mobile(),
+          ]),
+          email: schema.string.optional({ trim: true }, [rules.email()]),
+        }),
+        relations: schema.object().members({
+          translations: schema.array.optional([rules.minLength(1)]).members(
+            schema.object().members({
+              attributes: schema.object().members({
+                name: schema.string({ trim: true }),
+                language: schema.enum(allowedLanguages),
+              }),
+            })
+          ),
+          address: address.update,
+        }),
+      }),
       contacts: schema.array.optional().members(
         schema.object.optional().members({
           id: schema.number.optional([
@@ -111,11 +151,11 @@ export class UpdateOrganizerValidator {
             }),
           ]),
           attributes: schema.object().members({
-            phone: schema.string.optional({ trim: true }, [
+            phone: schema.string.nullableAndOptional({ trim: true }, [
               rules.mobile(),
               rules.requiredIfNotExists('email'),
             ]),
-            email: schema.string.optional({ trim: true }, [
+            email: schema.string.nullableAndOptional({ trim: true }, [
               rules.email(),
               rules.requiredIfNotExists('phone'),
             ]),
@@ -124,7 +164,7 @@ export class UpdateOrganizerValidator {
             translations: schema.array.optional([rules.minLength(1)]).members(
               schema.object().members({
                 attributes: schema.object().members({
-                  name: schema.string({ trim: true }),
+                  name: schema.string.nullableAndOptional({ trim: true }),
                   language: schema.enum(allowedLanguages),
                 }),
               })
@@ -229,12 +269,9 @@ export class PublishOrganizerValidator {
       status: schema.enum(Object.values(OrganizerStatus)),
     }),
     relations: schema.object().members({
-      address: schema.object().members({
+      mainContact: schema.object().members({
         attributes: schema.object().members({
-          street1: schema.string({ trim: true }),
-          street2: schema.string.optional({ trim: true }),
-          zipCode: schema.string({ trim: true }),
-          city: schema.string({ trim: true }),
+          email: schema.string({ trim: true }, [rules.email()]),
         }),
       }),
       types: schema.array([rules.minLength(1)]).members(

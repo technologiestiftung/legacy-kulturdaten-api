@@ -2,6 +2,8 @@ import { DateTime } from 'luxon';
 import {
   BaseModel,
   column,
+  hasOne,
+  HasOne,
   manyToMany,
   ManyToMany,
   hasMany,
@@ -13,7 +15,6 @@ import {
   beforeCreate,
 } from '@ioc:Adonis/Lucid/Orm';
 import { cuid } from '@ioc:Adonis/Core/Helpers';
-import Address from 'App/Models/Address';
 import {
   OrganizerType,
   OrganizerSubject,
@@ -61,12 +62,6 @@ export default class Organizer extends BaseModel {
   public status: string;
 
   @column({ serializeAs: null })
-  public addressId: number;
-
-  @belongsTo(() => Address)
-  public address: BelongsTo<typeof Address>;
-
-  @column({ serializeAs: null })
   public logoId: number;
 
   @belongsTo(() => Media, {
@@ -106,6 +101,14 @@ export default class Organizer extends BaseModel {
 
   @hasMany(() => OrganizerContact)
   public contacts: HasMany<typeof OrganizerContact>;
+
+  @column({ serializeAs: null })
+  public mainContactId: number;
+
+  @belongsTo(() => OrganizerContact, {
+    foreignKey: 'mainContactId',
+  })
+  public mainContact: BelongsTo<typeof OrganizerContact>;
 
   @manyToMany(() => Link, {
     relatedKey: 'id',
@@ -154,7 +157,6 @@ export default class Organizer extends BaseModel {
   public async publishable() {
     const organizer = await Organizer.find(this.id);
 
-    await organizer?.load('address');
     await organizer?.load('types');
     await organizer?.load('subjects');
 

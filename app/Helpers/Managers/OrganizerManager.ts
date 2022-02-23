@@ -38,11 +38,23 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     ],
     includables: [
       {
-        name: 'address',
+        name: 'mainContact',
+        query: (query) => {
+          withTranslations(query);
+          query.preload('address');
+        },
       },
       {
         name: 'contacts',
-        query: withTranslations,
+        query: (query) => {
+          withTranslations(query);
+          query.whereNotIn(
+            'id',
+            Database.from('organizers')
+              .whereNotNull('main_contact_id')
+              .select('main_contact_id')
+          );
+        },
       },
       {
         name: 'types',
@@ -110,17 +122,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
 
   constructor(ctx) {
     super(ctx, Organizer);
-  }
-
-  private async $createAddress(organizer, attributes, trx) {
-    const address = new Address();
-    address.fill(attributes);
-
-    address.useTransaction(trx);
-    await address.save();
-    await organizer.related('address').associate(address);
-
-    return address;
   }
 
   private async $updateTypes(organizer: Organizer, types) {
@@ -204,6 +205,46 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     );
   }
 
+  private async $updateMainContact(organizer: Organizer, data) {
+    if (!data) {
+      return;
+    }
+
+    if (organizer.mainContactId) {
+      console.log(organizer.mainContactId);
+      const mainContact = await OrganizerContact.find(organizer.mainContactId);
+      mainContact!.merge(data.attributes);
+      if (mainContact!.$isDirty) {
+        await mainContact!.save();
+      }
+    } else {
+      const mainContact = await OrganizerContact.create(data.attributes);
+      await organizer.related('mainContact').associate(mainContact);
+    }
+
+    await organizer.refresh();
+    await organizer.load('mainContact');
+
+    await this.$translate(organizer.mainContact, data.relations?.translations);
+
+    console.log(organizer.mainContact.addressId);
+    if (organizer.mainContact.addressId) {
+      const address = await Address.find(organizer.mainContact.addressId);
+      await address!.merge(data.relations?.address?.attributes);
+      if (address!.$isDirty) {
+        await address!.save();
+      }
+    } else {
+      const address = await Address.create(data.relations?.address?.attributes);
+      await organizer.mainContact.related('address').associate(address);
+    }
+
+    await organizer.load('mainContact', (query) => {
+      query.preload('translations');
+      query.preload('address');
+    });
+  }
+
   public async create() {
     const { attributes, relations } = await this.ctx.request.validate(
       new CreateOrganizerValidator(this.ctx)
@@ -214,10 +255,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
       organizer.useTransaction(trx);
       organizer.fill(attributes || {}, true);
       await organizer.save();
-
-      if (relations?.address) {
-        await this.$createAddress(organizer, relations.address.attributes, trx);
-      }
 
       await this.$bootstrapTranslations(organizer);
       await this.$translate(organizer);
@@ -232,6 +269,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     // Storing the logo needs to happen outside the transaction
     // as it creates a belongsTo relationship
     await this.$storeLogo(organizer);
+    await this.$updateMainContact(organizer, relations?.mainContact);
     await this.$updateMany(organizer, 'contacts', relations?.contacts);
 
     // Create a role for the user creating the organizer
@@ -266,19 +304,6 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
         await organizer.save();
       }
 
-      if (relations?.address) {
-        if (organizer.address) {
-          organizer.address.merge(relations.address.attributes);
-          await organizer.address.save();
-        } else {
-          await this.$createAddress(
-            organizer,
-            relations.address.attributes,
-            trx
-          );
-        }
-      }
-
       await this.$translate(organizer);
       await this.$updateSubjects(organizer, relations?.subjects);
       await this.$updateTypes(organizer, relations?.types);
@@ -288,6 +313,7 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     });
 
     await this.$storeLogo(organizer);
+    await this.$updateMainContact(organizer, relations?.mainContact);
     await this.$updateMany(organizer, 'contacts', relations?.contacts);
     await this.$updateRoles(organizer, relations?.roles);
 
