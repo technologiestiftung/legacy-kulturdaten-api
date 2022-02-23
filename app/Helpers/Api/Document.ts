@@ -204,19 +204,16 @@ export class ApiDocument {
     this.ctx.response.send(buffer);
   }
 
-  public send() {
-    console.log('Sending data ...');
-    return this.data.then((data) => {
-      console.log(data);
-      if (this.ctx.request.input('format') === 'xls') {
-        return this.$sendXls(data);
-      }
+  public async send() {
+    const data = this.data ? await this.data : undefined;
+    if (this.ctx.request.input('format') === 'xls') {
+      return this.$sendXls(data);
+    }
 
-      this.ctx.response.ok({
-        data,
-        links: this.links,
-        meta: this.meta,
-      });
+    this.ctx.response.ok({
+      data,
+      links: this.links,
+      meta: this.meta,
     });
   }
 }
