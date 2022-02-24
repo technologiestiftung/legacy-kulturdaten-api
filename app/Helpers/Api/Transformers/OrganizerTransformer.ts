@@ -10,11 +10,17 @@ export class OrganizerTransformer extends BaseTransformer {
       return true;
     }
 
-    return (
-      (await this.ctx.bouncer
+    if (guards.isOwner === true) {
+      return await this.ctx.bouncer
         .with('OrganizerPolicy')
-        .allows('edit', this.resource.id)) === !guards.isOwner
-    );
+        .allows('edit', this.resource.id);
+    }
+
+    if (guards.isOwner === false) {
+      return await this.ctx.bouncer
+        .with('OrganizerPolicy')
+        .denies('edit', this.resource.id);
+    }
   }
 
   public async run() {
