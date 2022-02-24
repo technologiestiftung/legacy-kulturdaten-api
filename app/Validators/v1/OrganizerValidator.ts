@@ -61,7 +61,7 @@ export class CreateOrganizerValidator {
           translations: schema.array.optional([rules.minLength(1)]).members(
             schema.object().members({
               attributes: schema.object().members({
-                name: schema.string({ trim: true }),
+                name: schema.string.optional({ trim: true }),
                 language: schema.enum(allowedLanguages),
               }),
             })
@@ -134,7 +134,7 @@ export class UpdateOrganizerValidator {
           translations: schema.array.optional([rules.minLength(1)]).members(
             schema.object().members({
               attributes: schema.object().members({
-                name: schema.string({ trim: true }),
+                name: schema.string.nullableAndOptional({ trim: true }),
                 language: schema.enum(allowedLanguages),
               }),
             })
