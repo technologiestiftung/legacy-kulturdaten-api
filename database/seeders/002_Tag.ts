@@ -5,7 +5,7 @@ import tags from '../../seeds/Tag';
 
 export default class TagSeeder extends BaseSeeder {
   public async run() {
-    const existingTags = await Tags.all();
+    const existingTags = await Tag.all();
     if (existingTags.length) {
       return;
     }
