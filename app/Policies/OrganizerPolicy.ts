@@ -1,5 +1,4 @@
 import User from 'App/Models/User';
-import Organizer from 'App/Models/Organizer';
 import { BasePolicy } from '@ioc:Adonis/Addons/Bouncer';
 import { OrganizerRole } from 'App/Models/Roles';
 

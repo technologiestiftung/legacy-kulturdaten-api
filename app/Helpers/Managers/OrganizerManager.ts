@@ -291,6 +291,11 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     );
 
     const organizer = await this.byId();
+
+    await this.ctx.bouncer
+      .with('OrganizerPolicy')
+      .authorize('edit', organizer.publicId);
+
     await Database.transaction(async (trx) => {
       organizer.homepage = attributes?.homepage || organizer.homepage;
       organizer.phone = attributes?.phone || organizer.phone;
@@ -322,6 +327,10 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
     const { attributes, relations } = await this.ctx.request.validate(
       new DeleteOrganizerValidator(this.ctx)
     );
+
+    await this.ctx.bouncer
+      .with('OrganizerPolicy')
+      .authorize('edit', attributes!.id);
 
     return [
       ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),
