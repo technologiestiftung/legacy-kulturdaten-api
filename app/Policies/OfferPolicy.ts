@@ -1,6 +1,5 @@
 import User from 'App/Models/User';
 import { BasePolicy } from '@ioc:Adonis/Addons/Bouncer';
-import Offer from 'App/Models/Offer/Offer';
 import Database from '@ioc:Adonis/Lucid/Database';
 
 export default class OfferPolicy extends BasePolicy {
