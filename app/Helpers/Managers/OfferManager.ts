@@ -256,6 +256,11 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     );
 
     const offer = await this.byId();
+
+    await this.ctx.bouncer
+      .with('OfferPolicy')
+      .authorize('edit', offer.publicId);
+
     await Database.transaction(async (trx) => {
       offer.useTransaction(trx);
 
@@ -294,6 +299,10 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     const { attributes, relations } = await this.ctx.request.validate(
       new DeleteOfferValidator(this.ctx)
     );
+
+    await this.ctx.bouncer
+      .with('OfferPolicy')
+      .authorize('edit', attributes!.id);
 
     return [
       ...(await this.$deleteObjects(OfferDate, relations?.dates)),

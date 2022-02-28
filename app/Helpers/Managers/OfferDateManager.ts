@@ -119,6 +119,10 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
     );
 
     const offer = await this.$getOfferById();
+    await this.ctx.bouncer
+      .with('OfferPolicy')
+      .authorize('edit', this.ctx.params.offer_id);
+
     if (meta?.recurrenceRule) {
       return this.$createMany(offer, attributes, relations, meta);
     }
@@ -151,7 +155,11 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
       new UpdateOfferDateValidator(this.ctx)
     );
 
+    await this.ctx.bouncer
+      .with('OfferPolicy')
+      .authorize('edit', this.ctx.params.offer_id);
     const offerDate = await this.byId();
+
     await Database.transaction(async (trx) => {
       offerDate.useTransaction(trx);
 
@@ -173,6 +181,10 @@ export default class OfferDateManager extends BaseManager<typeof OfferDate> {
   }
 
   public async delete() {
+    await this.ctx.bouncer
+      .with('OfferPolicy')
+      .authorize('edit', this.ctx.params.offer_id);
+
     const { attributes } = await this.ctx.request.validate(
       new DeleteOfferDateValidator(this.ctx)
     );

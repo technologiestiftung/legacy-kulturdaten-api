@@ -65,4 +65,6 @@ export const { actions } = Bouncer.define('superuser', (user: User) => {
 */
 export const { policies } = Bouncer.registerPolicies({
   OrganizerPolicy: () => import('App/Policies/OrganizerPolicy'),
+  LocationPolicy: () => import('App/Policies/LocationPolicy'),
+  OfferPolicy: () => import('App/Policies/OfferPolicy'),
 });

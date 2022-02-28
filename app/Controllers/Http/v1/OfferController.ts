@@ -4,7 +4,6 @@ import Offer, { OfferStatus } from 'App/Models/Offer/Offer';
 import OfferManager from 'App/Helpers/Managers/OfferManager';
 import { OfferTransformer } from 'App/Helpers/Api/Transformers/OfferTransformer';
 
-// TODO(matthiasrohmer): Add permissions
 export default class OfferController {
   public async index(ctx: HttpContextContract) {
     const manager: OfferManager = new OfferManager(ctx);

@@ -4,7 +4,6 @@ import Location, { LocationStatus } from 'App/Models/Location/Location';
 import LocationManager from 'App/Helpers/Managers/LocationManager';
 import { LocationTransformer } from 'App/Helpers/Api/Transformers/LocationTransformer';
 
-// TODO(matthiasrohmer): Add permissions
 export default class LocationController {
   public async index(ctx: HttpContextContract) {
     const manager: LocationManager = new LocationManager(ctx);

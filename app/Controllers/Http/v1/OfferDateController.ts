@@ -3,7 +3,6 @@ import { ApiDocument } from 'App/Helpers/Api/Document';
 import OfferDateManager from 'App/Helpers/Managers/OfferDateManager';
 import { OfferTransformer } from 'App/Helpers/Api/Transformers/OfferTransformer';
 
-// TODO(matthiasrohmer): Add permissions
 export default class OfferDateController {
   public async index(ctx: HttpContextContract) {
     const manager: OfferDateManager = new OfferDateManager(ctx);
