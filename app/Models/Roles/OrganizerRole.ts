@@ -5,9 +5,11 @@ import {
   belongsTo,
   BelongsTo,
   computed,
+  afterCreate,
 } from '@ioc:Adonis/Lucid/Orm';
 import User from 'App/Models/User';
 import Organizer from 'App/Models/Organizer/Organizer';
+import Event from '@ioc:Adonis/Core/Event';
 
 export default class OrganizerRole extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -43,4 +45,11 @@ export default class OrganizerRole extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
+
+  @afterCreate()
+  public static async sendNotification(role: OrganizerRole) {
+    if (!role.isActive) {
+      Event.emit('organizerRole:new', role);
+    }
+  }
 }

@@ -16,6 +16,7 @@ import { InvalidRouteSignature } from 'App/Exceptions/InvalidRouteSignature';
 import { ApiDocument } from 'App/Helpers/Api/Document';
 import Resource from 'App/Helpers/Api/Resource';
 import Env from '@ioc:Adonis/Core/Env';
+import { OrganizerRole } from 'App/Models/Roles';
 
 export default class AuthController {
   public async info(ctx: HttpContextContract) {
@@ -78,6 +79,10 @@ export default class AuthController {
     if (!user.isActive) {
       user.status = UserStatus.ACTIVE;
       await user.save();
+
+      await OrganizerRole.query()
+        .where('email', user.email)
+        .update({ userId: user.id });
     }
 
     const loginUrl = `${Env.get('APP_URL') as string}/auth/success`;
