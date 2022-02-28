@@ -24,7 +24,9 @@ export class OrganizerTransformer extends BaseTransformer {
   }
 
   public async run() {
-    await this.strip('relations.mainContact', { isOwner: false });
+    await this.stripMany(['relations.mainContact', 'relations.roles'], {
+      isOwner: false,
+    });
 
     await this.transformMany(
       ['relations.types', 'relations.subjects', 'relations.tags'],
