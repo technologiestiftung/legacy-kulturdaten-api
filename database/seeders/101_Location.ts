@@ -8,7 +8,7 @@ export default class LocationSeeder extends BaseSeeder {
 
   public async run() {
     const organizers = faker.random.arrayElements(
-      await Organizer.query().preload('translations').preload('address')
+      await Organizer.query().preload('translations')
     );
 
     for (const organizer of organizers) {
@@ -20,9 +20,7 @@ export default class LocationSeeder extends BaseSeeder {
         });
       }
 
-      factory.with('address', 1, (address) => {
-        address.merge(organizer.address.serializeAttributes());
-      });
+      factory.with('address', 1);
 
       factory.with('openingHours', faker.datatype.number(6));
       factory.with('accessibility', 1);

@@ -20,17 +20,19 @@ export default class OrganizerSeeder extends BaseSeeder {
       });
     }
 
-    factory.with('address', 1, (address) => {
-      address.merge(resource.relations.address);
-    });
-
     if (faker.datatype.boolean()) {
       factory.with('links', faker.datatype.number(3));
     }
 
-    factory.with('contacts', faker.datatype.number(3), (contacts) => {
+    factory.with('mainContact', 1, (contacts) => {
       contacts.with('translations', 1);
     });
+
+    if (faker.datatype.boolean()) {
+      factory.with('contacts', faker.datatype.number(3), (contacts) => {
+        contacts.with('translations', 1);
+      });
+    }
 
     const organizer = await factory.create();
     if (type) {

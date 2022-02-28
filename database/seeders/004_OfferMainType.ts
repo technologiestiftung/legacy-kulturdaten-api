@@ -5,6 +5,11 @@ import offerMainTypes from '../../seeds/OfferMainType';
 
 export default class OfferMainTypeSeeder extends BaseSeeder {
   public async run() {
+    const existingOfferMainTypes = await OfferMainType.all();
+    if (existingOfferMainTypes.length) {
+      return;
+    }
+
     await Promise.all(
       offerMainTypes.map(async (resource) => {
         const offerMainType = new OfferMainType();
