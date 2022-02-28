@@ -324,13 +324,13 @@ export default class OrganizerManager extends BaseManager<typeof Organizer> {
   }
 
   public async delete() {
+    await this.ctx.bouncer
+      .with('OrganizerPolicy')
+      .authorize('edit', this.ctx.params.id);
+
     const { attributes, relations } = await this.ctx.request.validate(
       new DeleteOrganizerValidator(this.ctx)
     );
-
-    await this.ctx.bouncer
-      .with('OrganizerPolicy')
-      .authorize('edit', attributes!.id);
 
     return [
       ...(await this.$deleteObjects(OrganizerContact, relations?.contacts)),

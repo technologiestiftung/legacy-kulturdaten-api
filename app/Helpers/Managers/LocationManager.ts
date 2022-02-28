@@ -194,13 +194,13 @@ export default class LocationManager extends BaseManager<typeof Location> {
   }
 
   public async delete() {
+    await this.ctx.bouncer
+      .with('LocationPolicy')
+      .authorize('edit', this.ctx.params.id);
+
     const { attributes, relations } = await this.ctx.request.validate(
       new DeleteLocationValidator(this.ctx)
     );
-
-    await this.ctx.bouncer
-      .with('LocationPolicy')
-      .authorize('edit', attributes!.id);
 
     return [
       ...(await this.$deleteObject(Location, attributes?.id, 'public_id')),

@@ -296,13 +296,13 @@ export default class OfferManager extends BaseManager<typeof Offer> {
   }
 
   public async delete() {
+    await this.ctx.bouncer
+      .with('OfferPolicy')
+      .authorize('edit', this.ctx.params.id);
+
     const { attributes, relations } = await this.ctx.request.validate(
       new DeleteOfferValidator(this.ctx)
     );
-
-    await this.ctx.bouncer
-      .with('OfferPolicy')
-      .authorize('edit', attributes!.id);
 
     return [
       ...(await this.$deleteObjects(OfferDate, relations?.dates)),
