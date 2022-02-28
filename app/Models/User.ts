@@ -58,6 +58,11 @@ export default class User extends BaseModel {
     return termsUpdatedAt <= this.acceptedTermsAt;
   }
 
+  @computed()
+  public get isActive() {
+    return this.status === UserStatus.ACTIVE;
+  }
+
   @column.dateTime()
   public deletionRequestedAt: DateTime | null;
 
@@ -66,9 +71,5 @@ export default class User extends BaseModel {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password);
     }
-  }
-
-  public isActive() {
-    return this.status === UserStatus.ACTIVE;
   }
 }

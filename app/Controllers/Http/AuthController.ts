@@ -75,7 +75,7 @@ export default class AuthController {
     }
 
     const user: User = await User.findByOrFail('email', params.email);
-    if (!user.isActive()) {
+    if (!user.isActive) {
       user.status = UserStatus.ACTIVE;
       await user.save();
     }
