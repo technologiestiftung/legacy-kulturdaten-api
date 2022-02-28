@@ -19,7 +19,7 @@ export default class AppTokenController {
       .where('user_id', auth.user.id)
       .select('id', 'name', 'description', 'url', 'token');
 
-    return new ApiDocument(ctx, undefined, {
+    const document = new ApiDocument(ctx, undefined, {
       tokens: tokens.map((token) => {
         return {
           id: token.id,
@@ -30,6 +30,7 @@ export default class AppTokenController {
         };
       }),
     });
+    await document.send();
   }
 
   public async store(ctx: HttpContextContract) {

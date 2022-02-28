@@ -136,8 +136,9 @@ export default class AuthController {
     await user.save();
 
     Event.emit('auth:passwordReset', user);
-    return new ApiDocument(ctx, user, {
+    const document = new ApiDocument(ctx, user, {
       message: 'Successfully reset password',
     });
+    await document.send();
   }
 }

@@ -14,7 +14,7 @@ export default class UserController {
 
     const users = await User.all();
 
-    return new ApiDocument(
+    const document = new ApiDocument(
       ctx,
       users.map((user) => {
         const resource = new Resource(user);
@@ -23,6 +23,7 @@ export default class UserController {
         return resource;
       })
     );
+    await document.send();
   }
 
   public async store(ctx: HttpContextContract) {
