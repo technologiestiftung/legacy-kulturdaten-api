@@ -2,6 +2,7 @@ import faker from 'faker';
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import { OrganizerFactory } from 'Database/factories/Organizer';
 import { OrganizerStatus } from 'App/Models/Organizer/Organizer';
+import Organizer from 'App/Models/Organizer/Organizer';
 import OrganizerType from 'App/Models/Organizer/OrganizerType';
 import Tag from 'App/Models/Tag';
 
@@ -54,6 +55,11 @@ export default class OrganizerSeeder extends BaseSeeder {
   }
 
   public async run() {
+    const existingOrganizers = await Organizer.all();
+    if (existingOrganizers.length) {
+      return;
+    }
+
     const organizerTypeMuseum = await OrganizerType.findByTranslation('museum');
     const museums = await Promise.all(
       museumsData.map((resource) => {
