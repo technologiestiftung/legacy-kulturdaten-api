@@ -8,6 +8,6 @@ Event.on('user:new', 'User.sendVerificationMail');
 Event.on('auth:requestPasswordReset', 'Auth.sendPasswordResetInstructions');
 Event.on('auth:passwordReset', 'Auth.sendPasswordResetNotification');
 
-Event.on('new:invitation', 'NewInvitation.sendInvitationMail');
+Event.on('organizerRole:new', 'OrganizerRole.sendInvitationMail');
 
 // Event.on('db:query', Database.prettyPrint);

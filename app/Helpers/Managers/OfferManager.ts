@@ -39,8 +39,11 @@ export default class OfferManager extends BaseManager<typeof Offer> {
         query: withTranslations,
       },
       {
-        name: 'location',
-        query: withTranslations,
+        name: 'locations',
+        query: (query) => {
+          withTranslations(query);
+          query.preload('openingHours');
+        },
       },
       {
         name: 'tags',
@@ -213,15 +216,8 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       offer.isPermanent = attributes?.isPermanent || false;
       offer.ticketUrl = attributes?.ticketUrl || '';
       offer.registrationUrl = attributes?.registrationUrl || '';
-      if (relations?.location) {
-        offer.locationId = relations!.location;
-      }
 
       await offer.save();
-
-      if (relations?.location) {
-        await offer.load('location');
-      }
 
       await this.$translate(offer);
       await this.$bootstrapTranslations(offer);
@@ -229,6 +225,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       await this.$updateDates(offer, meta);
 
       await this.$updateManyToMany(offer, 'organizers', relations?.organizers);
+      await this.$updateManyToMany(offer, 'locations', relations?.locations);
 
       await this.$updateManyToMany(offer, 'mainType', relations?.mainType);
       await this.$updateManyToMany(offer, 'types', relations?.types);
@@ -259,6 +256,11 @@ export default class OfferManager extends BaseManager<typeof Offer> {
     );
 
     const offer = await this.byId();
+
+    await this.ctx.bouncer
+      .with('OfferPolicy')
+      .authorize('edit', offer.publicId);
+
     await Database.transaction(async (trx) => {
       offer.useTransaction(trx);
 
@@ -268,9 +270,6 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       updateField(attributes, offer, 'isPermanent');
       updateField(attributes, offer, 'ticketUrl');
       updateField(attributes, offer, 'registrationUrl');
-      if (relations?.location) {
-        offer.locationId = relations!.location;
-      }
       if (offer.$isDirty) {
         await offer.save();
       }
@@ -279,6 +278,7 @@ export default class OfferManager extends BaseManager<typeof Offer> {
       await this.$updateDates(offer, meta);
 
       await this.$updateManyToMany(offer, 'organizers', relations?.organizers);
+      await this.$updateManyToMany(offer, 'locations', relations?.locations);
 
       await this.$updateManyToMany(offer, 'mainType', relations?.mainType);
       await this.$updateManyToMany(offer, 'types', relations?.types);
@@ -296,6 +296,10 @@ export default class OfferManager extends BaseManager<typeof Offer> {
   }
 
   public async delete() {
+    await this.ctx.bouncer
+      .with('OfferPolicy')
+      .authorize('edit', this.ctx.params.id);
+
     const { attributes, relations } = await this.ctx.request.validate(
       new DeleteOfferValidator(this.ctx)
     );

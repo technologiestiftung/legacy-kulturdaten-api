@@ -160,6 +160,11 @@ export default class LocationManager extends BaseManager<typeof Location> {
     );
 
     const location = await this.byId();
+
+    await this.ctx.bouncer
+      .with('LocationPolicy')
+      .authorize('edit', location.publicId);
+
     updateField(attributes, location, 'status');
     updateField(attributes, location, 'type');
     updateField(attributes, location, 'url');
@@ -189,6 +194,10 @@ export default class LocationManager extends BaseManager<typeof Location> {
   }
 
   public async delete() {
+    await this.ctx.bouncer
+      .with('LocationPolicy')
+      .authorize('edit', this.ctx.params.id);
+
     const { attributes, relations } = await this.ctx.request.validate(
       new DeleteLocationValidator(this.ctx)
     );

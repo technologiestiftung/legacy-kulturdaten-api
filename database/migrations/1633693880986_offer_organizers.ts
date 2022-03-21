@@ -1,6 +1,6 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class OfferOfferTypes extends BaseSchema {
+export default class OfferOrganizers extends BaseSchema {
   protected tableName = 'offer_organizer';
 
   public async up() {

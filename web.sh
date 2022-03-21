@@ -1,3 +1,5 @@
 #!/bin/bash
-node ace migration:run
+echo "Running migrations ..." &&
+node ace migration:run --force -c pg &&
+echo "Starting server ..." &&
 node server.js

@@ -11,6 +11,7 @@ import { withTranslations } from '../Utilities';
 import { schema } from '@ioc:Adonis/Core/Validator';
 import { UnauthorizedException } from 'App/Exceptions/Auth';
 import { allowedLanguages } from 'Config/app';
+import Database from '@ioc:Adonis/Lucid/Database';
 
 interface OrderableInstruction {
   name: string;
@@ -191,13 +192,16 @@ export class BaseManager<ManagedModel extends LucidModel> {
       return query;
     }
 
-    const TranslationModel = this.ManagedModel.$getRelation(
-      'translations'
-    ).relatedModel();
+    const TranslationModel =
+      this.ManagedModel.$getRelation('translations').relatedModel();
     return query.whereIn(
       'id',
       TranslationModel.query()
-        .where('name', 'like', `%${searchTerm}%`)
+        .where(
+          'name',
+          Database.primaryConnectionName == 'sqlite' ? 'LIKE' : 'ILIKE',
+          `%${searchTerm}%`
+        )
         .select(
           this.ManagedModel.$getRelation('translations').foreignKeyColumName
         )

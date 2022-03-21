@@ -42,8 +42,9 @@ export default class UserController {
     const resource = new Resource(user);
     resource.boot();
 
-    return new ApiDocument(ctx, resource, {
+    const document = new ApiDocument(ctx, resource, {
       termsUpdatedAt,
     });
+    await document.send();
   }
 }

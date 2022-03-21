@@ -5,6 +5,11 @@ import organizerTypes from '../../seeds/OrganizerType';
 
 export default class OrganizerTypeSeeder extends BaseSeeder {
   public async run() {
+    const existingOrganizerTypes = await OrganizerType.all();
+    if (existingOrganizerTypes.length) {
+      return;
+    }
+
     await Promise.all(
       organizerTypes.map(async (resource) => {
         const organizerType = new OrganizerType();

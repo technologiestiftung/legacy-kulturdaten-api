@@ -411,8 +411,7 @@ const museums = [
     relations: {
       translations: [
         {
-          name:
-            'Ausstellungen in der Kleinen Orangerie am Schloss Charlottenburg',
+          name: 'Ausstellungen in der Kleinen Orangerie am Schloss Charlottenburg',
           language: 'de',
         },
       ],
@@ -1742,8 +1741,7 @@ const museums = [
     relations: {
       translations: [
         {
-          name:
-            'Dokumentationszentrum NS-Zwangsarbeit Berlin-Schöneweide: Baracke 13',
+          name: 'Dokumentationszentrum NS-Zwangsarbeit Berlin-Schöneweide: Baracke 13',
           language: 'de',
         },
       ],

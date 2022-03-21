@@ -6,20 +6,24 @@ import MediaManager from 'App/Helpers/Managers/MediaManager';
 export default class MediaController {
   public async show(ctx: HttpContextContract) {
     const manager: MediaManager = new MediaManager(ctx);
-
     await manager.byId();
-    return new ApiDocument(ctx, manager.toResources());
+
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async update(ctx: HttpContextContract) {
     const manager: MediaManager = new MediaManager(ctx);
     await manager.update();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 
   public async destroy(ctx: HttpContextContract) {
     const manager = new MediaManager(ctx);
-    return new ApiDocument(ctx, await manager.delete());
+
+    const document = new ApiDocument(ctx, await manager.delete());
+    await document.send();
   }
 }

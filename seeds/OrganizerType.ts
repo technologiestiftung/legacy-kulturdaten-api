@@ -315,13 +315,11 @@ const types = [
           relations: {
             translations: [
               {
-                name:
-                  'kulturelle Bildung / ästhetische Bildung / künstlerische Mediation',
+                name: 'kulturelle Bildung / ästhetische Bildung / künstlerische Mediation',
                 language: 'de',
               },
               {
-                name:
-                  'cultural education / interpretation and outreach / art mediation',
+                name: 'cultural education / interpretation and outreach / art mediation',
                 language: 'en',
               },
             ],
@@ -1309,8 +1307,7 @@ const types = [
     relations: {
       translations: [
         {
-          name:
-            'Mehrspartenhaus / Interdisziplinäre Einrichtung oder Veranstalter:in',
+          name: 'Mehrspartenhaus / Interdisziplinäre Einrichtung oder Veranstalter:in',
           language: 'de',
         },
         {

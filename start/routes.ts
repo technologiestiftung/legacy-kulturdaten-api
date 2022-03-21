@@ -69,14 +69,6 @@ Route.group(() => {
   .middleware('auth:api');
 
 Route.group(() => {
-  Route.get('', 'InvitationController.index').as('index');
-  Route.post('', 'InvitationController.store').as('store');
-  Route.delete('/:id', 'InvitationController.destroy').as('destroy');
-})
-  .prefix('invitation')
-  .as('invitation');
-
-Route.group(() => {
   Route.resource('tag', 'v1/TagController').only(['index', 'show']);
   Route.resource('district', 'v1/DistrictController').only(['index', 'show']);
 

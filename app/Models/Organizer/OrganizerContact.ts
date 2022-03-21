@@ -1,5 +1,13 @@
 import { DateTime } from 'luxon';
-import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  column,
+  hasMany,
+  HasMany,
+  belongsTo,
+  BelongsTo,
+} from '@ioc:Adonis/Lucid/Orm';
+import Address from 'App/Models/Address';
 
 export class OrganizerContactTranslation extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -27,6 +35,12 @@ export default class OrganizerContact extends BaseModel {
 
   @column()
   public email: string;
+
+  @column({ serializeAs: null })
+  public addressId: number | null;
+
+  @belongsTo(() => Address)
+  public address: BelongsTo<typeof Address>;
 
   @column({ serializeAs: null })
   public organizerId: number;

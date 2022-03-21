@@ -23,7 +23,7 @@
     "eslint-config-prettier": "8.4.0",
     "eslint-plugin-adonis": "2.1.0",
     "eslint-plugin-prettier": "4.0.0",
-    "execa": "6.1.0",
+    "execa": "5.0.0",
     "get-port": "6.1.0",
     "japa": "4.0.0",
     "nyc": "15.1.0",

@@ -5,15 +5,37 @@ import {
 } from 'App/Helpers/Utilities';
 
 export class OrganizerTransformer extends BaseTransformer {
-  public run() {
-    this.transformMany(
+  private async $passesOwnerGuard(guards) {
+    if (guards.isOwner === undefined) {
+      return true;
+    }
+
+    if (guards.isOwner === true) {
+      return await this.ctx.bouncer
+        .with('OrganizerPolicy')
+        .allows('edit', this.resource.id);
+    }
+
+    if (guards.isOwner === false) {
+      return await this.ctx.bouncer
+        .with('OrganizerPolicy')
+        .denies('edit', this.resource.id);
+    }
+  }
+
+  public async run() {
+    await this.stripMany(['relations.mainContact', 'relations.roles'], {
+      isOwner: false,
+    });
+
+    await this.transformMany(
       ['relations.types', 'relations.subjects', 'relations.tags'],
       transformCategorizationsForXls,
       {
         format: 'xls',
       }
     );
-    this.transformMany(
+    await this.transformMany(
       [
         'relations.translations',
         'relations.types.[*].relations.translations',
@@ -26,7 +48,7 @@ export class OrganizerTransformer extends BaseTransformer {
         format: 'xls',
       }
     );
-    this.stripMany(
+    await this.stripMany(
       [
         'attributes.createdAt',
         'attributes.updatedAt',

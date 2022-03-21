@@ -4,7 +4,7 @@ import { get, unset, set } from 'lodash';
 
 const WILDCARD_INDEX_PATTERN = '.[*]';
 
-interface TransformGuards {
+export interface TransformGuards {
   format?: 'xls' | 'json';
   isSuperadmin?: boolean;
   isOwner?: boolean;
@@ -51,28 +51,28 @@ export class BaseTransformer {
     return guards.format.includes(format);
   }
 
-  private $passesSuperadminGuard(guards: TransformGuards) {
+  private async $passesSuperadminGuard(guards: TransformGuards) {
     return true;
   }
 
-  private $passesOwnerGuard(guards: TransformGuards) {
+  private async $passesOwnerGuard(guards: TransformGuards) {
     return true;
   }
 
-  private $passesGuards(guards: TransformGuards) {
+  private async $passesGuards(guards: TransformGuards) {
     if (!guards) {
       return true;
     }
 
     return (
       this.$passesFormatGuard(guards) &&
-      this.$passesSuperadminGuard(guards) &&
-      this.$passesOwnerGuard(guards)
+      (await this.$passesSuperadminGuard(guards)) &&
+      (await this.$passesOwnerGuard(guards))
     );
   }
 
-  public stripMany(keys: string[], guards) {
-    if (guards && !this.$passesGuards(guards)) {
+  public async stripMany(keys: string[], guards) {
+    if (guards && !(await this.$passesGuards(guards))) {
       return;
     }
 
@@ -81,8 +81,8 @@ export class BaseTransformer {
     }
   }
 
-  public strip(key: string, guards?: TransformGuards | undefined) {
-    if (guards && !this.$passesGuards(guards)) {
+  public async strip(key: string, guards?: TransformGuards | undefined) {
+    if (guards && !(await this.$passesGuards(guards))) {
       return;
     }
 
@@ -95,12 +95,12 @@ export class BaseTransformer {
     }
   }
 
-  public transformMany(
+  public async transformMany(
     keys: string[],
     callback: (value: any) => any,
     guards?: TransformGuards | undefined
   ) {
-    if (guards && !this.$passesGuards(guards)) {
+    if (guards && !(await this.$passesGuards(guards))) {
       return;
     }
 
@@ -109,12 +109,12 @@ export class BaseTransformer {
     }
   }
 
-  public transform(
+  public async transform(
     key,
     callback: (value: any) => any,
     guards?: TransformGuards | undefined
   ) {
-    if (guards && !this.$passesGuards(guards)) {
+    if (guards && !(await this.$passesGuards(guards))) {
       return;
     }
 
@@ -136,7 +136,7 @@ export class BaseTransformer {
     }
   }
 
-  public run() {
+  public async run() {
     return this.resource;
   }
 }

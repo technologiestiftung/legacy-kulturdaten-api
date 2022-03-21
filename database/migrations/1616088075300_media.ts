@@ -7,7 +7,7 @@ export default class Media extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
 
-      table.string('url');
+      table.text('url');
       table.integer('width');
       table.integer('height');
       table.bigInteger('filesize');

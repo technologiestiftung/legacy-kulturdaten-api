@@ -7,6 +7,7 @@ export default class OfferTypeController {
     const manager = new OfferMainTypeManager(ctx);
     await manager.all();
 
-    return new ApiDocument(ctx, manager.toResources());
+    const document = new ApiDocument(ctx, manager.toResources());
+    await document.send();
   }
 }
