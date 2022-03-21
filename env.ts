@@ -23,7 +23,7 @@ export default Env.rules({
   APP_URL: Env.schema.string(),
   NODE_ENV: Env.schema.enum([
     'development',
-    'live',
+    'production',
     'beta',
     'testing',
   ] as const),
