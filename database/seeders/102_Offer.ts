@@ -12,6 +12,11 @@ export default class OfferSeeder extends BaseSeeder {
   public static developmentOnly = true;
 
   public async run() {
+    const existingOffers = await Offer.all();
+    if (existingOffers.length) {
+      return;
+    }
+
     const theaters = faker.random.arrayElements(
       await Organizer.findByType(
         await OrganizerType.findByTranslation(
