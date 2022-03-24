@@ -1,7 +1,6 @@
-# api.kulturdaten.berlin
+![](https://img.shields.io/badge/Build%20with%20%E2%9D%A4%EF%B8%8F-at%20Technologiesitftung%20Berlin-blue) ![Beta](https://github.com/technologiestiftung/kulturdaten-api/workflows/Deploy%3A%20Beta/badge.svg) ![Live](https://github.com/technologiestiftung/kulturdaten-api/workflows/Deploy%3A%20Live/badge.svg)
 
-![Beta](https://github.com/technologiestiftung/kulturdaten-api/workflows/Deploy%3A%20Beta/badge.svg)
-![Live](https://github.com/technologiestiftung/kulturdaten-api/workflows/Deploy%3A%20Live/badge.svg)
+# api.kulturdaten.berlin
 
 API application based on [Adonis.js](https://preview.adonisjs.com/) to power the [kulturdaten.berlin frontend](https://github.com/technologiestiftung/kulturdaten-frontend).
 
