@@ -6,6 +6,7 @@ import { OfferTransformer } from 'App/Helpers/Api/Transformers/OfferTransformer'
 export default class OfferDateController {
   public async index(ctx: HttpContextContract) {
     const manager: OfferDateManager = new OfferDateManager(ctx);
+    await manager.all();
 
     const document = new ApiDocument(ctx, manager.toResources(), {
       paginator: manager.paginator,

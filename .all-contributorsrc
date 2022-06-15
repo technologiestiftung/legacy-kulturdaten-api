@@ -1,0 +1,63 @@
+{
+  "projectName": "kulturdaten-frontend",
+  "projectOwner": "technologiestiftung",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 643,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "smatjes",
+      "name": "Mathies Schneider",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5181384?v=4",
+      "profile": "https://mathies.io/",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "b0ndt",
+      "name": "Boris Fruendt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1102134?v=4",
+      "profile": "https://boris.io/",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "matthiasrohmer",
+      "name": "Matthias Rohmer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12857772?v=4",
+      "profile": "https://github.com/matthiasrohmer",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "ff6347",
+      "name": "Fabian Morón Zirfas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/315106?v=4",
+      "profile": "https://fabianmoronzirfas.me/",
+      "contributions": [
+        "maintenance"
+      ]
+    },
+    {
+      "login": "vogelino",
+      "name": "Lucas Vogel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2759340?v=4",
+      "profile": "https://github.com/vogelino",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
