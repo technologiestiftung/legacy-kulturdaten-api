@@ -199,7 +199,7 @@ export class BaseManager<ManagedModel extends LucidModel> {
       TranslationModel.query()
         .where(
           'name',
-          Database.primaryConnectionName == 'sqlite' ? 'LIKE' : 'ILIKE',
+          Database.primaryConnectionName === 'sqlite' ? 'LIKE' : 'ILIKE',
           `%${searchTerm}%`
         )
         .select(
