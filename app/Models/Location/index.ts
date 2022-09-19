@@ -1,4 +1,7 @@
-import Location, { LocationTranslation } from 'App/Models/Location/Location';
+import Location, {
+  LocationType,
+  LocationTranslation,
+} from 'App/Models/Location/Location';
 import { LocationStatus } from 'App/Models/Location/Location';
 import OpeningHours from 'App/Models/Location/OpeningHours';
 import Accessibility from 'App/Models/Location/Accessibility';
@@ -8,6 +11,7 @@ import ServiceField from 'App/Models/Location/ServiceField';
 
 export {
   Location,
+  LocationType,
   LocationStatus,
   LocationTranslation,
   OpeningHours,
