@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-import { LocationStatus } from 'App/Models/Location';
+import { LocationStatus, LocationType } from 'App/Models/Location';
 import { Weekdays } from 'App/Models/Location/OpeningHours';
 import {
   tags,
@@ -15,6 +15,7 @@ export class CreateLocationValidator {
 
   public schema = schema.create({
     attributes: schema.object.optional().members({
+      type: schema.enum.optional(Object.values(LocationType)),
       status: schema.enum.optional(Object.values(LocationStatus)),
       url: schema.string.optional({}, [rules.url()]),
     }),
@@ -52,6 +53,7 @@ export class UpdateLocationValidator {
 
   public schema = schema.create({
     attributes: schema.object.optional().members({
+      type: schema.enum.optional(Object.values(LocationType)),
       status: schema.enum.optional(Object.values(LocationStatus)),
       url: schema.string.optional({}, [rules.url()]),
     }),
