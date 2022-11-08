@@ -55,4 +55,26 @@ export default class UserController {
     const document = new ApiDocument(ctx, resource);
     await document.send();
   }
+
+  public async delete(ctx: HttpContextContract) {
+    const { bouncer, params } = ctx;
+    await bouncer.authorize('superuser');
+
+    const user = await User.findOrFail(params.id);
+    const document = new ApiDocument(ctx, await user.delete());
+    await document.send();
+  }
+
+  public async show(ctx: HttpContextContract) {
+    const { bouncer, params } = ctx;
+    await bouncer.authorize('superuser');
+
+    const user = await User.findOrFail(params.id);
+
+    const resource = new Resource(user);
+    resource.boot();
+
+    const document = new ApiDocument(ctx, resource);
+    await document.send();
+  }
 }

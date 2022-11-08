@@ -31,6 +31,8 @@ Route.group(() => {
     Route.get('', 'Admin/UserController.index').as('index');
     Route.post('', 'Admin/UserController.store').as('create');
     Route.patch(':id', 'Admin/UserController.update').as('update');
+    Route.get(':id', 'Admin/UserController.show').as('show');
+    Route.delete(':id', 'Admin/UserController.delete').as('delete');
   })
     .prefix('user')
     .as('user');
