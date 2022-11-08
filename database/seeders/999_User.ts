@@ -1,4 +1,4 @@
-import faker from 'faker';
+import faker from '@faker-js/faker';
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import Organizer from 'App/Models/Organizer/Organizer';
 import { OrganizerRole } from 'App/Models/Roles';

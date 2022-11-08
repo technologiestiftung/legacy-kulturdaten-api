@@ -2,7 +2,7 @@ import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import Offer from 'App/Models/Offer/Offer';
 import Organizer from 'App/Models/Organizer/Organizer';
 import OrganizerType from 'App/Models/Organizer/OrganizerType';
-import faker from 'faker';
+import faker from '@faker-js/faker';
 import { OfferFactory } from 'Database/factories/Offer';
 
 import plays from '../../seeds/Offer/plays';
