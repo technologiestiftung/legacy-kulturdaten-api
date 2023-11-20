@@ -46,7 +46,7 @@
     "@adonisjs/view": "6.2.0",
     "del": "6.0.0",
     "lodash": "4.17.21",
-    "luxon": "3.1.0",
+    "luxon": "3.2.1",
     "markdown-to-txt": "^2.0.1",
     "pg": "8.8.0",
     "phc-argon2": "1.1.3",
